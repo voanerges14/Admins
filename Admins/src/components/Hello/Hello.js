@@ -2,10 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {showMessage} from 'redux/modules/hello';
 
-@connect(
-  (state) => ({... state.hello}),
-  {showMessage}
-)
+// @connect(
+//   (state) => ({... state.hello}),
+//   {showMessage}
+// )
 export default class Hello extends Component {
   static propTypes = {
     show: PropTypes.bool,
