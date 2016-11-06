@@ -1,12 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
-import * as authActions from 'redux/modules/auth';
+import * as authActions from 'redux/modules/authA';
 
-@connect(
-  state => ({user: state.auth.user}),
-  authActions)
-export default class Login extends Component {
+@connect( state => ({user: state.auth.user}), authActions)
+export default class LoginA extends Component {
   static propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
@@ -22,7 +20,7 @@ export default class Login extends Component {
 
   render() {
     const {user, logout} = this.props;
-    const styles = require('./Login.scss');
+    const styles = require('./LoginA.scss');
     return (
       <div className={styles.loginPage + ' container'}>
         <Helmet title="Login"/>
@@ -32,11 +30,11 @@ export default class Login extends Component {
           <form className="login-form form-inline" onSubmit={this.handleSubmit}>
             <div className="form-group">
               <input type="text" ref="username" placeholder="Enter a username" className="form-control"/>
+              <input type="password" ref="password" placeholder="Enter a password" className="form-control"/>
+              <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
+              </button>
             </div>
-            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
-            </button>
           </form>
-          <p>This will "log you in" as this user, storing the username in the session of the API server.</p>
         </div>
         }
         {user &&
