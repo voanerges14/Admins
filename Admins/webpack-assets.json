@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-04b727013255a0edd173.js"
+    "main": "http://localhost:3001/dist/main-02b01587072e36aefceb.js"
   },
   "styles": {},
   "assets": {
@@ -70,6 +70,9 @@
     "./src/containers/LoginA/LoginA.scss": {
       "loginPage": "loginPage___pm9L2",
       "_style": ".loginPage___pm9L2 input {\n  padding: 5px 10px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  float: left;\n  clear: left;\n  margin-top: 10px;\n}\n\n.loginPage___pm9L2 button {\n  float: left;\n  clear: left;\n}\n\n.loginPage___pm9L2 form {\n  margin: 30px 0;\n}\n\n.loginPage___pm9L2 form .btn {\n  margin-top: 10px;\n}\n"
+    },
+    "./src/containers/Orders/Orders.scss": {
+      "_style": "table {\n  border-collapse: collapse;\n  border-spacing: 0;\n  width: 100%;\n  border: 1px solid #ddd;\n}\n\nth, td {\n  border: none;\n  text-align: left;\n  padding: 8px;\n}\n\ntr:nth-child(even) {\n  background-color: #f2f2f2;\n}\n"
     }
   }
 }

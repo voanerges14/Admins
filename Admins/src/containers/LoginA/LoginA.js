@@ -2,8 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import * as authActions from 'redux/modules/authA';
-
-@connect( state => ({user: state.auth.user}), authActions)
+// {user: state.auth.user}
+@connect( state => ({user: state.authA.user}), authActions)
 export default class LoginA extends Component {
   static propTypes = {
     user: PropTypes.object,
@@ -13,9 +13,10 @@ export default class LoginA extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const input = this.refs.username;
-    this.props.login(input.value);
-    input.value = '';
+    const username = this.refs.username;
+    const password = this.refs.username;
+    this.props.login(username.value, password.value);
+    username.value = password.value = '';
   }
 
   render() {

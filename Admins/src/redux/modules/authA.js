@@ -1,14 +1,10 @@
-const LOAD = 'redux/modules/auth/LOAD';
-const LOAD_SUCCESS = 'redux/modules/auth/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux/modules/auth/LOAD_FAIL';
+const LOGIN = 'redux/modules/authA/LOGIN';
+const LOGIN_SUCCESS = 'redux/modules/authA/LOGIN_SUCCESS';
+const LOGIN_FAIL = 'redux/modules/authA/LOGIN_FAIL';
 
-const LOGIN = 'redux/modules/auth/LOGIN';
-const LOGIN_SUCCESS = 'redux/modules/auth/LOGIN_SUCCESS';
-const LOGIN_FAIL = 'redux/modules/auth/LOGIN_FAIL';
-
-const LOGOUT = 'redux/modules/auth/LOGOUT';
-const LOGOUT_SUCCESS = 'redux/modules/auth/LOGOUT_SUCCESS';
-const LOGOUT_FAIL = 'redux/modules/auth/LOGOUT_FAIL';
+const LOGOUT = 'redux/modules/authA/LOGOUT';
+const LOGOUT_SUCCESS = 'redux/modules/authA/LOGOUT_SUCCESS';
+const LOGOUT_FAIL = 'redux/modules/authA/LOGOUT_FAIL';
 
 const initialState = {
   loaded: false
@@ -16,15 +12,6 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case LOAD:
-      return { ...state, loading: true };
-
-    case LOAD_SUCCESS:
-      return { ...state, loading: false, loaded: true, user: action.result };
-
-    case LOAD_FAIL:
-      return { ...state, loading: false, loaded: false, error: action.error };
-
     case LOGIN:
       return { ...state, loggingIn: true };
 
@@ -52,19 +39,13 @@ export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
 
-export function load() {
-  return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/loadAuth')
-  };
-}
-
-export function login(name) {
+export function login(name, passwd) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', {
       data: {
-        name: name
+        name: name,
+        passwd: passwd
       }
     })
   };
