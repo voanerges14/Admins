@@ -71,7 +71,7 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/widget/load') // params not used, just shown as demonstration
+    promise: (client) => client.get('/orders/load') // params not used, just shown as demonstration
   };
 }
 
