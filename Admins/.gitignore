@@ -4,5 +4,3 @@ node_modules
 .sass-cache
 .idea
 
-src/containers/LoginA/LoginA.scss
-src/containers/LoginA/jquery-jvectormap-2.0.3.css

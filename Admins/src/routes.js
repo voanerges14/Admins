@@ -1,12 +1,14 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
-import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
+import { isLoaded as isAuthLoaded } from 'redux/modules/authA';
 import {
     App,
     Chat,
     Widgets,
     About,
-    Login,
+    Orders,
+    // Login,
+    LoginA,
     LoginSuccess,
     Survey,
     NotFound,
@@ -24,9 +26,8 @@ export default (store) => {
       }
       cb();
     }
-
     if (!isAuthLoaded(store.getState())) {
-      store.dispatch(loadAuth()).then(checkAuth);
+      store.dispatch(checkAuth);
     } else {
       checkAuth();
     }
@@ -49,10 +50,12 @@ export default (store) => {
 
       { /* Routes */ }
       <Route path="about" component={About}/>
-      <Route path="login" component={Login}/>
+      <Route path="login" component={LoginA}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>
       <Route path="categories" component={Categories}/>
+
+      <Route path="orders" component={Orders}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />

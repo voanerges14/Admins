@@ -1,12 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as authActions from 'redux/modules/auth';
-
-@connect(
-  state => ({user: state.auth.user}),
-  authActions
-)
-
+import Helmet from 'react-helmet';
+import * as authActions from 'redux/modules/authA';
+// {user: state.auth.user}
+@connect( state => ({user: state.authA.user}), authActions)
 export default class LoginA extends Component {
   static propTypes = {
     user: PropTypes.object,
@@ -24,9 +21,11 @@ export default class LoginA extends Component {
 
   render() {
     const {user, logout} = this.props;
-    const styles = require('./LoginForm.scss');
+    const styles = require('./LoginA.scss');
     return (
       <div className={styles.loginPage + ' container'}>
+        <Helmet title="Login"/>
+        <h1>Login</h1>
         {!user &&
         <div>
           <form className="login-form form-inline" onSubmit={this.handleSubmit}>
@@ -49,7 +48,8 @@ export default class LoginA extends Component {
         </div>
         }
       </div>
-
     );
   }
 }
+
+
