@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-5175b28602ca781dd61f.js"
+    "main": "http://localhost:3001/dist/main-b17445d52b10a8901601.js"
   },
   "styles": {},
   "assets": {
@@ -72,7 +72,15 @@
       "_style": ".loginPage___pm9L2 input {\n  padding: 5px 10px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  float: left;\n  clear: left;\n  margin-top: 10px;\n}\n\n.loginPage___pm9L2 button {\n  float: left;\n  clear: left;\n}\n\n.loginPage___pm9L2 form {\n  margin: 30px 0;\n}\n\n.loginPage___pm9L2 form .btn {\n  margin-top: 10px;\n}\n"
     },
     "./src/containers/Orders/Orders.scss": {
-      "_style": "table {\n  border-collapse: collapse;\n  border-spacing: 0;\n  width: 100%;\n  border: 1px solid #ddd;\n}\n\nth, td {\n  border: none;\n  text-align: left;\n  padding: 8px;\n}\n\ntr:nth-child(even) {\n  background-color: #f2f2f2;\n}\n"
+      "widgets": "widgets___3f-hr",
+      "refreshBtn": "refreshBtn___2BgLW",
+      "idCol": "idCol___mbNZv",
+      "colorCol": "colorCol___T2dRU",
+      "sprocketsCol": "sprocketsCol___36rd9",
+      "ownerCol": "ownerCol___39n9X",
+      "buttonCol": "buttonCol___15xag",
+      "saving": "saving___3YZv0",
+      "_style": ".widgets___3f-hr .refreshBtn___2BgLW {\n  margin-left: 20px;\n}\n\n.widgets___3f-hr .idCol___mbNZv {\n  width: 5%;\n}\n\n.widgets___3f-hr .colorCol___T2dRU {\n  width: 20%;\n}\n\n.widgets___3f-hr .sprocketsCol___36rd9 {\n  width: 20%;\n  text-align: right;\n}\n\n.widgets___3f-hr .sprocketsCol___36rd9 input {\n  text-align: right;\n}\n\n.widgets___3f-hr .ownerCol___39n9X {\n  width: 30%;\n}\n\n.widgets___3f-hr .buttonCol___15xag {\n  width: 25%;\n}\n\n.widgets___3f-hr .buttonCol___15xag .btn {\n  margin: 0 5px;\n}\n\n.widgets___3f-hr tr.saving___3YZv0 {\n  opacity: 0.8;\n}\n\n.widgets___3f-hr tr.saving___3YZv0 .btn[disabled] {\n  opacity: 1;\n}\n"
     }
   }
 }

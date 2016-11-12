@@ -5,7 +5,7 @@ const mockOrders = [
   {id: 4, userName: 'Petro',  productId: 2, product: 'Lenovo p70',  status: 'PAID'}
 ];
 
-export function getOrders(req) {
+export function getOrdersFromDb(req) {
   let orders = req.session.orders;
   if (!orders) {
     orders = mockOrders;
@@ -19,7 +19,7 @@ export default function orders(req) {
     // make async call to database
     setTimeout(() => {
       try {
-        resolve(getOrders(req));
+        resolve(getOrdersFromDb(req));
       }
       catch (e){
         reject(e);

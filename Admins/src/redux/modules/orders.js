@@ -1,9 +1,16 @@
-const LOAD = 'redux-example/orders/LOAD';
-const LOAD_SUCCESS = 'redux-example/orders/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux-example/orders/LOAD_FAIL';
-const SAVE = 'redux-example/orders/SAVE';
-const SAVE_SUCCESS = 'redux-example/orders/SAVE_SUCCESS';
-const SAVE_FAIL = 'redux-example/orders/SAVE_FAIL';
+const LOAD = 'redux/modules/orders/LOAD';
+const LOAD_SUCCESS = 'redux/modules/orders/LOAD_SUCCESS';
+const LOAD_FAIL = 'redux/modules/orders/LOAD_FAIL';
+const SAVE = 'redux/modules/orders/SAVE';
+const SAVE_SUCCESS = 'redux/modules/orders/SAVE_SUCCESS';
+const SAVE_FAIL = 'redux/modules/orders/SAVE_FAIL';
+
+const DELIVERY_SEND = 'redux/modules/orders/DELIVERY_SEND';
+const DELIVERY_SEND_OK = 'redux/modules/orders/DELIVERY_SEND_OK';
+const DELIVERY_SEND_FAIL = 'redux/modules/orders/DELIVERY_SEND_FAIL';
+const DELETE_ORDER = 'redux/modules/orders/DELETE_ORDER';
+const DELETE_ORDER_OK = 'redux/modules/orders/DELETE_ORDER_OK';
+const DELETE_ORDER_FAIL = 'redux/modules/orders/DELETE_ORDER_FAIL';
 
 const initialState = {
   loaded: false,
@@ -59,28 +66,56 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
+
+
+    case DELIVERY_SEND:
+      return {
+        ...state,
+        editing: {
+          ...state.editing,
+          [action.id]: false
+        }
+      };
+
+    case DELETE_ORDER:
+      return {
+        ...state,
+        editing: {
+          ...state.editing,
+          [action.id]: false
+        }
+      };
     default:
       return state;
   }
 }
 
 export function isLoaded(globalState) {
-  return globalState.orders && globalState.orders.loaded;
+  return globalState.getOrder && globalState.orders.loaded;
 }
 
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/orders/load') // params not used, just shown as demonstration
+    promise: (client) => client.get('/orders/sefhif')
   };
 }
 
-export function save(order) {
+export function cancelOrders(id) {
   return {
-    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: order.id,
-    promise: (client) => client.post('/widget/update', {
-      data: order
+    types: [DELETE_ORDER, DELETE_ORDER_FAIL, DELETE_ORDER_OK],
+    deleteOrder: true,
+    promise: (client) => client.post('/orders/cancelOrder', {
+      data: id
+    })
+  };
+}
+
+export function toDelivery(id) {
+  return { type: [DELIVERY_SEND, DELIVERY_SEND_OK, DELIVERY_SEND_FAIL],
+    sendToDeliveryOrder: true,
+    promise: (client) => client.post('/orders/applyOrder', {
+      data: id
     })
   };
 }

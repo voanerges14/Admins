@@ -20,12 +20,20 @@ import { asyncConnect } from 'redux-async-connect';
     orders: state.orders.data,
     editing: state.orders.editing,
     error: state.orders.error,
-    loading: state.orders.loading
+    loading: state.orders.loading,
+
+    cancel: state.orders.deleteOrder,
+    send: state.orders.sendToDeliveryOrder,
   }),
   {...ordersActions, initializeWithKey })
 export default class Orders extends Component {
   static propTypes = {
     orders: PropTypes.array,
+    userName: PropTypes.string,
+    // productId,
+    product: PropTypes.string,
+    // status,
+
     error: PropTypes.string,
     loading: PropTypes.bool,
     initializeWithKey: PropTypes.func.isRequired,
@@ -35,11 +43,12 @@ export default class Orders extends Component {
   };
 
   render() {
-    const handleEdit = (orders) => {
-      const {editStart} = this.props; // eslint-disable-line no-shadow
-      return () => editStart(String(orders.id));
-    };
-    const {orders, error, editing, loading, load} = this.props;
+    // const handleEdit = (orders) => {
+    //   const {editStart} = this.props; // eslint-disable-line no-shadow
+    //   return () => editStart(String(orders.id));
+    // };
+    // const {orders, error, editing, loading, load} = this.props;
+    const { orders, editing, load, loading, error } = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -54,16 +63,16 @@ export default class Orders extends Component {
           </button>
         </h1>
         <Helmet title="Orders"/>
-        <p>
-          If you hit refresh on your browser, the data loading will take place on the server before the page is returned.
-          If you navigated here from another page, the data was fetched from the client after the route transition.
-          This uses the decorator method <code>@asyncConnect</code> with the <code>deferred: true</code> flag. To block
-          a route transition until some data is loaded, remove the <code>deffered: true</code> flag.
-          To always render before loading data, even on the server, use <code>componentDidMount</code>.
-        </p>
-        <p>
-          This widgets are stored in your session, so feel free to edit it and refresh.
-        </p>
+        {/* <p>*/}
+          {/* If you hit refresh on your browser, the data loading will take place on the server before the page is returned.*/}
+          {/* If you navigated here from another page, the data was fetched from the client after the route transition.*/}
+          {/* This uses the decorator method <code>@asyncConnect</code> with the <code>deferred: true</code> flag. To block*/}
+          {/* a route transition until some data is loaded, remove the <code>deffered: true</code> flag.*/}
+          {/* To always render before loading data, even on the server, use <code>componentDidMount</code>.*/}
+        {/* </p>*/}
+        {/* <p>*/}
+          {/* This widgets are stored in your session, so feel free to edit it and refresh.*/}
+        {/* </p>*/}
         {error &&
         <div className="alert alert-danger" role="alert">
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -74,11 +83,11 @@ export default class Orders extends Component {
         <table className="table table-striped">
           <thead>
           <tr>
-            <th className={styles.idCol}>ID</th>
-            <th className={styles.colorCol}>Color</th>
-            <th className={styles.sprocketsCol}>Sprockets</th>
-            <th className={styles.ownerCol}>Owner</th>
-            <th className={styles.buttonCol}></th>
+            <th className={styles.idCol}>№</th>
+            <th className={styles.colorCol}>Users</th>
+            <th className={styles.sprocketsCol}>Products</th>
+            <th className={styles.ownerCol}>Apply</th>
+            <th className={styles.buttonCol}>Cancel</th>
           </tr>
           </thead>
           <tbody>
@@ -87,12 +96,16 @@ export default class Orders extends Component {
               <OrdersForm formKey={String(order.id)} key={String(order.id)} initialValues={order}/> :
               <tr key={orders.id}>
                 <td className={styles.idCol}>{order.id}</td>
-                <td className={styles.colorCol}>{order.color}</td>
-                <td className={styles.sprocketsCol}>{order.sprocketCount}</td>
-                <td className={styles.ownerCol}>{order.owner}</td>
+                <td className={styles.colorCol}>{order.userName}</td>
+                <td className={styles.sprocketsCol}>{order.product}</td>
                 <td className={styles.buttonCol}>
-                  <button className="btn btn-primary" onClick={handleEdit(order)}>
-                    <i className="fa fa-pencil"/> Edit
+                  <button className="btn btn-success" /* onClick={handleEdit(order)} */>
+                    <i className="fa fa-pencil"/> Apply
+                  </button>
+                </td>
+                <td className={styles.buttonCol}>
+                  <button className="btn btn-danger" /* onClick={handleEdit(order)} */>
+                    <i className="fa fa-pencil"/> Cancel
                   </button>
                 </td>
               </tr>)
