@@ -4,13 +4,14 @@ import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
     Chat,
-    Home,
     Widgets,
     About,
-    Login,
+    LoginA,
     LoginSuccess,
     Survey,
     NotFound,
+    Home,
+    Categories,
   } from 'containers';
 
 export default (store) => {
@@ -35,8 +36,9 @@ export default (store) => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/" component={App}>
+     <Route path="/" component={App}>
       { /* Home (main) route */ }
+
       <IndexRoute component={Home}/>
 
       { /* Routes requiring login */ }
@@ -47,9 +49,10 @@ export default (store) => {
 
       { /* Routes */ }
       <Route path="about" component={About}/>
-      <Route path="login" component={Login}/>
+      <Route path="login" component={LoginA}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>
+      <Route path="categories" component={Categories}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />

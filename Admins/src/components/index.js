@@ -12,3 +12,5 @@ export MiniInfoBar from './MiniInfoBar/MiniInfoBar';
 export SurveyForm from './SurveyForm/SurveyForm';
 export WidgetForm from './WidgetForm/WidgetForm';
 export Hello from './Hello/Hello';
+export CategoriesForm from './CategoriesForm/CategoriesForm';
+export LoginForm from './LoginForm/LoginForm';

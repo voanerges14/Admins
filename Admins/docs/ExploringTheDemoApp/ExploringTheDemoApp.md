@@ -18,7 +18,7 @@ The project hosts a running demo on Heroku, a hosting company.  Open
 
 Much of the text is cut-and-paste from the project's 
 [README.md](https://github.com/erikras/react-redux-universal-hot-example/blob/master/README.md) file into 
-the code for this page [./src/containers/Home/Home.js](https://github.com/erikras/react-redux-universal-hot-example/blob/master/src/containers/Home/Home.js).  
+the code for this page [./src/containers/Home/HomeA.js](https://github.com/erikras/react-redux-universal-hot-example/blob/master/src/containers/Home/HomeA.js).  
 
 The text provides a one line overview of about twenty of the main 
 modules of hundreds shown during installation.   The selection 

@@ -9,6 +9,8 @@ import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
 import hello from './hello';
+import categories from './categories';
+
 
 export default combineReducers({
   routing: routerReducer,
@@ -22,5 +24,6 @@ export default combineReducers({
   }),
   info,
   widgets,
+  categories,
   hello
 });

@@ -1,9 +1,8 @@
 nbproject
 npm-debug.log
 node_modules
-<<<<<<< HEAD
 .sass-cache
 .idea
-=======
-.sass-cache
->>>>>>> 11b84ca096e6321c46e885413d4a87a2c4afcfda
+
+src/containers/LoginA/LoginA.scss
+src/containers/LoginA/jquery-jvectormap-2.0.3.css

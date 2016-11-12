@@ -90,6 +90,7 @@ export default class Widgets extends Component {
                 <td className={styles.colorCol}>{widget.color}</td>
                 <td className={styles.sprocketsCol}>{widget.sprocketCount}</td>
                 <td className={styles.ownerCol}>{widget.owner}</td>
+                <td className={styles.ownerCol}>{widget.car}</td>
                 <td className={styles.buttonCol}>
                   <button className="btn btn-primary" onClick={handleEdit(widget)}>
                     <i className="fa fa-pencil"/> Edit

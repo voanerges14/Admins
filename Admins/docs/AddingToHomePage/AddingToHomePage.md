@@ -16,7 +16,7 @@ First, find the correct file to change by walking through the kit's directory tr
 
 ![Finding The Home Page 4](find_home4.png)
 
-So, the likely file is `src/containers/Home/Home.js`.
+So, the likely file is `src/containers/Home/HomeA.js`.
 
 ## Start the server and open the browser
 
@@ -40,7 +40,7 @@ other JSON objects.
 
 ## Change the text
 
-Add the static text to (`src/containers/Home/Home.js`):
+Add the static text to (`src/containers/Home/HomeA.js`):
 
 ![Add Hello Header to Home](add_home.png)
 
