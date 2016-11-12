@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-06a45904df09153c58c1.js"
+    "main": "http://localhost:3001/dist/main-51033823f2e22c2c5e30.js"
   },
   "styles": {},
   "assets": {
@@ -82,10 +82,6 @@
     "./src/containers/Login/Login.scss": {
       "loginPage": "loginPage___29OrY",
       "_style": ".loginPage___29OrY input {\n  padding: 5px 10px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n}\n\n.loginPage___29OrY form {\n  margin: 30px 0;\n}\n\n.loginPage___29OrY form .btn {\n  margin-left: 10px;\n}\n"
-    },
-    "./src/containers/LoginA/LoginA.scss": {
-      "loginPage": "loginPage___pm9L2",
-      "_style": ".loginPage___pm9L2 input {\n  padding: 5px 10px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n}\n\n.loginPage___pm9L2 form {\n  margin: 30px 0;\n}\n\n.loginPage___pm9L2 form .btn {\n  margin-left: 10px;\n}\n"
     }
   }
 }
