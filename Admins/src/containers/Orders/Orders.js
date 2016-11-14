@@ -39,7 +39,7 @@ export default class Orders extends Component {
       const {applyStart} = this.props; // eslint-disable-line no-shadow
       return () => applyStart(String(order.id));
     };
-    const { orders, load, loading, apply, error } = this.props;
+    const { orders, error, apply, loading, load } = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -67,8 +67,8 @@ export default class Orders extends Component {
             <th className={styles.idCol}>№</th>
             <th className={styles.colorCol}>Users</th>
             <th className={styles.sprocketsCol}>Products</th>
-            <th className={styles.ownerCol}>Apply</th>
-            <th className={styles.buttonCol}>Cancel</th>
+            <th className={styles.ownerCol}>Send to delivery</th>
+            <th className={styles.buttonCol}>Reject order</th>
           </tr>
           </thead>
           <tbody>
