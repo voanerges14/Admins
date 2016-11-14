@@ -7,8 +7,8 @@ import {
     Widgets,
     About,
     Orders,
-    // Login,
-    LoginA,
+    Login,
+    // LoginA,
     LoginSuccess,
     Survey,
     NotFound,
@@ -22,7 +22,7 @@ export default (store) => {
       const { auth: { user }} = store.getState();
       if (!user) {
         // oops, not logged in, so can't be here!
-        replace('/');
+        replace('/login');
       }
       cb();
     }
@@ -37,7 +37,7 @@ export default (store) => {
    * Please keep routes in alphabetical order
    */
   return (
-     <Route path="/" component={App}>
+    <Route path="/" component={App}>
       { /* Home (main) route */ }
 
       <IndexRoute component={Home}/>
@@ -46,19 +46,20 @@ export default (store) => {
       <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
+
+        <Route path="about" component={About}/>
+        <Route path="survey" component={Survey}/>
+        <Route path="widgets" component={Widgets}/>
+
+        <Route path="categories" component={Categories}/>
+        <Route path="orders" component={Orders}/>
       </Route>
 
       { /* Routes */ }
-      <Route path="about" component={About}/>
-      <Route path="login" component={LoginA}/>
-      <Route path="survey" component={Survey}/>
-      <Route path="widgets" component={Widgets}/>
-      <Route path="categories" component={Categories}/>
-
-      <Route path="orders" component={Orders}/>
+      <Route path="login" component={Login}/>
 
       { /* Catch all route */ }
-      <Route path="*" component={NotFound} status={404} />
+      <Route path="*" component={NotFound} status={404}/>
     </Route>
   );
 };

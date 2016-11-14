@@ -14,3 +14,5 @@ export WidgetForm from './WidgetForm/WidgetForm';
 export Hello from './Hello/Hello';
 export CategoriesForm from './CategoriesForm/CategoriesForm';
 export LoginForm from './LoginForm/LoginForm';
+
+export OrderForm from './OrderForm/OrderForm';

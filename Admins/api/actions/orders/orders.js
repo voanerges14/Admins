@@ -14,7 +14,7 @@ export function getOrdersFromDb(req) {
   return orders;
 }
 
-export default function orders(req) {
+export function get(req) {
   return new Promise((resolve, reject) => {
     // make async call to database
     setTimeout(() => {
