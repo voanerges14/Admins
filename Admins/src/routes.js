@@ -7,19 +7,20 @@ import {
     Widgets,
     About,
     Orders,
-    // Login,
-    LoginA,
+    Login,
     LoginSuccess,
     Survey,
     NotFound,
     Home,
     Categories,
+    Temp,
   } from 'containers';
 
 export default (store) => {
   const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
+      console.log( 'fuck  ' + user );
       if (!user) {
         // oops, not logged in, so can't be here!
         replace('/');
@@ -46,16 +47,18 @@ export default (store) => {
       <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
+        <Route path="about" component={About}/>
+        <Route path="survey" component={Survey}/>
+        <Route path="widgets" component={Widgets}/>
+        <Route path="categories" component={Categories}/>
+        <Route path="temp" component={Temp}/>
+
+        <Route path="orders" component={Orders}/>
       </Route>
 
-      { /* Routes */ }
-      <Route path="about" component={About}/>
-      <Route path="login" component={LoginA}/>
-      <Route path="survey" component={Survey}/>
-      <Route path="widgets" component={Widgets}/>
-      <Route path="categories" component={Categories}/>
 
-      <Route path="orders" component={Orders}/>
+      { /* Routes */ }
+       <Route path="login" component={Login}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />

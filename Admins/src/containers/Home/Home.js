@@ -5,6 +5,9 @@ import {GithubButton, LoginForm} from 'components';
 import config from '../../config';
 import Helmet from 'react-helmet';
 
+// import { Treebeard,  decorators} from 'containers';
+
+
 export default class Home extends Component {
   render() {
     const styles = require('./Home.scss');
@@ -24,7 +27,12 @@ export default class Home extends Component {
 
             <h2>{config.app.description}</h2>
              {/* <Hello />*/}
-            <LoginForm/>
+            <LoginForm />
+             {/* <Treebeard*/}
+               {/* data={this.state.data}*/}
+               {/* onToggle={this.onToggle}*/}
+               {/* decorators={decorators}*/}
+             {/* />*/}
             <p>
               <a className={styles.github} href="https://github.com/erikras/react-redux-universal-hot-example"
                  target="_blank">

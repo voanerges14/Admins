@@ -12,3 +12,6 @@ export HomeA from './Home/Home';
 export Categories from './Categories/Categories';
 export LoginA from './LoginA/LoginA';
 export Orders from './Orders/Orders';
+export Temp from './Temp/Temp';
+
+

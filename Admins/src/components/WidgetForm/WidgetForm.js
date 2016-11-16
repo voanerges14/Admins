@@ -17,7 +17,7 @@ import * as widgetActions from 'redux/modules/widgets';
   validate: widgetValidation
 })
 export default class WidgetForm extends Component {
-  static propTypes = {
+  static propTypes= {
     fields: PropTypes.object.isRequired,
     editStop: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,

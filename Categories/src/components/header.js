@@ -26,14 +26,16 @@ class NodeHeader extends React.Component {
         const container = [style.link, active ? style.activeLink : null];
         const headerStyles = Object.assign({ container }, this.props.style);
         return (
-            <decorators.Container
+            <div>
+                <decorators.Container
                 style={headerStyles}
                 decorators={decorators}
                 terminal={terminal}
                 onClick={this.props.onClick}
                 animations={this.props.animations}
                 node={this.props.node}
-            />
+                />
+            </div>
         );
     }
 }

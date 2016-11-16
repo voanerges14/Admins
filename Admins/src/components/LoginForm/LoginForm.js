@@ -7,7 +7,7 @@ import * as authActions from 'redux/modules/auth';
   authActions
 )
 
-export default class LoginA extends Component {
+export default class Login extends Component {
   static propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
@@ -17,7 +17,7 @@ export default class LoginA extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const username = this.refs.username;
-    const password = this.refs.username;
+    const password = this.refs.password;
     this.props.login(username.value, password.value);
     username.value = password.value = '';
   }

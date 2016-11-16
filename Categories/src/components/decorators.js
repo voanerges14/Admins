@@ -4,19 +4,20 @@ import React from 'react';
 import Radium from 'radium';
 import {VelocityComponent} from 'velocity-react';
 
-const Loading = (props) => {
-    return (
-        <div style={props.style}>
-            loading...
-        </div>
-    );
-};
-
-Loading.propTypes = {
-    style: React.PropTypes.object
-};
+// const Loading = (props) => {
+//     return (
+//         <div style={props.style}>
+//             loading...
+//         </div>
+//     );
+// };
+//
+// Loading.propTypes = {
+//     style: React.PropTypes.object
+// };
 
 const Toggle = (props) => {
+
     const style = props.style;
     const height = style.height;
     const width = style.width;
@@ -24,6 +25,8 @@ const Toggle = (props) => {
     let points = `0,0 0,${height} ${width},${midHeight}`;
     return (
         <div style={style.base}>
+        <div style={style.base}>
+            {/* малює трикутник*/}
             <div style={style.wrapper}>
                 <svg height={height} width={width}>
                     <polygon
@@ -33,6 +36,10 @@ const Toggle = (props) => {
                 </svg>
             </div>
         </div>
+        <div style={style.base}>
+            <button>fff</button>
+        </div>
+            </div>
     );
 };
 
@@ -46,6 +53,9 @@ const Header = (props) => {
         <div style={style.base}>
             <div style={style.title}>
                 {props.node.name}
+            </div>
+            <div style={style.title}>
+                <button>fff22222</button>
             </div>
         </div>
     );
@@ -64,16 +74,25 @@ class Container extends React.Component {
     render(){
         const {style, decorators, terminal, onClick, node} = this.props;
         return (
-            <div
-                ref="clickable"
-                onClick={onClick}
-                style={style.container}>
-                { !terminal ? this.renderToggle() : null }
-                <decorators.Header
-                    node={node}
-                    style={style.header}
-                />
+            <div className="right">
+                <div
+                    className="right"
+                    ref="clickable"
+                    onClick={onClick}
+                    style={style.container}>
+
+                    { !terminal ? this.renderToggle() : null }
+                    <decorators.Header
+                        node={node}
+                        style={style.header}
+                    />
+
+                </div>
+                <div className="right">
+                    <button>bt_decorator</button>
+                </div>
             </div>
+
         );
     }
     renderToggle(){
@@ -106,7 +125,7 @@ Container.propTypes = {
 };
 
 export default {
-    Loading,
+    // Loading,
     Toggle,
     Header,
     Container
