@@ -1,21 +1,22 @@
 const LOAD = 'redux/modules/orders/LOAD';
-const LOAD_SUCCESS = 'redux/modules/orders/LOAD_SUCCESS';
+const LOAD_OK = 'redux/modules/orders/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux/modules/orders/LOAD_FAIL';
-const SAVE = 'redux/modules/orders/SAVE';
-const SAVE_SUCCESS = 'redux/modules/orders/SAVE_SUCCESS';
-const SAVE_FAIL = 'redux/modules/orders/SAVE_FAIL';
 
 const DELIVERY_SEND = 'redux/modules/orders/DELIVERY_SEND';
 const DELIVERY_SEND_OK = 'redux/modules/orders/DELIVERY_SEND_OK';
 const DELIVERY_SEND_FAIL = 'redux/modules/orders/DELIVERY_SEND_FAIL';
+
 const DELETE_ORDER = 'redux/modules/orders/DELETE_ORDER';
 const DELETE_ORDER_OK = 'redux/modules/orders/DELETE_ORDER_OK';
 const DELETE_ORDER_FAIL = 'redux/modules/orders/DELETE_ORDER_FAIL';
 
+const APPLY_START = 'redux/modules/orders/APPLY_START';
+const APPLY_STOP = 'redux/modules/orders/APPLY_STOP';
+
 const initialState = {
   loaded: false,
-  editing: {},
-  saveError: {}
+  sendError: {},
+  apply: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -25,7 +26,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: true
       };
-    case LOAD_SUCCESS:
+    case LOAD_OK:
       return {
         ...state,
         loading: false,
@@ -41,24 +42,17 @@ export default function reducer(state = initialState, action = {}) {
         data: null,
         error: action.error
       };
-    case SAVE:
-      return state; // 'saving' flag handled by redux-form
-    case SAVE_SUCCESS:
-      const data = [...state.data];
-      data[action.result.id - 1] = action.result;
+    case DELIVERY_SEND: // 'saving' flag handled by redux-form
+      return state;
+    case DELIVERY_SEND_OK:
       return {
         ...state,
-        data: data,
-        editing: {
-          ...state.editing,
-          [action.id]: false
-        },
         saveError: {
           ...state.saveError,
           [action.id]: null
         }
       };
-    case SAVE_FAIL:
+    case DELIVERY_SEND_FAIL:
       return typeof action.error === 'string' ? {
         ...state,
         saveError: {
@@ -66,22 +60,37 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
-
-
-    case DELIVERY_SEND:
+    case DELETE_ORDER: // 'saving' flag handled by redux-form
+      return state;
+    case DELETE_ORDER_OK:
       return {
         ...state,
-        editing: {
-          ...state.editing,
-          [action.id]: false
+        saveError: {
+          ...state.saveError,
+          [action.id]: null
         }
       };
-
-    case DELETE_ORDER:
+    case DELETE_ORDER_FAIL:
+      return typeof action.error === 'string' ? {
+        ...state,
+        saveError: {
+          ...state.saveError,
+          [action.id]: action.error
+        }
+      } : state;
+    case APPLY_START:
       return {
         ...state,
-        editing: {
-          ...state.editing,
+        apply: {
+          ...state.apply,
+          [action.id]: true
+        }
+      };
+    case APPLY_STOP:
+      return {
+        ...state,
+        apply: {
+          ...state.apply,
           [action.id]: false
         }
       };
@@ -91,31 +100,39 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  return globalState.getOrder && globalState.orders.loaded;
+  return globalState.orders && globalState.orders.loaded;
 }
 
 export function load() {
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/orders/sefhif')
+    types: [LOAD, LOAD_OK, LOAD_FAIL],
+    promise: (client) => client.get('/orders/get')
   };
 }
 
-export function cancelOrders(id) {
+export function rejectOrder(order) {
   return {
     types: [DELETE_ORDER, DELETE_ORDER_FAIL, DELETE_ORDER_OK],
-    deleteOrder: true,
-    promise: (client) => client.post('/orders/cancelOrder', {
-      data: id
+    id: order.id,
+    promise: (client) => client.post('/orders/cancel', {
+      data: order
     })
   };
 }
 
-export function toDelivery(id) {
+export function sendToDeliveryOrder(order) {
   return { type: [DELIVERY_SEND, DELIVERY_SEND_OK, DELIVERY_SEND_FAIL],
-    sendToDeliveryOrder: true,
-    promise: (client) => client.post('/orders/applyOrder', {
-      data: id
+    id: order.id,
+    promise: (client) => client.post('/orders/apply', {
+      data: order
     })
   };
+}
+
+export function applyStart(id) {
+  return { type: APPLY_START, id };
+}
+
+export function applyStop(id) {
+  return { type: APPLY_STOP, id };
 }

@@ -8,6 +8,7 @@ import {
     About,
     Orders,
     Login,
+    // LoginA,
     LoginSuccess,
     Survey,
     NotFound,
@@ -23,7 +24,7 @@ export default (store) => {
       console.log( 'fuck  ' + user );
       if (!user) {
         // oops, not logged in, so can't be here!
-        replace('/');
+        replace('/login');
       }
       cb();
     }
@@ -38,7 +39,7 @@ export default (store) => {
    * Please keep routes in alphabetical order
    */
   return (
-     <Route path="/" component={App}>
+    <Route path="/" component={App}>
       { /* Home (main) route */ }
 
       <IndexRoute component={Home}/>
@@ -50,9 +51,9 @@ export default (store) => {
         <Route path="about" component={About}/>
         <Route path="survey" component={Survey}/>
         <Route path="widgets" component={Widgets}/>
+
         <Route path="categories" component={Categories}/>
         <Route path="temp" component={Temp}/>
-
         <Route path="orders" component={Orders}/>
       </Route>
 
@@ -61,7 +62,7 @@ export default (store) => {
        <Route path="login" component={Login}/>
 
       { /* Catch all route */ }
-      <Route path="*" component={NotFound} status={404} />
+      <Route path="*" component={NotFound} status={404}/>
     </Route>
   );
 };

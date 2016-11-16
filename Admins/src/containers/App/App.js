@@ -74,7 +74,6 @@ export default class App extends Component {
             </Navbar.Brand>
             <Navbar.Toggle/>
           </Navbar.Header>
-
           <Navbar.Collapse eventKey={0}>
             <Nav navbar>
               {user && <LinkContainer to="/chat">

@@ -14,7 +14,7 @@ export function getOrdersFromDb(req) {
   return orders;
 }
 
-export default function orders(req) {
+export function get(req) {
   return new Promise((resolve, reject) => {
     // make async call to database
     setTimeout(() => {
@@ -25,5 +25,27 @@ export default function orders(req) {
         reject(e);
       }
     }, 1000); // simulate async load
+  });
+}
+
+export function apply(req) {
+  return new Promise((resolve, reject) => {
+    // write to database
+    setTimeout(() => {
+      try {
+        get(req).then(data => {
+          const orders = data;
+          const order = req.body;
+          order.product = {product: 'order.product, temp'};
+          req.session.orders = orders;
+          resolve(order);
+        }, err => {
+          reject(err);
+        });
+      }
+      catch (e){
+        reject(e);
+      }
+    }, 1500); // simulate async db write
   });
 }

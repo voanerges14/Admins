@@ -19,4 +19,4 @@ export Treebeard from './CategoriesTree/treebeard';
 export decorators from'./CategoriesTree/decorators';
 export animations from'./CategoriesTree/themes/animations';
 export theme from'./CategoriesTree/themes/default';
-
+export OrderForm from './OrderForm/OrderForm';

@@ -6,5 +6,4 @@ export * as widget from './widget/index';
 export * as survey from './survey/index';
 
 export * as category from './category/index';
-
-export orders from './orders/orders';
+export * as orders from './orders/orders';
