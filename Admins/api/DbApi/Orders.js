@@ -6,39 +6,65 @@
 //     "status": 'IN_CART' || 'PAID' || 'DELIVERING' || 'DELIVERED'
 // }
 
-export function getOrdersWithStatusPAID(req) {
+function connectToDbOrdersModel() {
   let mongoose = require('mongoose');
   mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
+  let db = mongoose.connection;
 
-  mongoose.model('orders', {_id: })
+  db.on('error', function (err) {
+    console.error('connection error:', err.message);
+  });
+  db.once('open', function callback () {
+    console.info("Connected to DB!");
+  });
+
+  let Schema = mongoose.Schema;
+
+  let Orders = new Schema({
+    _id: { type: String, required: true },
+    userId: { type: String, required: true },
+    productId: { type: String, required: true },
+    status: {type: String, required: true}
+  });
+
+  let OrdersModel = mongoose.model('Orders', Orders);
+
+  return OrdersModel;
 }
 
-export function getOrdersWithStatusPAID(req) {
-  let orders;
-  let url = 'mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db';
-  require('mongodb').MongoClient.connect(url, function (err, db) {
-    if (!err) {
-      console.log('All OK');
+export function getOrdersWithStatusPAID() {
+  let OrdersModel = connectToDbOrdersModel();
+  return OrdersModel.find({status: 'PAID', callback});
+}
 
-      db.collection('orders').find({status: 'PAID'}).toArray(function (err, res) {
-        if (res.length) {
-          console.log(res);
-          orders = res;
-        }
-        else if (err) {
-          console.log(err);
-        }
-        else {
-          console.log('No document(s) found with defined "find" criteria!');
-        }
-        db.close();
-      })
+export function sendToDeliveryOrder(id) {
+  let OrdersModel = connectToDbOrdersModel();
+  return OrdersModel.findById(id, function (err, order) {
+    if (err) {
+      console.error('sendToDeliveryOrder error: ' + err);
+      return -1;
+    }
+    order.status = 'DELIVERING';
+    order.save(function (err, updatedOrder) {
+      if (err) {
+        console.error('sendToDeliveryOrder error: ' + err);
+        return -1;
+      }
+      return updatedOrder;
+    });
+  });
+}
+
+export function deleteOrder(id) {
+  let OrderModel = connectToDbOrdersModel();
+  return OrderModel.remove({ _id: id }, function(err) {
+    if (!err) {
+      return 0;
     }
     else {
-      console.log('Unable to connect', err);
+      console.error('deleteOrder: ' + err);
     }
   });
-  return orders;
 }
 
 
