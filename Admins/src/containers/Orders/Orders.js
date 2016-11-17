@@ -18,7 +18,8 @@ import { asyncConnect } from 'redux-async-connect';
 @connect(
   state => ({
     orders: state.orders.data,
-    apply: state.orders.apply,
+    toDeliveryBtn: state.orders.toDeliveryBtn,
+    rejectOrderBtn: state.orders.rejectOrderBtn,
     error: state.orders.error,
     loading: state.orders.loading,
   }),
@@ -26,20 +27,25 @@ import { asyncConnect } from 'redux-async-connect';
 export default class Orders extends Component {
   static propTypes = {
     orders: PropTypes.array,
-    error: PropTypes.string,
     loading: PropTypes.bool,
     initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
-    apply: PropTypes.object.isRequired,
-    applyStart: PropTypes.func.isRequired
+    toDeliveryBtn: PropTypes.object.isRequired,
+    rejectOrderBtn: PropTypes.object.isRequired,
+    applyStartSend: PropTypes.func.isRequired,
+    applyStartReject: PropTypes.func.isRequired
   };
 
   render() {
-    const handleApply = (order) => {
-      const {applyStart} = this.props; // eslint-disable-line no-shadow
-      return () => applyStart(String(order.id));
+    const handleApplySend = (order) => {
+      const {applyStartSend} = this.props; // eslint-disable-line no-shadow
+      return () => applyStartSend(String(order.id));
     };
-    const { orders, error, apply, loading, load } = this.props;
+    const handleApplyReject = (order) => {
+      const {applyStartReject} = this.props; // eslint-disable-line no-shadow
+      return () => applyStartReject(String(order.id));
+    };
+    const { orders, toDeliveryBtn, rejectOrderBtn, loading, load } = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -54,12 +60,6 @@ export default class Orders extends Component {
           </button>
         </h1>
         <Helmet title="Orders"/>
-        {error &&
-        <div className="alert alert-danger" role="alert">
-          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          {' '}
-          {error}
-        </div>}
         {orders && orders.length &&
         <table className="table table-striped">
           <thead>
@@ -73,19 +73,19 @@ export default class Orders extends Component {
           </thead>
           <tbody>
           {
-            orders.map((order) => apply[order.id] ?
-              <OrderForm formKey={String(order.id)} key={String(order.id)} initialValues={order}/> :
+            orders.map((order) =>
+
               <tr key={order.id}>
                 <td className={styles.idCol}>{order.id}</td>
                 <td className={styles.colorCol}>{order.userName}</td>
                 <td className={styles.sprocketsCol}>{order.product}</td>
                 <td className={styles.buttonCol}>
-                  <button className="btn btn-primary" onClick={handleApply(order)}>
-                      <i className="fa fa-pencil"/> Edit
+                  <button className="btn btn-primary" onClick={handleApplySend(order)}>
+                      <i className="fa fa-pencil"/> Send
                   </button>
                 </td>
                 <td className={styles.buttonCol}>
-                  <button className="btn btn-danger" onClick={handleApply(order)}>
+                  <button className="btn btn-danger" onClick={handleApplyReject(order)}>
                     <i className="fa fa-pencil"/> Cancel
                   </button>
                 </td>

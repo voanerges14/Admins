@@ -6,73 +6,88 @@ import * as orderActions from 'redux/modules/orders';
 
 @connect(
   state => ({
-    saveError: state.orders.saveError
+    toDeliveryBtn: state.orders.toDeliveryBtn,
+    rejectOrderBtn: state.orders.rejectOrderBtn
   }),
   dispatch => bindActionCreators(orderActions, dispatch)
 )
 @reduxForm({
   form: 'order',
-  fields: ['id', 'userName', 'productId', 'product', 'status'],
+  fields: ['id', 'userName', 'productId', 'product'],
 })
 export default class OrderForm extends Component {
   static propTypes = {
-    fields: PropTypes.object.isRequired,
-    applyStop: PropTypes.func.isRequired,
+    toDeliveryBtn: PropTypes.object.isRequired,
+    rejectOrderBtn: PropTypes.object.isRequired,
+    applyStartSend: PropTypes.func.isRequired,
+    applyStopSend: PropTypes.func.isRequired,
+    applyStopReject: PropTypes.func.isRequired,
+    applyStartReject: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     rejectOrder: PropTypes.func.isRequired,
-    sendToDeliveryOrder: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    saveError: PropTypes.object,
+    toDeliveryOrder: PropTypes.func.isRequired,
+    fields: PropTypes.object.isRequired,
     formKey: PropTypes.string.isRequired,
-    values: PropTypes.object.isRequired
   };
 
   render() {
-    const { applyStop, fields: {id, userName, productId, product}, formKey, handleSubmit,
-      rejectOrder, sendToDeliveryOrder, submitting, values } = this.props;
+    const handleApplyReject = (id) => {
+      const {applyStartReject} = this.props; // eslint-disable-line no-shadow
+      return () => applyStartReject(String(id));
+    };
+    const handleApplySend = (id) => {
+      const {applyStartSend} = this.props; // eslint-disable-line no-shadow
+      return () => applyStartSend(String(id));
+    };
+    const { toDeliveryBtn, rejectOrderBtn, applyStopSend, applyStopReject, formKey, handleSubmit,
+      rejectOrder, toDeliveryOrder, fields: {id, userName, productId, product}} = this.props;
+    const sendBtn = (typeof toDeliveryBtn[formKey] === 'undefined') ? false : toDeliveryBtn[formKey];
+    const rejectBtn = (typeof rejectOrderBtn[formKey] === 'undefined') ? false : rejectOrderBtn[formKey];
     const styles = require('containers/Orders/Orders.scss');
     return (
-      <tr className={submitting ? styles.saving : ''}>
+      <tr className={styles.saving}>
         <td className={styles.idCol}>{id.value}</td>
         <td className={styles.sprocketsCol}>{userName.value}</td>
         <td className={styles.sprocketsCol} id={productId}>{product.value}</td>
-
         <td className={styles.buttonCol}>
-          <button className="btn btn-default"
-                  onClick={() => applyStop(formKey)}
-                  disabled={submitting}>
-            <i className="fa fa-ban"/> Cancel
-          </button>
-          <button className="btn btn-success"
-                  onClick={handleSubmit(() => rejectOrder(values)
-                    .then(result => {
-                      if (result && typeof result.error === 'object') {
-                        return Promise.reject(result.error);
-                      }
-                    })
-                  )}
-                  disabled={submitting}>
-            <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
-          </button>
+         {sendBtn && <div>
+            <button className="btn btn-default" onClick={() => applyStopSend(formKey)}>
+              <i className="fa fa-ban"/> Cancel
+            </button>
+            <button className="btn btn-success"
+                    onClick={handleSubmit(() => toDeliveryOrder(formKey)
+                      .then(result => {
+                        if (result && typeof result.error === 'object') {
+                          return Promise.reject(result.error);
+                        }
+                      })
+                    )}>
+              <i className={'fa fa-cog fa-spin'}/> Save
+            </button></div>}
+         {!sendBtn &&
+             <button className="btn btn-primary" onClick={handleApplySend(formKey)}>
+               <i className="fa fa-pencil"/> Send
+             </button>}
         </td>
-
         <td className={styles.buttonCol}>
-          <button className="btn btn-default"
-                  onClick={() => applyStop(formKey)}
-                  disabled={submitting}>
-            <i className="fa fa-ban"/> Cancel
-          </button>
-          <button className="btn btn-success"
-                  onClick={handleSubmit(() => sendToDeliveryOrder(values)
-                    .then(result => {
-                      if (result && typeof result.error === 'object') {
-                        return Promise.reject(result.error);
-                      }
-                    })
-                  )}
-                  disabled={submitting}>
-            <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
-          </button>
+         {rejectBtn && <div>
+            <button className="btn btn-default" onClick={() => applyStopReject(formKey)}>
+              <i className="fa fa-ban"/> Cancel
+            </button>
+            <button className="btn btn-success"
+                    onClick={handleSubmit(() => rejectOrder(formKey)
+                      .then(result => {
+                        if (result && typeof result.error === 'object') {
+                          return Promise.reject(result.error);
+                        }
+                      })
+                    )}>
+              <i className={'fa fa-cog fa-spin'}/> Save
+            </button></div>}
+         {!rejectBtn &&
+             <button className="btn btn-danger" onClick={handleApplyReject(formKey)}>
+               <i className="fa fa-pencil"/> Cancel
+             </button>}
         </td>
       </tr>
     );

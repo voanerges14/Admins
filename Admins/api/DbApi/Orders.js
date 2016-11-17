@@ -7,6 +7,13 @@
 // }
 
 export function getOrdersWithStatusPAID(req) {
+  let mongoose = require('mongoose');
+  mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
+
+  mongoose.model('orders', {_id: })
+}
+
+export function getOrdersWithStatusPAID(req) {
   let orders;
   let url = 'mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db';
   require('mongodb').MongoClient.connect(url, function (err, db) {

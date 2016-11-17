@@ -10,13 +10,17 @@ const DELETE_ORDER = 'redux/modules/orders/DELETE_ORDER';
 const DELETE_ORDER_OK = 'redux/modules/orders/DELETE_ORDER_OK';
 const DELETE_ORDER_FAIL = 'redux/modules/orders/DELETE_ORDER_FAIL';
 
-const APPLY_START = 'redux/modules/orders/APPLY_START';
-const APPLY_STOP = 'redux/modules/orders/APPLY_STOP';
+const APPLY_START_SEND = 'redux/modules/orders/APPLY_START_SEND';
+const APPLY_STOP_SEND = 'redux/modules/orders/APPLY_STOP_SEND';
+
+const APPLY_START_REJECT = 'redux/modules/orders/APPLY_START_REJECT';
+const APPLY_STOP_REJECT = 'redux/modules/orders/APPLY_STOP_REJECT';
 
 const initialState = {
   loaded: false,
   sendError: {},
-  apply: {}
+  toDeliveryBtn: {},
+  rejectOrderBtn: {},
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -78,19 +82,35 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
-    case APPLY_START:
+    case APPLY_START_SEND:
       return {
         ...state,
-        apply: {
-          ...state.apply,
+        toDeliveryBtn: {
+          ...state.toDeliveryBtn,
           [action.id]: true
         }
       };
-    case APPLY_STOP:
+    case APPLY_STOP_SEND:
       return {
         ...state,
-        apply: {
-          ...state.apply,
+        toDeliveryBtn: {
+          ...state.toDeliveryBtn,
+          [action.id]: false
+        }
+      };
+    case APPLY_START_REJECT:
+      return {
+        ...state,
+        rejectOrderBtn: {
+          ...state.rejectOrderBtn,
+          [action.id]: true
+        }
+      };
+    case APPLY_STOP_REJECT:
+      return {
+        ...state,
+        rejectOrderBtn: {
+          ...state.rejectOrderBtn,
           [action.id]: false
         }
       };
@@ -110,29 +130,37 @@ export function load() {
   };
 }
 
-export function rejectOrder(order) {
+export function rejectOrder(id) {
   return {
     types: [DELETE_ORDER, DELETE_ORDER_FAIL, DELETE_ORDER_OK],
-    id: order.id,
+    id: id,
     promise: (client) => client.post('/orders/cancel', {
-      data: order
+      data: id
     })
   };
 }
 
-export function sendToDeliveryOrder(order) {
+export function toDeliveryOrder(id) {
   return { type: [DELIVERY_SEND, DELIVERY_SEND_OK, DELIVERY_SEND_FAIL],
-    id: order.id,
+    id: id,
     promise: (client) => client.post('/orders/apply', {
-      data: order
+      data: id
     })
   };
 }
 
-export function applyStart(id) {
-  return { type: APPLY_START, id };
+export function applyStartSend(id) {
+  return { type: APPLY_START_SEND, id };
 }
 
-export function applyStop(id) {
-  return { type: APPLY_STOP, id };
+export function applyStartReject(id) {
+  return { type: APPLY_START_REJECT, id };
+}
+
+export function applyStopSend(id) {
+  return { type: APPLY_STOP_SEND, id };
+}
+
+export function applyStopReject(id) {
+  return { type: APPLY_STOP_REJECT, id };
 }
