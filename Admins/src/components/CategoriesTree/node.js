@@ -57,14 +57,17 @@ class TreeNode extends React.Component {
   }
 
   renderHeader(decorators, animations) {
+    const styles = require('../../containers/Temp/Temp.scss');
     return (
-      <NodeHeader
+      <div className={styles.mybutton}>
+        <NodeHeader
         decorators={decorators}
         animations={animations}
         style={this.props.style}
         node={Object.assign({}, this.props.node)}
-        onClick={this.onClick}
-      />
+        onClick={this.onClick}/>
+        <div className={styles.mycell}><button>bt_decorator</button></div>
+      </div>
     );
   }
 

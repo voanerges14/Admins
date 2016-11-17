@@ -82,8 +82,10 @@ class Container extends Component {
 
   render() {
     const {style, decorators, terminal, onClick, node} = this.props;
+    const mystyle = require('../../containers/Temp/Temp.scss');
+    /* className="form-group form-inline" */
     return (
-      <div className="form-group form-inline">
+      <div className={mystyle.mycell} >
         <div
           ref="clickable"
           onClick={onClick}
@@ -94,10 +96,6 @@ class Container extends Component {
             node={node}
             style={style.header}
           />
-
-        </div>
-        <div>
-          <button>bt_decorator</button>
         </div>
       </div>
     );
