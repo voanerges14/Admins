@@ -4,28 +4,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { StyleRoot } from 'radium';
 import {Treebeard, decorators} from '../src/index';
+// import {Treebeard, decorators} from '../src/index';
 
 import data from './data';
 import styles from './styles';
-import * as filters from './filter';
+// import * as filters from './filter';
 
 const HELP_MSG = 'Select A Node To See Its Data Structure Here...';
 
 // Example: Customising The Header Decorator To Include Icons
-decorators.Header = (props) => {
-    const style = props.style;
-    const iconType = props.node.children ? 'folder' : 'file-text';
-    const iconClass = `fa fa-${iconType}`;
-    const iconStyle = { marginRight: '5px' };
-    return (
-        <div style={style.base}>
-            <div style={style.title}>
-                <i className={iconClass} style={iconStyle}/>
-                {props.node.name}
-            </div>
-        </div>
-    );
-};
+// decorators.Header = (props) => {
+//     const style = props.style;
+//     const iconType = props.node.children ? 'folder' : 'file-text';
+//     const iconClass = `fa fa-${iconType}`;
+//     const iconStyle = { marginRight: '5px' };
+//     return (
+//         <div style={style.base}>
+//             <div style={style.title}>
+//                 <i className={iconClass} style={iconStyle}/>
+//                 {props.node.name}
+//             </div>
+//         </div>
+//     );
+// };
 
 class NodeViewer extends React.Component {
     constructor(props){
@@ -37,7 +38,7 @@ class NodeViewer extends React.Component {
         if(!json){ json = HELP_MSG; }
         return (
             <div style={style.base}>
-                {json}
+                 {json}
             </div>
         );
     }
@@ -54,33 +55,34 @@ class DemoTree extends React.Component {
         this.onToggle = this.onToggle.bind(this);
     }
     onToggle(node, toggled){
+        /* позначає виділеним при кліку і забирає коли клікнуте іншу*/
         if(this.state.cursor){this.state.cursor.active = false;}
         node.active = true;
         if(node.children){ node.toggled = toggled; }
         this.setState({ cursor: node });
     }
-    onFilterMouseUp(e){
-        const filter = e.target.value.trim();
-        if(!filter){ return this.setState({data}); }
-        var filtered = filters.filterTree(data, filter);
-        filtered = filters.expandFilteredNodes(filtered, filter);
-        this.setState({data: filtered});
-    }
+    // onFilterMouseUp(e){
+    //     const filter = e.target.value.trim();
+    //     if(!filter){ return this.setState({data}); }
+    //     var filtered = filters.filterTree(data, filter);
+    //     filtered = filters.expandFilteredNodes(filtered, filter);
+    //     this.setState({data: filtered});
+    // }
     render(){
         return (
             <StyleRoot>
-                <div style={styles.searchBox}>
-                    <div className="input-group">
-                        <span className="input-group-addon">
-                          <i className="fa fa-search"></i>
-                        </span>
-                        <input type="text"
-                            className="form-control"
-                            placeholder="Search the tree..."
-                            onKeyUp={this.onFilterMouseUp.bind(this)}
-                        />
-                    </div>
-                </div>
+                {/* <div style={styles.searchBox}>*/}
+                    {/* <div className="input-group">*/}
+                        {/* <span className="input-group-addon">*/}
+                          {/* <i className="fa fa-search"></i>*/}
+                        {/* </span>*/}
+                         {/* <input type="text"*/}
+                             {/* className="form-control"*/}
+                             {/* placeholder="Search the tree..."*/}
+                             {/* onKeyUp={this.onFilterMouseUp.bind(this)}*/}
+                         {/* />*/}
+                    {/* </div>*/}
+                {/* </div>*/}
                 <div style={styles.component}>
                     <Treebeard
                         data={this.state.data}
@@ -88,10 +90,10 @@ class DemoTree extends React.Component {
                         decorators={decorators}
                     />
                 </div>
-                <div style={styles.component}>
-                    <NodeViewer node={this.state.cursor}/>
-                </div>
-            </StyleRoot>
+                  <div style={styles.component}>
+                      <NodeViewer node={this.state.cursor}/>
+                  </div>
+        </StyleRoot>
 
         );
     }

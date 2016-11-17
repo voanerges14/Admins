@@ -15,9 +15,35 @@ export default {
             ]
         },
         {
+            name: 'example2',
+            children: [
+                { name: 'app.js' },
+                {
+                    name: 'example3',
+                    children: [
+                        { name: 'app.js' },
+                        { name: 'data.js' },
+                        { name: 'index.html' },
+                        { name: 'styles.js' },
+                        { name: 'webpack.config.js' }
+                    ]
+                },
+                { name: 'data.js' },
+                { name: 'index.html' },
+                { name: 'styles.js' },
+                { name: 'webpack.config.js' }
+            ]
+        },
+        {
             name: 'node_modules',
-            loading: true,
-            children: []
+            // loading: true,
+            children: [{
+                name: 'components',
+                children: [
+                    { name: 'decorators.js' },
+                    { name: 'treebeard.js' }
+                ]
+            }]
         },
         {
             name: 'src',

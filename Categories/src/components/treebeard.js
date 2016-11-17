@@ -1,16 +1,37 @@
 'use strict';
-
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import TreeNode from './node';
 import defaultDecorators from './decorators';
 import defaultTheme from '../themes/default';
 import defaultAnimations from '../themes/animations';
 
-class TreeBeard extends React.Component {
-    constructor(props){
-        super(props);
-    }
+export default
+class TreeBeard extends Component {
+    static propTypes = {
+        style: PropTypes.object,
+        data: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.array
+        ]).isRequired,
+        animations: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.bool
+        ]),
+        onToggle: PropTypes.func,
+        decorators: PropTypes.object
+    };
+
+    static defaultProps = {
+        style: defaultTheme,
+        animations: defaultAnimations,
+        decorators: defaultDecorators
+    };
+
+    // constructor(props){
+    //     super(props);
+    // }
+
     render(){
         let data = this.props.data;
         // Support Multiple Root Nodes. Its not formally a tree, but its a use-case.
@@ -28,28 +49,29 @@ class TreeBeard extends React.Component {
                     />
                 )}
             </ul>
-        );
+
+    );
     }
 }
+//
+// TreeBeard.propTypes = {
+//     style: React.PropTypes.object,
+//     data: React.PropTypes.oneOfType([
+//         React.PropTypes.object,
+//         React.PropTypes.array
+//     ]).isRequired,
+//     animations: React.PropTypes.oneOfType([
+//         React.PropTypes.object,
+//         React.PropTypes.bool
+//     ]),
+//     onToggle: React.PropTypes.func,
+//     decorators: React.PropTypes.object
+// };
+//
+// TreeBeard.defaultProps = {
+//     style: defaultTheme,
+//     animations: defaultAnimations,
+//     decorators: defaultDecorators
+// };
 
-TreeBeard.propTypes = {
-    style: React.PropTypes.object,
-    data: React.PropTypes.oneOfType([
-        React.PropTypes.object,
-        React.PropTypes.array
-    ]).isRequired,
-    animations: React.PropTypes.oneOfType([
-        React.PropTypes.object,
-        React.PropTypes.bool
-    ]),
-    onToggle: React.PropTypes.func,
-    decorators: React.PropTypes.object
-};
-
-TreeBeard.defaultProps = {
-    style: defaultTheme,
-    animations: defaultAnimations,
-    decorators: defaultDecorators
-};
-
-export default TreeBeard;
+// export default TreeBeard;

@@ -138,7 +138,11 @@
     "superagent": "^1.4.0",
     "url-loader": "^0.5.7",
     "warning": "^2.1.0",
-    "webpack-isomorphic-tools": "^2.2.18"
+    "webpack-isomorphic-tools": "^2.2.18",
+    "velocity-react": "latest",
+    "shallowequal": "latest",
+    "deep-equal": "latest",
+    "radium": "latest"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",

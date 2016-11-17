@@ -1,0 +1,37 @@
+.loginPage {
+input {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+form {
+    margin: 30px 0;
+:global(.btn) {
+    margin-left: 10px;
+}
+}
+}
+
+.right {
+  display: inline-block;
+}
+.left {
+    overflow: hidden;
+    height: 100px;
+    background: #ccc
+}
+
+
+#div1{
+  height: 30px;
+  width: 10%;
+  border: solid 1px #000000;
+  background-color: #0066CC;
+  float: left;
+}
+#div2{
+  height: 30px;
+  width: 90%;
+  border: solid 1px #000000;
+  background-color: #66CC00;
+}

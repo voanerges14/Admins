@@ -1,5 +1,5 @@
 'use strict';
-
+// юзає header.js
 import React from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
 
@@ -24,20 +24,27 @@ class TreeNode extends React.Component {
             drawer: anim.drawer(this.props)
         };
     }
+
     decorators(){
         // Merge Any Node Based Decorators Into The Pack
         const props = this.props;
         let nodeDecorators = props.node.decorators || {};
         return Object.assign({}, props.decorators, nodeDecorators);
     }
+    // main func
     render(){
         const decorators = this.decorators();
         const animations = this.animations();
         return (
+            <div>
             <li style={this.props.style.base} ref="topLevel">
-                {this.renderHeader(decorators, animations)}
-                {this.renderDrawer(decorators, animations)}
+                {/* відповідає за сам вузол(папку/файл)*/}
+                 {this.renderHeader(decorators, animations)}
+                {/* будує підвузли */}
+                 {this.renderDrawer(decorators, animations)}
             </li>
+                <button>ffffffffffffffffffffffffffff</button>
+                </div>
         );
     }
     renderDrawer(decorators, animations){
@@ -48,19 +55,22 @@ class TreeNode extends React.Component {
         }
         return (
             <VelocityTransitionGroup {...animations.drawer} ref="velocity">
-                {toggled ? this.renderChildren(decorators, animations) : null}
+                 {toggled ? this.renderChildren(decorators, animations) : null}
             </VelocityTransitionGroup>
         );
     }
     renderHeader(decorators, animations){
         return (
+            <div>
             <NodeHeader
                 decorators={decorators}
                 animations={animations}
                 style={this.props.style}
                 node={Object.assign({}, this.props.node)}
-                onClick={this.onClick}
-            />
+                 onClick={this.onClick}
+             />
+             <button>bttttttttttttttttttttttttttttttttt</button>
+            </div>
         );
     }
     renderChildren(decorators){

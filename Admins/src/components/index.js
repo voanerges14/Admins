@@ -15,4 +15,8 @@ export Hello from './Hello/Hello';
 export CategoriesForm from './CategoriesForm/CategoriesForm';
 export LoginForm from './LoginForm/LoginForm';
 
+export Treebeard from './CategoriesTree/treebeard';
+export decorators from'./CategoriesTree/decorators';
+export animations from'./CategoriesTree/themes/animations';
+export theme from'./CategoriesTree/themes/default';
 export OrderForm from './OrderForm/OrderForm';
