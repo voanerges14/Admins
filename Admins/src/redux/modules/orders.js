@@ -18,7 +18,6 @@ const APPLY_STOP_REJECT = 'redux/modules/orders/APPLY_STOP_REJECT';
 
 const initialState = {
   loaded: false,
-  sendError: {},
   toDeliveryBtn: {},
   rejectOrderBtn: {},
 };

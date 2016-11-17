@@ -73,8 +73,8 @@ export default class Orders extends Component {
           </thead>
           <tbody>
           {
-            orders.map((order) =>
-
+            orders.map((order) => (toDeliveryBtn || rejectOrderBtn) ?
+              <OrderForm formKey={String(order.id)} key={String(order.id)} initialValues={order}/> :
               <tr key={order.id}>
                 <td className={styles.idCol}>{order.id}</td>
                 <td className={styles.colorCol}>{order.userName}</td>

@@ -5,13 +5,8 @@ const mockOrders = [
   {id: 4, userName: 'Petro',  productId: 2, product: 'Lenovo p70',  status: 'PAID'}
 ];
 
-export function getOrdersFromDb(req) {
-  let orders = req.session.orders;
-  if (!orders) {
-    orders = mockOrders;
-    req.session.orders = orders;
-  }
-  return orders;
+export function getOrdersFromDb() {
+  return mockOrders;
 }
 
 export function get(req) {
@@ -28,24 +23,20 @@ export function get(req) {
   });
 }
 
-export function apply(req) {
+export default function apply(req) {
   return new Promise((resolve, reject) => {
-    // write to database
     setTimeout(() => {
-      try {
-        get(req).then(data => {
-          const orders = data;
-          const order = req.body;
-          order.product = {product: 'order.product, temp'};
-          req.session.orders = orders;
-          resolve(order);
-        }, err => {
-          reject(err);
-        });
-      }
-      catch (e){
-        reject(e);
-      }
+      getOrdersFromDb().then(data => {
+        const orders = data;
+        for(let order in orders){
+          if(order.id == req.body.id){
+            order.status = 'DELIVERING';
+            resolve(order);
+          }
+        }
+      }, err => {
+        reject(err);
+      });
     }, 1500); // simulate async db write
   });
 }
