@@ -37,9 +37,9 @@ export default class CategoriesForm extends Component {
         {/* <td className={styles.idCol}>{id.value}</td>*/}
 
         <td className={styles.ownerCol}>
-          <input type="text" className="form-control" value={formKey}/>
+          <input type="text" className="form-control" {...name}/>
+          {/* {owner.error && owner.touched && <div className="text-danger">{owner.error}</div>}*/}
         </td>
-
         <td className={styles.buttonCol}>
           <button className="btn btn-default"
                   onClick={() => editStop(formKey)}

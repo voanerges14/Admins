@@ -4,38 +4,35 @@ import {Treebeard, decorators} from '../../components';
 import data from './data';
 import styles from './styles';
 import *as filters from './filter';
-import { asyncConnect } from 'redux-async-connect';
-import {connect} from 'react-redux';
+// import { asyncConnect } from 'redux-async-connect';
+// import {connect} from 'react-redux';
 
-import * as categoryActions from 'redux/modules/categories';
-import {isLoaded, load as loadCategories} from 'redux/modules/categories';
-import {initializeWithKey} from 'redux-form';
+// import * as categoryActions from 'redux/modules/categories';
+// import {isLoaded, load as loadCategories} from 'redux/modules/categories';
+// import {initializeWithKey} from 'redux-form';
 
 import { CategoriesForm } from 'components';
 
+// const HELP_MSG = 'Select A Node To See Its Data Structure Here...';
 
-
-@asyncConnect([{
-  deferred: true,
-  promise: ({store: {dispatch, getState}}) => {
-    if (!isLoaded(getState())) {
-      return dispatch(loadCategories());
-    }
-  }
-}])
-
-const HELP_MSG = 'Select A Node To See Its Data Structure Here...';
-
-@connect(
-  state => ({
-    categories: state.categories.data,
-    editing: state.categories.editing,
-    error: state.categories.error,
-    loading: state.categories.loading
-  }),
-  {...categoryActions, initializeWithKey })
-
-
+// @asyncConnect([{
+//   deferred: true,
+//   promise: ({store: {dispatch, getState}}) => {
+//     if (!isLoaded(getState())) {
+//       return dispatch(loadCategories());
+//     }
+//   }
+// }])
+//
+//
+// @connect(
+//   state => ({
+//     categories: state.categories.data,
+//     editing: state.categories.editing,
+//     error: state.categories.error,
+//     loading: state.categories.loading
+//   }),
+//   {...categoryActions, initializeWithKey })
 
 // class NodeViewer extends React.Component {
 //   static propTypes = {
@@ -62,15 +59,15 @@ const HELP_MSG = 'Select A Node To See Its Data Structure Here...';
 export default
 class Temp extends Component {
 
-  static propTypes = {
-    categories: PropTypes.array,
-    error: PropTypes.string,
-    loading: PropTypes.bool,
-    initializeWithKey: PropTypes.func.isRequired,
-    editing: PropTypes.object.isRequired,
-    load: PropTypes.func.isRequired,
-    editStart: PropTypes.func.isRequired
-  };
+  // static propTypes = {
+  //   categories: PropTypes.array,
+  //   error: PropTypes.string,
+  //   loading: PropTypes.bool,
+  //   initializeWithKey: PropTypes.func.isRequired,
+  //   editing: PropTypes.object.isRequired,
+  //   load: PropTypes.func.isRequired,
+  //   editStart: PropTypes.func.isRequired
+  // };
 
   constructor(props) {
     super(props);
@@ -101,12 +98,12 @@ class Temp extends Component {
   }
 
   render() {
-    let json = this.state.cursor;
-    if (!json) {
-      json = HELP_MSG;
-    } else {
-      json = this.state.cursor;
-    }
+    const json = this.state.cursor;
+    // if (!json) {
+    //   json = HELP_MSG;
+    // } else {
+    //   json = this.state.cursor;
+    // }
     // const styles = require('../Categories/Categories.scss');
     return (
       <div>
@@ -142,10 +139,10 @@ class Temp extends Component {
                             {/* key={this.state.cursor.name}*/}
                             {/* name={this.state.cursor.name} />*/}
             {/* }*/}
-
+            {json &&
             <CategoriesForm formKey={json.name}
                             key={json.name}
-                            name={json.name}/>
+                            name={json.name}/>}
 
             {/* <NodeViewer node={this.state.cursor}/>*/}
 
