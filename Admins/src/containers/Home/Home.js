@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router';
 // import { CounterButton, GithubButton, Hello } from 'components';
-import {GithubButton, LoginForm} from 'components';
+import {LoginForm} from 'components';
 import config from '../../config';
 import Helmet from 'react-helmet';
 
@@ -33,28 +33,28 @@ export default class Home extends Component {
                {/* onToggle={this.onToggle}*/}
                {/* decorators={decorators}*/}
              {/* />*/}
-            <p>
-              <a className={styles.github} href="https://github.com/erikras/react-redux-universal-hot-example"
-                 target="_blank">
-                <i className="fa fa-github"/> View on Github
-              </a>
-            </p>
-            <GithubButton user="erikras"
-                          repo="react-redux-universal-hot-example"
-                          type="star"
-                          width={160}
-                          height={30}
-                          count large/>
-            <GithubButton user="erikras"
-                          repo="react-redux-universal-hot-example"
-                          type="fork"
-                          width={160}
-                          height={30}
-                          count large/>
+            {/* <p>*/}
+              {/* <a className={styles.github} href="https://github.com/erikras/react-redux-universal-hot-example"*/}
+                 {/* target="_blank">*/}
+                {/* <i className="fa fa-github"/> View on Github*/}
+              {/* </a>*/}
+            {/* </p>*/}
+            {/* <GithubButton user="erikras"*/}
+                          {/* repo="react-redux-universal-hot-example"*/}
+                          {/* type="star"*/}
+                          {/* width={160}*/}
+                          {/* height={30}*/}
+                          {/* count large/>*/}
+            {/* <GithubButton user="erikras"*/}
+                          {/* repo="react-redux-universal-hot-example"*/}
+                          {/* type="fork"*/}
+                          {/* width={160}*/}
+                          {/* height={30}*/}
+                          {/* count large/>*/}
 
-            <p className={styles.humility}>
-              Created and maintained by <a href="https://twitter.com/erikras" target="_blank">@erikras</a>.
-            </p>
+            {/* <p className={styles.humility}>*/}
+              {/* Created and maintained by <a href="https://twitter.com/erikras" target="_blank">@erikras</a>.*/}
+            {/* </p>*/}
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-export default {
+const initialCategories = {
   id: '0',
   name: 'react-treebeard',
   // toggled: true,
@@ -74,3 +74,25 @@ export default {
     {name: 'package.json'}
   ]
 };
+
+export function getCategories(req) {
+  let categories = req.session.categories;
+  if (!categories) {
+    categories = initialCategories;
+    req.session.categories = categories;
+  }
+  return categories;
+}
+
+export default function load(req) {
+  return new Promise((resolve, reject) => {
+    // make async call to database
+    setTimeout(() => {
+      try {
+        resolve(getCategories(req));
+      } catch(e) {
+        reject('Categories load fails 33% of the time. You were unlucky.');
+      }
+    }, 1000); // simulate async load
+  });
+}

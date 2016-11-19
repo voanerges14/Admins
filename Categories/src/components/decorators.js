@@ -36,9 +36,6 @@ const Toggle = (props) => {
                 </svg>
             </div>
         </div>
-        <div style={style.base}>
-            <button>fff</button>
-        </div>
             </div>
     );
 };
@@ -55,7 +52,6 @@ const Header = (props) => {
                 {props.node.name}
             </div>
             <div style={style.title}>
-                <button>fff22222</button>
             </div>
         </div>
     );
@@ -88,9 +84,7 @@ class Container extends React.Component {
                     />
 
                 </div>
-                <div className="right">
-                    <button>bt_decorator</button>
-                </div>
+
             </div>
 
         );

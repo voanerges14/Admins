@@ -93,12 +93,12 @@ class Container extends Component {
           <decorators.Header
             node={node}
             style={style.header}
-          />
 
+          />
         </div>
-        <div>
-          <button>bt_decorator</button>
-        </div>
+         {/* <div style={style.container}>*/}
+           {/* <button style={style.header}>bt_decorator</button>*/}
+         {/* </div>*/}
       </div>
     );
   }

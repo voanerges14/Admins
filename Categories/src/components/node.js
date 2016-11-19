@@ -43,8 +43,7 @@ class TreeNode extends React.Component {
                 {/* будує підвузли */}
                  {this.renderDrawer(decorators, animations)}
             </li>
-                <button>ffffffffffffffffffffffffffff</button>
-                </div>
+           </div>
         );
     }
     renderDrawer(decorators, animations){
@@ -69,7 +68,6 @@ class TreeNode extends React.Component {
                 node={Object.assign({}, this.props.node)}
                  onClick={this.onClick}
              />
-             <button>bttttttttttttttttttttttttttttttttt</button>
             </div>
         );
     }

@@ -5,7 +5,7 @@ export default {
       backgroundColor: '#fcfcfc',
       margin: 0,
       padding: 0,
-      color: '#c6cbce',
+      color: '#000000',
       fontFamily: 'lucida grande ,tahoma,verdana,arial,sans-serif',
       fontSize: '14px'
     },

@@ -6,7 +6,7 @@ export default {
     padding: '20px',
     '@media (max-width: 640px)': {
       width: '100%',
-      display: 'block'
+      display: 'inline-block'
     }
   },
   searchBox: {
@@ -19,7 +19,7 @@ export default {
       backgroundColor: '#fcfcfc',
       border: 'solid 1px black',
       padding: '20px',
-      color: '#c6cbc',
+      color: '#000000',
       minHeight: '250px'
     }
   }

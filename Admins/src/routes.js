@@ -24,7 +24,7 @@ export default (store) => {
       console.log( 'fuck  ' + user );
       if (!user) {
         // oops, not logged in, so can't be here!
-        replace('/login');
+        replace('/');
       }
       cb();
     }
