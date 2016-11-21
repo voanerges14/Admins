@@ -47,7 +47,7 @@ export function sendToDeliveryOrder(id) {
   return OrdersModel.findById(id, function (err, order) {
     if (err) {
       console.error('sendToDeliveryOrder error: ' + err);
-      return -1;
+      return err;
     }
     order.status = 'DELIVERING';
     order.save(function (err, updatedOrder) {
@@ -61,12 +61,13 @@ export function sendToDeliveryOrder(id) {
 }
 
 export function deleteOrder(id) {
-  return OrderModel.remove({ _id: id }, function(err) {
+  return OrdersModel.remove({ _id: id }, function(err) {
     if (!err) {
       return 0;
     }
     else {
       console.error('deleteOrder: ' + err);
+      return err;
     }
   });
 }

@@ -14,31 +14,40 @@
 //   ...
 //   ]
 // }
+// when close connections?
+function connectToDbOrdersModel() {
+  let mongoose = require('mongoose');
+  mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
+  let db = mongoose.connection;
 
-export function getProductById(req) {
-  let products;
-  let url = 'mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db';
-  require('mongodb').MongoClient.connect(url, function (err, db) {
-    if (!err) {
-      console.log('All OK');
-
-      db.collection('product').find({_id: req}).toArray(function (err, res) {
-        if (res.length) {
-          console.log(res);
-          products = res;
-        }
-        else if (err) {
-          console.log(err);
-        }
-        else {
-          console.log('No document(s) found with defined "find" criteria!');
-        }
-        db.close();
-      })
-    }
-    else {
-      console.log('Unable to connect', err);
-    }
+  db.on('error', function (err) {
+    console.error('connection error:', err.message);
   });
-  return products;
+  db.once('open', function callback () {
+    console.info("Connected to DB!");
+  });
+
+  let Schema = mongoose.Schema;
+
+  let Products = new Schema({
+    _id: { type: Schema.Types.ObjectId, required: true },
+    name: { type: String, required: true },
+    price: { type: String, required: true },
+    images: {type: Schema.Types.array, required: true}
+  });
+
+  let ProductsModel = mongoose.model('Orders', Products);
+  return ProductsModel;
+}
+
+var ProductsModel = connectToDbOrdersModel();
+
+export function getProductById(id) {
+  return ProductsModel.find({'_id': id}, function (err, product) {
+    if(!err) {
+      return product;
+    }
+    console.error('getProductById error: ' + err);
+    return err;
+  });
 }
