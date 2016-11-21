@@ -66,7 +66,8 @@ class TreeNode extends React.Component {
         style={this.props.style}
         node={Object.assign({}, this.props.node)}
         onClick={this.onClick}/>
-        <div className={styles.mycell}><button>+</button></div>
+        <div className={styles.mycell}><button className="btn btn-link btn-xs">
+          <span className="glyphicon glyphicon-plus"/></button></div>
       </div>
     );
   }
