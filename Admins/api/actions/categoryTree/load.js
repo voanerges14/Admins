@@ -1,77 +1,77 @@
 const initialCategories = {
-  id: '0',
+  idD: '0',
   name: 'react-treebeard',
   // toggled: true,
   children: [
     {
-      id: '0',
+      idD: '1',
       name: 'example',
       children: [
-        {name: 'app.js'},
-        {name: 'data.js'},
-        {name: 'index.html'},
-        {name: 'styles.js'},
-        {name: 'webpack.config.js'}
+        {idD: '3', name: 'app.js'},
+        {idD: '4', name: 'data.js'},
+        {idD: '5', name: 'index.html'},
+        {idD: '6', name: 'styles.js'},
+        {idD: '7', name: 'webpack.config.js'}
       ]
     },
     {
-      id: '0',
+      idD: '8',
       name: 'example2',
       children: [
-        {name: 'app.js'},
+        {idD: '9', name: 'app.js'},
         {
-          name: 'example3',
+          idD: '10', name: 'example333333',
           children: [
-            {name: 'app.js'},
-            {name: 'data.js'},
-            {name: 'index.html'},
-            {name: 'styles.js'},
-            {name: 'webpack.config.js'}
+            {idD: '11', name: 'app.js'},
+            {idD: '12', name: 'data.js'},
+            {idD: '13', name: 'index.html'},
+            {idD: '14', name: 'styles.js'},
+            {idD: '15', name: 'webpack.config.js'}
           ]
         },
-        {name: 'data.js'},
-        {name: 'index.html'},
-        {name: 'styles.js'},
-        {name: 'webpack.config.js'}
+        {idD: '16', name: 'data.js'},
+        {idD: '17', name: 'index.html'},
+        {idD: '18', name: 'styles.js'},
+        {idD: '19', name: 'webpack.config.js'}
       ]
     },
     {
-      id: '0',
+      idD: '20',
       name: 'node_modules',
       // loading: true,
       children: [{
-        name: 'components',
+        idD: '21',name: 'components',
         children: [
-          {name: 'decorators.js'},
-          {name: 'treebeard.js'}
+          {idD: '22',name: 'decorators.js'},
+          {idD: '23',name: 'treebeard.js'}
         ]
       }]
     },
     {
-      id: '0',
+      idD: '24',
       name: 'src',
       children: [
         {
-          name: 'components',
+          idD: '25',name: 'components',
           children: [
-            {name: 'decorators.js'},
-            {name: 'treebeard.js'}
+            {idD: '26', name: 'decorators.js'},
+            {idD: '27', name: 'treebeard.js'}
           ]
         },
-        {name: 'index.js'}
+        {idD: '28', name: 'index.js'}
       ]
     },
     {
-      id: '0',
+      idD: '29',
       name: 'themes',
       children: [
-        {name: 'animations.js'},
-        {name: 'default.js'}
+        {idD: '30', name: 'animations.js'},
+        {idD: '31', name: 'default.js'}
       ]
     },
-    {name: 'Gulpfile.js'},
-    {name: 'index.js'},
-    {name: 'package.json'}
+    {idD: '32', name: 'Gulpfile.js'},
+    {idD: '33', name: 'index.js'},
+    {idD: '33', name: 'package.json'}
   ]
 };
 

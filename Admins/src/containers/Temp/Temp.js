@@ -1,38 +1,42 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {StyleRoot} from 'radium';
 import {Treebeard, decorators} from '../../components';
-import data from './data';
+import Helmet from 'react-helmet';
+
+// import data from './data';
 import styles from './styles';
-import *as filters from './filter';
-// import { asyncConnect } from 'redux-async-connect';
-// import {connect} from 'react-redux';
+import * as filters from './filter';
+import {isLoaded, load as loadCategories} from 'redux/modules/categories';
+import {connect} from 'react-redux';
+import { asyncConnect } from 'redux-async-connect';
+import * as categoryActions from 'redux/modules/categories';
 
 // import * as categoryActions from 'redux/modules/categories';
 // import {isLoaded, load as loadCategories} from 'redux/modules/categories';
-// import {initializeWithKey} from 'redux-form';
+import {initializeWithKey} from 'redux-form';
 
 import { CategoriesForm } from 'components';
 
 // const HELP_MSG = 'Select A Node To See Its Data Structure Here...';
 
-// @asyncConnect([{
-//   deferred: true,
-//   promise: ({store: {dispatch, getState}}) => {
-//     if (!isLoaded(getState())) {
-//       return dispatch(loadCategories());
-//     }
-//   }
-// }])
-//
-//
-// @connect(
-//   state => ({
-//     categories: state.categories.data,
-//     editing: state.categories.editing,
-//     error: state.categories.error,
-//     loading: state.categories.loading
-//   }),
-//   {...categoryActions, initializeWithKey })
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!isLoaded(getState())) {
+      return dispatch(loadCategories());
+    }
+  }
+}])
+
+
+@connect(
+  state => ({
+    categories: state.categories.data,
+    editing: state.categories.editing,
+    error: state.categories.error,
+    loading: state.categories.loading
+  }),
+  {...categoryActions, initializeWithKey })
 
 // class NodeViewer extends React.Component {
 //   static propTypes = {
@@ -59,19 +63,20 @@ import { CategoriesForm } from 'components';
 export default
 class Temp extends Component {
 
-  // static propTypes = {
-  //   categories: PropTypes.array,
-  //   error: PropTypes.string,
-  //   loading: PropTypes.bool,
-  //   initializeWithKey: PropTypes.func.isRequired,
-  //   editing: PropTypes.object.isRequired,
-  //   load: PropTypes.func.isRequired,
-  //   editStart: PropTypes.func.isRequired
-  // };
+  static propTypes = {
+    categories: PropTypes.Object,
+    error: PropTypes.string,
+    loading: PropTypes.bool,
+    initializeWithKey: PropTypes.func.isRequired,
+    editing: PropTypes.object.isRequired,
+    load: PropTypes.func.isRequired,
+    editStart: PropTypes.func.isRequired
+  };
 
+  //
   constructor(props) {
     super(props);
-    this.state = {data};
+    this.state = {};
     this.onToggle = this.onToggle.bind(this);
   }
 
@@ -90,9 +95,9 @@ class Temp extends Component {
   onFilterMouseUp(ee) {
     const filter = ee.target.value.trim();
     if (!filter) {
-      return this.setState({data});
+      return this.setState(this.props.categories);
     }
-    let filtered = filters.filterTree(data, filter);
+    let filtered = filters.filterTree(this.props.categories, filter);
     filtered = filters.expandFilteredNodes(filtered, filter);
     this.setState({data: filtered});
   }
@@ -104,14 +109,20 @@ class Temp extends Component {
     // } else {
     //   json = this.state.cursor;
     // }
-    // const styles = require('../Categories/Categories.scss');
+    const {load, loading, categories} = this.props;
+    let refreshClassName = 'fa fa-refresh';
+    if (loading) {
+      refreshClassName += ' fa-spin';
+    }
+    const st = require('../Categories/Categories.scss');
     return (
       <div>
-        <h1>Temp</h1>
-        {/* <button className={styles.refreshBtn + ' btn btn-success'}>*/}
-          {/* <i className={'fa fa-refresh'}/> {' '} Temp*/}
-        {/* </button>*/}
-
+        <h1>Temp
+         <button className={st.refreshBtn + ' btn btn-success'} onClick={load}>
+           <i className={refreshClassName}/> {' '} Reload
+         </button>
+        </h1>
+        <Helmet title="CategoriesTree"/>
          <StyleRoot>
            <div style={styles.searchBox}>
              <div className="input-group">
@@ -125,13 +136,15 @@ class Temp extends Component {
                />
              </div>
            </div>
-          <div style={styles.component} >
+            {categories &&
+           <div style={styles.component} >
             <Treebeard
-              data={this.state.data}
+              data={categories}
               onToggle={this.onToggle}
               decorators={decorators}
             />
           </div>
+            }
           <div style={styles.component}>
 
             {/* {json  &&*/}
@@ -142,7 +155,8 @@ class Temp extends Component {
             {json &&
             <CategoriesForm formKey={json.name}
                             key={json.name}
-                            name={json.name}/>}
+                            name={json.name}
+            />}
 
             {/* <NodeViewer node={this.state.cursor}/>*/}
 
