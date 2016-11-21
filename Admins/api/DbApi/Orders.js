@@ -5,14 +5,14 @@
 //     "productId",
 //     "status": 'IN_CART' || 'PAID' || 'DELIVERING' || 'DELIVERED'
 // }
-
+// when close connections?
 function connectToDbOrdersModel() {
   let mongoose = require('mongoose');
   mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
   let db = mongoose.connection;
 
   db.on('error', function (err) {
-    console.error('connection error:', err.message);
+    console.error('connection error 2:', err.message);
   });
   db.once('open', function callback () {
     console.info("Connected to DB!");
@@ -21,24 +21,28 @@ function connectToDbOrdersModel() {
   let Schema = mongoose.Schema;
 
   let Orders = new Schema({
-    _id: { type: String, required: true },
+    _id: { type: Schema.Types.ObjectId, required: true },
     userId: { type: String, required: true },
     productId: { type: String, required: true },
     status: {type: String, required: true}
   });
 
   let OrdersModel = mongoose.model('Orders', Orders);
-
   return OrdersModel;
 }
 
+var OrdersModel = connectToDbOrdersModel();
+
 export function getOrdersWithStatusPAID() {
-  let OrdersModel = connectToDbOrdersModel();
-  return OrdersModel.find({status: 'PAID', callback});
+  return OrdersModel.find({'status': 'PAID'}, function (err, docs) {
+    if(!err) {
+      return docs;
+    }
+    return err;
+  });
 }
 
 export function sendToDeliveryOrder(id) {
-  let OrdersModel = connectToDbOrdersModel();
   return OrdersModel.findById(id, function (err, order) {
     if (err) {
       console.error('sendToDeliveryOrder error: ' + err);
@@ -56,7 +60,6 @@ export function sendToDeliveryOrder(id) {
 }
 
 export function deleteOrder(id) {
-  let OrderModel = connectToDbOrdersModel();
   return OrderModel.remove({ _id: id }, function(err) {
     if (!err) {
       return 0;

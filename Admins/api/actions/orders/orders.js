@@ -1,3 +1,4 @@
+import * as OrdersDb from './../../DbApi/Orders';
 const mockOrders = [
   {id: 1, userName: 'Pavlo',  productId: 7, product: 'Hp pavilion', status: 'PAID'},
   {id: 2, userName: 'Dmytro', productId: 1, product: 'Asus rog',    status: 'PAID'},
@@ -5,8 +6,11 @@ const mockOrders = [
   {id: 4, userName: 'Petro',  productId: 2, product: 'Lenovo p70',  status: 'PAID'}
 ];
 
-export function getOrdersFromDb() {
-  return mockOrders;
+function getOrdersFromDb() {
+  const temp = OrdersDb.getOrdersWithStatusPAID();
+  console.log('test db: ' + temp);
+  // return mockOrders;
+  return temp;
 }
 
 export function get(req) {

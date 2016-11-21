@@ -29,7 +29,6 @@ export default class WidgetForm extends Component {
     formKey: PropTypes.string.isRequired,
     values: PropTypes.object.isRequired
   };
-
   render() {
     const { editStop, fields: {id, color, sprocketCount, owner}, formKey, handleSubmit, invalid,
       pristine, save, submitting, saveError: { [formKey]: saveError }, values } = this.props;
