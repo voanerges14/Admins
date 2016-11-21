@@ -12,7 +12,7 @@ function connectToDbOrdersModel() {
   let db = mongoose.connection;
 
   db.on('error', function (err) {
-    console.error('connection error 2:', err.message);
+    console.error('connection error:', err.message);
   });
   db.once('open', function callback () {
     console.info("Connected to DB!");
@@ -34,10 +34,11 @@ function connectToDbOrdersModel() {
 var OrdersModel = connectToDbOrdersModel();
 
 export function getOrdersWithStatusPAID() {
-  return OrdersModel.find({'status': 'PAID'}, function (err, docs) {
+  return OrdersModel.find({'status': 'PAID'}, function (err, orders) {
     if(!err) {
-      return docs;
+      return orders;
     }
+    console.error('getOrdersWithStatusPAID error: ' + err);
     return err;
   });
 }
@@ -52,7 +53,7 @@ export function sendToDeliveryOrder(id) {
     order.save(function (err, updatedOrder) {
       if (err) {
         console.error('sendToDeliveryOrder error: ' + err);
-        return -1;
+        return err;
       }
       return updatedOrder;
     });
