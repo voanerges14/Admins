@@ -19,6 +19,6 @@ export default function update(req) {
           reject(err);
         });
       }
-    }, 1500); // simulate async db write
+    }, 10000); // simulate async db write
   });
 }

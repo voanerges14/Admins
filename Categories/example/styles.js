@@ -2,7 +2,7 @@
 
 export default {
     component: {
-        width: '50%',
+        width: '25%',
         display: 'inline-block',
         verticalAlign: 'top',
         padding: '20px',

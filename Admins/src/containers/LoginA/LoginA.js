@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
-import * as authActions from 'redux/modules/authA';
+import * as authActions from 'redux/modules/auth';
 // {user: state.auth.user}
 @connect( state => ({user: state.authA.user}), authActions)
 export default class LoginA extends Component {
@@ -21,7 +21,7 @@ export default class LoginA extends Component {
 
   render() {
     const {user, logout} = this.props;
-    const styles = require('./LoginA.scss');
+    const styles = require('./Login.scss');
     return (
       <div className={styles.loginPage + ' container'}>
         <Helmet title="Login"/>

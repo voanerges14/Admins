@@ -1,6 +1,3 @@
-/**
- * Created by pavlo on 09.11.16.
- */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,8 +11,8 @@ import * as categoryActions from 'redux/modules/categories';
   dispatch => bindActionCreators(categoryActions, dispatch)
 )
 @reduxForm({
-  form: 'categories',
-  fields: ['id', 'name']
+  form: 'categoriesAdd',
+  fields: ['name']
 })
 export default class CategoriesForm extends Component {
   static propTypes = {
@@ -31,12 +28,11 @@ export default class CategoriesForm extends Component {
   };
 
   render() {
-    const { editStop, fields: {id, name}, formKey, handleSubmit, save, submitting, values} = this.props;
-    const styles = require('containers/Categories/Categories.scss');
+    const { editStop, fields: {name}, formKey, handleSubmit, save, submitting, values} = this.props;
+    const styles = require('CategoriesAdd.scss');
     console.log('msfnmgsdf: ' + formKey);
     return (
       <tr className={submitting ? styles.saving : ''}>
-         <td className={styles.idCol}>{id.value}</td>
 
         <td className={styles.ownerCol}>
           <input type="text" className="form-control" {...name}/>
@@ -49,13 +45,13 @@ export default class CategoriesForm extends Component {
             <i className="fa fa-ban"/> Cancel
           </button>
           <button className="btn btn-success"
-                  onClick={handleSubmit(() => save(values)
-                    .then(result => {
-                      if (result && typeof result.error === 'object') {
-                        return Promise.reject(result.error);
-                      }
-                    })
-                  )}>
+                  {/* onClick={handleSubmit(() => save(values)*/}
+                    {/* .then(result => {*/}
+                      {/* if (result && typeof result.error === 'object') {*/}
+                        {/* return Promise.reject(result.error);*/}
+                      {/* }*/}
+                    {/* })*/}
+                  {/* )}>*/}>
             <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
           </button>
         </td>

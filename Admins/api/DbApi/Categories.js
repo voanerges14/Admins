@@ -12,24 +12,30 @@ function connectToDbOrdersModel() {
   let mongoose = require('mongoose');
   mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
   let db = mongoose.connection;
+  let dbName = 'Categories';
 
   db.on('error', function (err) {
     console.error('connection error:', err.message);
   });
   db.once('open', function callback () {
-    console.info("Connected to DB!");
+    console.info("Connected to DB Categories!");
   });
 
   let Schema = mongoose.Schema;
 
+  // let Categories = new Schema({
+  //   _id: { type: Schema.Types.ObjectId, required: true },
+  //   parentId: { type: String, required: true },
+  //   name: { type: String, required: true },
+  //   properties: {type: Array, required: true}
+  // });
+
   let Categories = new Schema({
     _id: { type: Schema.Types.ObjectId, required: true },
-    parentId: { type: String, required: true },
     name: { type: String, required: true },
-    properties: {type: Array, required: true}
+    children: {type: Array, required: true}
   });
-
-  let CategoriesModel = mongoose.model('Categories', Categories);
+  let CategoriesModel = mongoose.model(dbName, Categories);
   return CategoriesModel;
 }
 
@@ -37,6 +43,7 @@ var CategoriesModel = connectToDbOrdersModel();
 
 export function getCategories() {
   return CategoriesModel.find({}, function (err, docs) {
+    console.log('err: ' + err + '  dock: ' + docs)
     if(!err) {
       return docs;
     }

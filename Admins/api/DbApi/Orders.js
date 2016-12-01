@@ -15,7 +15,7 @@ function connectToDbOrdersModel() {
     console.error('connection error:', err.message);
   });
   db.once('open', function callback () {
-    console.info("Connected to DB!");
+    console.info("Connected to DB Orders!");
   });
 
   let Schema = mongoose.Schema;

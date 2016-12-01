@@ -1,6 +1,6 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
-import { isLoaded as isAuthLoaded } from 'redux/modules/authA';
+import { isLoaded as isAuthLoaded } from 'redux/modules/auth';
 import {
     App,
     Chat,
@@ -17,11 +17,12 @@ import {
     Temp,
   } from 'containers';
 
+
 export default (store) => {
   const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
-      console.log( 'fuck  ' + user );
+      console.log( 'user  ' + user );
       if (!user) {
         // oops, not logged in, so can't be here!
         replace('/');

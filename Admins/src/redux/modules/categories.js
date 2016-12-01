@@ -9,9 +9,19 @@ const EDIT_STOP = 'redux-example/categories/EDIT_STOP';
 const SAVE = 'redux-example/categories/SAVE';
 const SAVE_SUCCESS = 'redux-example/categories/SAVE_SUCCESS';
 const SAVE_FAIL = 'redux-example/categories/SAVE_FAIL';
+const ADD = 'redux-example/categories/ADD';
+const ADD_SUCCESS = 'redux-example/categories/ADD_SUCCESS';
+const ADD_FAIL = 'redux-example/categories/ADD_FAIL';
+
+const DELETE_START = 'redux-example/categories/DELETE_START';
+const DELETE_STOP = 'redux-example/categories/DELETE_STOP';
+const ADD_START = 'redux-example/categories/ADD_START';
+const ADD_STOP = 'redux-example/categories/ADD_STOP';
 
 const initialState = {
   loaded: false,
+  adding: [false],
+  onDelete: {},
   editing: {},
   saveError: {}
 };
@@ -80,6 +90,28 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
+
+
+    case DELETE_START:
+      return {
+        ...state,
+        onDelete: {
+          ...state.editing,
+          [action.id]: true
+        }
+      };
+
+
+    case ADD_START:
+      return {
+        ...state,
+        adding: [true, action.id]
+      };
+    case ADD_STOP:
+      return {
+        ...state,
+        adding: [false]
+      };
     default:
       return state;
   }
@@ -106,10 +138,31 @@ export function save(category) {
   };
 }
 
+export function add(category) {
+  return {
+    type: [ADD, ADD_SUCCESS, ADD_FAIL],
+    promise: (client) => client.post('/category/add', {
+      data: category
+    })
+  };
+}
+
+export function addStart(id) {
+  return {type: ADD_START, id};
+}
+
+export function addStop() {
+  return {type: ADD_STOP};
+}
+
+export function deleteStop(id) {
+  return {type: DELETE_STOP, id};
+}
+
 export function editStart(id) {
-  return { type: EDIT_START, id };
+  return {type: EDIT_START, id};
 }
 
 export function editStop(id) {
-  return { type: EDIT_STOP, id };
+  return {type: EDIT_STOP, id};
 }

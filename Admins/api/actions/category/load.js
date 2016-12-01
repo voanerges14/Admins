@@ -2,11 +2,41 @@
  * Created by pavlo on 09.11.16.
  */
 const initialCategories = [
-  {id: 1, name: 'Laptop1'},
-  {id: 2, name: 'Laptop2'},
-  {id: 3, name: 'Laptop3'},
-  {id: 4, name: 'Laptop4'},
-  {id: 5, name: 'Laptop5'},
+  {id: 1, name: 'Laptop1',  property: [
+    {name: 'color'},
+    {name: 'some'},
+    {name: 'some1'},
+    {name: 'some2'},
+    {name: 'some3'}
+  ],},
+  {id: 2, name: 'Laptop2',  property: [
+    {name: 'color'},
+    {name: 'some'},
+    {name: 'some1'},
+    {name: 'some2'},
+    {name: 'some3'}
+  ],},
+  {id: 3, name: 'Laptop3', property: [
+    {name: 'color'},
+    {name: 'some'},
+    {name: 'some1'},
+    {name: 'some2'},
+    {name: 'some3'}
+  ],},
+  {id: 4, name: 'Laptop4',  property: [
+    {name: 'color'},
+    {name: 'some'},
+    {name: 'some1'},
+    {name: 'some2'},
+    {name: 'some3'}
+  ],},
+  {id: 5, name: 'Laptop5',  property: [
+    {name: 'color'},
+    {name: 'some'},
+    {name: 'some1'},
+    {name: 'some2'},
+    {name: 'some3'}
+  ],},
 ];
 
 export function getCategories(req) {

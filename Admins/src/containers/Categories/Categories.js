@@ -84,7 +84,7 @@ export default class Categories extends Component {
           </thead>
           <tbody>
           {
-            categories.map((category) => editing[category.id] ?
+            categories.property.map((category) => editing[category.id] ?
               <CategoriesForm formKey={String(category.id)} key={String(category.id)} initialValues={category}/> :
               <tr key={category.id}>
                 <td className={styles.idCol}>{category.id}</td>
