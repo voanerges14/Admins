@@ -86,7 +86,7 @@ class Temp extends Component {
   }
 
   render() {
-    const res = this.state.cursor;
+    const chousenNode = this.state.cursor;
     // if (!json) {
     //   json = HELP_MSG;
     // } else {
@@ -140,8 +140,8 @@ class Temp extends Component {
 
            </div>}
             <div style={styles.component2}>
-              {/* <NodeViewer node={res.name}/>*/}
-              {res && <table className="table table-striped">
+              {/* <NodeViewer node={chousenNode.name}/>*/}
+              {chousenNode && <table className="table table-striped">
                 <thead>
                 <tr>
                   {/* <td>Property</td>*/}
@@ -149,8 +149,8 @@ class Temp extends Component {
                   <th className={styles.colorCol}>Name</th>
                   <th className={styles.sprocketsCol}>Type</th>
                   <th className={styles.ownerCol}>
-                     <button className="btn btn-primary" onClick={handleAdd(categories)}>
-                     <i className="glyphicon glyphicon-plus"/>Add
+                     <button className="btn btn-primary" onClick={handleAdd(chousenNode)}>
+                     <i className="glyphicon glyphicon-plus"/>ADD
                      </button>
                   </th>
                   <th className={styles.buttonCol}></th>
@@ -159,8 +159,8 @@ class Temp extends Component {
                 </thead>
                 <tbody>
                 {console.log('ADD: ' + adding[0] + ' , ' + adding[1])}
-                {!adding[0] && res.children &&
-                  res.children.map((prop) => editing[prop.id] ?
+                {!adding[0] && chousenNode.children &&
+                  chousenNode.children.map((prop) => editing[prop.id] ?
                     <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/> :
                     <tr key={prop.id}>
                       <td className={styles.idCol}>{prop.id}</td>
@@ -177,10 +177,10 @@ class Temp extends Component {
                     </tr>)
                 }
                 <th>Rename</th>
-                {res &&
-                <CategoriesForm formKey={String(res.name)}
-                                key={String(res.name)}
-                                initialValues={res}
+                {chousenNode &&
+                <CategoriesForm formKey={String(chousenNode.name)}
+                                key={String(chousenNode.name)}
+                                initialValues={chousenNode}
                 />}
                 </tbody>
               </table>}

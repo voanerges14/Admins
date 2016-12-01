@@ -28,30 +28,30 @@ export default class CategoriesForm extends Component {
   };
 
   render() {
-    const { editStop, fields: {name}, formKey, handleSubmit, save, submitting, values} = this.props;
-    const styles = require('CategoriesAdd.scss');
+    const { editStop, formKey, fields: {name}, handleSubmit, save, submitting, values} = this.props;
+    const styles = require('./CategoryAdd.scss');
     console.log('msfnmgsdf: ' + formKey);
     return (
       <tr className={submitting ? styles.saving : ''}>
 
-        <td className={styles.ownerCol}>
-          <input type="text" className="form-control" {...name}/>
-        </td>
+         <td>
+           <input type="text" className={styles.ownerCol} {...name}/>
+         </td>
 
-        <td className={styles.buttonCol}>
-          <button className="btn btn-default"
+        <td>
+          <button className="btn btn-xs btn-default"
                   onClick={() => editStop(formKey)}
                   disabled={submitting}>
             <i className="fa fa-ban"/> Cancel
           </button>
-          <button className="btn btn-success"
-                  {/* onClick={handleSubmit(() => save(values)*/}
-                    {/* .then(result => {*/}
-                      {/* if (result && typeof result.error === 'object') {*/}
-                        {/* return Promise.reject(result.error);*/}
-                      {/* }*/}
-                    {/* })*/}
-                  {/* )}>*/}>
+          <button className="btn btn-xs btn-success"
+                   onClick={handleSubmit(() => save(values)
+                     .then(result => {
+                       if (result && typeof result.error === 'object') {
+                         return Promise.reject(result.error);
+                       }
+                     })
+                   )}>
             <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
           </button>
         </td>

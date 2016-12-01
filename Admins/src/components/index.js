@@ -13,6 +13,7 @@ export SurveyForm from './SurveyForm/SurveyForm';
 export WidgetForm from './WidgetForm/WidgetForm';
 export Hello from './Hello/Hello';
 export CategoriesForm from './CategoriesForm/CategoriesForm';
+export CategoryAdd from './CategoryAdd/CategoryAdd';
 export LoginForm from './LoginForm/LoginForm';
 
 export Treebeard from './CategoriesTree/treebeard';

@@ -21,6 +21,7 @@ const ADD_STOP = 'redux-example/categories/ADD_STOP';
 const initialState = {
   loaded: false,
   adding: [false],
+  // addFormOpen: false,
   onDelete: {},
   editing: {},
   saveError: {}
@@ -140,7 +141,7 @@ export function save(category) {
 
 export function add(category) {
   return {
-    type: [ADD, ADD_SUCCESS, ADD_FAIL],
+    types: [ADD, ADD_SUCCESS, ADD_FAIL],
     promise: (client) => client.post('/category/add', {
       data: category
     })

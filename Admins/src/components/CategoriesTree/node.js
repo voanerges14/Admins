@@ -1,7 +1,7 @@
 // юзає header.js
 import React from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
-import {CategoriesForm} from 'components';
+import {CategoryAdd} from 'components';
 import NodeHeader from './header';
 // import {deleteStart} from '../../redux/modules/categories';
 class TreeNode extends React.Component {
@@ -54,18 +54,6 @@ class TreeNode extends React.Component {
   }
 
 
-  addCategory(prop) {
-    return (
-      <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/>
-    );
-  }
-
-  // handledeleteStart(node2) {
-  //   console.log('MYMYMY node: ' + node2);
-  //
-  //   return () => deleteStart(String(11));
-  // }
-
   renderDrawer(decorators, animations) {
     const toggled = this.props.node.toggled;
     if (!animations && !toggled) {
@@ -99,9 +87,9 @@ class TreeNode extends React.Component {
           <button className="btn btn-link btn-xs" onClick={this.onMinusClick}>
             <span className="glyphicon glyphicon-minus"/></button>
         </div>
-        <div className={styles.mycell}>
-          {/* <CategoriesForm formKey="1" key="1" initialValues="1"/>*/}
-        </div>
+         <div className={styles.mycell}>
+            <CategoryAdd formKey="1" key="1" initialValues="1"/>
+         </div>
       </div>
 
 
@@ -142,7 +130,6 @@ class TreeNode extends React.Component {
     );
   }
 
-  // main func
   render() {
     const decorators = this.decorators();
     const animations = this.animations();
@@ -167,6 +154,10 @@ TreeNode.propTypes = {
     React.PropTypes.bool
   ]).isRequired,
   onToggle: React.PropTypes.func
+
+  // handleAdd: React.PropTypes.func.isRequired,
+  // handleRemove: React.PropTypes.func.isRequired,
+
 };
 
 export default TreeNode;
