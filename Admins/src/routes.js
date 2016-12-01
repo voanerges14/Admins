@@ -16,6 +16,7 @@ import {
     Temp,
   } from 'containers';
 
+
 export default (store) => {
   const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {

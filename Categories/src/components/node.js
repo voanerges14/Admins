@@ -5,7 +5,9 @@ import {VelocityTransitionGroup} from 'velocity-react';
 
 import NodeHeader from './header';
 
+var clicked = false;
 class TreeNode extends React.Component {
+
     constructor(props){
         super(props);
         this.onClick = this.onClick.bind(this);
@@ -37,12 +39,13 @@ class TreeNode extends React.Component {
         const animations = this.animations();
         return (
             <div>
-            <li style={this.props.style.base} ref="topLevel">
+                <li style={this.props.style.base} ref="topLevel">
                 {/* відповідає за сам вузол(папку/файл)*/}
                  {this.renderHeader(decorators, animations)}
                 {/* будує підвузли */}
                  {this.renderDrawer(decorators, animations)}
-            </li>
+                 </li>
+                {console.log('clicked: ' + clicked)}
            </div>
         );
     }
@@ -60,14 +63,17 @@ class TreeNode extends React.Component {
     }
     renderHeader(decorators, animations){
         return (
-            <div>
-            <NodeHeader
-                decorators={decorators}
-                animations={animations}
-                style={this.props.style}
-                node={Object.assign({}, this.props.node)}
-                 onClick={this.onClick}
-             />
+            <div >
+                <NodeHeader
+                    decorators={decorators}
+                    animations={animations}
+                    style={this.props.style}
+                    node={Object.assign({}, this.props.node)}
+                    onClick={this.onClick}/>
+                <div>
+                    <button className="btn btn-link btn-xs" onDoubleClick={clicked = true}>
+                        <span className="glyphicon glyphicon-plus"/></button>
+                </div>
             </div>
         );
     }

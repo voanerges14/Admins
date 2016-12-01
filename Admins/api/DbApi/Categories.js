@@ -8,19 +8,27 @@
 //    ]
 // }
 // when close connections?
+
 import {connectToDb} from "./index";
+
 
 function connectToDbCategoriesModel() {
   let mongoose = connectToDb();
   let Schema = mongoose.Schema;
+
+  // let Categories = new Schema({
+  //   _id: { type: Schema.Types.ObjectId, required: true },
+  //   parentId: { type: String, required: true },
+  //   name: { type: String, required: true },
+  //   properties: {type: Array, required: true}
+  // });
+
   let Categories = new Schema({
     _id: { type: Schema.Types.ObjectId, required: true },
-    parentId: { type: String, required: true },
     name: { type: String, required: true },
-    properties: {type: Array, required: true}
+    children: {type: Array, required: true}
   });
-
-  let CategoriesModel = mongoose.model('Categories', Categories);
+  let CategoriesModel = mongoose.model('Temp', Categories);
   return CategoriesModel;
 }
 
@@ -28,6 +36,7 @@ var CategoriesModel = connectToDbCategoriesModel();
 
 export function getCategories() {
   return CategoriesModel.find({}, function (err, docs) {
+    console.log('err: ' + err + '  dock: ' + docs)
     if(!err) {
       return docs;
     }

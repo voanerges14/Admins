@@ -7,7 +7,7 @@ export default {
       padding: 0,
       color: '#000000',
       fontFamily: 'lucida grande ,tahoma,verdana,arial,sans-serif',
-      fontSize: '14px'
+      fontSize: '17px'
     },
     node: {
       base: {
@@ -38,8 +38,8 @@ export default {
           margin: '-7px 0 0 -7px',
           height: '14px'
         },
-        height: 14,
-        width: 14,
+        height: 17,
+        width: 17,
         arrow: {
           fill: '#9DA5AB',
           strokeWidth: 0

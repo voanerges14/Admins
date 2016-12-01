@@ -18,6 +18,7 @@ export default combineReducers({
   routing: routerReducer,
   reduxAsyncConnect,
   auth,
+  // authA,
   form,
   orders,
   multireducer: multireducer({

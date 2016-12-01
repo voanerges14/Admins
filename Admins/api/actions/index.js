@@ -7,4 +7,4 @@ export * as survey from './survey/index';
 
 export * as category from './category/index';
 export * as orders from './orders/orders';
-export * as categorytree from './categoryTree/index';
+// export * as categorytree from './categoryTree/index';

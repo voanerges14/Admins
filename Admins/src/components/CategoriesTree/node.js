@@ -1,13 +1,15 @@
 // юзає header.js
 import React from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
-
+import {CategoryAdd} from 'components';
 import NodeHeader from './header';
-
+// import {deleteStart} from '../../redux/modules/categories';
 class TreeNode extends React.Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
+    this.onMinusClick = this.onMinusClick.bind(this);
+    this.onPlusClick = this.onPlusClick.bind(this);
   }
 
   onClick() {
@@ -16,6 +18,16 @@ class TreeNode extends React.Component {
     if (onToggle) {
       onToggle(this.props.node, toggled);
     }
+  }
+
+  onMinusClick() {
+    // <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/>);
+    console.log('Hello World Minus===>');
+  }
+
+  onPlusClick() {
+    // <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/>);
+    console.log('Hello World Plus===>');
   }
 
   animations() {
@@ -41,6 +53,7 @@ class TreeNode extends React.Component {
     return {onToggle: this.props.onToggle};
   }
 
+
   renderDrawer(decorators, animations) {
     const toggled = this.props.node.toggled;
     if (!animations && !toggled) {
@@ -61,14 +74,25 @@ class TreeNode extends React.Component {
     return (
       <div className={styles.mybutton}>
         <NodeHeader
-        decorators={decorators}
-        animations={animations}
-        style={this.props.style}
-        node={Object.assign({}, this.props.node)}
-        onClick={this.onClick}/>
-        <div className={styles.mycell}><button className="btn btn-link btn-xs">
-          <span className="glyphicon glyphicon-plus"/></button></div>
+          decorators={decorators}
+          animations={animations}
+          style={this.props.style}
+          node={Object.assign({}, this.props.node)}
+          onClick={this.onClick}/>
+        <div className={styles.mycell}>
+          <button className="btn btn-link btn-xs" onClick={this.onPlusClick}>
+            <span className="glyphicon glyphicon-plus"/></button>
+        </div>
+        <div className={styles.mycell}>
+          <button className="btn btn-link btn-xs" onClick={this.onMinusClick}>
+            <span className="glyphicon glyphicon-minus"/></button>
+        </div>
+         <div className={styles.mycell}>
+            <CategoryAdd formKey="1" key="1" initialValues="1"/>
+         </div>
       </div>
+
+
     );
   }
 
@@ -106,7 +130,6 @@ class TreeNode extends React.Component {
     );
   }
 
-  // main func
   render() {
     const decorators = this.decorators();
     const animations = this.animations();
@@ -131,6 +154,10 @@ TreeNode.propTypes = {
     React.PropTypes.bool
   ]).isRequired,
   onToggle: React.PropTypes.func
+
+  // handleAdd: React.PropTypes.func.isRequired,
+  // handleRemove: React.PropTypes.func.isRequired,
+
 };
 
 export default TreeNode;
