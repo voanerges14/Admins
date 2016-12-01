@@ -1,3 +1,4 @@
+import * as CategoriesDb from './../../DbApi/Categories';
 const initialCategories = {
   idD: '0',
   name: 'react-treebeard',
@@ -82,6 +83,7 @@ export function getCategories(req) {
     req.session.categories = categories;
   }
   return categories;
+  // return CategoriesDb.getCategories();
 }
 
 export default function load(req) {

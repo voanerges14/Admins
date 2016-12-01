@@ -50,9 +50,13 @@ export default class Orders extends Component {
     if (loading) {
       refreshClassName += ' fa-spin';
     }
+    const tempFunc = (product) => {
+      debugger;
+      console.log(product);
+    };
     const styles = require('./Orders.scss');
     return (
-      <div className={styles.widgets + ' container'}>
+      <div className={styles.orders + ' container'}>
         <h1>
           Orders
           <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
@@ -64,21 +68,34 @@ export default class Orders extends Component {
         <table className="table table-striped">
           <thead>
           <tr>
-            <th className={styles.idCol}>№</th>
-            <th className={styles.colorCol}>Users</th>
-            <th className={styles.sprocketsCol}>Products</th>
-            <th className={styles.ownerCol}>Send to delivery</th>
-            <th className={styles.buttonCol}>Reject order</th>
+            <th className={styles.idOrdersCol}>№</th>
+            <th className={styles.userCol}>Users</th>
+            <th className={styles.productsCol}>Products</th>
+            <th className={styles.sendCol}>Send to delivery</th>
+            <th className={styles.rejectCol}>Reject order</th>
           </tr>
           </thead>
           <tbody>
           {
-            orders.map((order) => (toDeliveryBtn || rejectOrderBtn) ?
-              <OrderForm formKey={String(order.id)} key={String(order.id)} initialValues={order}/> :
+            orders.map((order) => (toDeliveryBtn[order.id] || rejectOrderBtn[order.id]) ?
+              <OrderForm key={order.id} formKey={order.id} user={order.user} products={order.products}/> :
               <tr key={order.id}>
-                <td className={styles.idCol}>{order.id}</td>
-                <td className={styles.colorCol}>{order.userName}</td>
-                <td className={styles.sprocketsCol}>{order.product}</td>
+                <td className={styles.idOrdersCol}>
+                  { orders.index }
+                  { order.id }
+                </td>
+                <td className={styles.userCol}>
+                  { order.user.firstName }
+                </td>
+                <td className={styles.productsCol}>
+                  {order.products.map((product) =>
+                    <tr key={product._id}>
+                      <td>{tempFunc(product)}</td>
+                      <td>{ product._id }</td>
+                      <td>{ product.name }</td>
+                    </tr>)
+                  }
+                </td>
                 <td className={styles.buttonCol}>
                   <button className="btn btn-primary" onClick={handleApplySend(order)}>
                       <i className="fa fa-pencil"/> Send

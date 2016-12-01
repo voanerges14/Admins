@@ -1,6 +1,6 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
-import { isLoaded as isAuthLoaded } from 'redux/modules/authA';
+import { isLoaded as isAuthLoaded } from 'redux/modules/auth';
 import {
     App,
     Chat,
@@ -8,7 +8,6 @@ import {
     About,
     Orders,
     Login,
-    // LoginA,
     LoginSuccess,
     Survey,
     NotFound,
@@ -20,8 +19,9 @@ import {
 export default (store) => {
   const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {
+      // debugger;
       const { auth: { user }} = store.getState();
-      console.log( 'fuck  ' + user );
+      // console.log( 'users:  ', store.getState() );
       if (!user) {
         // oops, not logged in, so can't be here!
         replace('/');

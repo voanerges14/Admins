@@ -1,46 +1,45 @@
 import * as OrdersDb from './../../DbApi/Orders';
-const mockOrders = [
-  {id: 1, userName: 'Pavlo',  productId: 7, product: 'Hp pavilion', status: 'PAID'},
-  {id: 2, userName: 'Dmytro', productId: 1, product: 'Asus rog',    status: 'PAID'},
-  {id: 3, userName: 'Ivan',   productId: 8, product: 'Acer e15',    status: 'PAID'},
-  {id: 4, userName: 'Petro',  productId: 2, product: 'Lenovo p70',  status: 'PAID'}
-];
+import * as UsersDb from './../../DbApi/Users';
+import * as ProductsDb from './../../DbApi/Products';
 
-function getOrdersFromDb() {
-  const temp = OrdersDb.getOrdersWithStatusPAID();
-  console.log('test db: ' + temp);
-  // return mockOrders;
-  return temp;
-}
-
-export function get(req) {
+export function get() {
   return new Promise((resolve, reject) => {
-    // make async call to database
-    setTimeout(() => {
-      try {
-        resolve(getOrdersFromDb(req));
+    OrdersDb.getOrdersWithStatusPAID().then(orders => {
+      let usersIds = [];
+      for(let i = 0; i < orders.length; ++i) {
+        usersIds.push(orders[i].userId);
       }
-      catch (e){
-        reject(e);
-      }
-    }, 1000); // simulate async load
+      UsersDb.getUserByIds(usersIds).then(users => {
+        let returnOrders = [];
+        for(let i = 0; i < orders.length; ++i) {
+          // little bug --> products: [ [{}], [{}], ...   ]
+          let product = [];
+          for(let b = 0; b < orders[i].products.length; ++b) {
+            product.push(orders[i].products[b][0]);
+          }
+          // end little bug
+          returnOrders.push({id: orders[i]._id, user: users[i], products: product});
+        }
+        resolve(returnOrders);
+      }).catch(err => {
+        reject('error in get: ' + err);
+      });
+    }).catch(err => {
+      reject('error in get: ' + err);
+    });
   });
 }
 
-export default function apply(req) {
+export function apply(req) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      getOrdersFromDb().then(data => {
-        const orders = data;
-        for(let order in orders){
-          if(order.id == req.body.id){
-            order.status = 'DELIVERING';
-            resolve(order);
-          }
-        }
-      }, err => {
-        reject(err);
-      });
-    }, 1500); // simulate async db write
+    // send to delivery query
+    ////
+    OrdersDb.sendToDeliveryOrder(req.body.id).then(order => {
+      console.log('orderId: ' + order._id);
+        resolve(order._id);
+    }).catch(err => {
+      console.log('err: ' + err);
+      reject('error in apply:' + err);
+    });
   });
 }

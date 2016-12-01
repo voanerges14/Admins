@@ -13,7 +13,7 @@ import * as orderActions from 'redux/modules/orders';
 )
 @reduxForm({
   form: 'order',
-  fields: ['id', 'userName', 'productId', 'product'],
+  fields: ['id', 'user', 'products']
 })
 export default class OrderForm extends Component {
   static propTypes = {
@@ -26,7 +26,8 @@ export default class OrderForm extends Component {
     handleSubmit: PropTypes.func.isRequired,
     rejectOrder: PropTypes.func.isRequired,
     toDeliveryOrder: PropTypes.func.isRequired,
-    fields: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    products: PropTypes.array.isRequired,
     formKey: PropTypes.string.isRequired,
   };
 
@@ -40,28 +41,29 @@ export default class OrderForm extends Component {
       return () => applyStartSend(String(id));
     };
     const { toDeliveryBtn, rejectOrderBtn, applyStopSend, applyStopReject, formKey, handleSubmit,
-      rejectOrder, toDeliveryOrder, fields: {id, userName, productId, product}} = this.props;
+      rejectOrder, toDeliveryOrder, user, products} = this.props;
     const sendBtn = (typeof toDeliveryBtn[formKey] === 'undefined') ? false : toDeliveryBtn[formKey];
     const rejectBtn = (typeof rejectOrderBtn[formKey] === 'undefined') ? false : rejectOrderBtn[formKey];
+    debugger;
     const styles = require('containers/Orders/Orders.scss');
     return (
       <tr className={styles.saving}>
-        <td className={styles.idCol}>{id.value}</td>
-        <td className={styles.sprocketsCol}>{userName.value}</td>
-        <td className={styles.sprocketsCol} id={productId}>{product.value}</td>
+        <td className={styles.idCol}>{formKey}</td>
+        <td className={styles.sprocketsCol}>{user.firstName}</td>
+        <td className={styles.sprocketsCol} id={products[0]._id}>
+          {/* <tr key={products.id}>*/}
+            <div>{products[0]._id}</div>
+            <div>{products[0].name}</div>
+          {/* </tr>*/}
+        </td>
+        <td className={styles.sprocketsCol} id={products[0].id}>{products.name}</td>
         <td className={styles.buttonCol}>
          {sendBtn && <div>
             <button className="btn btn-default" onClick={() => applyStopSend(formKey)}>
               <i className="fa fa-ban"/> Cancel
             </button>
             <button className="btn btn-success"
-                    onClick={handleSubmit(() => toDeliveryOrder(formKey)
-                      .then(result => {
-                        if (result && typeof result.error === 'object') {
-                          return Promise.reject(result.error);
-                        }
-                      })
-                    )}>
+                    onClick={handleSubmit(() => toDeliveryOrder(formKey))}>
               <i className={'fa fa-cog fa-spin'}/> Save
             </button></div>}
          {!sendBtn &&

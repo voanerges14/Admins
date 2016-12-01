@@ -1,24 +1,24 @@
-.widgets {
+.orders {
   .refreshBtn {
     margin-left: 20px;
   }
-  .idCol {
+  .idOrdersCol {
     width: 5%;
   }
-  .colorCol {
+  .userCol {
     width: 20%;
   }
-  .sprocketsCol {
+  .productsCol {
     width: 20%;
-    text-align: right;
+    text-align: left;
     input {
-      text-align: right;
+      text-align: left;
     }
   }
-  .ownerCol {
+  .sendCol {
     width: 30%;
   }
-  .buttonCol {
+  .rejectCol {
     width: 25%;
     :global(.btn) {
       margin: 0 5px;

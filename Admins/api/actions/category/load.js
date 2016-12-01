@@ -1,6 +1,8 @@
 /**
  * Created by pavlo on 09.11.16.
  */
+import * as Db from './../../DbApi/Categories';
+
 const initialCategories = [
   {id: 1, name: 'Laptop1'},
   {id: 2, name: 'Laptop2'},
@@ -21,12 +23,16 @@ export function getCategories(req) {
 export default function load(req) {
   return new Promise((resolve, reject) => {
     // make async call to database
-    setTimeout(() => {
+    // setTimeout(() => {
       try {
-        resolve(getCategories(req));
+        // resolve(getCategories(req));
+        Db.getCategories().then(data => {
+          console.log('fdfsd' + data);
+          resolve(data);
+        });
       } catch(e) {
         reject('Categories load fails 33% of the time. You were unlucky.');
       }
-    }, 1000); // simulate async load
+    // }, 1000); // simulate async load
   });
 }

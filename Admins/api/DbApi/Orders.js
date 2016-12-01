@@ -5,25 +5,15 @@
 //     "productId",
 //     "status": 'IN_CART' || 'PAID' || 'DELIVERING' || 'DELIVERED'
 // }
-// when close connections?
+import {connectToDb} from "./index";
+
 function connectToDbOrdersModel() {
-  let mongoose = require('mongoose');
-  mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
-  let db = mongoose.connection;
-
-  db.on('error', function (err) {
-    console.error('connection error:', err.message);
-  });
-  db.once('open', function callback () {
-    console.info("Connected to DB!");
-  });
-
+  let mongoose = connectToDb();
   let Schema = mongoose.Schema;
-
   let Orders = new Schema({
     _id: { type: Schema.Types.ObjectId, required: true },
-    userId: { type: String, required: true },
-    productId: { type: String, required: true },
+    userId: { type: Schema.Types.ObjectId, required: true },
+    products: { type: Schema.Types.Array, required: true },
     status: {type: String, required: true}
   });
 
@@ -39,7 +29,7 @@ export function getOrdersWithStatusPAID() {
       return orders;
     }
     console.error('getOrdersWithStatusPAID error: ' + err);
-    return err;
+    return 'error in getOrdersWithStatusPAID: ' + err;
   });
 }
 
@@ -47,13 +37,13 @@ export function sendToDeliveryOrder(id) {
   return OrdersModel.findById(id, function (err, order) {
     if (err) {
       console.error('sendToDeliveryOrder error: ' + err);
-      return err;
+      return 'error in sendToDeliveryOrder: ' + err;
     }
     order.status = 'DELIVERING';
     order.save(function (err, updatedOrder) {
       if (err) {
         console.error('sendToDeliveryOrder error: ' + err);
-        return err;
+        return 'error in sendToDeliveryOrder: ' + err;
       }
       return updatedOrder;
     });
@@ -66,8 +56,8 @@ export function deleteOrder(id) {
       return 0;
     }
     else {
-      console.error('deleteOrder: ' + err);
-      return err;
+      console.error('deleteOrder error: ' + err);
+      return 'error in deleteOrder: ' + err;
     }
   });
 }

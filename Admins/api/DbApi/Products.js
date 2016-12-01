@@ -15,32 +15,23 @@
 //   ]
 // }
 // when close connections?
-function connectToDbOrdersModel() {
-  let mongoose = require('mongoose');
-  mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
-  let db = mongoose.connection;
+import {connectToDb} from "./index";
 
-  db.on('error', function (err) {
-    console.error('connection error:', err.message);
-  });
-  db.once('open', function callback () {
-    console.info("Connected to DB!");
-  });
-
+function connectToDbProductsModel() {
+  let mongoose = connectToDb();
   let Schema = mongoose.Schema;
-
   let Products = new Schema({
     _id: { type: Schema.Types.ObjectId, required: true },
     name: { type: String, required: true },
     price: { type: String, required: true },
-    images: {type: Schema.Types.array, required: true}
+    images: {type: String, required: true}
   });
 
-  let ProductsModel = mongoose.model('Orders', Products);
+  let ProductsModel = mongoose.model('Products', Products);
   return ProductsModel;
 }
 
-var ProductsModel = connectToDbOrdersModel();
+var ProductsModel = connectToDbProductsModel();
 
 export function getProductById(id) {
   return ProductsModel.find({'_id': id}, function (err, product) {
@@ -48,6 +39,6 @@ export function getProductById(id) {
       return product;
     }
     console.error('getProductById error: ' + err);
-    return err;
+    return 'error in getProductById: ' + err;
   });
 }
