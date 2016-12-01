@@ -1,10 +1,8 @@
-var firstLoad = false;
-var mongoose = null;
-export function connectToDb() {
-  if(!firstLoad) {
-    mongoose = require('mongoose');
-    mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
-    let db = mongoose.connection;
+class connectToDb {
+  constructor() {
+    this.mongoose = require('mongoose');
+    this.mongoose.connect('mongodb://main:mainmain@ds035995.mlab.com:35995/trueshop1997db');
+    let db = this.mongoose.connection;
 
     db.on('error', function (err) {
       console.error('connection error:', err.message);
@@ -12,7 +10,8 @@ export function connectToDb() {
     db.once('open', function callback() {
       console.info("Connected to DB!");
     });
-    firstLoad = true;
+    this.Schema = this.mongoose.Schema;
   }
-  return mongoose;
 }
+
+export const db = new connectToDb();

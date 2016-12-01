@@ -9,13 +9,10 @@
 // }
 // when close connections?
 
-import {connectToDb} from "./index";
+import {db} from "./index";
 
 
 function connectToDbCategoriesModel() {
-  let mongoose = connectToDb();
-  let Schema = mongoose.Schema;
-
   // let Categories = new Schema({
   //   _id: { type: Schema.Types.ObjectId, required: true },
   //   parentId: { type: String, required: true },
@@ -23,22 +20,22 @@ function connectToDbCategoriesModel() {
   //   properties: {type: Array, required: true}
   // });
 
-  let Categories = new Schema({
-    _id: { type: Schema.Types.ObjectId, required: true },
-    name: { type: String, required: true },
-    children: {type: Array, required: true}
-  });
-  let CategoriesModel = mongoose.model('Temp', Categories);
+  let Categories = new db.Schema({
+    _id: { type: db.Schema.Types.ObjectId, required: true },
+    id: { type: db.Schema.Types.String, required: true },
+    name: { type: db.Schema.Types.String, required: true },
+    children: {type: db.Schema.Types.Array, required: true},
+  }, {collection : 'temp' });
+  let CategoriesModel = db.mongoose.model('Categories', Categories);
   return CategoriesModel;
 }
 
 var CategoriesModel = connectToDbCategoriesModel();
 
 export function getCategories() {
-  return CategoriesModel.find({}, function (err, docs) {
-    console.log('err: ' + err + '  dock: ' + docs)
+  return CategoriesModel.find({}, function (err, categories) {
     if(!err) {
-      return docs;
+      return categories;
     }
     console.error('getCategories error: ' + err);
     return 'error in getCategories: ' + err;

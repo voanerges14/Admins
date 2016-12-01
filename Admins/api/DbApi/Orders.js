@@ -5,19 +5,17 @@
 //     "productId",
 //     "status": 'IN_CART' || 'PAID' || 'DELIVERING' || 'DELIVERED'
 // }
-import {connectToDb} from "./index";
+import {db} from "./index";
 
 function connectToDbOrdersModel() {
-  let mongoose = connectToDb();
-  let Schema = mongoose.Schema;
-  let Orders = new Schema({
-    _id: { type: Schema.Types.ObjectId, required: true },
-    userId: { type: Schema.Types.ObjectId, required: true },
-    products: { type: Schema.Types.Array, required: true },
-    status: {type: String, required: true}
+  let Orders = new db.Schema({
+    _id: { type: db.Schema.Types.ObjectId, required: true },
+    userId: { type: db.Schema.Types.ObjectId, required: true },
+    products: { type: db.Schema.Types.Array, required: true },
+    status: {type: db.Schema.Types.String, required: true}
   });
 
-  let OrdersModel = mongoose.model('Orders', Orders);
+  let OrdersModel = db.mongoose.model('Orders', Orders);
   return OrdersModel;
 }
 

@@ -15,19 +15,17 @@
 //   ]
 // }
 // when close connections?
-import {connectToDb} from "./index";
+import {db} from "./index";
 
 function connectToDbProductsModel() {
-  let mongoose = connectToDb();
-  let Schema = mongoose.Schema;
-  let Products = new Schema({
-    _id: { type: Schema.Types.ObjectId, required: true },
-    name: { type: String, required: true },
-    price: { type: String, required: true },
-    images: {type: String, required: true}
+  let Products = new db.Schema({
+    _id: { type: db.Schema.Types.ObjectId, required: true },
+    name: { type: db.Schema.Types.String, required: true },
+    price: { type: db.Schema.Types.String, required: true },
+    images: {type: db.Schema.Types.String, required: true}
   });
 
-  let ProductsModel = mongoose.model('Products', Products);
+  let ProductsModel = db.mongoose.model('Products', Products);
   return ProductsModel;
 }
 

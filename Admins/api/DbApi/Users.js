@@ -11,24 +11,22 @@
 //   "isAdmin": Boolean
 // }
 // when close connections?
-import {connectToDb} from "./index";
+import {db} from "./index";
 
 function connectToDbUsersModel() {
-  let mongoose = connectToDb();
-  var Schema = mongoose.Schema;
-  let Users = new Schema({
-    _id: { type: Schema.Types.ObjectId, required: true },
-    email: { type: String, required: true },
-    // password: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
-    address: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    // cards: { type: String, required: true },
-    isAdmin: { type: String, required: true }
+  let Users = new db.Schema({
+    _id: { type: db.Schema.Types.ObjectId, required: true },
+    email: { type: db.Schema.Types.String, required: true },
+    // password: { type: db.Schema.Types.String, required: true },
+    phoneNumber: { type: db.Schema.Types.String, required: true },
+    address: { type: db.Schema.Types.String, required: true },
+    firstName: { type: db.Schema.Types.String, required: true },
+    lastName: { type: db.Schema.Types.String, required: true },
+    // cards: { type: db.Schema.Types.Array, required: true },
+    isAdmin: { type: db.Schema.Types.Bool, required: true }
   });
 
-  let UsersModel = mongoose.model('Users', Users);
+  let UsersModel = db.mongoose.model('Users', Users);
   return UsersModel;
 }
 
