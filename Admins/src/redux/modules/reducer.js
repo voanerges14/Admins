@@ -12,7 +12,7 @@ import hello from './hello';
 
 import categories from './categories';
 import orders from './orders';
-
+import users from './users';
 
 export default combineReducers({
   routing: routerReducer,
@@ -20,7 +20,6 @@ export default combineReducers({
   auth,
   // authA,
   form,
-  orders,
   multireducer: multireducer({
     counter1: counter,
     counter2: counter,
@@ -28,6 +27,9 @@ export default combineReducers({
   }),
   info,
   widgets,
+  hello,
+
   categories,
-  hello
+  orders,
+  users
 });
