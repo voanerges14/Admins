@@ -35,7 +35,7 @@ function connectToDbCategoriesModel() {
 var CategoriesModel = connectToDbCategoriesModel();
 
 export function getCategories() {
-  return CategoriesModel.find({}, function (err, categories) {
+  return CategoriesModel.find({}).sort('parentId').exec(function (err, categories) {
     if(!err) {
       return categories;
     }

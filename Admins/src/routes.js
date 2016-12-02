@@ -11,15 +11,14 @@ import {
     NotFound,
     Home,
     Categories,
+    Users
   } from 'containers';
 
 
 export default (store) => {
   const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {
-      // debugger;
       const { auth: { user }} = store.getState();
-      // console.log( 'users:  ', store.getState() );
       if (!user) {
         // oops, not logged in, so can't be here!
         replace('/');
@@ -51,8 +50,8 @@ export default (store) => {
         <Route path="widgets" component={Widgets}/>
 
         <Route path="categories" component={Categories}/>
-        {/* <Route path="temp" component={Temp}/>*/}
         <Route path="orders" component={Orders}/>
+        <Route path="users" component={Users}/>
       </Route>
 
 
