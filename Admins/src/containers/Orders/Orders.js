@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import * as ordersActions from 'redux/modules/orders';
 import {isLoaded, load as loadOrders} from 'redux/modules/orders';
 import {initializeWithKey} from 'redux-form';
-import {OrderForm} from 'components';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
@@ -33,7 +32,11 @@ export default class Orders extends Component {
     toDeliveryBtn: PropTypes.object.isRequired,
     rejectOrderBtn: PropTypes.object.isRequired,
     applyStartSend: PropTypes.func.isRequired,
-    applyStartReject: PropTypes.func.isRequired
+    applyStartReject: PropTypes.func.isRequired,
+    applyStopSend: PropTypes.func.isRequired,
+    applyStopReject: PropTypes.func.isRequired,
+    rejectOrder: PropTypes.func.isRequired,
+    toDeliveryOrder: PropTypes.func.isRequired,
   };
 
   render() {
@@ -45,15 +48,12 @@ export default class Orders extends Component {
       const {applyStartReject} = this.props; // eslint-disable-line no-shadow
       return () => applyStartReject(String(order.id));
     };
-    const { orders, toDeliveryBtn, rejectOrderBtn, loading, load } = this.props;
+    const { orders, toDeliveryBtn, rejectOrderBtn, loading, load,
+      applyStopSend, applyStopReject, rejectOrder, toDeliveryOrder } = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
     }
-    const tempFunc = (product) => {
-      debugger;
-      console.log(product);
-    };
     const styles = require('./Orders.scss');
     return (
       <div className={styles.orders + ' container'}>
@@ -66,47 +66,64 @@ export default class Orders extends Component {
         <Helmet title="Orders"/>
         {orders && orders.length &&
         <table className="table table-striped">
-          <thead>
-          <tr>
+          <thead> <tr>
             <th className={styles.idOrdersCol}>№</th>
-            <th className={styles.userCol}>Users</th>
-            <th className={styles.productsCol}>Products</th>
+            <th className={styles.userColMain}>Users</th>
+            <th className={styles.productsColMain}>Products</th>
             <th className={styles.sendCol}>Send to delivery</th>
             <th className={styles.rejectCol}>Reject order</th>
-          </tr>
-          </thead>
+          </tr> </thead>
           <tbody>
-          {
-            orders.map((order) => (toDeliveryBtn[order.id] || rejectOrderBtn[order.id]) ?
-              <OrderForm key={order.id} formKey={order.id} user={order.user} products={order.products}/> :
-              <tr key={order.id}>
-                <td className={styles.idOrdersCol}>
-                  { orders.index }
-                  { order.id }
-                </td>
-                <td className={styles.userCol}>
-                  { order.user.firstName }
-                </td>
-                <td className={styles.productsCol}>
-                  {order.products.map((product) =>
-                    <tr key={product._id}>
-                      <td>{tempFunc(product)}</td>
-                      <td>{ product._id }</td>
-                      <td>{ product.name }</td>
-                    </tr>)
-                  }
-                </td>
-                <td className={styles.buttonCol}>
-                  <button className="btn btn-primary" onClick={handleApplySend(order)}>
-                      <i className="fa fa-pencil"/> Send
+          { orders.map((order, ind) =>
+            <tr key={order.id}>
+              <td className={styles.idOrdersCol}>
+                { ind + 1 }.
+              </td>
+              <td className={styles.userCol}>
+                <p>{ order.user.firstName + ' ' + order.user.lastName }</p>
+                <p>{ order.user.email }</p>
+                <p>{order.user.phoneNumber}</p>
+              </td>
+              <td className={styles.productsCol}>
+                {order.products.map((elem, index) =>
+                  <div key={ elem.product._id }>
+                    <span className={styles.productNumber} id={ elem.product._id }>
+                      { index + 1 }.
+                    </span>
+                    <span className={styles.productName} id={ index }>
+                      { elem.product.name } --- {elem.quantity}
+                    </span>
+                  </div>)}
+              </td>
+              <td className={styles.buttonCol}>
+                {!toDeliveryBtn[order.id] &&
+                < button className="btn btn-primary btn-sm" onClick={handleApplySend(order)}>
+                  <i className="fa fa-pencil"/> Send
+                </button>}
+                {toDeliveryBtn[order.id] && <div>
+                <button className="btn btn-success btn-sm"
+                        onClick={() => toDeliveryOrder(order.id)}>
+                  <i className={'glyphicon glyphicon-ok'}/>
+                </button>
+                <button className="btn btn-default btn-sm" onClick={() => applyStopSend(order.id)}>
+                  <i className="glyphicon glyphicon-remove"/>
+                </button></div>}
+              </td>
+              <td className={styles.buttonCol}>
+                {!rejectOrderBtn && <div>
+                  <button className="btn btn-success btn-sm"
+                          onClick={() => rejectOrder(order.id)}>
+                    <i className={'fa fa-cog fa-spin'}/> OK
                   </button>
-                </td>
-                <td className={styles.buttonCol}>
-                  <button className="btn btn-danger" onClick={handleApplyReject(order)}>
-                    <i className="fa fa-pencil"/> Cancel
-                  </button>
-                </td>
-              </tr>)
+                  <button className="btn btn-default btn-sm" onClick={() => applyStopReject(order.id)}>
+                    <i className="fa fa-ban"/> Cancel
+                  </button></div>}
+                {rejectOrderBtn &&
+                <button className="btn btn-danger btn-sm" onClick={handleApplyReject(order.id)}>
+                  <i className="fa fa-pencil"/> Cancel
+                </button>}
+              </td>
+            </tr>)
           }
           </tbody>
         </table>}

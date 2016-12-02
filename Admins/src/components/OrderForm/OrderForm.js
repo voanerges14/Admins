@@ -44,50 +44,47 @@ export default class OrderForm extends Component {
       rejectOrder, toDeliveryOrder, user, products} = this.props;
     const sendBtn = (typeof toDeliveryBtn[formKey] === 'undefined') ? false : toDeliveryBtn[formKey];
     const rejectBtn = (typeof rejectOrderBtn[formKey] === 'undefined') ? false : rejectOrderBtn[formKey];
-    debugger;
     const styles = require('containers/Orders/Orders.scss');
     return (
-      <tr className={styles.saving}>
-        <td className={styles.idCol}>{formKey}</td>
-        <td className={styles.sprocketsCol}>{user.firstName}</td>
-        <td className={styles.sprocketsCol} id={products[0]._id}>
-          {/* <tr key={products.id}>*/}
-            <div>{products[0]._id}</div>
-            <div>{products[0].name}</div>
-          {/* </tr>*/}
+      <tr>
+        <td className={styles.idOrdersCol}>
+          { formKey }
         </td>
-        <td className={styles.sprocketsCol} id={products[0].id}>{products.name}</td>
-        <td className={styles.buttonCol}>
+        <td className={styles.userCol}>
+          <p>{ user.firstName + ' ' + user.lastName }</p>
+          <p>{ user.email }</p>
+          <p>{ user.phoneNumber}</p>
+        </td>
+        <td className={styles.productsCol}>
+          {products.map((elem, index) =>
+            <div key={ elem.product._id }>
+              <span className={styles.productNumber} id={ elem.product._id }>{ index + 1 }. </span>
+              <span className={styles.productName} id={ index }>{ elem.product.name } --- {elem.quantity}</span>
+            </div>)}
+        </td>
+        <td className={styles.sendCol}>
          {sendBtn && <div>
-            <button className="btn btn-default" onClick={() => applyStopSend(formKey)}>
-              <i className="fa fa-ban"/> Cancel
+            <button className="btn btn-success btn-sm" onClick={handleSubmit(() => toDeliveryOrder(formKey))}>
+             <i className={'glyphicon glyphicon-ok'}/>
             </button>
-            <button className="btn btn-success"
-                    onClick={handleSubmit(() => toDeliveryOrder(formKey))}>
-              <i className={'fa fa-cog fa-spin'}/> Save
+            <button className="btn btn-default btn-sm" onClick={() => applyStopSend(formKey)}>
+              <i className="glyphicon glyphicon-remove"/>
             </button></div>}
          {!sendBtn &&
-             <button className="btn btn-primary" onClick={handleApplySend(formKey)}>
+             <button className="btn btn-primary btn-sm" onClick={handleApplySend(formKey)}>
                <i className="fa fa-pencil"/> Send
              </button>}
         </td>
-        <td className={styles.buttonCol}>
+        <td className={styles.rejectCol}>
          {rejectBtn && <div>
-            <button className="btn btn-default" onClick={() => applyStopReject(formKey)}>
-              <i className="fa fa-ban"/> Cancel
+            <button className="btn btn-success btn-sm" onClick={handleSubmit(() => rejectOrder(formKey))}>
+              <i className={'fa fa-cog fa-spin'}/> OK
             </button>
-            <button className="btn btn-success"
-                    onClick={handleSubmit(() => rejectOrder(formKey)
-                      .then(result => {
-                        if (result && typeof result.error === 'object') {
-                          return Promise.reject(result.error);
-                        }
-                      })
-                    )}>
-              <i className={'fa fa-cog fa-spin'}/> Save
+            <button className="btn btn-default btn-sm" onClick={() => applyStopReject(formKey)}>
+              <i className="fa fa-ban"/> Cancel
             </button></div>}
          {!rejectBtn &&
-             <button className="btn btn-danger" onClick={handleApplyReject(formKey)}>
+             <button className="btn btn-danger btn-sm" onClick={handleApplyReject(formKey)}>
                <i className="fa fa-pencil"/> Cancel
              </button>}
         </td>

@@ -11,7 +11,7 @@ function connectToDbOrdersModel() {
   let Orders = new db.Schema({
     _id: { type: db.Schema.Types.ObjectId, required: true },
     userId: { type: db.Schema.Types.ObjectId, required: true },
-    products: { type: db.Schema.Types.Array, required: true },
+    products: { type: Array, required: true },
     status: {type: db.Schema.Types.String, required: true}
   });
 

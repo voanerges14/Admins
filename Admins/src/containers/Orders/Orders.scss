@@ -3,33 +3,34 @@
     margin-left: 20px;
   }
   .idOrdersCol {
-    width: 5%;
+    width: 3%;
   }
-  .userCol {
-    width: 20%;
-  }
-  .productsCol {
-    width: 20%;
-    text-align: left;
-    input {
+  .userColMain {
+    width: 30%;
+    text-align: center;
+    .userCol {
       text-align: left;
     }
   }
-  .sendCol {
-    width: 30%;
-  }
-  .rejectCol {
-    width: 25%;
-    :global(.btn) {
-      margin: 0 5px;
-    }
-  }
-  tr.saving {
-    opacity: 0.8;
-    :global(.btn) {
-      &[disabled] {
-        opacity: 1;
+  .productsColMain {
+    width: 60%;
+    text-align: center;
+
+    .productsCol {
+      text-align: left;
+
+      .productNumber {
+        float: left;
+      }
+      .productName {
+        display: inline-block;
       }
     }
+  }
+  .sendCol {
+    width: 6%;
+  }
+  .rejectCol {
+    width: 6%;
   }
 }
