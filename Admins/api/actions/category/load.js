@@ -3,69 +3,33 @@
  */
 import * as Db from './../../DbApi/Categories';
 
-const initialCategories = [
-  {id: 1, name: 'Laptop1',  property: [
-    {name: 'color'},
-    {name: 'some'},
-    {name: 'some1'},
-    {name: 'some2'},
-    {name: 'some3'}
-  ],},
-  {id: 2, name: 'Laptop2',  property: [
-    {name: 'color'},
-    {name: 'some'},
-    {name: 'some1'},
-    {name: 'some2'},
-    {name: 'some3'}
-  ],},
-  {id: 3, name: 'Laptop3', property: [
-    {name: 'color'},
-    {name: 'some'},
-    {name: 'some1'},
-    {name: 'some2'},
-    {name: 'some3'}
-  ],},
-  {id: 4, name: 'Laptop4',  property: [
-    {name: 'color'},
-    {name: 'some'},
-    {name: 'some1'},
-    {name: 'some2'},
-    {name: 'some3'}
-  ],},
-  {id: 5, name: 'Laptop5',  property: [
-    {name: 'color'},
-    {name: 'some'},
-    {name: 'some1'},
-    {name: 'some2'},
-    {name: 'some3'}
-  ],},
-];
+const convertation = function (data) {
+  let nodes = [], map = {}, node, roots = [];
+  for (var i = 0; i < data.length; i += 1) {
+    nodes.push({'_id': data[i]._id, 'parentId':data[i].parentId,
+      'name': data[i].name, 'properties': data[i].properties, 'children':[]});
 
-
-
-export function getCategories(req) {
-  let categories = req.session.categories;
-  if (!categories) {
-    categories = initialCategories;
-    req.session.categories = categories;
+    node = nodes[i];
+    node.children = [];
+    map[node._id] = i; // use map to look-up the parents
+    if (node.parentId !== '0') {
+      nodes[map[node.parentId]].children.push(node);
+      console.log(nodes[map[node.parentId]]);
+    } else {
+      roots.push(node);
+    }
   }
-  return categories;
-}
+  return roots;
+};
+
 
 export default function load(req) {
   return new Promise((resolve, reject) => {
-    // make async call to database
-    // setTimeout(() => {
-      try {
-        // resolve(getCategories(req));
-        Db.getCategories().then(data => {
-          console.log('fdfsd' + data);
-          resolve(data);
-
-        });
-      } catch(e) {
-        reject('load.js EROR ' + e);
-      }
-    // }, 1000); // simulate async load
+    Db.getCategories().then(data => {
+      // resolve(data);
+      resolve(convertation(data));
+    }).catch(err => {
+      reject('error in load category: ' + err);
+    });
   });
 }
