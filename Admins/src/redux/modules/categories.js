@@ -13,10 +13,21 @@ const ADD = 'redux-example/categories/ADD';
 const ADD_SUCCESS = 'redux-example/categories/ADD_SUCCESS';
 const ADD_FAIL = 'redux-example/categories/ADD_FAIL';
 
+const ADD_PROP = 'redux-example/categories/ADD_PROP';
+const ADD_SUCCESS_PROP = 'redux-example/categories/ADD_SUCCESS_PROP';
+const ADD_FAIL_PROP = 'redux-example/categories/ADD_FAIL_PROP';
+
 const DELETE_START = 'redux-example/categories/DELETE_START';
 const DELETE_STOP = 'redux-example/categories/DELETE_STOP';
 const ADD_START = 'redux-example/categories/ADD_START';
 const ADD_STOP = 'redux-example/categories/ADD_STOP';
+
+const ADD_START_PROP = 'redux-example/categories/ADD_START_PROP';
+const ADD_STOP_PROP = 'redux-example/categories/ADD_STOP_PROP';
+const DELETE_START_PROP = 'redux-example/categories/DELETE_START_PROP';
+const DELETE_STOP_PROP = 'redux-example/categories/DELETE_STOP_PROP';
+const EDIT_START_PROP = 'redux-example/categories/EDIT_START_PROP';
+const EDIT_STOP_PROP = 'redux-example/categories/EDIT_STOP_PROP';
 
 const initialState = {
   loaded: false,
@@ -66,6 +77,25 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: false
         }
       };
+
+
+    case EDIT_START_PROP:
+      return {
+        ...state,
+        editing: {
+          ...state.editing,
+          [action.id]: true
+        }
+      };
+    case EDIT_STOP_PROP:
+      return {
+        ...state,
+        editing: {
+          ...state.editing,
+          [action.id]: false
+        }
+      };
+
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
@@ -102,6 +132,15 @@ export default function reducer(state = initialState, action = {}) {
         }
       };
 
+    case DELETE_START_PROP:
+      return {
+        ...state,
+        onDelete: {
+          ...state.editing,
+          [action.id]: true
+        }
+      };
+
 
     case ADD_START:
       return {
@@ -113,6 +152,18 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         adding: [false]
       };
+
+    case ADD_START_PROP:
+      return {
+        ...state,
+        adding: [true, action.id]
+      };
+    case ADD_STOP_PROP:
+      return {
+        ...state,
+        adding: [false]
+      };
+
     default:
       return state;
   }
@@ -148,6 +199,15 @@ export function add(category) {
   };
 }
 
+export function addProp(category) {
+  return {
+    types: [ADD_PROP, ADD_SUCCESS_PROP, ADD_FAIL_PROP],
+    promise: (client) => client.post('/category/addProp', {
+      data: category
+    })
+  };
+}
+
 export function addStart(id) {
   return {type: ADD_START, id};
 }
@@ -156,8 +216,28 @@ export function addStop() {
   return {type: ADD_STOP};
 }
 
+export function addStartProp(id) {
+  return {type: ADD_START_PROP, id};
+}
+
+export function addStopProp() {
+  return {type: ADD_STOP_PROP};
+}
+
+export function deleteStart(id) {
+  return {type: DELETE_START, id};
+}
+
 export function deleteStop(id) {
   return {type: DELETE_STOP, id};
+}
+
+export function deleteStartProp(id) {
+  return {type: DELETE_START_PROP, id};
+}
+
+export function deleteStopProp(id) {
+  return {type: DELETE_STOP_PROP, id};
 }
 
 export function editStart(id) {
@@ -166,4 +246,12 @@ export function editStart(id) {
 
 export function editStop(id) {
   return {type: EDIT_STOP, id};
+}
+
+export function editStartProp(id) {
+  return {type: EDIT_START_PROP, id};
+}
+
+export function editStopProp(id) {
+  return {type: EDIT_STOP_PROP, id};
 }

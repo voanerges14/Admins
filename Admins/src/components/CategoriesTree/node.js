@@ -1,7 +1,7 @@
 // юзає header.js
 import React from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
-import {CategoryAdd} from 'components';
+// import {CategoryAdd} from 'components';
 import NodeHeader from './header';
 // import {deleteStart} from '../../redux/modules/categories';
 class TreeNode extends React.Component {
@@ -70,7 +70,7 @@ class TreeNode extends React.Component {
   }
 
   renderHeader(decorators, animations) {
-    const styles = require('../../containers/Temp/Temp.scss');
+    const styles = require('../../containers/Categories/Categories.scss');
     return (
       <div className={styles.mybutton}>
         <NodeHeader
@@ -87,9 +87,13 @@ class TreeNode extends React.Component {
           <button className="btn btn-link btn-xs" onClick={this.onMinusClick}>
             <span className="glyphicon glyphicon-minus"/></button>
         </div>
-         <div className={styles.mycell}>
-            <CategoryAdd formKey="1" key="1" initialValues="1"/>
-         </div>
+        <div className={styles.mycell}>
+          <button className="btn btn-link btn-xs">
+            <span className="glyphicon glyphicon-edit"/></button>
+        </div>
+         {/* <div className={styles.mycell}>*/}
+            {/* <CategoryAdd formKey="1" key="1" initialValues="1"/>*/}
+         {/* </div>*/}
       </div>
 
 

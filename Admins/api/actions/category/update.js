@@ -5,7 +5,7 @@ export default function update(req) {
     // write to database
     setTimeout(() => {
       if (Math.random() < 0.2) {
-        reject('Oh no! Categories save fails 20% of the time. Try again.');
+        reject('Oh no! CategoriesOLD save fails 20% of the time. Try again.');
       } else {
         load(req).then(data => {
           const categories = data;

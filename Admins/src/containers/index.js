@@ -9,9 +9,9 @@ export Survey from './Survey/Survey';
 export NotFound from './NotFound/NotFound';
 
 export HomeA from './Home/Home';
-export Categories from './Categories/Categories';
+// export Categories from './CategoriesOLD/CategoriesOLD';
 // export LoginA from './LoginA/LoginA';
 export Orders from './Orders/Orders';
-export Temp from './Temp/Temp';
+export Categories from './Categories/Categories';
 
 

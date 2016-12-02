@@ -13,7 +13,7 @@ import {db} from "./index";
 
 
 function connectToDbCategoriesModel() {
-  // let Categories = new Schema({
+  // let CategoriesOLD = new Schema({
   //   _id: { type: Schema.Types.ObjectId, required: true },
   //   parentId: { type: String, required: true },
   //   name: { type: String, required: true },

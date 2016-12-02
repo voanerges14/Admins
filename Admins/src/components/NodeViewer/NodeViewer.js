@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import styles from './../../containers/Temp/styles';
+import styles from '../../containers/Categories/styles';
 
 export default class NodeViewer extends Component {
   static propTypes = {

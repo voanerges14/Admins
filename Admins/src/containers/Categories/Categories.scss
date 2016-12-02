@@ -1,35 +1,41 @@
-.widgets {
-  .refreshBtn {
-    margin-left: 20px;
+.mybutton {
+  display: inline-block;
+};
+
+.mycell {
+  display: table-cell;
+    listStyle: none;
+    //backgroundColor: '#fcfcfc',
+    margin: 0;
+    padding: 0;
+    color: #000000;
+    fontFamily: lucida grande ,tahoma,verdana, arial, sans-serif;
+    fontSize: 17px;
+}
+
+.Temp{
+  component {
+    width: 50%;
+    display: inline-block;
+    verticalAlign: top;
+    padding: 20px;
+  @media (max-width: 640px) {
+    width: 100%;
+    display: block
   }
-  .idCol {
-    width: 5%;
   }
-  .colorCol {
-    width: 20%;
+searchBox {
+  padding: 20px 20px 0 20px
+}
+viewer {
+  base {
+    fontSize: 12px;
+    whiteSpace: pre-wrap;
+    backgroundColor: #282C34;
+    border: solid 1px black;
+    padding: 20px;
+    color: #9DA5AB;
+    minHeight: 250px
   }
-  .sprocketsCol {
-    width: 20%;
-    text-align: right;
-    input {
-      text-align: right;
-    }
-  }
-  .ownerCol {
-    width: 30%;
-  }
-  .buttonCol {
-    width: 25%;
-    :global(.btn) {
-      margin: 0 5px;
-    }
-  }
-  tr.saving {
-    opacity: 0.8;
-    :global(.btn) {
-      &[disabled] {
-        opacity: 1;
-      }
-    }
-  }
+}
 }

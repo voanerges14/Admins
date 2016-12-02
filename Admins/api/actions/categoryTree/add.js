@@ -1,23 +1,29 @@
-const initialWidgets = [
-  {id: 1, name: 'Red'},
-];
+import load from './load';
 
-export function getWidgets(req) {
-  let category = req.session.category;
-  if (!category) {
-    category = initialWidgets;
-    req.session.category = category;
-  }
-  return category;
-}
-
-export default function load(req) {
+export default function update(req) {
   return new Promise((resolve, reject) => {
-    // make async call to database
-      if (Math.random() < 0.33) {
-        reject('Widget load fails 33% of the time. You were unlucky.');
+    // write to database
+    setTimeout(() => {
+      if (Math.random() < 0.2) {
+        reject('Oh no! Widget save fails 20% of the time. Try again.');
       } else {
-        resolve(getWidgets(req));
+        load(req).then(data => {
+          const widgets = data;
+          const widget = req.body;
+          if (widget.color === 'Green') {
+            reject({
+              color: 'We do not accept green widgets' // example server-side validation error
+            });
+          }
+          if (widget.id) {
+            widgets[widget.id - 1] = widget;  // id is 1-based. please don't code like this in production! :-)
+            req.session.widgets = widgets;
+          }
+          resolve(widget);
+        }, err => {
+          reject(err);
+        });
       }
+    }, 1500); // simulate async db write
   });
 }

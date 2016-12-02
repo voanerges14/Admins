@@ -82,7 +82,9 @@ class Container extends Component {
 
   render() {
     const {style, decorators, terminal, onClick, node} = this.props;
-    const mystyle = require('../../containers/Temp/Temp.scss');
+    // const mystyle = require('./../Categories.scss');
+    const mystyle = require('./../../containers/Categories/Categories.scss');
+
     /* className="form-group form-inline" */
     return (
       <div className={mystyle.mycell} >
