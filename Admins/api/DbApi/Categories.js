@@ -13,19 +13,21 @@ import {db} from "./index";
 
 
 function connectToDbCategoriesModel() {
-  // let CategoriesOLD = new Schema({
-  //   _id: { type: Schema.Types.ObjectId, required: true },
-  //   parentId: { type: String, required: true },
-  //   name: { type: String, required: true },
-  //   properties: {type: Array, required: true}
-  // });
-
   let Categories = new db.Schema({
     _id: { type: db.Schema.Types.ObjectId, required: true },
-    id: { type: db.Schema.Types.String, required: true },
+    parentId: { type: String, required: true },
     name: { type: db.Schema.Types.String, required: true },
-    children: {type: Array, required: true},
-  }, {collection : 'temp' });
+    properties: {type: Array, required: true}
+    // children: {type: Array, required: true}
+  });
+
+  // let Categories = new db.Schema({
+  //   _id: { type: db.Schema.Types.ObjectId, required: true },
+  //   id: { type: db.Schema.Types.String, required: true },
+  //   name: { type: db.Schema.Types.String, required: true },
+  //   children: {type: Array, required: true},
+  // });
+  // , {collection : 'temp' });
   let CategoriesModel = db.mongoose.model('Categories', Categories);
   return CategoriesModel;
 }

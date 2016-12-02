@@ -12,9 +12,11 @@ export MiniInfoBar from './MiniInfoBar/MiniInfoBar';
 export SurveyForm from './SurveyForm/SurveyForm';
 export WidgetForm from './WidgetForm/WidgetForm';
 export Hello from './Hello/Hello';
-export CategoriesForm from './CategoriesForm/CategoriesForm';
+export CategoryEdit from './CategoryEdit/CategoryEdit';
+export CategoryEditProp from './CategoryEditProp/CategoryEditProp';
 export CategoryAdd from './CategoryAdd/CategoryAdd';
 export LoginForm from './LoginForm/LoginForm';
+export CategoryAddProp from './CategoryAddProp/CategoryAddProp';
 
 export Treebeard from './CategoriesTree/treebeard';
 export decorators from'./CategoriesTree/decorators';

@@ -15,7 +15,7 @@ import * as categoryActions from 'redux/modules/categories';
 // import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import {initializeWithKey} from 'redux-form';
 
-import {CategoriesForm, CategoryAdd} from 'components';
+import {CategoryEdit, CategoryAddProp} from 'components';
 
 
 @asyncConnect([{
@@ -39,7 +39,7 @@ import {CategoriesForm, CategoryAdd} from 'components';
   {...categoryActions, initializeWithKey})
 
 export default
-class Temp extends Component {
+class Categories extends Component {
 
   static propTypes = {
     categories: PropTypes.array,
@@ -116,7 +116,7 @@ class Temp extends Component {
     const st = require('./../../containers/CategoriesOLD/CategoriesOLD.scss');
     return (
       <div>
-        <h1>Temp
+        <h1>Categories
           <button className={st.refreshBtn + ' btn btn-success'} onClick={load}>
             <i className={refreshClassName}/> {' '} Reload
           </button>
@@ -161,13 +161,13 @@ class Temp extends Component {
                 </th>}
                 <th className={styles.buttonCol}></th>
               </tr>
-              {adding[0] && <CategoryAdd formKey={adding[1]} key={String(adding[1])} initialValues={adding[1]}/>}
+              {adding[0] && <CategoryAddProp formKey={adding[1]} key={String(adding[1])} initialValues={adding[1]}/>}
               </thead>
               <tbody>
               {console.log('ADD: ' + adding[0] + ' , ' + adding[1])}
               {!adding[0] && chousenNode.children &&
               chousenNode.children.map((prop) => editing[prop.id] ?
-                <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/> :
+                <CategoryEdit formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/> :
                 <tr key={prop.id}>
                   <td className={styles.idCol}>{prop.id}</td>
                   <td className={styles.colorCol}>{prop.name}</td>

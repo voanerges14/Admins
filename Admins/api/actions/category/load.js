@@ -41,6 +41,51 @@ const initialCategories = [
   ],},
 ];
 
+function convert(nodes) {
+  let map = {}, node, roots = [];
+  for (let ii = 0; ii < nodes.length; ii++) {
+    node = nodes[ii];
+    node.children = [];
+    console.log('##################');
+    console.log('node.id: ' + node._id);
+    map[node._id] = ii; // use map to look-up the parents
+    if (node.parentId !== "0") {
+      nodes[map[node.parentId]]['children'] = node;
+      // nodes[map[node.parentId]].children.push(node);
+    } else {
+      roots.push(node);
+    }
+  }
+  console.log(roots);
+  return roots;
+}
+
+let unflatten = function( array, parent, tree ){
+
+  tree = typeof tree !== 'undefined' ? tree : [];
+  parent = typeof parent !== 'undefined' ? parent : { _id: 0 };
+
+  let children = _.filter( array, function(child){ return child.parentId == parent._id; });
+
+  if( !_.isEmpty( children )  ){
+    if( parent._id == 0 ){
+      tree = children;
+    }else{
+      parent['children'] = children
+    }
+    _.each( children, function( child ){ unflatten( array, child ) } );
+  }
+  console.log('###########################!');
+console.log('unflatten ==>');
+  console.log(tree);
+
+  return tree;
+};
+//
+// tree = unflatten( arr );
+// document.body.innerHTML = "<pre>" + (JSON.stringify(tree, null, " "))
+
+
 export function getCategories(req) {
   let categories = req.session.categories;
   if (!categories) {
@@ -58,7 +103,9 @@ export default function load(req) {
         // resolve(getCategories(req));
         Db.getCategories().then(data => {
           console.log('fdfsd' + data);
-          resolve(data);
+          // resolve(data);
+          resolve(convert(data));
+          // resolve(unflatten(data));
         });
       } catch(e) {
         reject('CategoriesOLD load fails 33% of the time. You were unlucky.');
