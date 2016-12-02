@@ -22,7 +22,7 @@ function connectToDbUsersModel() {
     address: { type: db.Schema.Types.String, required: true },
     firstName: { type: db.Schema.Types.String, required: true },
     lastName: { type: db.Schema.Types.String, required: true },
-    // cards: { type: db.Schema.Types.Array, required: true },
+    // cards: { type: Array, required: true },
     isAdmin: { type: db.Schema.Types.Bool, required: true }
   });
 
