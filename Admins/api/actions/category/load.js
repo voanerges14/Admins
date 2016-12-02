@@ -61,7 +61,7 @@ export default function load(req) {
           resolve(data);
         });
       } catch(e) {
-        reject('Categories load fails 33% of the time. You were unlucky.');
+        reject('CategoriesOLD load fails 33% of the time. You were unlucky.');
       }
     // }, 1000); // simulate async load
   });

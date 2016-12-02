@@ -76,9 +76,9 @@ export default class App extends Component {
           </Navbar.Header>
           <Navbar.Collapse eventKey={0}>
             <Nav navbar>
-              {user && <LinkContainer to="/chat">
-                <NavItem eventKey={1}>Chat</NavItem>
-              </LinkContainer>}
+              {/* {user && <LinkContainer to="/chat">*/}
+                {/* <NavItem eventKey={1}>Chat</NavItem>*/}
+              {/* </LinkContainer>}*/}
 
               <LinkContainer to="/orders">
                 <NavItem eventKey={2}>Orders</NavItem>
@@ -90,9 +90,9 @@ export default class App extends Component {
               <LinkContainer to="/survey">
                 <NavItem eventKey={4}>Survey</NavItem>
               </LinkContainer>
-              <LinkContainer to="/about">
-                <NavItem eventKey={5}>About Us</NavItem>
-              </LinkContainer>
+              {/* <LinkContainer to="/about">*/}
+                {/* <NavItem eventKey={5}>About Us</NavItem>*/}
+              {/* </LinkContainer>*/}
 
               <LinkContainer to="/categories">
                 <NavItem eventKey={5}>Categories</NavItem>
@@ -109,11 +109,6 @@ export default class App extends Component {
                   Logout
                 </NavItem>
               </LinkContainer>}
-
-
-              <LinkContainer to="/temp">
-                <NavItem eventKey={8}>Temp</NavItem>
-              </LinkContainer>
 
             </Nav>
             {user &&

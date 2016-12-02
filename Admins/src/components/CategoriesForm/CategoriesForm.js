@@ -32,7 +32,8 @@ export default class CategoriesForm extends Component {
 
   render() {
     const { editStop, fields: {id, name}, formKey, handleSubmit, save, submitting, values} = this.props;
-    const styles = require('containers/Categories/Categories.scss');
+    // debugger;
+    const styles = require('containers/CategoriesOLD/CategoriesOLD.scss');
     console.log('msfnmgsdf: ' + formKey);
     return (
       <tr className={submitting ? styles.saving : ''}>

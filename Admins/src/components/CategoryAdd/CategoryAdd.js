@@ -17,7 +17,7 @@ import * as categoryActions from 'redux/modules/categories';
 export default class CategoriesForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    editStop: PropTypes.func.isRequired,
+    addStop: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -28,23 +28,22 @@ export default class CategoriesForm extends Component {
   };
 
   render() {
-    const { editStop, formKey, fields: {name}, handleSubmit, save, submitting, values} = this.props;
+    const { addStop, formKey, fields: {name}, handleSubmit, save, submitting, values} = this.props;
     const styles = require('./CategoryAdd.scss');
     console.log('msfnmgsdf: ' + formKey);
     return (
       <tr className={submitting ? styles.saving : ''}>
+        <td className={styles.ownerCol}>
+          <input type="text" className="form-control" {...name}/>
+        </td>
 
-         <td>
-           <input type="text" className={styles.ownerCol} {...name}/>
-         </td>
-
-        <td>
-          <button className="btn btn-xs btn-default"
-                  onClick={() => editStop(formKey)}
-                  disabled={submitting}>
+        <td className={styles.buttonColl}>
+          <button className="btn btn-default"
+                  onClick={() => addStop(formKey)}
+                   disabled={submitting}>
             <i className="fa fa-ban"/> Cancel
           </button>
-          <button className="btn btn-xs btn-success"
+          <button className="btn btn-success"
                    onClick={handleSubmit(() => save(values)
                      .then(result => {
                        if (result && typeof result.error === 'object') {

@@ -97,7 +97,7 @@ export default function load(req) {
   return new Promise((resolve, reject) => {
     CategoriesDb.getCategories().then(data => {
       resolve(data);
-      console.log("Temp Data: " + data);
+      console.log("Categories Data: " + data);
     });
   });
   //   });
@@ -107,7 +107,7 @@ export default function load(req) {
   //     try {
   //       resolve(getCategories(req));
   //     } catch(e) {
-  //       reject('Categories load fails 33% of the time. You were unlucky.');
+  //       reject('CategoriesOLD load fails 33% of the time. You were unlucky.');
   //     }
   //   }, 0); // simulate async load
   // });
