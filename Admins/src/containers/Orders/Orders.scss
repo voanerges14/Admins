@@ -3,17 +3,18 @@
     margin-left: 20px;
   }
   .idOrdersCol {
-    width: 3%;
+    vertical-align: middle;
+    width: 5%;
   }
   .userColMain {
-    width: 30%;
+    width: 25%;
     text-align: center;
     .userCol {
       text-align: left;
     }
   }
   .productsColMain {
-    width: 60%;
+    width: 50%;
     text-align: center;
 
     .productsCol {
@@ -28,9 +29,11 @@
     }
   }
   .sendCol {
-    width: 6%;
+    vertical-align: middle;
+    width: 10%;
   }
   .rejectCol {
-    width: 6%;
+    vertical-align: middle;
+    width: 10%;
   }
 }
