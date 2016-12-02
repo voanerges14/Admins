@@ -10,11 +10,11 @@ const DELETE_ORDER = 'redux/modules/orders/DELETE_ORDER';
 const DELETE_ORDER_OK = 'redux/modules/orders/DELETE_ORDER_OK';
 const DELETE_ORDER_FAIL = 'redux/modules/orders/DELETE_ORDER_FAIL';
 
-const APPLY_START_SEND = 'redux/modules/orders/APPLY_START_SEND';
-const APPLY_STOP_SEND = 'redux/modules/orders/APPLY_STOP_SEND';
+const START_SEND = 'redux/modules/orders/APPLY_START_SEND';
+const STOP_SEND = 'redux/modules/orders/APPLY_STOP_SEND';
 
-const APPLY_START_REJECT = 'redux/modules/orders/APPLY_START_REJECT';
-const APPLY_STOP_REJECT = 'redux/modules/orders/APPLY_STOP_REJECT';
+const START_REJECT = 'redux/modules/orders/APPLY_START_REJECT';
+const STOP_REJECT = 'redux/modules/orders/APPLY_STOP_REJECT';
 
 const initialState = {
   loaded: false,
@@ -90,7 +90,7 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
-    case APPLY_START_SEND:
+    case START_SEND:
       return {
         ...state,
         toDeliveryBtn: {
@@ -98,7 +98,7 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: true
         }
       };
-    case APPLY_STOP_SEND:
+    case STOP_SEND:
       return {
         ...state,
         toDeliveryBtn: {
@@ -106,7 +106,7 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: false
         }
       };
-    case APPLY_START_REJECT:
+    case START_REJECT:
       return {
         ...state,
         rejectOrderBtn: {
@@ -114,7 +114,7 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: true
         }
       };
-    case APPLY_STOP_REJECT:
+    case STOP_REJECT:
       return {
         ...state,
         rejectOrderBtn: {
@@ -157,18 +157,18 @@ export function toDeliveryOrder(id) {
   };
 }
 
-export function applyStartSend(id) {
-  return { type: APPLY_START_SEND, id };
+export function startSend(id) {
+  return { type: START_SEND, id };
 }
 
-export function applyStartReject(id) {
-  return { type: APPLY_START_REJECT, id };
+export function startReject(id) {
+  return { type: START_REJECT, id };
 }
 
-export function applyStopSend(id) {
-  return { type: APPLY_STOP_SEND, id };
+export function stopSend(id) {
+  return { type: STOP_SEND, id };
 }
 
-export function applyStopReject(id) {
-  return { type: APPLY_STOP_REJECT, id };
+export function stopReject(id) {
+  return { type: STOP_REJECT, id };
 }
