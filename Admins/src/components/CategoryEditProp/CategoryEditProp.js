@@ -12,7 +12,7 @@ import * as categoryActions from 'redux/modules/categories';
 )
 @reduxForm({
   form: 'categoriesAdd',
-  fields: ['name']
+  fields: ['_id', 'name', 'type']
 })
 export default class CategoriesForm extends Component {
   static propTypes = {
@@ -28,13 +28,18 @@ export default class CategoriesForm extends Component {
   };
 
   render() {
-    const { addStop, formKey, fields: {name}, handleSubmit, save, submitting, values} = this.props;
+    const { addStop, formKey, fields: {_id, name, type}, handleSubmit, save, submitting, values} = this.props;
     const styles = require('./CategoryEditProp.scss');
     console.log('msfnmgsdf: ' + formKey);
     return (
       <tr className={submitting ? styles.saving : ''}>
-        <td className={styles.ownerCol}>
+        <td className={styles.idCol}>{_id.value}</td>
+        <td className={styles.colorCol}>
           <input type="text" className="form-control" {...name}/>
+        </td>
+
+        <td className={styles.sprocketsCol}>
+          <input type="text" className="form-control" {...type}/>
         </td>
 
         <td className={styles.buttonColl}>

@@ -166,12 +166,12 @@ class Categories extends Component {
               <tbody>
               {console.log('ADD: ' + adding[0] + ' , ' + adding[1])}
               {!adding[0] && chousenNode.children &&
-              chousenNode.children.map((prop) => editing[prop.id] ?
+              chousenNode.properties.map((prop) => editing[prop.id] ?
                 <CategoryEdit formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/> :
                 <tr key={prop.id}>
                   <td className={styles.idCol}>{prop.id}</td>
                   <td className={styles.colorCol}>{prop.name}</td>
-                  <td className={styles.sprocketsCol}>{prop.name}</td>
+                  <td className={styles.sprocketsCol}>{prop.type}</td>
                   <td className={styles.buttonCol}>
                     <button className="btn btn-primary" onClick={handleEditProp(prop)}>
                       <i className="fa fa-pencil"/> Edit

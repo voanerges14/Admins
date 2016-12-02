@@ -3,9 +3,9 @@
  */
 import * as Db from './../../DbApi/Categories';
 
-const convertation = function (data) {
+const convert = function (data) {
   let nodes = [], map = {}, node, roots = [];
-  for (var i = 0; i < data.length; i += 1) {
+  for (let i = 0; i < data.length; i += 1) {
     nodes.push({'_id': data[i]._id, 'parentId':data[i].parentId,
       'name': data[i].name, 'properties': data[i].properties, 'children':[]});
 
@@ -27,7 +27,7 @@ export default function load(req) {
   return new Promise((resolve, reject) => {
     Db.getCategories().then(data => {
       // resolve(data);
-      resolve(convertation(data));
+      resolve(convert(data));
     }).catch(err => {
       reject('error in load category: ' + err);
     });
