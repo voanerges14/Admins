@@ -10,6 +10,8 @@ export default function update(req) {
         load(req).then(data => {
           const widgets = data;
           const widget = req.body;
+          console.log('Cat values' + JSON.stringify(widget, null, ' '));
+
           if (widget.color === 'Green') {
             reject({
               color: 'We do not accept green widgets' // example server-side validation error

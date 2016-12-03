@@ -3,4 +3,7 @@
  */
 export load from './load';
 export update from './update';
+export addProp from './addProp';
+export updateProp from './updateProp';
+
 

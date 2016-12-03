@@ -17,7 +17,7 @@ import * as widgetActions from 'redux/modules/widgets';
   validate: widgetValidation
 })
 export default class WidgetForm extends Component {
-  static propTypes= {
+  static propTypes = {
     fields: PropTypes.object.isRequired,
     editStop: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -29,14 +29,16 @@ export default class WidgetForm extends Component {
     formKey: PropTypes.string.isRequired,
     values: PropTypes.object.isRequired
   };
+
   render() {
-    const { editStop, fields: {id, color, sprocketCount, owner}, formKey, handleSubmit, invalid,
-      pristine, save, submitting, saveError: { [formKey]: saveError }, values } = this.props;
-    // debugger;
+    const {
+      editStop, fields: {id, color, sprocketCount, owner}, formKey, handleSubmit, invalid,
+      pristine, save, submitting, saveError: {[formKey]: saveError}, values
+    } = this.props;
     const styles = require('containers/Widgets/Widgets.scss');
     return (
       <tr className={submitting ? styles.saving : ''}>
-        <td className={styles.idCol}>{id.value}</td>
+         <td className={styles.idCol}>{id.value}</td>
         <td className={styles.colorCol}>
           <select name="color" className="form-control" {...color}>
             {colors.map(valueColor => <option value={valueColor} key={valueColor}>{valueColor}</option>)}

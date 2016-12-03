@@ -104,7 +104,6 @@ const convert = function (data) {
   return roots;
 };
 
-
 export function getCategories(req) {
   let categories = req.session.categories;
   if (!categories) {

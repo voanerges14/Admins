@@ -11,24 +11,25 @@ import * as categoryActions from 'redux/modules/categories';
   dispatch => bindActionCreators(categoryActions, dispatch)
 )
 @reduxForm({
-  form: 'categoriesAdd',
+  form: 'categoryEditProp',
   fields: ['_id', 'name', 'type']
 })
-export default class CategoriesForm extends Component {
+export default class CategoryEditProp extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    addStop: PropTypes.func.isRequired,
+    editStopProp: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
+    saveProp: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     formKey: PropTypes.string.isRequired,
     // name: PropTypes.object.isRequired
-    values: PropTypes.object.isRequired
+    values: PropTypes.object.isRequired,
+    nameOld: PropTypes.string.isRequired
 
   };
 
   render() {
-    const { addStop, formKey, fields: {_id, name, type}, handleSubmit, save, submitting, values} = this.props;
+    const { editStopProp, formKey, fields: {_id, name, type}, handleSubmit, saveProp, submitting, values, nameOld} = this.props;
     const styles = require('./CategoryEditProp.scss');
     console.log('msfnmgsdf: ' + formKey);
     return (
@@ -44,18 +45,12 @@ export default class CategoriesForm extends Component {
 
         <td className={styles.buttonColl}>
           <button className="btn btn-default"
-                  onClick={() => addStop(formKey)}
+                  onClick={() => editStopProp(name.value)}
                    disabled={submitting}>
             <i className="fa fa-ban"/> Cancel
           </button>
           <button className="btn btn-success"
-                   onClick={handleSubmit(() => save(values)
-                     .then(result => {
-                       if (result && typeof result.error === 'object') {
-                         return Promise.reject(result.error);
-                       }
-                     })
-                   )}>
+                   onClick={handleSubmit(() => saveProp(formKey, values, nameOld))}>
             <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
           </button>
         </td>
