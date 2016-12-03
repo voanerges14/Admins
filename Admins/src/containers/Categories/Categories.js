@@ -34,7 +34,8 @@ import {CategoryEditProp, CategoryAddProp} from 'components';
     editingProp: state.categories.editingProp,
     error: state.categories.error,
     loading: state.categories.loading,
-    adding: state.categories.adding
+    adding: state.categories.adding,
+    onDelete: state.categories.onDelete
   }),
   {...categoryActions, initializeWithKey})
 
@@ -52,8 +53,9 @@ class Categories extends Component {
     addStartProp: PropTypes.func.isRequired,
     adding: PropTypes.array.isRequired,
     deleteStartProp: PropTypes.func.isRequired,
-    deleteStopProp: PropTypes.func.isRequired
-
+    deleteStopProp: PropTypes.func.isRequired,
+    deleteProp: PropTypes.func.isRequired,
+    onDelete: PropTypes.object.isRequired
   };
 
   //
@@ -77,8 +79,8 @@ class Categories extends Component {
 
   onFilterMouseUp(ee) {
     const filter = ee.target.value.trim();
-    console.log('filter: ' + filter);
-    console.log('categories: ' + this.props.categories[0].name);
+    // console.log('filter: ' + filter);
+    // console.log('categories: ' + this.props.categories[0].name);
     if (!filter) {
       return this.setState(this.props.categories);
     }
@@ -104,11 +106,26 @@ class Categories extends Component {
       const {addStartProp} = this.props; // eslint-disable-line no-shadow
       return () => addStartProp(String(prop._id));
     };
-    const handleDeleteProp = (prop) => {
+    const handleDeletePropStart = (id, name) => {
       const {deleteStartProp} = this.props;
-      return () => deleteStartProp(String(prop._id));
+      return () => deleteStartProp(id, name);
     };
-    const {categories, load, loading, editingProp, adding} = this.props;
+    const handleDeletePropStop = (id, name) => {
+      const {deleteStopProp} = this.props;
+      return () => deleteStopProp(id, name);
+    };
+    const handleDeleteProp = (id, name) => {
+      const {deleteProp} = this.props;
+      return () => deleteProp(id, name);
+    };
+    const {categories, load, loading, editingProp, adding, onDelete} = this.props;
+    const deleteBtns = (id, name) => {
+      if (!onDelete) {
+        return false;
+      }
+      return (typeof onDelete[id] === 'undefined') ? false : onDelete[id][name];
+    };
+
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -126,7 +143,7 @@ class Categories extends Component {
           <div style={styles.searchBox}>
             <div className="input-group">
             <span className="input-group-addon">
-            <i className="fa fa-search"></i>
+            <i className="fa fa-search"/>
             </span>
               <input type="text"
                      className="form-control"
@@ -150,7 +167,6 @@ class Categories extends Component {
               <thead>
               <tr>
                 {/* <th className={styles.idCol}>ID</th>*/}
-                <th>Property</th>
                 <th className={styles.colorCol}>Name</th>
                 <th className={styles.sprocketsCol}>Type</th>
                 {!adding[0] &&
@@ -168,16 +184,28 @@ class Categories extends Component {
                 <CategoryEditProp formKey={String(chousenNode._id)} key={String(prop.name)} initialValues={prop}
                                   nameOld={prop.name}/> :
                 <tr key={prop.name}>
-                  <td className={styles.idCol}></td>
                   <td className={styles.colorCol}>{prop.name}</td>
                   <td className={styles.sprocketsCol}>{prop.type}</td>
                   <td className={styles.buttonCol}>
                     <button className="btn btn-primary" onClick={handleEditProp(prop)}>
                       <i className="fa fa-pencil"/> Edit
                     </button>
-                    <button className="btn btn-primary" onClick={handleDeleteProp(prop)}>
+
+                    {!deleteBtns(chousenNode._id, prop.name) ?
+                    <button className="btn btn-primary"
+                            onClick={handleDeletePropStart(chousenNode._id, prop.name)}>
                       <i className="fa fa-trash"/> Del
-                    </button>
+                    </button> :
+                    <span>
+                      <button className="btn btn-success btn-sm"
+                              onClick={handleDeleteProp(chousenNode._id, prop.name)}>
+                        <i className={'glyphicon glyphicon-ok'}/>
+                      </button>
+                      <button className="btn btn-default btn-sm"
+                              onClick={handleDeletePropStop(chousenNode._id, prop.name)}>
+                        <i className="glyphicon glyphicon-remove"/>
+                      </button>
+                    </span>}
                   </td>
                 </tr>)
               }

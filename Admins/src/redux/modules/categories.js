@@ -18,6 +18,10 @@ const ADD = 'redux-example/categories/ADD';
 const ADD_SUCCESS = 'redux-example/categories/ADD_SUCCESS';
 const ADD_FAIL = 'redux-example/categories/ADD_FAIL';
 
+const DELETE_PROP = 'redux-example/categories/DELETE_PROP';
+const DELETE_PROP_SUCCESS = 'redux-example/categories/DELETE_PROP_SUCCESS';
+const DELETE_PROP_FAIL = 'redux-example/categories/ADDELETE_PROP_FAIL';
+
 const ADD_PROP = 'redux-example/categories/ADD_PROP';
 const ADD_SUCCESS_PROP = 'redux-example/categories/ADD_SUCCESS_PROP';
 const ADD_FAIL_PROP = 'redux-example/categories/ADD_FAIL_PROP';
@@ -162,22 +166,32 @@ export default function reducer(state = initialState, action = {}) {
         }
       } : state;
 
-
-    case DELETE_START:
+    case DELETE_START_PROP:
+      const Id = action.id;
+      const Name = action.name;
+      debugger;
       return {
         ...state,
         onDelete: {
-          ...state.editing,
-          [action.id]: true
+          ...state.onDelete,
+          [Id]: {
+            ...state.onDelete[Id],
+            [Name]: true
+          }
         }
       };
 
-    case DELETE_START_PROP:
+    case DELETE_STOP_PROP:
+      const ID = action.id;
+      const NAme = action.name;
       return {
         ...state,
         onDelete: {
-          ...state.editing,
-          [action.id]: true
+          ...state.onDelete,
+          [ID]: {
+            ...state.onDelete[ID],
+            [NAme]: false
+          }
         }
       };
 
@@ -216,6 +230,31 @@ export default function reducer(state = initialState, action = {}) {
         saveError: {
           ...state.saveError,
           addError: action.error
+        }
+      } : state;
+
+    case DELETE_PROP:
+      return state; // 'saving' flag handled by redux-form
+    case DELETE_PROP_SUCCESS:
+      const idd = action.id;
+      const namme = action.name;
+      return {
+        ...state,
+        data: action.result.data,
+        onDelete: {
+          ...state.editing,
+          [idd]: {
+            ...state.editing.id,
+            [namme]: false
+          }
+        }
+      };
+    case DELETE_PROP_FAIL:
+      return typeof action.error === 'string' ? {
+        ...state,
+        saveError: {
+          ...state.saveError,
+          [action.name]: action.error
         }
       } : state;
     default:
@@ -273,6 +312,17 @@ export function addProp(values, id) {
   };
 }
 
+export function deleteProp(id, name) {
+  return {
+    id: id,
+    name: name,
+    types: [DELETE_PROP, DELETE_PROP_SUCCESS, DELETE_PROP_FAIL],
+    promise: (client) => client.post('/category/deleteProp', {
+      data: {id, name}
+    })
+  };
+}
+
 export function addStart(id) {
   return {type: ADD_START, id};
 }
@@ -297,12 +347,12 @@ export function deleteStop(id) {
   return {type: DELETE_STOP, id};
 }
 
-export function deleteStartProp(id) {
-  return {type: DELETE_START_PROP, id};
+export function deleteStartProp(id, name) {
+  return {type: DELETE_START_PROP, id, name};
 }
 
-export function deleteStopProp(id) {
-  return {type: DELETE_STOP_PROP, id};
+export function deleteStopProp(id, name) {
+  return {type: DELETE_STOP_PROP, id, name};
 }
 
 export function editStart(id) {

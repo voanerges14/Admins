@@ -97,8 +97,7 @@ export function editPropertyOfCategory(id, oldProperty, editedProperty) {
     }
     for(let i = 0; i < category.properties.length; ++i) {
       if(category.properties[i].name == oldProperty) {
-        category.properties.splice(i, 1);
-        category.properties.push(editedProperty);
+        category.properties.splice(i, 1, editedProperty);
         break;
       }
     }
@@ -118,7 +117,12 @@ export function deletePropertyFromCategory(id, property) {
       console.error('deletePropertyFromCategory error: ' + err);
       return 'error in deletePropertyFromCategory: ' + err;
     }
-    category.remove(category.properties.indexOf({name: property}));
+    for(let i = 0; i < category.properties.length; ++i) {
+      if(category.properties[i].name == property) {
+        category.properties.splice(i, 1);
+        break;
+      }
+    }
     category.save(function (err, updatedCategory) {
       if (err) {
         console.error('deletePropertyFromCategory error: ' + err);
