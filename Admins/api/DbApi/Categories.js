@@ -96,8 +96,13 @@ export function editPropertyOfCategory(id, oldProperty, editedProperty) {
       console.error('editPropertyOfCategory error: ' + err);
       return 'error in editPropertyOfCategory: ' + err;
     }
-    category.remove(category.properties.indexOf({name: oldProperty}));
-    category.push({name: editedProperty});
+    for(let i = 0; i < category.properties.length; ++i) {
+      if(category.properties[i].name == oldProperty) {
+        category.properties.splice(i, 1);
+        category.properties.push(editedProperty);
+        break;
+      }
+    }
     category.save(function (err, updatedCategory) {
       if (err) {
         console.error('editPropertyOfCategory error: ' + err);

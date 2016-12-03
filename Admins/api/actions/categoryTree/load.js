@@ -118,7 +118,8 @@ export default function load(req) {
   return new Promise((resolve, reject) => {
     CategoriesDb.getCategories().then(data => {
       resolve(convert(data));
-      console.log("Categories Data: " + data);
+      // resolve(data);
+      // console.log("Categories Data: " + data);
     });
   });
   //   });

@@ -1,13 +1,12 @@
 import * as categoryDB from './../../DbApi/Categories';
 export default function updateProp(req) {
   return new Promise((resolve, reject) => {
-    const props = req.body;
+    const props = req.body.prop;
     const idC = req.body.idC;
     const nameOld = req.body.nameOld;
         categoryDB.editPropertyOfCategory(idC, nameOld, props).then( prop =>{
-          console.log('Cat values' + JSON.stringify(widget, null, ' '));
-          resolve(idC, nameOld, prop)
-
+          // console.log('Cat values' + JSON.stringify(widget, null, ' '));
+          resolve({idC, nameOld, props});
         }).catch(err => {
           reject('error edit categoryProps: ' + err);
         });

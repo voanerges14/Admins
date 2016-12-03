@@ -138,7 +138,8 @@ export default function reducer(state = initialState, action = {}) {
         if (dataProp[index]._id === action.result.idC) {
           for (let indexj = 0; indexj < dataProp[index].properties.length; indexj++) {
             if (dataProp[index].properties[indexj].name === action.result.nameOld) {
-              dataProp[index].properties[indexj] = action.result.prop;
+              // dataProp[index].properties[indexj] = action.result.props;
+              dataProp[index].properties.splice(indexj, 1, action.result.props);
             }
           }
         }
