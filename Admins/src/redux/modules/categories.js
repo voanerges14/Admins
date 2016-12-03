@@ -147,7 +147,7 @@ export default function reducer(state = initialState, action = {}) {
       // }
       return {
         ...state,
-        data: action.result.data,
+        data: action.result,
         editingProp: {
           ...state.editingProp,
           [action.result.nameOld]: false
@@ -221,7 +221,7 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_SUCCESS_PROP:
       return {
         ...state,
-        data: action.result.data,
+        data: action.result,
         adding: [false],
       };
     case ADD_FAIL_PROP:
@@ -240,7 +240,7 @@ export default function reducer(state = initialState, action = {}) {
       const namme = action.name;
       return {
         ...state,
-        data: action.result.data,
+        data: action.result,
         onDelete: {
           ...state.editing,
           [idd]: {
