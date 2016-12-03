@@ -15,7 +15,7 @@ import * as categoryActions from 'redux/modules/categories';
 // import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import {initializeWithKey} from 'redux-form';
 
-import {CategoryEdit, CategoryAddProp} from 'components';
+import {CategoryEditProp, CategoryAddProp} from 'components';
 
 
 @asyncConnect([{
@@ -31,7 +31,7 @@ import {CategoryEdit, CategoryAddProp} from 'components';
 @connect(
   state => ({
     categories: state.categories.data,
-    editing: state.categories.editing,
+    editingProp: state.categories.editingProp,
     error: state.categories.error,
     loading: state.categories.loading,
     adding: state.categories.adding
@@ -46,7 +46,7 @@ class Categories extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool,
     initializeWithKey: PropTypes.func.isRequired,
-    editing: PropTypes.object.isRequired,
+    editingProp: PropTypes.object.isRequired,
     load: PropTypes.func.isRequired,
     editStartProp: PropTypes.func.isRequired,
     addStartProp: PropTypes.func.isRequired,
@@ -98,17 +98,17 @@ class Categories extends Component {
     // const add = this.props;
     const handleEditProp = (prop) => {
       const {editStartProp} = this.props; // eslint-disable-line no-shadow
-      return () => editStartProp(String(prop.id));
+      return () => editStartProp(String(prop.name));
     };
     const handleAddProp = (prop) => {
       const {addStartProp} = this.props; // eslint-disable-line no-shadow
-      return () => addStartProp(String(prop.id));
+      return () => addStartProp(String(prop._id));
     };
     const handleDeleteProp = (prop) => {
       const {deleteStartProp} = this.props;
-      return () => deleteStartProp(String(prop.id));
+      return () => deleteStartProp(String(prop._id));
     };
-    const {categories, load, loading, editing, adding} = this.props;
+    const {categories, load, loading, editingProp, adding} = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -149,8 +149,8 @@ class Categories extends Component {
             {chousenNode && <table className="table table-striped">
               <thead>
               <tr>
-                {/* <td>Property</td>*/}
-                <th className={styles.idCol}>ID</th>
+                {/* <th className={styles.idCol}>ID</th>*/}
+                <th>Property</th>
                 <th className={styles.colorCol}>Name</th>
                 <th className={styles.sprocketsCol}>Type</th>
                 {!adding[0] &&
@@ -165,13 +165,14 @@ class Categories extends Component {
               </thead>
               <tbody>
               {console.log('ADD: ' + adding[0] + ' , ' + adding[1])}
-              {!adding[0] && chousenNode.children &&
-              chousenNode.children.map((prop) => editing[prop.id] ?
-                <CategoryEdit formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/> :
-                <tr key={prop.id}>
-                  <td className={styles.idCol}>{prop.id}</td>
+              {!adding[0] && chousenNode.properties &&
+              chousenNode.properties.map((prop) => editingProp[prop.name] ?
+                <CategoryEditProp formKey={String(chousenNode._id)} key={String(prop.name)} initialValues={prop}
+                                  nameOld={prop.name}/> :
+                <tr key={prop.name}>
+                  <td className={styles.idCol}></td>
                   <td className={styles.colorCol}>{prop.name}</td>
-                  <td className={styles.sprocketsCol}>{prop.name}</td>
+                  <td className={styles.sprocketsCol}>{prop.type}</td>
                   <td className={styles.buttonCol}>
                     <button className="btn btn-primary" onClick={handleEditProp(prop)}>
                       <i className="fa fa-pencil"/> Edit

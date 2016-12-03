@@ -79,7 +79,7 @@ export function addPropertyToCategory(id, property) {
       console.error('addPropertyToCategory error: ' + err);
       return 'error in addPropertyToCategory: ' + err;
     }
-    category.properties.push({'name': property});
+    category.properties.push({'name': property.name, 'value': property.value});
     category.save(function (err, updatedCategory) {
       if (err) {
         console.error('addPropertyToCategory error: ' + err);
