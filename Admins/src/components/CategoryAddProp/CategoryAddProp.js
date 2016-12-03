@@ -55,7 +55,7 @@ export default class CategoryAddProp extends Component {
             <i className="fa fa-ban"/> Cancel
           </button>
           <button className="btn btn-success"
-                  onClick={handleSubmit(() => addProp(values))}>
+                  onClick={handleSubmit(() => addProp(values, formKey))}>
             <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
           </button>
         </td>

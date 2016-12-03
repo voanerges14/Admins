@@ -131,22 +131,19 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE_PROP:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS_PROP:
-      debugger;
-      const dataProp = [...state.data];
-      // const data = [...state.data];
-      for (let index = 0; index < dataProp.length; index++) {
-        if (dataProp[index]._id === action.result.idC) {
-          for (let indexj = 0; indexj < dataProp[index].properties.length; indexj++) {
-            if (dataProp[index].properties[indexj].name === action.result.nameOld) {
-              // dataProp[index].properties[indexj] = action.result.props;
-              dataProp[index].properties.splice(indexj, 1, action.result.props);
-            }
-          }
-        }
-      }
+      // const dataProp = [...state.data];
+      // for (let index = 0; index < dataProp.length; index++) {
+      //   if (dataProp[index]._id === action.result.idC) {
+      //     for (let indexj = 0; indexj < dataProp[index].properties.length; indexj++) {
+      //       if (dataProp[index].properties[indexj].name === action.result.nameOld) {
+      //         dataProp[index].properties.splice(indexj, 1, action.result.props);
+      //       }
+      //     }
+      //   }
+      // }
       return {
         ...state,
-        data: dataProp,
+        data: action.result.data,
         editingProp: {
           ...state.editingProp,
           [action.result.nameOld]: false
@@ -205,7 +202,22 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         adding: [false]
       };
-
+    case ADD_PROP:
+      return state; // 'saving' flag handled by redux-form
+    case ADD_SUCCESS_PROP:
+      return {
+        ...state,
+        data: action.result.data,
+        adding: [false],
+      };
+    case ADD_FAIL_PROP:
+      return typeof action.error === 'string' ? {
+        ...state,
+        saveError: {
+          ...state.saveError,
+          addError: action.error
+        }
+      } : state;
     default:
       return state;
   }
@@ -251,11 +263,12 @@ export function add(category) {
   };
 }
 // export function addProp(values, id) {
-export function addProp(values) {
+export function addProp(values, id) {
   return {
+    id: id,
     types: [ADD_PROP, ADD_SUCCESS_PROP, ADD_FAIL_PROP],
     promise: (client) => client.post('/category/addProp', {
-      data: values
+      data: {'prop': values, id}
     })
   };
 }

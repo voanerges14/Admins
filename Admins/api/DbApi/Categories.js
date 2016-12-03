@@ -18,7 +18,6 @@ function connectToDbCategoriesModel() {
     parentId: { type: String, required: true },
     name: { type: db.Schema.Types.String, required: true },
     properties: {type: Array, required: true}
-    // children: {type: Array, required: true}
   });
 
   // let Categories = new db.Schema({
@@ -79,7 +78,7 @@ export function addPropertyToCategory(id, property) {
       console.error('addPropertyToCategory error: ' + err);
       return 'error in addPropertyToCategory: ' + err;
     }
-    category.properties.push({'name': property.name, 'value': property.value});
+    category.properties.push({'name': property.name, 'type': property.type});
     category.save(function (err, updatedCategory) {
       if (err) {
         console.error('addPropertyToCategory error: ' + err);

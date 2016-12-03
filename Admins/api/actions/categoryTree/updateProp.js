@@ -4,9 +4,10 @@ export default function updateProp(req) {
     const props = req.body.prop;
     const idC = req.body.idC;
     const nameOld = req.body.nameOld;
-        categoryDB.editPropertyOfCategory(idC, nameOld, props).then( prop =>{
-          // console.log('Cat values' + JSON.stringify(widget, null, ' '));
-          resolve({idC, nameOld, props});
+        categoryDB.editPropertyOfCategory(idC, nameOld, props).then( () =>{
+          categoryDB.getCategories().then( data => {
+            resolve({nameOld, data});
+          });
         }).catch(err => {
           reject('error edit categoryProps: ' + err);
         });

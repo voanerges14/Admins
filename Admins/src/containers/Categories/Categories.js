@@ -159,12 +159,10 @@ class Categories extends Component {
                     <i className="glyphicon glyphicon-plus"/>ADD
                   </button>
                 </th>}
-                <th className={styles.buttonCol}></th>
               </tr>
-              {adding[0] && <CategoryAddProp formKey={adding[1]} key={String(adding[1])} initialValues={adding[1]}/>}
+              {adding[0] && <CategoryAddProp formKey={adding[1]} initialValues={adding[1]}/>}
               </thead>
               <tbody>
-              {console.log('ADD: ' + adding[0] + ' , ' + adding[1])}
               {!adding[0] && chousenNode.properties &&
               chousenNode.properties.map((prop) => editingProp[prop.name] ?
                 <CategoryEditProp formKey={String(chousenNode._id)} key={String(prop.name)} initialValues={prop}
