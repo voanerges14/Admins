@@ -43,11 +43,9 @@ export default class Orders extends Component {
     const { orders, toDeliveryBtn, rejectOrderBtn, loading, load, rejectOrder, toDeliveryOrder,
             startSend, stopSend, startReject, stopReject } = this.props;
     const sendBtn = (formKey) => {
-      debugger;
       return (typeof toDeliveryBtn[formKey] === 'undefined') ? false : toDeliveryBtn[formKey];
     };
     const rejectBtn = (formKey) => {
-      debugger;
       return (typeof rejectOrderBtn[formKey] === 'undefined') ? false : rejectOrderBtn[formKey];
     };
     let refreshClassName = 'fa fa-refresh';
@@ -55,7 +53,6 @@ export default class Orders extends Component {
       refreshClassName += ' fa-spin';
     }
     const styles = require('./Orders.scss');
-    debugger;
     return (
       <div className={styles.orders + ' container'}>
         <h1>

@@ -47,15 +47,13 @@ export default function reducer(state = initialState, action = {}) {
     case DELIVERY_SEND: // 'saving' flag handled by redux-form
       return state;
     case DELIVERY_SEND_OK:
-      let index = -1;
       const data = [...state.data];
-      for (let ind = 0; ind < data.length; ++ind) {
-        if (data[ind].id === action.result) {
-          index = ind;
+      for (let index = 0; index < data.length; ++index) {
+        if (data[index].id === action.result) {
+          data.splice(index, 1);
           break;
         }
       }
-      data.splice(index, 1);
       return {
         ...state,
         sendError: {

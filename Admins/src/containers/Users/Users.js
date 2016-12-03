@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import * as ordersActions from 'redux/modules/orders';
-import {isLoaded, load as loadOrders} from 'redux/modules/orders';
+import * as ordersActions from 'redux/modules/users';
+import {isLoaded, load as loadUsers} from 'redux/modules/users';
 import {initializeWithKey} from 'redux-form';
 import { asyncConnect } from 'redux-async-connect';
 
@@ -10,117 +10,116 @@ import { asyncConnect } from 'redux-async-connect';
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
     if (!isLoaded(getState())) {
-      return dispatch(loadOrders());
+      return dispatch(loadUsers());
     }
   }
 }])
 @connect(
   state => ({
-    orders: state.orders.data,
-    toDeliveryBtn: state.orders.toDeliveryBtn,
-    rejectOrderBtn: state.orders.rejectOrderBtn,
-    error: state.orders.error,
+    users: state.users.data,
+    editBtn: state.users.editBtn,
+    deleteBtn: state.users.deleteBtn,
+    addBtn: state.users.addBtn,
+    error: state.users.errorList,
     loading: state.orders.loading,
   }),
   {...ordersActions, initializeWithKey })
 export default class Orders extends Component {
   static propTypes = {
-    orders: PropTypes.array,
+    users: PropTypes.array,
     loading: PropTypes.bool,
     initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
-    toDeliveryBtn: PropTypes.object.isRequired,
-    rejectOrderBtn: PropTypes.object.isRequired,
-    startSend: PropTypes.func.isRequired,
-    startReject: PropTypes.func.isRequired,
-    stopSend: PropTypes.func.isRequired,
-    stopReject: PropTypes.func.isRequired,
-    rejectOrder: PropTypes.func.isRequired,
-    toDeliveryOrder: PropTypes.func.isRequired,
+    editBtn: PropTypes.object.isRequired,
+    deleteBtn: PropTypes.object.isRequired,
+    addBtn: PropTypes.bool.isRequired,
+    startAdd: PropTypes.func.isRequired,
+    startEdit: PropTypes.func.isRequired,
+    startDelete: PropTypes.func.isRequired,
+    stopAdd: PropTypes.func.isRequired,
+    stopEdit: PropTypes.func.isRequired,
+    stopDelete: PropTypes.func.isRequired,
+    deleteUser: PropTypes.func.isRequired
   };
-
   render() {
-    const { orders, toDeliveryBtn, rejectOrderBtn, loading, load, rejectOrder, toDeliveryOrder,
-      startSend, stopSend, startReject, stopReject } = this.props;
-    const sendBtn = (formKey) => {
-      debugger;
-      return (typeof toDeliveryBtn[formKey] === 'undefined') ? false : toDeliveryBtn[formKey];
-    };
-    const rejectBtn = (formKey) => {
-      debugger;
-      return (typeof rejectOrderBtn[formKey] === 'undefined') ? false : rejectOrderBtn[formKey];
+    const { users, loading, load, startEdit, startAdd, // editBtn, addBtn, stopAdd,
+      deleteBtn, startDelete, stopDelete, deleteUser } = this.props;
+    const deleteBtns = (id) => {
+      return (typeof deleteBtn[id] === 'undefined') ? false : deleteBtn[id];
     };
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
     }
     const styles = require('./Users.scss');
-    debugger;
     return (
-      <div className={styles.orders + ' container'}>
+      <div className={styles.users + ' container'}>
         <h1>
-          Orders
-          <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
-            <i className={refreshClassName}/> {' '} Reload Orders
+          Users
+          <button className={styles.RefreshBtn + ' btn btn-success'} onClick={load}>
+            <i className={refreshClassName}/> {' '} Reload Users
+          </button>
+          <button className={styles.Add + ' btn btn-success'} onClick={() => {startAdd();}}>
+            <i className="glyphicon glyphicon-plus"/> Add Users
           </button>
         </h1>
-        <Helmet title="Orders"/>
-        {orders && orders.length &&
-        <table className="table table-striped">
+        <Helmet title="Users"/>
+        {users && users.length &&
+        <table className={styles.table + ' Table table-striped'}>
           <thead> <tr>
-            <th className={styles.idOrdersCol}>№</th>
-            <th className={styles.userColMain}>Users</th>
-            <th className={styles.productsColMain}>Products</th>
-            <th className={styles.sendCol}>Send to delivery</th>
-            <th className={styles.rejectCol}>Reject order</th>
+            <th className={styles.IdUser}>№</th>
+            <th className={styles.NameMain}>Users</th>
+            <th className={styles.MailMain}>@Mail</th>
+            <th className={styles.NumberMain}>Phone number</th>
+            <th className={styles.AddressMain}>Address</th>
+            {/* th className={styles.CardsMain}>Cards</th>*/}
+            <th className={styles.AdminMain}>Admin</th>
+            <th className={styles.Edit}>Edit</th>
+            <th className={styles.Delete}>Delete</th>
           </tr> </thead>
           <tbody>
-          { orders.map((order, indx) =>
-            <tr key={order.id}>
-              <td className={styles.idOrdersCol} id={order.id}>
-                { indx + 1 }.
+          { users.map((user, index) =>
+            <tr key={user.id}>
+              <td className={styles.IdUser} id={user.id}>
+                { index + 1 }.
               </td>
-              <td className={styles.userCol}>
-                <p>{ order.user.firstName + ' ' + order.user.lastName }</p>
-                <p>{ order.user.email }</p>
-                <p>{ order.user.phoneNumber }</p>
+              <td className={styles.Name}>
+                { user.firstName + ' ' + user.lastName }
               </td>
-              <td className={styles.productsCol}>
-                {order.products.map((elem, index) =>
-                  <div key={ elem.product._id }>
-                    <span className={styles.productNumber} id={ elem.product._id }>
-                      { index + 1 + '. '}
-                    </span>
-                    <span className={styles.productName} id={ index }>
-                      { elem.product.name + '---' + elem.quantity }
-                    </span>
-                  </div>)}
+              <td className={styles.Mail}>
+                { user.email }
               </td>
-              <td className={styles.sendCol}>
-                {!sendBtn(order.id) &&
-                < button className="btn btn-primary btn-sm" onClick={() => startSend(order.id)}>
-                  <i className="fa fa-pencil"/> Send
+              <td className={styles.Number}>
+                { user.phone }
+              </td>
+              <td className={styles.Address}>
+                { user.address }
+              </td>
+              {/* <td className={styles.Cards}>*/}
+                {/* {user.cards.map((elem) =>*/}
+                  {/* <div key={ elem.product._id }>*/}
+                    {/* { elem }*/}
+                  {/* </div>)}*/}
+              {/* </td>*/}
+              <td className={styles.Admin}>
+                { user.admin }
+              </td>
+              <td className={styles.Edit}>
+                < button className="btn btn-primary btn-sm" onClick={() => startEdit(user.id)}>
+                  <i className="fa fa-pencil"/> Edit
+                </button>
+              </td>
+              <td className={styles.Delete}>
+                {!deleteBtns(user.id) &&
+                <button className="btn btn-danger btn-sm" onClick={() => startDelete(user.id)}>
+                  <i className="fa fa-pencil"/> Delete
                 </button>}
 
-                {sendBtn(order.id) && <div>
-                  <button className="btn btn-success btn-sm" onClick={() => toDeliveryOrder(order.id)}>
+                {deleteBtns(user.id) && <div>
+                  <button className="btn btn-success btn-sm" onClick={() => deleteUser(user.id)}>
                     <i className={'glyphicon glyphicon-ok'}/>
                   </button>
-                  <button className="btn btn-default btn-sm" onClick={() => stopSend(order.id)}>
-                    <i className="glyphicon glyphicon-remove"/>
-                  </button></div>}
-              </td>
-              <td className={styles.rejectCol}>
-                {!rejectBtn(order.id) &&
-                <button className="btn btn-danger btn-sm" onClick={() => startReject(order.id)}>
-                  <i className="fa fa-pencil"/> Cancel
-                </button>}
-
-                {rejectBtn(order.id) && <div>
-                  <button className="btn btn-success btn-sm" onClick={() => rejectOrder(order.id)}>
-                    <i className={'glyphicon glyphicon-ok'}/>
-                  </button>
-                  <button className="btn btn-default btn-sm" onClick={() => stopReject(order.id)}>
+                  <button className="btn btn-default btn-sm" onClick={() => stopDelete(user.id)}>
                     <i className="glyphicon glyphicon-remove"/>
                   </button></div>}
               </td>

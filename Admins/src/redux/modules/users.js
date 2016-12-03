@@ -1,25 +1,28 @@
-const LOAD = 'redux/modules/orders/LOAD';
-const LOAD_OK = 'redux/modules/orders/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux/modules/orders/LOAD_FAIL';
-
-const DELIVERY_SEND = 'redux/modules/orders/DELIVERY_SEND';
-const DELIVERY_SEND_OK = 'redux/modules/orders/DELIVERY_SEND_OK';
-const DELIVERY_SEND_FAIL = 'redux/modules/orders/DELIVERY_SEND_FAIL';
-
-const DELETE_ORDER = 'redux/modules/orders/DELETE_ORDER';
-const DELETE_ORDER_OK = 'redux/modules/orders/DELETE_ORDER_OK';
-const DELETE_ORDER_FAIL = 'redux/modules/orders/DELETE_ORDER_FAIL';
-
-const START_SEND = 'redux/modules/orders/APPLY_START_SEND';
-const STOP_SEND = 'redux/modules/orders/APPLY_STOP_SEND';
-
-const START_REJECT = 'redux/modules/orders/APPLY_START_REJECT';
-const STOP_REJECT = 'redux/modules/orders/APPLY_STOP_REJECT';
+const LOAD = 'redux/modules/users/LOAD';
+const LOAD_OK = 'redux/modules/users/LOAD_SUCCESS';
+const LOAD_FAIL = 'redux/modules/users/LOAD_FAIL';
+const EDIT = 'redux/modules/users/EDIT';
+const EDIT_OK = 'redux/modules/users/EDIT_OK';
+const EDIT_FAIL = 'redux/modules/users/EDIT_FAIL';
+const ADD = 'redux/modules/users/ADD';
+const ADD_OK = 'redux/modules/users/ADD_OK';
+const ADD_FAIL = 'redux/modules/users/ADD_FAIL';
+const DELETE = 'redux/modules/users/DELETE';
+const DELETE_OK = 'redux/modules/users/DELETE_OK';
+const DELETE_FAIL = 'redux/modules/users/DELETE_FAIL';
+const START_EDIT = 'redux/modules/users/START_EDIT';
+const STOP_EDIT = 'redux/modules/users/STOP_EDIT';
+const START_ADD = 'redux/modules/users/START_ADD';
+const STOP_ADD = 'redux/modules/users/STOP_ADD';
+const START_DELETE = 'redux/modules/users/START_DELETE';
+const STOP_DELETE = 'redux/modules/users/STOP_DELETE';
 
 const initialState = {
   loaded: false,
-  toDeliveryBtn: {},
-  rejectOrderBtn: {}
+  editBtn: {},
+  deleteBtn: {},
+  addBtn: false,
+  errorList: []
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -44,83 +47,105 @@ export default function reducer(state = initialState, action = {}) {
         data: null,
         loadError: action.error
       };
-    case DELIVERY_SEND: // 'saving' flag handled by redux-form
+    case START_ADD:
+      return {
+        ...state,
+        addBtn: true
+      };
+    case STOP_ADD:
+      return {
+        ...state,
+        addBtn: false
+      };
+    case START_DELETE:
+      return {
+        ...state,
+        deleteBtn: {
+          ...state.deleteBtn,
+          [action.id]: true
+        }
+      };
+    case STOP_DELETE:
+      return {
+        ...state,
+        deleteBtn: {
+          ...state.deleteBtn,
+          [action.id]: false
+        }
+      };
+    case START_EDIT:
+      return {
+        ...state,
+        editBtn: {
+          ...state.editBtn,
+          [action.id]: true
+        }
+      };
+    case STOP_EDIT:
+      return {
+        ...state,
+        editBtn: {
+          ...state.editBtn,
+          [action.id]: false
+        }
+      };
+    case ADD:
       return state;
-    case DELIVERY_SEND_OK:
-      let index = -1;
-      const data = [...state.data];
-      for (let ind = 0; ind < data.length; ++ind) {
-        if (data[ind].id === action.result) {
-          index = ind;
+    case ADD_OK:
+      const dataADD = [...state.data];
+      dataADD.push(action.result.user);
+      return {
+        ...state,
+        data: dataADD
+      };
+    case ADD_FAIL:
+      const errADD = state.errorList;
+      errADD.push({'ADD_FAIL': action.result});
+      return {
+        ...state,
+        errorList: errADD
+      };
+    case EDIT:
+      return state;
+    case EDIT_OK:
+      const dataEDIT = [...state.data];
+      for (let index = 0; index < dataEDIT.length; ++index) {
+        if (dataEDIT[index].id === action.result.id) {
+          dataEDIT[index] = action.result.user;
           break;
         }
       }
-      data.splice(index, 1);
       return {
         ...state,
-        sendError: {
-          ...state.sendError,
-          [action.id]: null
-        },
-        data: data
+        data: dataEDIT
       };
-    case DELIVERY_SEND_FAIL:
-      return typeof action.error === 'string' ? {
+    case EDIT_FAIL:
+      const errEDIT = state.errorList;
+      errEDIT.push({'EDIT_FAIL': action.result});
+      return {
         ...state,
-        sendError: {
-          ...state.sendError,
-          [action.id]: action.error
-        }
-      } : state;
-    case DELETE_ORDER: // 'saving' flag handled by redux-form
+        errorList: errEDIT
+      };
+    case DELETE:
       return state;
-    case DELETE_ORDER_OK:
+    case DELETE_OK:
+      const dataDELETE = [...state.data];
+      for (let index = 0; index < dataDELETE.length; ++index) {
+        if (dataDELETE[index].id === action.result) {
+          dataDELETE.splice(index, 1);
+          break;
+        }
+      }
       return {
         ...state,
-        deleteError: {
-          ...state.deleteError,
-          [action.id]: null
-        }
+        data: dataDELETE
       };
-    case DELETE_ORDER_FAIL:
-      return typeof action.error === 'string' ? {
-        ...state,
-        deleteError: {
-          ...state.deleteError,
-          [action.id]: action.error
-        }
-      } : state;
-    case START_SEND:
+    case DELETE_FAIL:
+      const errDELETE = state.errorList;
+      errDELETE.push({'DELETE_FAIL': action.result});
       return {
         ...state,
-        toDeliveryBtn: {
-          ...state.toDeliveryBtn,
-          [action.id]: true
-        }
-      };
-    case STOP_SEND:
-      return {
-        ...state,
-        toDeliveryBtn: {
-          ...state.toDeliveryBtn,
-          [action.id]: false
-        }
-      };
-    case START_REJECT:
-      return {
-        ...state,
-        rejectOrderBtn: {
-          ...state.rejectOrderBtn,
-          [action.id]: true
-        }
-      };
-    case STOP_REJECT:
-      return {
-        ...state,
-        rejectOrderBtn: {
-          ...state.rejectOrderBtn,
-          [action.id]: false
-        }
+        errorList: errDELETE
       };
     default:
       return state;
@@ -128,47 +153,51 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  return globalState.orders && globalState.orders.loaded;
+  return globalState.users && globalState.users.loaded;
 }
-
 export function load() {
   return {
     types: [LOAD, LOAD_OK, LOAD_FAIL],
-    promise: (client) => client.get('/orders/get')
+    promise: (client) => client.get('/users/get')
   };
 }
-
-export function rejectOrder(id) {
+export function addUser(user) {
   return {
-    types: [DELETE_ORDER, DELETE_ORDER_FAIL, DELETE_ORDER_OK],
-    id: id,
-    promise: (client) => client.post('/orders/cancel', {
+    types: [ADD, ADD_FAIL, ADD_OK],
+    promise: (client) => client.post('/users/add', {
+      data: {'user': user}
+    })
+  };
+}
+export function editUser(user) {
+  return { types: [EDIT, EDIT_FAIL, EDIT_OK],
+    promise: (client) => client.post('/users/edit', {
+      data: {'user': user}
+    })
+  };
+}
+export function deleteUser(id) {
+  return { types: [DELETE, DELETE_FAIL, DELETE_OK],
+    promise: (client) => client.post('/users/delete', {
       data: {'id': id}
     })
   };
 }
-
-export function toDeliveryOrder(id) {
-  return { types: [DELIVERY_SEND, DELIVERY_SEND_OK, DELIVERY_SEND_FAIL],
-    id: id,
-    promise: (client) => client.post('/orders/apply', {
-      data: {'id': id}
-    })
-  };
+export function startAdd() {
+  return { type: START_ADD };
 }
-
-export function startSend(id) {
-  return { type: START_SEND, id };
+export function stopAdd() {
+  return { type: STOP_ADD };
 }
-
-export function startReject(id) {
-  return { type: START_REJECT, id };
+export function startEdit(id) {
+  return { type: START_EDIT, id };
 }
-
-export function stopSend(id) {
-  return { type: STOP_SEND, id };
+export function stopEdit(id) {
+  return { type: STOP_EDIT, id };
 }
-
-export function stopReject(id) {
-  return { type: STOP_REJECT, id };
+export function startDelete(id) {
+  return { type: START_DELETE, id };
+}
+export function stopDelete(id) {
+  return { type: STOP_DELETE, id };
 }

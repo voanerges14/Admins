@@ -80,6 +80,10 @@ export default class App extends Component {
                 {/* <NavItem eventKey={1}>Chat</NavItem>*/}
               {/* </LinkContainer>}*/}
 
+              <LinkContainer to="/users">
+                <NavItem eventKey={1}>Users</NavItem>
+              </LinkContainer>
+
               <LinkContainer to="/orders">
                 <NavItem eventKey={2}>Orders</NavItem>
               </LinkContainer>
