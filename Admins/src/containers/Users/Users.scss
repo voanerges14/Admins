@@ -10,14 +10,15 @@
     width: 5%;
   }
   .NameColMain {
-    width: 10%;
-    text-align: center;
+    width: 9%;
+    text-align: left;
     .Name {
+      width: 3%;
       text-align: left;
     }
   }
   .MailMain {
-    width: 11%;
+    width: 10%;
     text-align: center;
     .Mail {
       text-align: left;
@@ -31,7 +32,7 @@
     }
   }
   .AddressMain {
-    width: 17%;
+    width: 25%;
     text-align: center;
     .Address {
       text-align: left;
@@ -46,9 +47,9 @@
   }
   .AdminMain {
     width: 7%;
-    text-align: center;
+    text-align: left;
     .Admin {
-      text-align: left;
+      align: center;
     }
   }
   .Edit {

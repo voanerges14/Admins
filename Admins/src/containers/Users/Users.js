@@ -102,7 +102,7 @@ export default class Orders extends Component {
                   {/* </div>)}*/}
               {/* </td>*/}
               <td className={styles.Admin}>
-                { user.admin }
+                {user.admin}
               </td>
               <td className={styles.Edit}>
                 < button className="btn btn-primary btn-sm" onClick={() => startEdit(user.id)}>
