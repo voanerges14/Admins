@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleRoot} from 'radium';
-import {Treebeard, decorators} from '../../components';
+import {Treebeard, decorators, SwitchButton} from '../../components';
 import Helmet from 'react-helmet';
-
+// const Switch = require('components');
 // import data from './data';
 import styles from './styles';
 import * as filters from './filter';
@@ -16,8 +16,6 @@ import * as categoryActions from 'redux/modules/categories';
 import {initializeWithKey} from 'redux-form';
 
 import {CategoryEditProp, CategoryAddProp} from 'components';
-
-
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -63,6 +61,8 @@ class Categories extends Component {
     super(props);
     this.state = {};
     this.onToggle = this.onToggle.bind(this);
+    this.onFilterMouseUp = this.onFilterMouseUp.bind(this);
+    // this.onKeyUp = this.onKeyUp.bind(this);
   }
 
   onToggle(node, toggled) {
@@ -130,7 +130,7 @@ class Categories extends Component {
     if (loading) {
       refreshClassName += ' fa-spin';
     }
-    const st = require('./../../containers/CategoriesOLD/CategoriesOLD.scss');
+    const st = require('./../../containers/Categories/Categories.scss');
     return (
       <div>
         <h1>Categories
@@ -138,7 +138,16 @@ class Categories extends Component {
             <i className={refreshClassName}/> {' '} Reload
           </button>
         </h1>
-        <Helmet title="CategoriesTree"/>
+          <div>
+            <SwitchButton
+              id="my-button"
+              labelLeft="left"
+              labelRight="right"
+              isChecked
+            />
+          </div>
+
+        <Helmet title="Categories"/>
         <StyleRoot style={styles.component3}>
           <div style={styles.searchBox}>
             <div className="input-group">
@@ -174,6 +183,12 @@ class Categories extends Component {
                   <button className="btn btn-primary" onClick={handleAddProp(chousenNode)}>
                     <i className="glyphicon glyphicon-plus"/>ADD
                   </button>
+                  <div className="checkbox">
+                    <label>
+                      <input type="checkbox" data-toggle="toggle"/>
+                        Option one is enabled
+                    </label>
+                  </div>
                 </th>}
               </tr>
               {adding[0] && <CategoryAddProp formKey={adding[1]} initialValues={adding[1]}/>}
@@ -222,6 +237,11 @@ class Categories extends Component {
 
 
           </div>
+        </StyleRoot>
+
+
+        <StyleRoot>
+
         </StyleRoot>
 
       </div>

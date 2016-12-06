@@ -24,4 +24,6 @@ export animations from'./CategoriesTree/themes/animations';
 export theme from'./CategoriesTree/themes/default';
 export OrderForm from './OrderForm/OrderForm';
 export NodeViewer from './NodeViewer/NodeViewer';
+export SwitchButton from './SwitchButton/Main';
+
 
