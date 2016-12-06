@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import Label from './Label';
 import Toggle from './Toggle';
-import {onToggelSwitch} from 'redux/modules/hello';
+// import {onToggelSwitch} from 'redux/modules/hello';
 
 
 const propTypes = {

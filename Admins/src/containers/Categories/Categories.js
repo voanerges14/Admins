@@ -238,12 +238,6 @@ class Categories extends Component {
 
           </div>
         </StyleRoot>
-
-
-        <StyleRoot>
-
-        </StyleRoot>
-
       </div>
 
     );

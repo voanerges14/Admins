@@ -84,12 +84,12 @@ export default class Orders extends Component {
               </td>
               <td className={styles.productsCol}>
                 {order.products.map((elem, index) =>
-                  <div key={ elem.product._id }>
-                    <span className={styles.productNumber} id={ elem.product._id }>
+                  <div key={ elem._id }>
+                    <span className={styles.productNumber} id={ elem._id }>
                       { index + 1 + '. '}
                     </span>
                     <span className={styles.productName} id={ index }>
-                      { elem.product.name + '---' + elem.quantity }
+                      { elem.name + ' --- ' + elem.quantity }
                     </span>
                   </div>)}
               </td>
