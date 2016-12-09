@@ -22,8 +22,7 @@ export Treebeard from './CategoriesTree/treebeard';
 export decorators from'./CategoriesTree/decorators';
 export animations from'./CategoriesTree/themes/animations';
 export theme from'./CategoriesTree/themes/default';
-export OrderForm from './OrderForm/OrderForm';
 export NodeViewer from './NodeViewer/NodeViewer';
 export SwitchButton from './SwitchButton/Main';
-
-
+export UserAddForm from './UserForms/UserAddForm';
+export UserEditForm from './UserForms/UserEditForm';
