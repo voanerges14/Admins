@@ -6,5 +6,6 @@ export update from './update';
 export addProp from './addProp';
 export updateProp from './updateProp';
 export deleteProp from './deleteProp';
+export deleteCategory from './deleteCategory';
 
 
