@@ -6,21 +6,23 @@ export default function deleteCategory(req) {
     // console.log('my res: ' + JSON.stringify(req.body));
 
     categoryDB.getCategories().then(data => {
-      for(let category in data) {
-        if(category.parentId === req.body.id) {
-          categoryDB.deleteCategory(category._id);
-        }
-      }
+      ids.push(req.body.id);
+      findNode(req.body.id, data);
+      // for(let id in ids) {
+      //   categoryDB.deleteCategory(id);
+      // }
+      resolve(ids);
     }).catch(error => {
       reject('error in deleteCategory: ' + error);
     });
   });
 }
 
-function findNode(id) {
+function findNode(id, data) {
   for(let category in data) {
-    if(category.parentId === req.body.id) {
-      categoryDB.deleteCategory(category._id);
+    if(category.parentId === id) {
+      ids.push(category._id);
+      findNode(category._id, data);
     }
   }
 }

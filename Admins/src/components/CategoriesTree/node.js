@@ -82,6 +82,19 @@ class TreeNode extends React.Component {
   }
 
   renderHeader(decorators, animations) {
+    // const handleEdit = (prop) => {
+    //   const {editStartProp} = this.props; // eslint-disable-line no-shadow
+    //   return () => editStartProp(String(prop.name));
+    // };
+    // const handleAdd = (prop) => {
+    //   const {addStartProp} = this.props; // eslint-disable-line no-shadow
+    //   return () => addStartProp(String(prop._id));
+    // };
+    const handleDeleteStart = (id) => {
+      const {deleteStart} = this.props;
+      return () => deleteStart(id);
+    };
+
     const styles = require('../../containers/Categories/Categories.scss');
     return (
       <div className={styles.mybutton}>
@@ -92,7 +105,7 @@ class TreeNode extends React.Component {
           node={Object.assign({}, this.props.node)}
           onClick={this.onClick}/>
         <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={this.onPlusClick}>
+          <button className="btn btn-link btn-xs" onClick={handleDeleteStart()}>
             <span className="glyphicon glyphicon-plus"/></button>
         </div>
         <div className={styles.mycell}>
@@ -169,7 +182,9 @@ TreeNode.propTypes = {
     React.PropTypes.object,
     React.PropTypes.bool
   ]).isRequired,
-  onToggle: React.PropTypes.func
+  onToggle: React.PropTypes.func,
+  deleteStartProp: React.PropTypes.func.isRequired
+
 
   // handleAdd: React.PropTypes.func.isRequired,
   // handleRemove: React.PropTypes.func.isRequired,
