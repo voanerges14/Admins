@@ -22,11 +22,11 @@ new directory and trim out almost all of it:
 
 *  `cd ./src/containers && mkdir ./Hello` because each container goes in its own 
     directory by convention.
-*  `cp About/About.js Hello/Hello.js`
+*  `cp About/About.js Hello/Switch.js`
 
-Edit `Hello/Hello.js` into this file:
+Edit `Hello/Switch.js` into this file:
 
-![New Hello.js](new_hello.png)
+![New Switch.js](new_hello.png)
 
 
 
@@ -61,7 +61,7 @@ new directory `./src/containers/Hello` without adding to any configuration files
 On the other hand, routine code was added to `./src/containers/index.js` and 
 `./src/routes.js` to handle the new page.  A convention could automatically
 accomplish the same tasks at either compile or run time.  The cost is new 
-constraints, such as requiring `Hello/Hello.js` to be renamed
+constraints, such as requiring `Hello/Switch.js` to be renamed
 `HelloPage/HelloPage.js`.
 
 Following a style in the code that has no automatic effects is just organic

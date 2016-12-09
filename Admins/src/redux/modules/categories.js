@@ -20,7 +20,12 @@ const ADD_FAIL = 'redux-example/categories/ADD_FAIL';
 
 const DELETE_PROP = 'redux-example/categories/DELETE_PROP';
 const DELETE_PROP_SUCCESS = 'redux-example/categories/DELETE_PROP_SUCCESS';
-const DELETE_PROP_FAIL = 'redux-example/categories/ADDELETE_PROP_FAIL';
+const DELETE_PROP_FAIL = 'redux-example/categories/DELETE_PROP_FAIL';
+
+const DELETE = 'redux-example/categories/DELETE';
+const DELETE_SUCCESS = 'redux-example/categories/DELETE_SUCCESS';
+const DELETE_FAIL = 'redux-example/categories/DELETE_FAIL';
+
 
 const ADD_PROP = 'redux-example/categories/ADD_PROP';
 const ADD_SUCCESS_PROP = 'redux-example/categories/ADD_SUCCESS_PROP';
@@ -45,7 +50,8 @@ const initialState = {
   onDelete: {},
   editing: {},
   editingProp: {},
-  saveError: {}
+  saveError: {},
+  deleting: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -168,7 +174,7 @@ export default function reducer(state = initialState, action = {}) {
 
     case DELETE_START_PROP:
       const Id = action.id;
-      const Name = action.name;
+      const NAme = action.name;
       debugger;
       return {
         ...state,
@@ -176,21 +182,50 @@ export default function reducer(state = initialState, action = {}) {
           ...state.onDelete,
           [Id]: {
             ...state.onDelete[Id],
-            [Name]: true
+            [NAme]: true
+          }
+        }
+      };
+
+    case DELETE_START:
+      const IdDStart = action.id;
+      const NameDStart = action.name;
+      debugger;
+      return {
+        ...state,
+        deliting: {
+          // ...state.deliting,
+          [IdDStart]: {
+            ...state.deliting[IdDStart],
+            [NameDStart]: true
           }
         }
       };
 
     case DELETE_STOP_PROP:
       const ID = action.id;
-      const NAme = action.name;
+      const Name = action.name;
       return {
         ...state,
         onDelete: {
           ...state.onDelete,
           [ID]: {
             ...state.onDelete[ID],
-            [NAme]: false
+            [Name]: false
+          }
+        }
+      };
+
+    case DELETE_STOP:
+      const IDDStop = action.id;
+      const NameDStop = action.name;
+      return {
+        ...state,
+        deliting: {
+          // ...state.onDelete,
+          [IDDStop]: {
+            ...state.deleting[IDDStop],
+            [NameDStop]: false
           }
         }
       };
@@ -235,6 +270,10 @@ export default function reducer(state = initialState, action = {}) {
 
     case DELETE_PROP:
       return state; // 'saving' flag handled by redux-form
+
+    case DELETE:
+      return state;
+
     case DELETE_PROP_SUCCESS:
       const idd = action.id;
       const namme = action.name;
@@ -242,13 +281,29 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         data: action.result,
         onDelete: {
-          ...state.editing,
+          // ...state.editing,
           [idd]: {
-            ...state.editing.id,
+            ...state.onDelete.id,
             [namme]: false
           }
         }
       };
+
+    case DELETE_SUCCESS:
+      const IDDSuc = action.id;
+      const NameIDSuc = action.name;
+      return {
+        ...state,
+        data: action.result,
+        deliting: {
+          // ...state.deliting,
+          [IDDSuc]: {
+            ...state.deleting.id,
+            [NameIDSuc]: false
+          }
+        }
+      };
+
     case DELETE_PROP_FAIL:
       return typeof action.error === 'string' ? {
         ...state,
@@ -257,6 +312,16 @@ export default function reducer(state = initialState, action = {}) {
           [action.name]: action.error
         }
       } : state;
+
+    case DELETE_FAIL:
+      return typeof action.error === 'string' ? {
+        ...state,
+        saveError: {
+          ...state.saveError,
+          [action.name]: action.error
+        }
+      } : state;
+
     default:
       return state;
   }
@@ -317,8 +382,17 @@ export function deleteProp(id, name) {
     id: id,
     name: name,
     types: [DELETE_PROP, DELETE_PROP_SUCCESS, DELETE_PROP_FAIL],
-    promise: (client) => client.post('/category/deleteProp', {
+    promise: (client) => client.post('/category/deleteProp.js', {
       data: {id, name}
+    })
+  };
+}
+
+export function deleteCategory(id) {
+  return {
+    types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
+    promise: (client) => client.post('/category/delete', {
+      data: {id}
     })
   };
 }

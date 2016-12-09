@@ -3,7 +3,19 @@ import React from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
 // import {CategoryAdd} from 'components';
 import NodeHeader from './header';
-// import {deleteStart} from '../../redux/modules/categories';
+import {connect} from 'react-redux';
+import * as categoryActions from 'redux/modules/categories';
+
+@connect(
+  state => ({
+    categories: state.categories.data,
+    editing: state.categories.editing,
+    error: state.categories.error,
+    adding: state.categories.adding,
+    deleting: state.categories.onDelete
+  }),
+{...categoryActions})
+
 class TreeNode extends React.Component {
   constructor(props) {
     super(props);

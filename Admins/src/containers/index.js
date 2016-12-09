@@ -13,6 +13,7 @@ export HomeA from './Home/Home';
 // export LoginA from './LoginA/LoginA';
 export Orders from './Orders/Orders';
 export Categories from './Categories/Categories';
+export Products from './Products/Products';
 export Users from './Users/Users';
 
 

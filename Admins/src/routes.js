@@ -11,7 +11,8 @@ import {
     NotFound,
     Home,
     Categories,
-    Users
+    Users,
+    Products
   } from 'containers';
 
 
@@ -52,6 +53,8 @@ export default (store) => {
         <Route path="categories" component={Categories}/>
         <Route path="orders" component={Orders}/>
         <Route path="users" component={Users}/>
+        <Route path="products" component={Products}/>
+
       </Route>
 
 
