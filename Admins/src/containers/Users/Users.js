@@ -1,10 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import * as ordersActions from 'redux/modules/users';
+import * as usersActions from 'redux/modules/users';
 import {isLoaded, load as loadUsers} from 'redux/modules/users';
-import {initializeWithKey} from 'redux-form';
+// import {initializeWithKey} from 'redux-form';
 import { asyncConnect } from 'redux-async-connect';
+import { UserAddForm } from 'components';
 
 @asyncConnect([{
   deferred: true,
@@ -21,14 +22,13 @@ import { asyncConnect } from 'redux-async-connect';
     deleteBtn: state.users.deleteBtn,
     addBtn: state.users.addBtn,
     error: state.users.errorList,
-    loading: state.orders.loading,
+    loading: state.orders.loading
   }),
-  {...ordersActions, initializeWithKey })
+  {...usersActions })
 export default class Orders extends Component {
   static propTypes = {
     users: PropTypes.array,
     loading: PropTypes.bool,
-    initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
     editBtn: PropTypes.object.isRequired,
     deleteBtn: PropTypes.object.isRequired,
@@ -42,7 +42,7 @@ export default class Orders extends Component {
     deleteUser: PropTypes.func.isRequired
   };
   render() {
-    const { users, loading, load, startEdit, startAdd, // editBtn, addBtn, stopAdd,
+    const { users, loading, load, startEdit, startAdd, addBtn,
       deleteBtn, startDelete, stopDelete, deleteUser } = this.props;
     const deleteBtns = (id) => {
       return (typeof deleteBtn[id] === 'undefined') ? false : deleteBtn[id];
@@ -59,9 +59,10 @@ export default class Orders extends Component {
           <button className={styles.RefreshBtn + ' btn btn-success'} onClick={load}>
             <i className={refreshClassName}/> {' '} Reload Users
           </button>
+          {!addBtn ?
           <button className={styles.Add + ' btn btn-success'} onClick={() => {startAdd();}}>
             <i className="glyphicon glyphicon-plus"/> Add Users
-          </button>
+          </button> : <UserAddForm/> }
         </h1>
         <Helmet title="Users"/>
         {users && users.length &&
@@ -96,10 +97,10 @@ export default class Orders extends Component {
                 { user.address }
               </td>
               {/* <td className={styles.Cards}>*/}
-                {/* {user.cards.map((elem) =>*/}
-                  {/* <div key={ elem.product._id }>*/}
-                    {/* { elem }*/}
-                  {/* </div>)}*/}
+              {/* {user.cards.map((elem) =>*/}
+              {/* <div key={ elem.product._id }>*/}
+              {/* { elem }*/}
+              {/* </div>)}*/}
               {/* </td>*/}
               <td className={styles.Admin}>
                 {user.admin}

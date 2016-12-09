@@ -2,89 +2,52 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
-import * as userActions from 'redux/modules/orders';
+import * as userActions from 'redux/modules/users';
 
 @connect(
-  state => ({
-    addBtn: state.orders.addBtn
-  }),
+  () => {},
   dispatch => bindActionCreators(userActions, dispatch)
 )
 @reduxForm({
   form: 'user',
   fields: ['id', 'firstName', 'lastName', 'password', 'admin']
 })
-export default class OrderForm extends Component {
+export default class UserAddForm extends Component {
   static propTypes = {
-    addBtn: PropTypes.bool.isRequired,
-    applyStartSend: PropTypes.func.isRequired,
-    applyStopSend: PropTypes.func.isRequired,
-    applyStopReject: PropTypes.func.isRequired,
-    applyStartReject: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    rejectOrder: PropTypes.func.isRequired,
-    toDeliveryOrder: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    products: PropTypes.array.isRequired,
-    formKey: PropTypes.string.isRequired,
+    addUser: PropTypes.func.isRequired,
+    stopAdd: PropTypes.func.isRequired,
+    values: PropTypes.object.isRequired,
+    fields: PropTypes.object.isRequired
   };
 
   render() {
-    const handleApplyReject = (id) => {
-      const {applyStartReject} = this.props; // eslint-disable-line no-shadow
-      return () => applyStartReject(String(id));
-    };
-    const handleApplySend = (id) => {
-      const {applyStartSend} = this.props; // eslint-disable-line no-shadow
-      return () => applyStartSend(String(id));
-    };
-    const { toDeliveryBtn, rejectOrderBtn, applyStopSend, applyStopReject, formKey, handleSubmit,
-      rejectOrder, toDeliveryOrder, user, products} = this.props;
-    const sendBtn = (typeof toDeliveryBtn[formKey] === 'undefined') ? false : toDeliveryBtn[formKey];
-    const rejectBtn = (typeof rejectOrderBtn[formKey] === 'undefined') ? false : rejectOrderBtn[formKey];
+    const { addUser, stopAdd, values, fields: {firstName, lastName, password, admin}} = this.props;
     const styles = require('containers/Orders/Orders.scss');
     return (
       <tr>
-        <td className={styles.idOrdersCol}>
-          { formKey }
+        <td className={styles.Name}>
+          {/* <input type="text" label = "myTextInput" className="form-control" {...firstName}/>*/}
+            <label>
+              Name:
+               <input type="text" label = "myTextInput" className="form-control" {...firstName}/>
+            </label>
         </td>
-        <td className={styles.userCol}>
-          <p>{ user.firstName + ' ' + user.lastName }</p>
-          <p>{ user.email }</p>
-          <p>{ user.phoneNumber}</p>
+        <td className={styles.Name}>
+          <input type="text" className="form-control" {...lastName}/>
         </td>
-        <td className={styles.productsCol}>
-          {products.map((elem, index) =>
-            <div key={ elem.product._id }>
-              <span className={styles.productNumber} id={ elem.product._id }>{ index + 1 }. </span>
-              <span className={styles.productName} id={ index }>{ elem.product.name } --- {elem.quantity}</span>
-            </div>)}
+        <td className={styles.Name}>
+          <input type="text" className="form-control" {...password}/>
         </td>
-        <td className={styles.sendCol}>
-          {sendBtn && <div>
-            <button className="btn btn-success btn-sm" onClick={handleSubmit(() => toDeliveryOrder(formKey))}>
+        <td className={styles.Admin}>
+          <input type="text" className="form-control" {...admin}/>
+        </td>+
+        <td className={styles.Add}>
+            <button className="btn btn-success btn-sm" onClick={() => addUser(values)}>
               <i className={'glyphicon glyphicon-ok'}/>
             </button>
-            <button className="btn btn-default btn-sm" onClick={() => applyStopSend(formKey)}>
+            <button className="btn btn-default btn-sm" onClick={() => stopAdd()}>
               <i className="glyphicon glyphicon-remove"/>
-            </button></div>}
-          {!sendBtn &&
-          <button className="btn btn-primary btn-sm" onClick={handleApplySend(formKey)}>
-            <i className="fa fa-pencil"/> Send
-          </button>}
-        </td>
-        <td className={styles.rejectCol}>
-          {rejectBtn && <div>
-            <button className="btn btn-success btn-sm" onClick={handleSubmit(() => rejectOrder(formKey))}>
-              <i className={'fa fa-cog fa-spin'}/> OK
             </button>
-            <button className="btn btn-default btn-sm" onClick={() => applyStopReject(formKey)}>
-              <i className="fa fa-ban"/> Cancel
-            </button></div>}
-          {!rejectBtn &&
-          <button className="btn btn-danger btn-sm" onClick={handleApplyReject(formKey)}>
-            <i className="fa fa-pencil"/> Cancel
-          </button>}
         </td>
       </tr>
     );
