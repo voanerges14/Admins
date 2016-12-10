@@ -72,7 +72,7 @@ class Categories extends Component {
       this.state.cursor.active = false;
     }
     node.active = true;
-    if (node.children) {
+    if (node.children && node.children !== []) {
       node.toggled = toggled;
     }
     this.setState({cursor: node});

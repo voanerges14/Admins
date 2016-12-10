@@ -138,7 +138,7 @@ export function load() {
 
 export function rejectOrder(id) {
   return {
-    types: [DELETE_ORDER, DELETE_ORDER_FAIL, DELETE_ORDER_OK],
+    types: [DELETE_ORDER, DELETE_ORDER_OK, DELETE_ORDER_FAIL],
     id: id,
     promise: (client) => client.post('/orders/cancel', {
       data: {'id': id}

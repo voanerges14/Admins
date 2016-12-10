@@ -1,5 +1,7 @@
 // юзає header.js
-import React from 'react';
+// import React from 'react';
+import React, {Component} from 'react';
+
 import {VelocityTransitionGroup} from 'velocity-react';
 // import {CategoryAdd} from 'components';
 import NodeHeader from './header';
@@ -21,18 +23,13 @@ import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 @connect(
   state => ({
     categories: state.categories.data,
-    editing: state.categories.editingProp,
-    error: state.categories.error,
-    loading: state.categories.loading,
-    adding: state.categories.adding,
-    deleting: state.categories.deleting
-  }), {...categoryActions, initializeWithKey}
-)
+    myToggled: state.categories.myToggled
+    // editing: state.categories.editing,
+    // adding: state.categories.adding
+    // deleting: state.categories.deleting
+  }), {...categoryActions})
 
-
-class TreeNode extends React.Component {
-
-
+class TreeNode extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -44,9 +41,12 @@ class TreeNode extends React.Component {
   onClick() {
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
+    const temp = this.props.toggledChange;
+    temp(this.props.myToggled);
     if (onToggle) {
       onToggle(this.props.node, toggled);
     }
+    console.log('1) onClick()');
   }
 
   onMinusClick() {
@@ -86,6 +86,7 @@ class TreeNode extends React.Component {
 
 
   renderDrawer(decorators, animations) {
+    console.log('3) renderDrawer()');
     const toggled = this.props.node.toggled;
     if (!animations && !toggled) {
       return null;
@@ -184,6 +185,8 @@ class TreeNode extends React.Component {
 }
 
 TreeNode.propTypes = {
+  toggledChange: React.PropTypes.func.isRequired,
+  myToggled: React.PropTypes.bool.isRequired,
   style: React.PropTypes.object.isRequired,
   node: React.PropTypes.object.isRequired,
   decorators: React.PropTypes.object.isRequired,

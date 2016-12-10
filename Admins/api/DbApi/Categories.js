@@ -73,7 +73,7 @@ export function deleteCategory(id) {
 }
 
 export function deleteCategories(ids) {
-  return CategoriesModel.remove({'_id': {$in: ids}}, function(err) {
+  return CategoriesModel.remove({ _id: id }, function(err) {
     if (!err) {
       return 0;
     }

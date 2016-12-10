@@ -1,4 +1,3 @@
-import * as OrdersDb from './../../DbApi/Orders';
 import * as UsersDb from './../../DbApi/Users';
 
 export function get() {
@@ -24,16 +23,28 @@ export function get() {
   });
 }
 
-export function apply(req) {
+export function add(req) {
   return new Promise((resolve, reject) => {
-    // send to delivery query
-    ////
-    OrdersDb.sendToDeliveryOrder(req.body.id).then(order => {
-      console.log('orderId: ' + order._id);
-      resolve(order._id);
-    }).catch(err => {
-      console.log('err: ' + err);
-      reject('error in apply:' + err);
+    // console.log('1) ' + JSON.stringify(req.body));
+    let fName = req.body.user.firstName;
+    let lName = req.body.user.lastName;
+    let passwd = req.body.user.password;
+    let isAdmin = req.body.isAdmin;
+    UsersDb.addUser(fName, lName, passwd, isAdmin).then(user => {
+      resolve(user._id);
+    }).catch(error => {
+      reject('error in add: ' + error);
+    });
+  });
+}
+
+export function deleteUser(req) {
+  return new Promise((resolve, reject) => {
+    UsersDb.deleteUser(req.body.id).then(() => {
+      // console.log('res: ' + res);
+      resolve(req.body.id);
+    }).catch(error => {
+      reject('error in deleteUser: ' + error);
     });
   });
 }

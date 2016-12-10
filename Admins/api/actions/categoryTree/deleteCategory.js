@@ -21,11 +21,13 @@ export default function deleteCategory(req) {
 
 function findNode(id, data) {
   let ids = [id];
+  findNode2(id);
+
   function findNode2(id) {
-    for(let category in data) {
-      if(category.parentId === id) {
-        ids.push(category._id);
-        findNode2(category._id);
+    for(let i = 0; i < data.length; ++i) {
+      if(data[i].parentId === id) {
+        ids.push(data[i]._id);
+        findNode2(data[i]._id);
       }
     }
   }
