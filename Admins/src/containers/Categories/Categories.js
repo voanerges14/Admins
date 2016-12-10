@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleRoot} from 'radium';
-import {Treebeard, decorators} from '../../components';
+import {Treebeard, decorators, Hello} from '../../components';
 import Helmet from 'react-helmet';
 // const Switch = require('components');
 // import data from './data';
@@ -14,7 +14,7 @@ import * as categoryActions from 'redux/modules/categories';
 // import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import {initializeWithKey} from 'redux-form';
 
-import {CategoryEditProp, CategoryAddProp} from 'components';
+import {CategoryEditProp, CategoryAddProp, CategoryAdd} from 'components';
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -24,7 +24,6 @@ import {CategoryEditProp, CategoryAddProp} from 'components';
   }
 }])
 
-
 @connect(
   state => ({
     categories: state.categories.data,
@@ -32,6 +31,7 @@ import {CategoryEditProp, CategoryAddProp} from 'components';
     error: state.categories.error,
     loading: state.categories.loading,
     adding: state.categories.adding,
+    addingProp: state.categories.addingProp,
     onDelete: state.categories.onDelete
   }),
   {...categoryActions, initializeWithKey})
@@ -48,7 +48,9 @@ class Categories extends Component {
     load: PropTypes.func.isRequired,
     editStartProp: PropTypes.func.isRequired,
     addStartProp: PropTypes.func.isRequired,
-    adding: PropTypes.array.isRequired,
+    addStart: PropTypes.func.isRequired,
+    addingProp: PropTypes.array.isRequired,
+    adding: PropTypes.object.isRequired,
     deleteStartProp: PropTypes.func.isRequired,
     deleteStopProp: PropTypes.func.isRequired,
     deleteProp: PropTypes.func.isRequired,
@@ -105,6 +107,10 @@ class Categories extends Component {
       const {addStartProp} = this.props; // eslint-disable-line no-shadow
       return () => addStartProp(String(prop._id));
     };
+    const handleAdd = () => {
+      const {addStart} = this.props; // eslint-disable-line no-shadow
+      return () => addStart(0);
+    };
     const handleDeletePropStart = (id, name) => {
       const {deleteStartProp} = this.props;
       return () => deleteStartProp(id, name);
@@ -118,7 +124,7 @@ class Categories extends Component {
       return () => deleteProp(id, name);
     };
 
-    const {categories, load, loading, editingProp, adding, onDelete} = this.props;
+    const {categories, load, loading, editingProp, addingProp, adding, onDelete} = this.props;
     const deleteBtns = (id, name) => {
       if (!onDelete) {
         return false;
@@ -154,6 +160,16 @@ class Categories extends Component {
           </div>
           {categories &&
           <div style={styles.component}>
+            <div className={styles.mycell}>
+                <span>
+              {!adding[0] &&
+              <button className="btn btn-link btn-xs" onClick={handleAdd()}>
+                <span className="glyphicon glyphicon-plus"/>
+              </button>}
+                  <Hello/>
+                </span>
+            </div>
+             {adding[0] && <CategoryAdd formKey={adding[1]} initialValues={adding}/>}
             <Treebeard
               data={categories}
               onToggle={this.onToggle}
@@ -168,23 +184,17 @@ class Categories extends Component {
                 {/* <th className={styles.idCol}>ID</th>*/}
                 <th className={styles.colorCol}>Name</th>
                 <th className={styles.sprocketsCol}>Type</th>
-                {!adding[0] &&
+                {!addingProp[0] &&
                 <th className={styles.ownerCol}>
                   <button className="btn btn-primary" onClick={handleAddProp(chousenNode)}>
                     <i className="glyphicon glyphicon-plus"/>ADD
                   </button>
-                  <div className="checkbox">
-                    {/* <label>*/}
-                      {/* <input type="checkbox" data-toggle="toggle" onClick={load}/>*/}
-                        {/* Option one is enabled*/}
-                    {/* </label>*/}
-                  </div>
                 </th>}
               </tr>
-              {adding[0] && <CategoryAddProp formKey={adding[1]} initialValues={adding[1]}/>}
+              {addingProp[0] && <CategoryAddProp formKey={addingProp[1]} initialValues={addingProp[1]}/>}
               </thead>
               <tbody>
-              {!adding[0] && chousenNode.properties &&
+              {!addingProp[0] && chousenNode.properties &&
               chousenNode.properties.map((prop) => editingProp[prop.name] ?
                 <CategoryEditProp formKey={String(chousenNode._id)} key={String(prop.name)} initialValues={prop}
                                   nameOld={prop.name}/> :

@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
   (state) => ({... state.hello}),
   // {showMessage}
 )
-export default class Hello extends Component {
+export default class Switch extends Component {
   static propTypes = {
     show: PropTypes.bool,
     message: PropTypes.string,

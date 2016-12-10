@@ -66,8 +66,20 @@ export function deleteCategory(id) {
       return 0;
     }
     else {
-      console.error('deleteCategory: ' + err);
-      return 'error in deleteCategory: ' + err;
+      console.error('deleteCategory.js: ' + err);
+      return 'error in deleteCategory.js: ' + err;
+    }
+  });
+}
+
+export function deleteCategories(ids) {
+  return CategoriesModel.remove({'_id': {$in: ids}}, function(err) {
+    if (!err) {
+      return 0;
+    }
+    else {
+      console.error('deleteCategory.js: ' + err);
+      return 'error in deleteCategory.js: ' + err;
     }
   });
 }

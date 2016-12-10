@@ -1,25 +1,23 @@
-const TOGGLE_MESSAGE = 'hello/TOGGLE_MESSAGE';
-
+const TOGGLE = 'hello/TOGGLE';
 const initialState = {
   show: false,
-  message: 'Hello world!!!'
+  // message: 'Hello world!!!'
 };
 
 export default function hello(state = initialState, action = {}) {
   switch (action.type) {
-    case TOGGLE_MESSAGE:
+    case TOGGLE:
       return {
         ... state,
-        show: action.show
+        show: !action.show
       };
     default:
       return state;
   }
 }
 
-export function showMessage(show) {
+export function showM(show) {
   return {
-    type: TOGGLE_MESSAGE,
-    show
+    type: TOGGLE, show
   };
 }

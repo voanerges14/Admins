@@ -5,20 +5,37 @@ import {VelocityTransitionGroup} from 'velocity-react';
 import NodeHeader from './header';
 import {connect} from 'react-redux';
 import * as categoryActions from 'redux/modules/categories';
+import {initializeWithKey} from 'redux-form';
+import {asyncConnect} from 'redux-async-connect';
+import {isLoaded, load as loadCategories} from 'redux/modules/categories';
+
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!isLoaded(getState())) {
+      return dispatch(loadCategories());
+    }
+  }
+}])
 
 @connect(
   state => ({
     categories: state.categories.data,
-    editing: state.categories.editing,
+    editing: state.categories.editingProp,
     error: state.categories.error,
+    loading: state.categories.loading,
     adding: state.categories.adding,
-    deleting: state.categories.onDelete
-  }),
-{...categoryActions})
+    deleting: state.categories.deleting
+  }), {...categoryActions, initializeWithKey}
+)
+
 
 class TreeNode extends React.Component {
+
+
   constructor(props) {
     super(props);
+    this.state = {};
     this.onClick = this.onClick.bind(this);
     this.onMinusClick = this.onMinusClick.bind(this);
     this.onPlusClick = this.onPlusClick.bind(this);
@@ -34,7 +51,9 @@ class TreeNode extends React.Component {
 
   onMinusClick() {
     // <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/>);
-    console.log('Hello World Minus===>');
+    console.log('Hello World Minus===>' + this.props.node._id);
+    const {deleteCategory} = this.props;
+    return () => deleteCategory(this.props.node._id);
   }
 
   onPlusClick() {
@@ -82,20 +101,8 @@ class TreeNode extends React.Component {
   }
 
   renderHeader(decorators, animations) {
-    // const handleEdit = (prop) => {
-    //   const {editStartProp} = this.props; // eslint-disable-line no-shadow
-    //   return () => editStartProp(String(prop.name));
-    // };
-    // const handleAdd = (prop) => {
-    //   const {addStartProp} = this.props; // eslint-disable-line no-shadow
-    //   return () => addStartProp(String(prop._id));
-    // };
-    const handleDeleteStart = (id) => {
-      const {deleteStart} = this.props;
-      return () => deleteStart(id);
-    };
-
     const styles = require('../../containers/Categories/Categories.scss');
+    // debugger;
     return (
       <div className={styles.mybutton}>
         <NodeHeader
@@ -105,7 +112,7 @@ class TreeNode extends React.Component {
           node={Object.assign({}, this.props.node)}
           onClick={this.onClick}/>
         <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={handleDeleteStart()}>
+          <button className="btn btn-link btn-xs" onClick={this.onPlusClick}>
             <span className="glyphicon glyphicon-plus"/></button>
         </div>
         <div className={styles.mycell}>
@@ -116,9 +123,9 @@ class TreeNode extends React.Component {
           <button className="btn btn-link btn-xs">
             <span className="glyphicon glyphicon-edit"/></button>
         </div>
-         {/* <div className={styles.mycell}>*/}
-            {/* <CategoryAdd formKey="1" key="1" initialValues="1"/>*/}
-         {/* </div>*/}
+        {/* <div className={styles.mycell}>*/}
+        {/* <CategoryAdd formKey="1" key="1" initialValues="1"/>*/}
+        {/* </div>*/}
       </div>
 
 
@@ -150,6 +157,7 @@ class TreeNode extends React.Component {
   }
 
   renderLoading(decorators) {
+    debugger;
     return (
       <ul style={this.props.style.subtree}>
         <li>
@@ -162,6 +170,7 @@ class TreeNode extends React.Component {
   render() {
     const decorators = this.decorators();
     const animations = this.animations();
+    debugger;
     return (
       <li style={this.props.style.base} ref="topLevel">
         {/* відповідає за сам вузол(папку/файл)*/}
@@ -183,8 +192,14 @@ TreeNode.propTypes = {
     React.PropTypes.bool
   ]).isRequired,
   onToggle: React.PropTypes.func,
-  deleteStartProp: React.PropTypes.func.isRequired
+  categories: React.PropTypes.array,
+  editStartProp: React.PropTypes.func.isRequired,
+  deleteCategory: React.PropTypes.func.isRequired,
 
+  adding: React.PropTypes.object.isRequired,
+  editing: React.PropTypes.object.isRequired,
+  deleting: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.object.isRequired
 
   // handleAdd: React.PropTypes.func.isRequired,
   // handleRemove: React.PropTypes.func.isRequired,
