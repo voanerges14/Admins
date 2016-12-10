@@ -59,22 +59,23 @@ export default class Orders extends Component {
           <button className={styles.RefreshBtn + ' btn btn-success'} onClick={load}>
             <i className={refreshClassName}/> {' '} Reload Users
           </button>
-          {!addBtn ?
+          {!addBtn &&
           <button className={styles.Add + ' btn btn-success'} onClick={() => {startAdd();}}>
             <i className="glyphicon glyphicon-plus"/> Add Users
-          </button> : <UserAddForm/> }
-        </h1>
+          </button>}
+          </h1>
+          {addBtn && <UserAddForm/> }
+
         <Helmet title="Users"/>
         {users && users.length &&
         <table className={styles.table + ' Table table-striped'}>
           <thead> <tr>
             <th className={styles.IdUser}>№</th>
-            <th className={styles.NameMain}>Users</th>
-            <th className={styles.MailMain}>@Mail</th>
-            <th className={styles.NumberMain}>Phone number</th>
+            <th className={styles.Name}>Users</th>
+            <th className={styles.Mail}>@Mail</th>
+            <th className={styles.Number}>Phone number</th>
             <th className={styles.AddressMain}>Address</th>
-            {/* th className={styles.CardsMain}>Cards</th>*/}
-            <th className={styles.AdminMain}>Admin</th>
+            <th className={styles.Admin}>Admin/User</th>
             <th className={styles.Edit}>Edit</th>
             <th className={styles.Delete}>Delete</th>
           </tr> </thead>
@@ -96,14 +97,8 @@ export default class Orders extends Component {
               <td className={styles.Address}>
                 { user.address }
               </td>
-              {/* <td className={styles.Cards}>*/}
-              {/* {user.cards.map((elem) =>*/}
-              {/* <div key={ elem.product._id }>*/}
-              {/* { elem }*/}
-              {/* </div>)}*/}
-              {/* </td>*/}
               <td className={styles.Admin}>
-                {user.admin}
+                {user.admin ? <div>Admin</div> : <div>User</div>}
               </td>
               <td className={styles.Edit}>
                 < button className="btn btn-primary btn-sm" onClick={() => startEdit(user.id)}>
@@ -113,7 +108,7 @@ export default class Orders extends Component {
               <td className={styles.Delete}>
                 {!deleteBtns(user.id) &&
                 <button className="btn btn-danger btn-sm" onClick={() => startDelete(user.id)}>
-                  <i className="fa fa-pencil"/> Delete
+                  <i className="glyphicon glyphicon-remove"/> Delete
                 </button>}
 
                 {deleteBtns(user.id) && <div>

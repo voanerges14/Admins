@@ -42,6 +42,7 @@ const DELETE_START_PROP = 'redux-example/categories/DELETE_START_PROP';
 const DELETE_STOP_PROP = 'redux-example/categories/DELETE_STOP_PROP';
 const EDIT_START_PROP = 'redux-example/categories/EDIT_START_PROP';
 const EDIT_STOP_PROP = 'redux-example/categories/EDIT_STOP_PROP';
+const TOGGLED = 'redux-example/categories/TOGGLED';
 
 const initialState = {
   loaded: false,
@@ -51,11 +52,17 @@ const initialState = {
   editing: {},
   editingProp: {},
   saveError: {},
-  deleting: {}
+  deleting: {},
+  myToggled: false
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case TOGGLED:
+      return {
+        ...state,
+        myToggled: !action.toggled
+      };
     case LOAD:
       return {
         ...state,
@@ -382,7 +389,7 @@ export function deleteProp(id, name) {
     id: id,
     name: name,
     types: [DELETE_PROP, DELETE_PROP_SUCCESS, DELETE_PROP_FAIL],
-    promise: (client) => client.post('/category/deleteProp.js', {
+    promise: (client) => client.post('/category/deleteProp', {
       data: {id, name}
     })
   };
@@ -443,5 +450,8 @@ export function editStartProp(name) {
 
 export function editStopProp(name) {
   return {type: EDIT_STOP_PROP, name};
+}
+export function toggledChange(toggled) {
+  return {type: TOGGLED, toggled};
 }
 

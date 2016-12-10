@@ -16,13 +16,15 @@ const START_ADD = 'redux/modules/users/START_ADD';
 const STOP_ADD = 'redux/modules/users/STOP_ADD';
 const START_DELETE = 'redux/modules/users/START_DELETE';
 const STOP_DELETE = 'redux/modules/users/STOP_DELETE';
+const CHANGE_ADMIN = 'redux/modules/users/CHANGE_ADMIN';
 
 const initialState = {
   loaded: false,
   editBtn: {},
   deleteBtn: {},
   addBtn: false,
-  errorList: []
+  errorList: [],
+  isAdmin: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -93,10 +95,17 @@ export default function reducer(state = initialState, action = {}) {
       return state;
     case ADD_OK:
       const dataADD = [...state.data];
-      dataADD.push(action.result.user);
+      const user = {
+        id: action.result,
+        firstName: action.firstName,
+        lastName: action.lastName,
+        admin: action.isAdmin
+      };
+      dataADD.push(user);
       return {
         ...state,
-        data: dataADD
+        data: dataADD,
+        addBtn: false
       };
     case ADD_FAIL:
       const errADD = state.errorList;
@@ -131,7 +140,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_OK:
       const dataDELETE = [...state.data];
       for (let index = 0; index < dataDELETE.length; ++index) {
-        if (dataDELETE[index].id === action.result) {
+        if (dataDELETE[index].id === action.id) {
           dataDELETE.splice(index, 1);
           break;
         }
@@ -147,6 +156,11 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         errorList: errDELETE
       };
+    case CHANGE_ADMIN:
+      return {
+        ...state,
+        isAdmin: !action.admin
+      };
     default:
       return state;
   }
@@ -161,24 +175,29 @@ export function load() {
     promise: (client) => client.get('/users/get')
   };
 }
-export function addUser(user) {
+export function addUser(user, admin) {
   return {
-    types: [ADD, ADD_FAIL, ADD_OK],
+    types: [ADD, ADD_OK, ADD_FAIL],
+    firstName: user.firstName,
+    lastName: user.lastName,
+    password: user.password,
+    idAdmin: admin,
     promise: (client) => client.post('/users/add', {
-      data: {'user': user}
+      data: {'user': user, 'isAdmin': admin}
     })
   };
 }
 export function editUser(user) {
-  return { types: [EDIT, EDIT_FAIL, EDIT_OK],
+  return { types: [EDIT, EDIT_OK, EDIT_FAIL],
     promise: (client) => client.post('/users/edit', {
       data: {'user': user}
     })
   };
 }
 export function deleteUser(id) {
-  return { types: [DELETE, DELETE_FAIL, DELETE_OK],
-    promise: (client) => client.post('/users/delete', {
+  return { types: [DELETE, DELETE_OK, DELETE_FAIL],
+    id: id,
+    promise: (client) => client.post('/users/deleteUser', {
       data: {'id': id}
     })
   };
@@ -200,4 +219,7 @@ export function startDelete(id) {
 }
 export function stopDelete(id) {
   return { type: STOP_DELETE, id };
+}
+export function changeAdmin(admin) {
+  return { type: CHANGE_ADMIN, admin };
 }
