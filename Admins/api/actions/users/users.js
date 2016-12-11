@@ -24,7 +24,6 @@ export function get() {
 
 export function add(req) {
   return new Promise((resolve, reject) => {
-    // console.log('1) ' + JSON.stringify(req.body));
     let fName = req.body.user.firstName;
     let lName = req.body.user.lastName;
     let passwd = req.body.user.password;
@@ -40,7 +39,6 @@ export function add(req) {
 export function deleteUser(req) {
   return new Promise((resolve, reject) => {
     UsersDb.deleteUser(req.body.id).then(() => {
-      // console.log('res: ' + res);
       resolve({'id': req.body.id});
     }).catch(error => {
       reject('error in deleteUser: ' + error);

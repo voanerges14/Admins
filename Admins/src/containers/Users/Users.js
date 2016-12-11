@@ -64,9 +64,8 @@ export default class Orders extends Component {
           <button className={styles.Add + ' btn btn-success'} onClick={() => {startAdd();}}>
             <i className="glyphicon glyphicon-plus"/> Add Users
           </button>}
-          </h1>
-          {addBtn && <UserAddForm/> }
-
+        </h1>
+        {addBtn && <UserAddForm/> }
         <Helmet title="Users"/>
         {users && users.length &&
         <table className={styles.table + ' Table table-striped'}>
@@ -80,8 +79,8 @@ export default class Orders extends Component {
             <th className={styles.Edit}>Edit</th>
             <th className={styles.Delete}>Delete</th>
           </tr> </thead>
-          <tbody>
-          { users.map((user, index) => editBtns(user.id) ? <UserEditForm key={user.id} initialValues={user}/> :
+          <tbody> { users.map((user, index) =>
+            editBtns(user.id) ? <UserEditForm key={user.id} initialValues={user}/> :
             <tr key={user.id}>
               <td className={styles.IdUser} id={user.id}>
                 { index + 1 }.
@@ -120,8 +119,7 @@ export default class Orders extends Component {
                     <i className="glyphicon glyphicon-remove"/>
                   </button></div>}
               </td>
-            </tr>)
-          }
+            </tr>)}
           </tbody>
         </table>}
       </div>

@@ -3,7 +3,6 @@ import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import * as ordersActions from 'redux/modules/orders';
 import {isLoaded, load as loadOrders} from 'redux/modules/orders';
-import {initializeWithKey} from 'redux-form';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
@@ -22,12 +21,11 @@ import { asyncConnect } from 'redux-async-connect';
     error: state.orders.error,
     loading: state.orders.loading,
   }),
-  {...ordersActions, initializeWithKey })
+  {...ordersActions})
 export default class Orders extends Component {
   static propTypes = {
     orders: PropTypes.array,
     loading: PropTypes.bool,
-    initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
     toDeliveryBtn: PropTypes.object.isRequired,
     rejectOrderBtn: PropTypes.object.isRequired,

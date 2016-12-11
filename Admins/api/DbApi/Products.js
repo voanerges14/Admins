@@ -1,35 +1,22 @@
-// collection Products:
-// {
-//   "_id",
-//   "categoryId",
-//   "name": String,
-//   "price": Number,
-//   "inStock": Number,
-//   "images": Array of strings,
-//   "дата випуску/дата з'явлення в шопі": Date,
-//   "snippet": String,
-//   "description": String,
-//   "additionalFeatures": String,
-//   "properties": [
-//   ...
-//   ]
-// }
-// when close connections?
 import {db} from "./index";
 
 function connectToDbProductsModel() {
   let Products = new db.Schema({
     _id: { type: db.Schema.Types.ObjectId, required: true },
+    categoryId: { type: db.Schema.Types.String, required: true },
     name: { type: db.Schema.Types.String, required: true },
     price: { type: db.Schema.Types.String, required: true },
-    images: {type: db.Schema.Types.String, required: true}
+    inStock: { type: db.Schema.Types.String, required: true },
+    images: {type: db.Schema.Types.String, required: true},
+    description: {type: db.Schema.Types.String, required: true},
+    // date: {type: db.Schema.Types.String, required: true},
+    properties: {type: Array, required: true}
   });
 
-  let ProductsModel = db.mongoose.model('Products', Products);
-  return ProductsModel;
+  return db.mongoose.model('Products', Products);
 }
 
-var ProductsModel = connectToDbProductsModel();
+const ProductsModel = connectToDbProductsModel();
 
 export function getProductById(id) {
   return ProductsModel.find({'_id': id}, function (err, product) {

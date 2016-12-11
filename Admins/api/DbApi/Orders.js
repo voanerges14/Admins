@@ -1,10 +1,3 @@
-// collection Orders:
-// {
-//   "_id",
-//     "userId",
-//     "productId",
-//     "status": 'IN_CART' || 'PAID' || 'DELIVERING' || 'DELIVERED'
-// }
 import {db} from "./index";
 
 function connectToDbOrdersModel() {
@@ -15,11 +8,10 @@ function connectToDbOrdersModel() {
     status: {type: db.Schema.Types.String, required: true}
   });
 
-  let OrdersModel = db.mongoose.model('Orders', Orders);
-  return OrdersModel;
+  return db.mongoose.model('Orders', Orders);
 }
 
-var OrdersModel = connectToDbOrdersModel();
+const OrdersModel = connectToDbOrdersModel();
 
 export function getOrdersWithStatusPAID() {
   return OrdersModel.find({'status': 'PAID'}, function (err, orders) {
@@ -34,14 +26,14 @@ export function getOrdersWithStatusPAID() {
 export function sendToDeliveryOrder(id) {
   return OrdersModel.findById(id, function (err, order) {
     if (err) {
-      console.error('sendToDeliveryOrder error: ' + err);
-      return 'error in sendToDeliveryOrder: ' + err;
+      console.error('sendToDeliveryOrder error1: ' + err);
+      return 'error1 in sendToDeliveryOrder: ' + err;
     }
     order.status = 'DELIVERING';
     order.save(function (err, updatedOrder) {
       if (err) {
-        console.error('sendToDeliveryOrder error: ' + err);
-        return 'error in sendToDeliveryOrder: ' + err;
+        console.error('sendToDeliveryOrder error2: ' + err);
+        return 'error2 in sendToDeliveryOrder: ' + err;
       }
       return updatedOrder;
     });

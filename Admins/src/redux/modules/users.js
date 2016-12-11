@@ -215,7 +215,7 @@ export function addUser(user, admin) {
   return { types: [ADD, ADD_OK, ADD_FAIL],
     firstName: user.firstName,
     lastName: user.lastName,
-    idAdmin: admin,
+    isAdmin: admin,
     promise: (client) => client.post('/users/add', { data: {'user': user, 'isAdmin': admin} })
   };
 }
