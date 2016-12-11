@@ -1,13 +1,11 @@
 // юзає header.js
 // import React from 'react';
 import React, {Component} from 'react';
-
 import {VelocityTransitionGroup} from 'velocity-react';
 // import {CategoryAdd} from 'components';
 import NodeHeader from './header';
 import {connect} from 'react-redux';
 import * as categoryActions from 'redux/modules/categories';
-// import {initializeWithKey} from 'redux-form';
 import {asyncConnect} from 'redux-async-connect';
 import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 
@@ -23,10 +21,10 @@ import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 @connect(
   state => ({
     categories: state.categories.data,
-    myToggled: state.categories.myToggled
-    // editing: state.categories.editing,
-    // adding: state.categories.adding
-    // deleting: state.categories.deleting
+    myToggled: state.categories.myToggled,
+    editing: state.categories.editing,
+    adding: state.categories.adding,
+    deleting: state.categories.deleting
   }), {...categoryActions})
 
 class TreeNode extends Component {
