@@ -19,7 +19,8 @@ const STOP_REJECT = 'redux/modules/orders/APPLY_STOP_REJECT';
 const initialState = {
   loaded: false,
   toDeliveryBtn: {},
-  rejectOrderBtn: {}
+  rejectOrderBtn: {},
+  error: []
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -37,57 +38,57 @@ export default function reducer(state = initialState, action = {}) {
         data: action.result
       };
     case LOAD_FAIL:
+      const loadError = [...state.error];
+      loadError.push('Error Load: ' + action.error);
       return {
         ...state,
         loading: false,
         loaded: false,
         data: null,
-        loadError: action.error
+        error: loadError
       };
-    case DELIVERY_SEND: // 'saving' flag handled by redux-form
+    case DELIVERY_SEND:
       return state;
     case DELIVERY_SEND_OK:
-      const data = [...state.data];
-      for (let index = 0; index < data.length; ++index) {
-        if (data[index].id === action.result) {
-          data.splice(index, 1);
+      const deliveryData = [...state.data];
+      for (let index = 0; index < deliveryData.length; ++index) {
+        if (deliveryData[index].id === action.result.id) {
+          deliveryData.splice(index, 1);
           break;
         }
       }
       return {
         ...state,
-        sendError: {
-          ...state.sendError,
-          [action.id]: null
-        },
-        data: data
+        data: deliveryData
       };
     case DELIVERY_SEND_FAIL:
-      return typeof action.error === 'string' ? {
-        ...state,
-        sendError: {
-          ...state.sendError,
-          [action.id]: action.error
-        }
-      } : state;
-    case DELETE_ORDER: // 'saving' flag handled by redux-form
-      return state;
-    case DELETE_ORDER_OK:
+      const deliveryError = [...state.error];
+      deliveryError.push('Error Delivery: ' + action.error);
       return {
         ...state,
-        deleteError: {
-          ...state.deleteError,
-          [action.id]: null
+        error: deliveryError
+      };
+    case DELETE_ORDER:
+      return state;
+    case DELETE_ORDER_OK:
+      const deleteData = [...state.data];
+      for (let index = 0; index < deleteData.length; ++index) {
+        if (deleteData[index].id === action.result.id) {
+          deleteData.splice(index, 1);
+          break;
         }
+      }
+      return {
+        ...state,
+        data: deleteData
       };
     case DELETE_ORDER_FAIL:
-      return typeof action.error === 'string' ? {
+      const deleteError = [...state.error];
+      deleteError.push('Error Delete: ' + action.error);
+      return {
         ...state,
-        deleteError: {
-          ...state.deleteError,
-          [action.id]: action.error
-        }
-      } : state;
+        error: deleteError
+      };
     case START_SEND:
       return {
         ...state,
@@ -139,7 +140,6 @@ export function load() {
 export function rejectOrder(id) {
   return {
     types: [DELETE_ORDER, DELETE_ORDER_OK, DELETE_ORDER_FAIL],
-    id: id,
     promise: (client) => client.post('/orders/cancel', {
       data: {'id': id}
     })
@@ -148,7 +148,6 @@ export function rejectOrder(id) {
 
 export function toDeliveryOrder(id) {
   return { types: [DELIVERY_SEND, DELIVERY_SEND_OK, DELIVERY_SEND_FAIL],
-    id: id,
     promise: (client) => client.post('/orders/apply', {
       data: {'id': id}
     })
