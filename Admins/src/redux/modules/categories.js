@@ -47,6 +47,7 @@ const TOGGLED = 'redux-example/categories/TOGGLED';
 const initialState = {
   loaded: false,
   adding: [false],
+  addingProp: {},
   // addFormOpen: false,
   onDelete: {},
   editing: {},
@@ -123,18 +124,16 @@ export default function reducer(state = initialState, action = {}) {
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
       const data = [...state.data];
-      data[action.result.id - 1] = action.result;
+      // data[action.result.id - 1] = action.result;
+      data.push(action.result);
       return {
         ...state,
         data: data,
-        editing: {
-          ...state.editing,
-          [action.id]: false
-        },
-        saveError: {
-          ...state.saveError,
-          [action.id]: null
-        }
+        adding: false
+        // saveError: {
+        //   ...state.saveError,
+        //   [action.id]: null
+        // }
       };
     case SAVE_FAIL:
       return typeof action.error === 'string' ? {
@@ -158,18 +157,6 @@ export default function reducer(state = initialState, action = {}) {
       //     }
       //   }
       // }
-      return {
-        ...state,
-        data: action.result,
-        editingProp: {
-          ...state.editingProp,
-          [action.result.nameOld]: false
-        },
-        saveError: {
-          ...state.saveError,
-          [action.result.nameOld]: null
-        }
-      };
     case SAVE_FAIL_PROP:
       return typeof action.error === 'string' ? {
         ...state,
@@ -200,10 +187,10 @@ export default function reducer(state = initialState, action = {}) {
       debugger;
       return {
         ...state,
-        deliting: {
-          // ...state.deliting,
+        deleting: {
+          // ...state.deleting,
           [IdDStart]: {
-            ...state.deliting[IdDStart],
+            ...state.deleting[IdDStart],
             [NameDStart]: true
           }
         }
@@ -228,7 +215,7 @@ export default function reducer(state = initialState, action = {}) {
       const NameDStop = action.name;
       return {
         ...state,
-        deliting: {
+        deleting: {
           // ...state.onDelete,
           [IDDStop]: {
             ...state.deleting[IDDStop],
@@ -242,6 +229,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         adding: [true, action.id]
       };
+
     case ADD_STOP:
       return {
         ...state,
@@ -251,12 +239,12 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_START_PROP:
       return {
         ...state,
-        adding: [true, action.id]
+        addingProp: [true, action.id]
       };
     case ADD_STOP_PROP:
       return {
         ...state,
-        adding: [false]
+        addingProp: [false]
       };
     case ADD_PROP:
       return state; // 'saving' flag handled by redux-form
@@ -264,7 +252,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: action.result,
-        adding: [false],
+        addingProp: [false],
       };
     case ADD_FAIL_PROP:
       return typeof action.error === 'string' ? {
@@ -302,8 +290,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: action.result,
-        deliting: {
-          // ...state.deliting,
+        deleting: {
+          // ...state.deleting,
           [IDDSuc]: {
             ...state.deleting.id,
             [NameIDSuc]: false
@@ -349,7 +337,7 @@ export function save(category) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: category.id,
-    promise: (client) => client.post('/category/update', {
+    promise: (client) => client.post('/category/add', {
       data: category
     })
   };
@@ -398,7 +386,7 @@ export function deleteProp(id, name) {
 export function deleteCategory(id) {
   return {
     types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
-    promise: (client) => client.post('/category/delete', {
+    promise: (client) => client.post('/category/deleteCategory', {
       data: {id}
     })
   };

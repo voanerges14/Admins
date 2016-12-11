@@ -14,8 +14,8 @@ export WidgetForm from './WidgetForm/WidgetForm';
 export Hello from './Hello/Hello';
 export CategoryEdit from './CategoryEdit/CategoryEdit';
 export CategoryEditProp from './CategoryEditProp/CategoryEditProp';
-export CategoryAdd from './CategoryAdd/CategoryAdd';
 export LoginForm from './LoginForm/LoginForm';
+export CategoryAdd from './CategoryAdd/CategoryAdd';
 export CategoryAddProp from './CategoryAddProp/CategoryAddProp';
 
 export Treebeard from './CategoriesTree/treebeard';

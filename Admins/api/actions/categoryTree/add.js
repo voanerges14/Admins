@@ -1,29 +1,10 @@
-import load from './load';
+import * as categoryDB from './../../DbApi/Categories';
 
 export default function update(req) {
   return new Promise((resolve, reject) => {
-    // write to database
-    setTimeout(() => {
-      if (Math.random() < 0.2) {
-        reject('Oh no! Widget save fails 20% of the time. Try again.');
-      } else {
-        load(req).then(data => {
-          const widgets = data;
-          const widget = req.body;
-          if (widget.color === 'Green') {
-            reject({
-              color: 'We do not accept green widgets' // example server-side validation error
-            });
-          }
-          if (widget.id) {
-            widgets[widget.id - 1] = widget;  // id is 1-based. please don't code like this in production! :-)
-            req.session.widgets = widgets;
-          }
-          resolve(widget);
-        }, err => {
-          reject(err);
-        });
-      }
-    }, 1500); // simulate async db write
+    // categoryDB.
+    console.log('come from ' + JSON.stringify(req.body));
+    resolve({_id:'k9j87h6gf54d3dt5y67u8', name: req.body.name, properties: []});
+
   });
 }

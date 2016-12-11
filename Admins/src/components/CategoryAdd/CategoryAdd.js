@@ -12,7 +12,7 @@ import * as categoryActions from 'redux/modules/categories';
 )
 @reduxForm({
   form: 'categoriesAdd',
-  fields: ['_id']
+  fields: ['name']
 })
 export default class CategoryAdd extends Component {
   static propTypes = {
@@ -21,26 +21,27 @@ export default class CategoryAdd extends Component {
     handleSubmit: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    formKey: PropTypes.string.isRequired,
+    // formKey: PropTypes.string.isRequired,
     // name: PropTypes.object.isRequired
     values: PropTypes.object.isRequired
 
   };
 
   render() {
-    const { addStop, formKey, fields: {_id}, handleSubmit, save, submitting, values} = this.props;
+    const { addStop, fields: {name}, handleSubmit, save, submitting, values} = this.props;
     const styles = require('./CategoryAdd.scss');
-    console.log('msfnmgsdf: ' + formKey);
+    // console.log('msfnmgsdf: ' + formKey);
     return (
-      <tr className={submitting ? styles.saving : ''}>
-        <td className={styles.idCol}>{_id.value}</td>
-        <td className={styles.colorCol}>
-          <input type="text" className="form-control" />
-        </td>
+      <div className={styles.Form}>
+      {/* <tr className={submitting ? styles.saving : ''}>*/}
+        {/* <td className={styles.idCol}>{_id.value}</td>*/}
+         <td className={styles.formImput}>
+         <input type="text" {...name}/>
+           </td>
 
-        <td className={styles.buttonColl}>
+        {/* <td className={styles.buttonColl}>*/}
           <button className="btn btn-default"
-                  onClick={() => addStop(formKey)}
+                  onClick={() => addStop()}
                    disabled={submitting}>
             <i className="fa fa-ban"/> Cancel
           </button>
@@ -54,8 +55,9 @@ export default class CategoryAdd extends Component {
                    )}>
             <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
           </button>
-        </td>
-      </tr>
+         {/* </td>*/}
+       {/* </tr>*/}
+      </div>
     );
   }
 }

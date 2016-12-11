@@ -1,26 +1,27 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {showMessage} from 'redux/modules/hello';
+import * as showMe from 'redux/modules/hello';
 
 @connect(
-  (state) => ({... state.hello}),
-  {showMessage}
+  state => ({
+    show: state.hello.show
+  }), {...showMe}
 )
 export default class Hello extends Component {
   static propTypes = {
     show: PropTypes.bool,
-    message: PropTypes.string,
-    showMessage: PropTypes.func
-  }
+    // message: PropTypes.string,
+    showM: PropTypes.func
+  };
 
   render() {
     const styles = require('./Hello.scss');
-    const {show, message, showMessage} = this.props; // eslint-disable-line no-shadow
+    const {show, showM} = this.props; // eslint-disable-line no-shadow
 
-    return (<div>
-        {show && <h1>{message}</h1>}
-        <button className={styles.helloButton} onClick={() => showMessage(!show)}>
-          {!show ? 'Show Hello!' : 'Hide hello'}
+    return (
+      <div>
+        <button className={styles.helloButton} onClick={() => {showM(show);}}>
+          {show ? <div>Properties</div> : <div>Products</div>}
         </button>
       </div>
     );
