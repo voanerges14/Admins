@@ -4,6 +4,7 @@ import React, {Component, PropTypes} from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
 // import {CategoryAdd} from 'components';
 import NodeHeader from './header';
+<<<<<<< HEAD
 // import {connect} from 'react-redux';
 // import * as categoryAct from 'redux/modules/categories';
 // import {isLoaded, as loadCategories} from 'redux/modules/categories';
@@ -15,6 +16,30 @@ import NodeHeader from './header';
 //     editCategoryBtn: state.categories.editProperty,
 //     deleteCategoryBtn: state.categories.deleteProperty
 //   }), {...categoryAct})
+=======
+import {connect} from 'react-redux';
+import * as categoryActions from 'redux/modules/categories';
+import {asyncConnect} from 'redux-async-connect';
+import {isLoaded, load as loadCategories} from 'redux/modules/categories';
+
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!isLoaded(getState())) {
+      return dispatch(loadCategories());
+    }
+  }
+}])
+
+@connect(
+  state => ({
+    categories: state.categories.data,
+    categoryTreeState: state.categories.categoryTreeState,
+    editing: state.categories.editing,
+    adding: state.categories.adding,
+    deleting: state.categories.deleting
+  }), {...categoryActions})
+>>>>>>> 3f611e8c7b79f77638e4e69539f0c995204d7c44
 
 class TreeNode extends Component {
   constructor(props) {
@@ -28,12 +53,20 @@ class TreeNode extends Component {
   onClick() {
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
+<<<<<<< HEAD
     // const temp = this.props.toggledChange;
     // temp(this.props.myToggled);
+=======
+
+    const temp = this.props.toggledChange;
+    const oldState = typeof this.props.categoryTreeState[this.props.node._id] === 'undefined' ? false :
+      this.props.categoryTreeState[this.props.node._id];
+    temp(this.props.node._id, oldState);
+
+>>>>>>> 3f611e8c7b79f77638e4e69539f0c995204d7c44
     if (onToggle) {
       onToggle(this.props.node, toggled);
     }
-    console.log('1) onClick()');
   }
 
   onMinusClick() {
@@ -175,6 +208,7 @@ class TreeNode extends Component {
 }
 
 TreeNode.propTypes = {
+<<<<<<< HEAD
   toggledChange: PropTypes.func.isRequired,
   myToggled: PropTypes.bool.isRequired,
   style: PropTypes.object.isRequired,
@@ -204,6 +238,23 @@ TreeNode.propTypes = {
   deleteStartCategory: PropTypes.func.isRequired,
   deleteStopCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired
+=======
+  toggledChange: React.PropTypes.func.isRequired,
+  categoryTreeState: React.PropTypes.object.isRequired,
+
+  style: React.PropTypes.object.isRequired,
+  node: React.PropTypes.object.isRequired,
+  decorators: React.PropTypes.object.isRequired,
+  animations: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.bool
+  ]).isRequired,
+  onToggle: React.PropTypes.func,
+  categories: React.PropTypes.array,
+  editStartProp: React.PropTypes.func.isRequired,
+  deleteCategory: React.PropTypes.func.isRequired,
+
+>>>>>>> 3f611e8c7b79f77638e4e69539f0c995204d7c44
 };
 
 export default TreeNode;

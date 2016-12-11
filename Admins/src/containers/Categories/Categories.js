@@ -267,18 +267,18 @@ class Categories extends Component {
                             { chosenNode.properties.map((propi) =>
                             <span key={propi.name} className={styles.nameColProd}>
                                <p className={styles.logo}><img src={'https://facebook.github.io/react/img/logo_og.png'}/></p>
-                              {true ?
+                              {!deleteProperty.isActive ?
                                 <button className="btn btn-primary"
-                                        >
+                                        onClick={() => deleteStopProperty() }>
                                   <i className="fa fa-trash"/> Del
                                 </button> :
                                 <span>
                       <button className="btn btn-success btn-sm"
-                              >
+                              onClick={() => deleteStopProperty()}>
                         <i className={'glyphicon glyphicon-ok'}/>
                       </button>
                       <button className="btn btn-default btn-sm"
-                              >
+                              onClick={() => deleteStopProperty()}>
                         <i className="glyphicon glyphicon-remove"/>
                       </button>
                     </span>}
