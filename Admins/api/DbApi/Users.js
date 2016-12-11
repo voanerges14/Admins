@@ -103,4 +103,27 @@ export function addUser(firstName, lastName, passwd, isAdmin) {
   });
 }
 
+export function editUser(userOld) {
+  return UsersModel.findById(userOld.id, function (err, user) {
+    if (err) {
+      console.error('editUser error: ' + err);
+      return 'error in editUser: ' + err;
+    }
+    user.firstName = userOld.firstName;
+    user.lastName = userOld.lastName;
+    user.admin = userOld.admin;
+    user.address = userOld.address;
+    user.email = userOld.email;
+    user.phoneNumber = userOld.phone;
+    user.password = (typeof userOld.password === 'undefined') ? userOld.password : user.password;
+    user.save(function (err, updatedUser) {
+      if (err) {
+        console.error('editUser error: ' + err);
+        return 'error in editUser: ' + err;
+      }
+      return updatedUser;
+    });
+  });
+}
+
 

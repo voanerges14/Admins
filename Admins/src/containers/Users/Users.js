@@ -5,7 +5,7 @@ import * as usersActions from 'redux/modules/users';
 import {isLoaded, load as loadUsers} from 'redux/modules/users';
 // import {initializeWithKey} from 'redux-form';
 import { asyncConnect } from 'redux-async-connect';
-import { UserAddForm } from 'components';
+import { UserAddForm, UserEditForm } from 'components';
 
 @asyncConnect([{
   deferred: true,
@@ -36,16 +36,17 @@ export default class Orders extends Component {
     startAdd: PropTypes.func.isRequired,
     startEdit: PropTypes.func.isRequired,
     startDelete: PropTypes.func.isRequired,
-    stopAdd: PropTypes.func.isRequired,
-    stopEdit: PropTypes.func.isRequired,
     stopDelete: PropTypes.func.isRequired,
     deleteUser: PropTypes.func.isRequired
   };
   render() {
-    const { users, loading, load, startEdit, startAdd, addBtn,
-      deleteBtn, startDelete, stopDelete, deleteUser } = this.props;
+    const { users, loading, load, startEdit, startAdd, startDelete, addBtn, editBtn, deleteBtn,
+       stopDelete, deleteUser } = this.props;
     const deleteBtns = (id) => {
       return (typeof deleteBtn[id] === 'undefined') ? false : deleteBtn[id];
+    };
+    const editBtns = (id) => {
+      return (typeof editBtn[id] === 'undefined') ? false : editBtn[id];
     };
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
@@ -80,7 +81,7 @@ export default class Orders extends Component {
             <th className={styles.Delete}>Delete</th>
           </tr> </thead>
           <tbody>
-          { users.map((user, index) =>
+          { users.map((user, index) => editBtns(user.id) ? <UserEditForm key={user.id} initialValues={user}/> :
             <tr key={user.id}>
               <td className={styles.IdUser} id={user.id}>
                 { index + 1 }.

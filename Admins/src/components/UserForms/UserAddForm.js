@@ -6,7 +6,7 @@ import * as userActions from 'redux/modules/users';
 
 @connect(
   state => ({
-    admin: state.users.isAdmin
+    admin: state.users.isAdminAdd
   }),
   dispatch => bindActionCreators(userActions, dispatch)
 )
@@ -20,28 +20,28 @@ export default class UserAddForm extends Component {
     stopAdd: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
-    changeAdmin: PropTypes.func.isRequired,
+    changeAdminAdd: PropTypes.func.isRequired,
     admin: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { addUser, stopAdd, values, changeAdmin, admin, fields: {firstName, lastName, password}} = this.props;
+    const { addUser, stopAdd, values, changeAdminAdd, admin, fields: {firstName, lastName, password}} = this.props;
     const styles = require('containers/Users/Users.scss');
     return (
       <div className={styles.AddForm}>
           <label className={styles.AddForm}> first name
-            <input type="text" {...firstName}/>
+            <input type="text" className="form-control" {...firstName}/>
           </label>
 
           <label className={styles.AddForm}> last name
-            <input type="text" {...lastName}/>
+            <input type="text" className="form-control" {...lastName}/>
           </label>
 
           <label className={styles.AddForm}> password
-            <input type="text" {...password}/>
+            <input type="text" className="form-control" {...password}/>
           </label>
 
-          <button className={styles.AddForm + ' btn btn-secondary btn-sm'} onClick={() => changeAdmin(admin)}>
+          <button className={styles.AddForm + ' btn btn-secondary btn-sm'} onClick={() => changeAdminAdd(admin)}>
             {admin ? <div>Admin</div> : <div>User</div>}
           </button>
 

@@ -16,7 +16,8 @@ const START_ADD = 'redux/modules/users/START_ADD';
 const STOP_ADD = 'redux/modules/users/STOP_ADD';
 const START_DELETE = 'redux/modules/users/START_DELETE';
 const STOP_DELETE = 'redux/modules/users/STOP_DELETE';
-const CHANGE_ADMIN = 'redux/modules/users/CHANGE_ADMIN';
+const CHANGE_ADMIN_ADD = 'redux/modules/users/CHANGE_ADMIN_ADD';
+const CHANGE_ADMIN_EDIT = 'redux/modules/users/CHANGE_ADMIN_EDIT';
 
 const initialState = {
   loaded: false,
@@ -24,7 +25,8 @@ const initialState = {
   deleteBtn: {},
   addBtn: false,
   errorList: [],
-  isAdmin: false
+  isAdminAdd: false,
+  isAdminEdit: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -42,12 +44,14 @@ export default function reducer(state = initialState, action = {}) {
         data: action.result
       };
     case LOAD_FAIL:
+      const errLOAD = state.errorList;
+      errLOAD.push({'ADD_FAIL': action.error});
       return {
         ...state,
         loading: false,
         loaded: false,
         data: null,
-        loadError: action.error
+        loadError: errLOAD
       };
     case START_ADD:
       return {
@@ -76,11 +80,23 @@ export default function reducer(state = initialState, action = {}) {
         }
       };
     case START_EDIT:
+      const editData = [...state.data];
+      let isAdminDefault = false;
+      for (let index = 0; index < editData.length; ++index) {
+        if (editData[index].id === action.id) {
+          isAdminDefault = editData[index].admin;
+          break;
+        }
+      }
       return {
         ...state,
         editBtn: {
           ...state.editBtn,
           [action.id]: true
+        },
+        isAdminEdit: {
+          ...state.isAdminEdit,
+          [action.id]: isAdminDefault
         }
       };
     case STOP_EDIT:
@@ -93,10 +109,11 @@ export default function reducer(state = initialState, action = {}) {
       };
     case ADD:
       return state;
-    case ADD_OK:
+    case
+    ADD_OK:
       const dataADD = [...state.data];
       const user = {
-        id: action.result,
+        id: action.result.id,
         firstName: action.firstName,
         lastName: action.lastName,
         admin: action.isAdmin
@@ -109,7 +126,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case ADD_FAIL:
       const errADD = state.errorList;
-      errADD.push({'ADD_FAIL': action.result});
+      errADD.push({'ADD_FAIL': action.error});
       return {
         ...state,
         errorList: errADD
@@ -120,17 +137,29 @@ export default function reducer(state = initialState, action = {}) {
       const dataEDIT = [...state.data];
       for (let index = 0; index < dataEDIT.length; ++index) {
         if (dataEDIT[index].id === action.result.id) {
-          dataEDIT[index] = action.result.user;
+          dataEDIT[index] = {
+            'id': action.user.id,
+            'firstName': action.user.firstName,
+            'lastName': action.user.lastName,
+            'email': action.user.email,
+            'phone': action.user.phone,
+            'address': action.user.address,
+            'admin': action.admin
+          };
           break;
         }
       }
       return {
         ...state,
-        data: dataEDIT
+        data: dataEDIT,
+        editBtn: {
+          ...state.editBtn,
+          [action.result.id]: false
+        }
       };
     case EDIT_FAIL:
       const errEDIT = state.errorList;
-      errEDIT.push({'EDIT_FAIL': action.result});
+      errEDIT.push({'EDIT_FAIL': action.error});
       return {
         ...state,
         errorList: errEDIT
@@ -140,7 +169,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_OK:
       const dataDELETE = [...state.data];
       for (let index = 0; index < dataDELETE.length; ++index) {
-        if (dataDELETE[index].id === action.id) {
+        if (dataDELETE[index].id === action.result.id) {
           dataDELETE.splice(index, 1);
           break;
         }
@@ -151,15 +180,23 @@ export default function reducer(state = initialState, action = {}) {
       };
     case DELETE_FAIL:
       const errDELETE = state.errorList;
-      errDELETE.push({'DELETE_FAIL': action.result});
+      errDELETE.push({'DELETE_FAIL': action.error});
       return {
         ...state,
         errorList: errDELETE
       };
-    case CHANGE_ADMIN:
+    case CHANGE_ADMIN_ADD:
       return {
         ...state,
-        isAdmin: !action.admin
+        isAdminAdd: !action.admin
+      };
+    case CHANGE_ADMIN_EDIT:
+      return {
+        ...state,
+        isAdminEdit: {
+          ...state.isAdminEdit,
+          [action.id]: !action.admin
+        }
       };
     default:
       return state;
@@ -170,36 +207,26 @@ export function isLoaded(globalState) {
   return globalState.users && globalState.users.loaded;
 }
 export function load() {
-  return {
-    types: [LOAD, LOAD_OK, LOAD_FAIL],
+  return { types: [LOAD, LOAD_OK, LOAD_FAIL],
     promise: (client) => client.get('/users/get')
   };
 }
 export function addUser(user, admin) {
-  return {
-    types: [ADD, ADD_OK, ADD_FAIL],
+  return { types: [ADD, ADD_OK, ADD_FAIL],
     firstName: user.firstName,
     lastName: user.lastName,
-    password: user.password,
     idAdmin: admin,
-    promise: (client) => client.post('/users/add', {
-      data: {'user': user, 'isAdmin': admin}
-    })
+    promise: (client) => client.post('/users/add', { data: {'user': user, 'isAdmin': admin} })
   };
 }
-export function editUser(user) {
-  return { types: [EDIT, EDIT_OK, EDIT_FAIL],
-    promise: (client) => client.post('/users/edit', {
-      data: {'user': user}
-    })
+export function editUser(values, admin) {
+  return { types: [EDIT, EDIT_OK, EDIT_FAIL], user: values, admin: admin,
+    promise: (client) => client.post('/users/edit', { data: {'user': values, 'admin': admin} })
   };
 }
 export function deleteUser(id) {
   return { types: [DELETE, DELETE_OK, DELETE_FAIL],
-    id: id,
-    promise: (client) => client.post('/users/deleteUser', {
-      data: {'id': id}
-    })
+    promise: (client) => client.post('/users/deleteUser', { data: {'id': id} })
   };
 }
 export function startAdd() {
@@ -220,6 +247,9 @@ export function startDelete(id) {
 export function stopDelete(id) {
   return { type: STOP_DELETE, id };
 }
-export function changeAdmin(admin) {
-  return { type: CHANGE_ADMIN, admin };
+export function changeAdminAdd(admin) {
+  return { type: CHANGE_ADMIN_ADD, admin };
+}
+export function changeAdminEdit(id, admin) {
+  return { type: CHANGE_ADMIN_EDIT, id, admin };
 }
