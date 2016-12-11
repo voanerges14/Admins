@@ -1,4 +1,17 @@
 .users {
+
+  .EditFormIn {
+    width: 14%;
+    margin-right: 2px;
+  }
+  .EditFormAddress {
+    width: 16%;
+    margin-right: 3px;
+  }
+  .EditFormAdmin {
+    margin-right: 4px;
+  }
+
   .AddForm {
     margin-right: 10px;
   }
@@ -22,11 +35,11 @@
     text-align: left;
   }
   .Mail {
-    width: 15%;
+    width: 18%;
     text-align: left;
   }
   .Number {
-    width: 15%;
+    width: 12%;
     text-align: left;
   }
   .AddressMain {

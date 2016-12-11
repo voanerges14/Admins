@@ -7,7 +7,7 @@ import {VelocityTransitionGroup} from 'velocity-react';
 import NodeHeader from './header';
 import {connect} from 'react-redux';
 import * as categoryActions from 'redux/modules/categories';
-import {initializeWithKey} from 'redux-form';
+// import {initializeWithKey} from 'redux-form';
 import {asyncConnect} from 'redux-async-connect';
 import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 

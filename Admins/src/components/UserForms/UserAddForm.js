@@ -41,7 +41,7 @@ export default class UserAddForm extends Component {
             <input type="text" className="form-control" {...password}/>
           </label>
 
-          <button className={styles.AddForm + ' btn btn-secondary btn-sm'} onClick={() => changeAdminAdd(admin)}>
+          <button className={styles.AddForm + ' btn btn-secondary btn-md'} onClick={() => changeAdminAdd(admin)}>
             {admin ? <div>Admin</div> : <div>User</div>}
           </button>
 

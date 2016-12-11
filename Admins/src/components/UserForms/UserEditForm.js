@@ -28,32 +28,33 @@ export default class UserAddForm extends Component {
       fields: {id, firstName, lastName, email, phone, address, password}} = this.props;
     const styles = require('containers/Users/Users.scss');
     return (
-      <div className={styles.AddForm}>
-        <label className={styles.AddForm}> first name
-          <input type="text" {...firstName}/>
+      <tr>
+        <td colSpan="8">
+        <label className={styles.EditFormIn}> first name
+          <input type="text" className="form-control" {...firstName}/>
         </label>
 
-        <label className={styles.AddForm}> last name
-          <input type="text" {...lastName}/>
+        <label className={styles.EditFormIn}> last name
+          <input type="text" className="form-control" {...lastName}/>
         </label>
 
-        <label className={styles.AddForm}> password
-          <input type="text" {...password}/>
+        <label className={styles.EditFormIn}> password
+          <input type="text" className="form-control" {...password}/>
         </label>
 
-        <label className={styles.AddForm}> email
-          <input type="text" {...email}/>
+        <label className={styles.EditFormIn}> email
+          <input type="text" className="form-control" {...email}/>
         </label>
 
-        <label className={styles.AddForm}> phone
-          <input type="text" {...phone}/>
+        <label className={styles.EditFormIn}> phone
+          <input type="text" className="form-control" {...phone}/>
         </label>
 
-        <label className={styles.AddForm}> address
-          <input type="text" {...address}/>
+        <label className={styles.EditFormAddress}> address
+          <input type="text" className="form-control" {...address}/>
         </label>
 
-        <button className={styles.AddForm + ' btn btn-secondary btn-sm'}
+        <button className={styles.EditFormAdmin + ' btn btn-secondary btn-md'}
                 onClick={() => changeAdminEdit(id.value, isAdminTemp[id.value])}>
           {isAdminTemp[id.value] ? <div>Admin</div> : <div>User</div>}
         </button>
@@ -65,7 +66,8 @@ export default class UserAddForm extends Component {
         <button className="btn btn-default btn-sm" onClick={() => stopEdit(id.value)}>
           <i className="glyphicon glyphicon-remove"/>
         </button>
-      </div>
+        </td>
+      </tr>
     );
   }
 }
