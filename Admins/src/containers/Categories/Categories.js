@@ -140,9 +140,9 @@ class Categories extends Component {
                                                onClick={() => {addStartCategory(0);}}>
                 <span className="glyphicon glyphicon-plus"/>
               </button>}
-              {addCategoryBtn.isActive && <CategoryAdd formKey={addCategoryBtn.id}/>}
             </div>
             <div className={styles.component2}><Hello/></div>
+            {addCategoryBtn.isActive && <CategoryAdd formKey={addCategoryBtn.id}/>}
             <Treebeard
               data={categories}
               onToggle={this.onToggle}
@@ -267,7 +267,7 @@ class Categories extends Component {
                             { chosenNode.properties.map((propi) =>
                             <span key={propi.name} className={styles.nameColProd}>
                                <p className={styles.logo}><img src={'https://facebook.github.io/react/img/logo_og.png'}/></p>
-                              {deletePropertyBtn.isActive ?
+                              {true ?
                                 <button className="btn btn-primary"
                                         >
                                   <i className="fa fa-trash"/> Del
