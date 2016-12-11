@@ -264,21 +264,21 @@ class Categories extends Component {
                           {onShowImageUploader && <ImageUpload/>}
                           {!onShowImageUploader &&
                           <div className="table table-striped">
-                            { chousenNode.properties.map((propi) =>
+                            { chosenNode.properties.map((propi) =>
                             <span key={propi.name} className={styles.nameColProd}>
                                <p className={styles.logo}><img src={'https://facebook.github.io/react/img/logo_og.png'}/></p>
-                              {!deleteBtns(chousenNode._id, prop.name) ?
+                              {!deleteProperty.isActive ?
                                 <button className="btn btn-primary"
-                                        onClick={handleDeletePropStart(chousenNode._id, prop.name)}>
+                                        onClick={() => deleteStopProperty() }>
                                   <i className="fa fa-trash"/> Del
                                 </button> :
                                 <span>
                       <button className="btn btn-success btn-sm"
-                              onClick={handleDeleteProp(chousenNode._id, prop.name)}>
+                              onClick={() => deleteStopProperty()}>
                         <i className={'glyphicon glyphicon-ok'}/>
                       </button>
                       <button className="btn btn-default btn-sm"
-                              onClick={handleDeletePropStop(chousenNode._id, prop.name)}>
+                              onClick={() => deleteStopProperty()}>
                         <i className="glyphicon glyphicon-remove"/>
                       </button>
                     </span>}

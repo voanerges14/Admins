@@ -42,7 +42,6 @@ const DELETE_START_PROP = 'redux-example/products/DELETE_START_PROP';
 const DELETE_STOP_PROP = 'redux-example/products/DELETE_STOP_PROP';
 const EDIT_START_PROP = 'redux-example/products/EDIT_START_PROP';
 const EDIT_STOP_PROP = 'redux-example/products/EDIT_STOP_PROP';
-const TOGGLED = 'redux-example/products/TOGGLED';
 
 const TOGGLE_IMG = 'redux-example/products/TOGGLE_IMG';
 const TOGGLE_IMG_UPLOADER = 'redux-example/products/TOGGLE_IMG_UPLOADER';
@@ -58,7 +57,6 @@ const initialState = {
   editingProp: {},
   saveError: {},
   deleting: {},
-  myToggled: false,
 
   onShowImagePopUp: false,
   onShowImageUploader: false,
@@ -67,11 +65,6 @@ const initialState = {
 
 export default function products(state = initialState, action = {}) {
   switch (action.type) {
-    case TOGGLED:
-      return {
-        ...state,
-        myToggled: !action.toggled
-      };
     case LOAD:
       return {
         ...state,

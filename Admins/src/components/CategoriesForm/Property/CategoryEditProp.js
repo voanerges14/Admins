@@ -20,12 +20,11 @@ export default class CategoryEditProp extends Component {
     editStopProperty: PropTypes.func.isRequired,
     editProperty: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
-    editPropertyBtn: PropTypes.object.isRequired
+    editPropertyBtn: PropTypes.object.isRequired,
   };
 
   render() {
-    const { editStopProperty, fields: {name, type}, editProperty, values, editPropertyBtn } = this.props;
-    const oldName = name;
+    const {editStopProperty, fields: {name, type}, editProperty, values, editPropertyBtn} = this.props;
     const styles = require('./CategoryEditProp.scss');
     return (
       <tr>
@@ -39,7 +38,7 @@ export default class CategoryEditProp extends Component {
 
         <td className={styles.buttonColl}>
           <button className="btn btn-success"
-                  onClick={() => editProperty(values, editPropertyBtn.id, oldName)}>
+                  onClick={() => editProperty(values, editPropertyBtn.id, editPropertyBtn.name)}>
             <i className="glyphicon glyphicon-ok"/>
           </button>
 

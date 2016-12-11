@@ -135,11 +135,9 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_PROPERTY:
       return state;
     case ADD_SUCCESS_PROPERTY:
-      const dataAddProperty = [...state.data];
-      dataAddProperty.push(action.result.data);
       return {
         ...state,
-        data: dataAddProperty,
+        data: action.result.data,
         addProperty: { 'isActive': false }
       };
     case ADD_FAIL_PROPERTY:
@@ -152,11 +150,9 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_PROPERTY:
       return state;
     case EDIT_SUCCESS_PROPERTY:
-      const dataEditProperty = [...state.data];
-      dataEditProperty.push(action.result.data);
       return {
         ...state,
-        data: dataEditProperty,
+        data: action.result.data,
         editProperty: { 'isActive': false }
       };
     case EDIT_FAIL_PROPERTY:
@@ -169,11 +165,9 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_PROPERTY:
       return state;
     case DELETE_SUCCESS_PROPERTY:
-      const dataDeleteProperty = [...state.data];
-      dataDeleteProperty.push(action.result.data);
       return {
         ...state,
-        data: dataDeleteProperty,
+        data: action.result.data,
         deleteProperty: { 'isActive': false }
       };
     case DELETE_FAIL_PROPERTY:
@@ -292,11 +286,12 @@ export function addProperty(property, id) {
     category: property,
     id: id,
     promise: (client) => client.post('/category/addProperty', {
-      data: {'name': property.name, id}
+      data: {property, id}
     })
   };
 }
 export function editProperty(property, id, oldName) {
+  debugger;
   return {
     types: [EDIT_PROPERTY, EDIT_SUCCESS_PROPERTY, EDIT_FAIL_PROPERTY],
     category: property,

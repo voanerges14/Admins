@@ -21,7 +21,7 @@ import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 @connect(
   state => ({
     categories: state.categories.data,
-    myToggled: state.categories.myToggled,
+    categoryTreeState: state.categories.categoryTreeState,
     editing: state.categories.editing,
     adding: state.categories.adding,
     deleting: state.categories.deleting
@@ -39,12 +39,15 @@ class TreeNode extends Component {
   onClick() {
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
+
     const temp = this.props.toggledChange;
-    temp(this.props.myToggled);
+    const oldState = typeof this.props.categoryTreeState[this.props.node._id] === 'undefined' ? false :
+      this.props.categoryTreeState[this.props.node._id];
+    temp(this.props.node._id, oldState);
+
     if (onToggle) {
       onToggle(this.props.node, toggled);
     }
-    console.log('1) onClick()');
   }
 
   onMinusClick() {
@@ -184,7 +187,8 @@ class TreeNode extends Component {
 
 TreeNode.propTypes = {
   toggledChange: React.PropTypes.func.isRequired,
-  myToggled: React.PropTypes.bool.isRequired,
+  categoryTreeState: React.PropTypes.object.isRequired,
+
   style: React.PropTypes.object.isRequired,
   node: React.PropTypes.object.isRequired,
   decorators: React.PropTypes.object.isRequired,
@@ -196,14 +200,6 @@ TreeNode.propTypes = {
   categories: React.PropTypes.array,
   editStartProp: React.PropTypes.func.isRequired,
   deleteCategory: React.PropTypes.func.isRequired,
-
-  adding: React.PropTypes.object.isRequired,
-  editing: React.PropTypes.object.isRequired,
-  deleting: React.PropTypes.func.isRequired,
-  onDelete: React.PropTypes.object.isRequired
-
-  // handleAdd: React.PropTypes.func.isRequired,
-  // handleRemove: React.PropTypes.func.isRequired,
 
 };
 
