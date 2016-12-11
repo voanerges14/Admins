@@ -40,9 +40,10 @@ class TreeNode extends Component {
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
     const temp = this.props.toggledChange;
-    const oldState = typeof this.props.categoryTreeState[this.props.node._id] === 'undefined' ? false :
-      this.props.categoryTreeState[this.props.node._id];
-    temp(this.props.node._id, oldState);
+    const state = this.props.categoryTreeState;
+    const id = this.props.node._id;
+    const oldState = (typeof state[id] === 'undefined') ? false : state[id];
+    temp(id, oldState);
 
     if (onToggle) {
       onToggle(this.props.node, toggled);
@@ -189,7 +190,7 @@ class TreeNode extends Component {
 
 TreeNode.propTypes = {
   toggledChange: PropTypes.func.isRequired,
-  myToggled: PropTypes.bool.isRequired,
+  categoryTreeState: PropTypes.bool.isRequired,
   style: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   decorators: PropTypes.object.isRequired,
