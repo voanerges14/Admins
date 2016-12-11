@@ -103,7 +103,7 @@ class TreeNode extends Component {
 
   renderHeader(decorators, animations) {
     const styles = require('../../containers/Categories/Categories.scss');
-    // debugger;
+    debugger;
     return (
       <div className={styles.mybutton}>
         <NodeHeader
