@@ -1,24 +1,9 @@
-import load from './load';
+import * as categoryDB from './../../DbApi/Categories';
 
 export default function update(req) {
   return new Promise((resolve, reject) => {
-    // write to database
-    setTimeout(() => {
-      if (Math.random() < 0.2) {
-        reject('Oh no! CategoriesOLD save fails 20% of the time. Try again.');
-      } else {
-        load(req).then(data => {
-          const categories = data;
-          const category= req.body;
-          if (category.id) {
-            categories[category.id - 1] = category;  // id is 1-based. please don't code like this in production! :-)
-            req.session.categories = categories;
-          }
-          resolve(category);
-        }, err => {
-          reject(err);
-        });
-      }
-    }, 1500); // simulate async db write
+    // categoryDB.
+  console.log('come from ' + JSON.stringify(req.body));
+
   });
 }

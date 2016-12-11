@@ -1,60 +1,50 @@
-/**
- * Created by pavlo on 09.11.16.
- */
+const ADD_START_CATEGORY = 'redux-example/categories/ADD_START_CATEGORY';
+const ADD_STOP_CATEGORY = 'redux-example/categories/ADD_STOP_CATEGORY';
+const ADD_CATEGORY = 'redux-example/categories/ADD_CATEGORY';
+const ADD_SUCCESS_CATEGORY = 'redux-example/categories/ADD_SUCCESS_CATEGORY';
+const ADD_FAIL_CATEGORY = 'redux-example/categories/ADD_FAIL_CATEGORY';
+const EDIT_START_CATEGORY = 'redux-example/categories/EDIT_START_CATEGORY';
+const EDIT_STOP_CATEGORY = 'redux-example/categories/EDIT_STOP_CATEGORY';
+const EDIT_CATEGORY = 'redux-example/categories/EDIT_CATEGORY';
+const EDIT_SUCCESS_CATEGORY = 'redux-example/categories/EDIT_SUCCESS_CATEGORY';
+const EDIT_FAIL_CATEGORY = 'redux-example/categories/EDIT_FAIL_CATEGORY';
+const DELETE_START_CATEGORY = 'redux-example/categories/DELETE_START_CATEGORY';
+const DELETE_STOP_CATEGORY = 'redux-example/categories/DELETE_STOP_CATEGORY';
+const DELETE_CATEGORY = 'redux-example/categories/DELETE_CATEGORY';
+const DELETE_SUCCESS_CATEGORY = 'redux-example/categories/DELETE_SUCCESS_CATEGORY';
+const DELETE_FAIL_CATEGORY = 'redux-example/categories/DELETE_FAIL_CATEGORY';
+
+const ADD_START_PROPERTY = 'redux-example/categories/ADD_START_PROPERTY';
+const ADD_STOP_PROPERTY = 'redux-example/categories/ADD_STOP_PROPERTY';
+const ADD_PROPERTY = 'redux-example/categories/ADD_PROPERTY';
+const ADD_SUCCESS_PROPERTY = 'redux-example/categories/ADD_SUCCESS_PROPERTY';
+const ADD_FAIL_PROPERTY = 'redux-example/categories/ADD_FAIL_PROPERTY';
+const EDIT_START_PROPERTY = 'redux-example/categories/EDIT_START_PROPERTY';
+const EDIT_STOP_PROPERTY = 'redux-example/categories/EDIT_STOP_PROPERTY';
+const EDIT_PROPERTY = 'redux-example/categories/EDIT_PROPERTY';
+const EDIT_SUCCESS_PROPERTY = 'redux-example/categories/EDIT_SUCCESS_PROPERTY';
+const EDIT_FAIL_PROPERTY = 'redux-example/categories/EDIT_FAIL_PROPERTY';
+const DELETE_START_PROPERTY = 'redux-example/categories/DELETE_START_PROPERTY';
+const DELETE_STOP_PROPERTY = 'redux-example/categories/DELETE_STOP_PROPERTY';
+const DELETE_PROPERTY = 'redux-example/categories/DELETE_PROPERTY';
+const DELETE_SUCCESS_PROPERTY = 'redux-example/categories/DELETE_SUCCESS_PROPERTY';
+const DELETE_FAIL_PROPERTY = 'redux-example/categories/DELETE_FAIL_PROPERTY';
+
 const LOAD = 'redux-example/categories/LOAD';
 const LOAD_SUCCESS = 'redux-example/categories/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/categories/LOAD_FAIL';
-const EDIT_START = 'redux-example/categories/EDIT_START';
-const EDIT_STOP = 'redux-example/categories/EDIT_STOP';
-const SAVE = 'redux-example/categories/SAVE';
-const SAVE_SUCCESS = 'redux-example/categories/SAVE_SUCCESS';
-const SAVE_FAIL = 'redux-example/categories/SAVE_FAIL';
-
-const SAVE_PROP = 'redux-example/categories/SAVE_PROP';
-const SAVE_SUCCESS_PROP = 'redux-example/categories/SAVE_SUCCESS_PROP';
-const SAVE_FAIL_PROP = 'redux-example/categories/SAVE_FAIL_PROP';
-
-const ADD = 'redux-example/categories/ADD';
-const ADD_SUCCESS = 'redux-example/categories/ADD_SUCCESS';
-const ADD_FAIL = 'redux-example/categories/ADD_FAIL';
-
-const DELETE_PROP = 'redux-example/categories/DELETE_PROP';
-const DELETE_PROP_SUCCESS = 'redux-example/categories/DELETE_PROP_SUCCESS';
-const DELETE_PROP_FAIL = 'redux-example/categories/DELETE_PROP_FAIL';
-
-const DELETE = 'redux-example/categories/DELETE';
-const DELETE_SUCCESS = 'redux-example/categories/DELETE_SUCCESS';
-const DELETE_FAIL = 'redux-example/categories/DELETE_FAIL';
-
-
-const ADD_PROP = 'redux-example/categories/ADD_PROP';
-const ADD_SUCCESS_PROP = 'redux-example/categories/ADD_SUCCESS_PROP';
-const ADD_FAIL_PROP = 'redux-example/categories/ADD_FAIL_PROP';
-
-const DELETE_START = 'redux-example/categories/DELETE_START';
-const DELETE_STOP = 'redux-example/categories/DELETE_STOP';
-const ADD_START = 'redux-example/categories/ADD_START';
-const ADD_STOP = 'redux-example/categories/ADD_STOP';
-
-const ADD_START_PROP = 'redux-example/categories/ADD_START_PROP';
-const ADD_STOP_PROP = 'redux-example/categories/ADD_STOP_PROP';
-const DELETE_START_PROP = 'redux-example/categories/DELETE_START_PROP';
-const DELETE_STOP_PROP = 'redux-example/categories/DELETE_STOP_PROP';
-const EDIT_START_PROP = 'redux-example/categories/EDIT_START_PROP';
-const EDIT_STOP_PROP = 'redux-example/categories/EDIT_STOP_PROP';
 const TOGGLED = 'redux-example/categories/TOGGLED';
 
 const initialState = {
   loaded: false,
-  adding: [false],
-  addingProp: {},
-  // addFormOpen: false,
-  onDelete: {},
-  editing: {},
-  editingProp: {},
-  saveError: {},
-  deleting: {},
-  myToggled: false
+  addCategory: {'isActive': false},
+  editCategory: {'isActive': false},
+  deleteCategory: {'isActive': false},
+  addProperty: {'isActive': false},
+  editProperty: {'isActive': false},
+  deleteProperty: {'isActive': false},
+  error: [],
+  categoryTreeState: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -62,8 +52,13 @@ export default function reducer(state = initialState, action = {}) {
     case TOGGLED:
       return {
         ...state,
-        myToggled: !action.toggled
+        categoryTreeState: {
+          ...state.categoryTreeState,
+          [action.id]: !action.oldState
+        }
       };
+
+
     case LOAD:
       return {
         ...state,
@@ -75,248 +70,181 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         loaded: true,
         data: action.result,
-        error: null
       };
     case LOAD_FAIL:
+      const loadError = [...state.error];
+      loadError.push('error load: ' + action.error);
       return {
         ...state,
         loading: false,
         loaded: false,
         data: null,
-        error: action.error
+        error: loadError
       };
-    case EDIT_START:
-      return {
-        ...state,
-        editing: {
-          ...state.editing,
-          [action.id]: true
-        }
-      };
-    case EDIT_STOP:
-      return {
-        ...state,
-        editing: {
-          ...state.editing,
-          [action.id]: false
-        }
-      };
-
-
-    case EDIT_START_PROP:
-      return {
-        ...state,
-        editingProp: {
-          ...state.editingProp,
-          [action.name]: true
-        }
-      };
-    case EDIT_STOP_PROP:
-      return {
-        ...state,
-        editingProp: {
-          ...state.editingProp,
-          [action.name]: false
-        }
-      };
-
-    case SAVE:
-      return state; // 'saving' flag handled by redux-form
-    case SAVE_SUCCESS:
-      const data = [...state.data];
-      // data[action.result.id - 1] = action.result;
-      data.push(action.result);
-      return {
-        ...state,
-        data: data,
-        adding: false
-        // saveError: {
-        //   ...state.saveError,
-        //   [action.id]: null
-        // }
-      };
-    case SAVE_FAIL:
-      return typeof action.error === 'string' ? {
-        ...state,
-        saveError: {
-          ...state.saveError,
-          [action.id]: action.error
-        }
-      } : state;
-
-    case SAVE_PROP:
-      return state; // 'saving' flag handled by redux-form
-    case SAVE_SUCCESS_PROP:
-      // const dataProp = [...state.data];
-      // for (let index = 0; index < dataProp.length; index++) {
-      //   if (dataProp[index]._id === action.result.idC) {
-      //     for (let indexj = 0; indexj < dataProp[index].properties.length; indexj++) {
-      //       if (dataProp[index].properties[indexj].name === action.result.nameOld) {
-      //         dataProp[index].properties.splice(indexj, 1, action.result.props);
-      //       }
-      //     }
-      //   }
-      // }
-    case SAVE_FAIL_PROP:
-      return typeof action.error === 'string' ? {
-        ...state,
-        saveError: {
-          ...state.saveError,
-          [action.name]: action.error
-        }
-      } : state;
-
-    case DELETE_START_PROP:
-      const Id = action.id;
-      const NAme = action.name;
-      debugger;
-      return {
-        ...state,
-        onDelete: {
-          ...state.onDelete,
-          [Id]: {
-            ...state.onDelete[Id],
-            [NAme]: true
-          }
-        }
-      };
-
-    case DELETE_START:
-      const IdDStart = action.id;
-      const NameDStart = action.name;
-      debugger;
-      return {
-        ...state,
-        deleting: {
-          // ...state.deleting,
-          [IdDStart]: {
-            ...state.deleting[IdDStart],
-            [NameDStart]: true
-          }
-        }
-      };
-
-    case DELETE_STOP_PROP:
-      const ID = action.id;
-      const Name = action.name;
-      return {
-        ...state,
-        onDelete: {
-          ...state.onDelete,
-          [ID]: {
-            ...state.onDelete[ID],
-            [Name]: false
-          }
-        }
-      };
-
-    case DELETE_STOP:
-      const IDDStop = action.id;
-      const NameDStop = action.name;
-      return {
-        ...state,
-        deleting: {
-          // ...state.onDelete,
-          [IDDStop]: {
-            ...state.deleting[IDDStop],
-            [NameDStop]: false
-          }
-        }
-      };
-
-    case ADD_START:
-      return {
-        ...state,
-        adding: [true, action.id]
-      };
-
-    case ADD_STOP:
-      return {
-        ...state,
-        adding: [false]
-      };
-
-    case ADD_START_PROP:
-      return {
-        ...state,
-        addingProp: [true, action.id]
-      };
-    case ADD_STOP_PROP:
-      return {
-        ...state,
-        addingProp: [false]
-      };
-    case ADD_PROP:
-      return state; // 'saving' flag handled by redux-form
-    case ADD_SUCCESS_PROP:
-      return {
-        ...state,
-        data: action.result,
-        addingProp: [false],
-      };
-    case ADD_FAIL_PROP:
-      return typeof action.error === 'string' ? {
-        ...state,
-        saveError: {
-          ...state.saveError,
-          addError: action.error
-        }
-      } : state;
-
-    case DELETE_PROP:
-      return state; // 'saving' flag handled by redux-form
-
-    case DELETE:
+    case ADD_CATEGORY:
       return state;
-
-    case DELETE_PROP_SUCCESS:
-      const idd = action.id;
-      const namme = action.name;
+    case ADD_SUCCESS_CATEGORY:
+      const dataAddCategory = [...state.data];
+      dataAddCategory.push(action.result.data);
       return {
         ...state,
-        data: action.result,
-        onDelete: {
-          // ...state.editing,
-          [idd]: {
-            ...state.onDelete.id,
-            [namme]: false
-          }
-        }
+        data: dataAddCategory,
+        addCategory: { 'isActive': false }
       };
-
-    case DELETE_SUCCESS:
-      const IDDSuc = action.id;
-      const NameIDSuc = action.name;
+    case ADD_FAIL_CATEGORY:
+      const addCategoryError = [...state.error];
+      addCategoryError.push('error addCategory: ' + action.error);
       return {
         ...state,
-        data: action.result,
-        deleting: {
-          // ...state.deleting,
-          [IDDSuc]: {
-            ...state.deleting.id,
-            [NameIDSuc]: false
-          }
-        }
+        error: addCategoryError
+      };
+    case EDIT_CATEGORY:
+      return state;
+    case EDIT_SUCCESS_CATEGORY:
+      const dataEditCategory = [...state.data];
+      dataEditCategory.push(action.result.data);
+      return {
+        ...state,
+        data: dataEditCategory,
+        editCategory: { 'isActive': false }
+      };
+    case EDIT_FAIL_CATEGORY:
+      const editCategoryError = [...state.error];
+      editCategoryError.push('error editCategory: ' + action.error);
+      return {
+        ...state,
+        error: editCategoryError
+      };
+    case DELETE_CATEGORY:
+      return state;
+    case DELETE_SUCCESS_CATEGORY:
+      const dataDeleteCategory = [...state.data];
+      dataDeleteCategory.push(action.result.data);
+      return {
+        ...state,
+        data: dataDeleteCategory,
+        deleteCategory: { 'isActive': false }
+      };
+    case DELETE_FAIL_CATEGORY:
+      const deleteCategoryError = [...state.error];
+      deleteCategoryError.push('error editCategory: ' + action.error);
+      return {
+        ...state,
+        error: deleteCategoryError
+      };
+    case ADD_PROPERTY:
+      return state;
+    case ADD_SUCCESS_PROPERTY:
+      const dataAddProperty = [...state.data];
+      dataAddProperty.push(action.result.data);
+      return {
+        ...state,
+        data: dataAddProperty,
+        addProperty: { 'isActive': false }
+      };
+    case ADD_FAIL_PROPERTY:
+      const addPropertyError = [...state.error];
+      addPropertyError.push('error addProperty: ' + action.error);
+      return {
+        ...state,
+        error: addPropertyError
+      };
+    case EDIT_PROPERTY:
+      return state;
+    case EDIT_SUCCESS_PROPERTY:
+      const dataEditProperty = [...state.data];
+      dataEditProperty.push(action.result.data);
+      return {
+        ...state,
+        data: dataEditProperty,
+        editProperty: { 'isActive': false }
+      };
+    case EDIT_FAIL_PROPERTY:
+      const editPropertyError = [...state.error];
+      editPropertyError.push('error editProperty: ' + action.error);
+      return {
+        ...state,
+        error: editPropertyError
+      };
+    case DELETE_PROPERTY:
+      return state;
+    case DELETE_SUCCESS_PROPERTY:
+      const dataDeleteProperty = [...state.data];
+      dataDeleteProperty.push(action.result.data);
+      return {
+        ...state,
+        data: dataDeleteProperty,
+        deleteProperty: { 'isActive': false }
+      };
+    case DELETE_FAIL_PROPERTY:
+      const deletePropertyError = [...state.error];
+      deletePropertyError.push('error editProperty: ' + action.error);
+      return {
+        ...state,
+        error: deletePropertyError
       };
 
-    case DELETE_PROP_FAIL:
-      return typeof action.error === 'string' ? {
-        ...state,
-        saveError: {
-          ...state.saveError,
-          [action.name]: action.error
-        }
-      } : state;
 
-    case DELETE_FAIL:
-      return typeof action.error === 'string' ? {
+    case ADD_START_CATEGORY:
+      return {
         ...state,
-        saveError: {
-          ...state.saveError,
-          [action.name]: action.error
-        }
-      } : state;
-
+        addCategory: { 'isActive': true, 'id': action.id }
+      };
+    case ADD_STOP_CATEGORY:
+      return {
+        ...state,
+        addCategory: { 'isActive': false }
+      };
+    case EDIT_START_CATEGORY:
+      return {
+        ...state,
+        editCategory: { 'isActive': true, 'id': action.id }
+      };
+    case EDIT_STOP_CATEGORY:
+      return {
+        ...state,
+        editCategory: { 'isActive': false }
+      };
+    case DELETE_START_CATEGORY:
+      return {
+        ...state,
+        deleteCategory: { 'isActive': true, 'id': action.id }
+      };
+    case DELETE_STOP_CATEGORY:
+      return {
+        ...state,
+        deleteCategory: { 'isActive': false }
+      };
+    case ADD_START_PROPERTY:
+      return {
+        ...state,
+        addProperty: { 'isActive': true, 'id': action.id }
+      };
+    case ADD_STOP_PROPERTY:
+      return {
+        ...state,
+        addProperty: { 'isActive': false }
+      };
+    case EDIT_START_PROPERTY:
+      return {
+        ...state,
+        editProperty: { 'isActive': true, 'name': action.name, 'id': action.id }
+      };
+    case EDIT_STOP_PROPERTY:
+      return {
+        ...state,
+        editProperty: { 'isActive': false }
+      };
+    case DELETE_START_PROPERTY:
+      return {
+        ...state,
+        deleteProperty: { 'isActive': true, 'name': action.name, 'id': action.id }
+      };
+    case DELETE_STOP_PROPERTY:
+      return {
+        ...state,
+        deleteProperty: { 'isActive': false }
+      };
     default:
       return state;
   }
@@ -325,7 +253,6 @@ export default function reducer(state = initialState, action = {}) {
 export function isLoaded(globalState) {
   return globalState.categories && globalState.categories.loaded;
 }
-
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
@@ -333,112 +260,98 @@ export function load() {
   };
 }
 
-export function save(category) {
+export function addCategory(category) {
   return {
-    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: category.id,
+    types: [ADD_CATEGORY, ADD_SUCCESS_CATEGORY, ADD_FAIL_CATEGORY],
+    category: category,
     promise: (client) => client.post('/category/add', {
-      data: category
+      data: {category}
     })
   };
 }
-
-export function saveProp(idC, prop, nameOld) {
+export function editCategory(category) {
   return {
-    id: prop.name,
-    types: [SAVE_PROP, SAVE_SUCCESS_PROP, SAVE_FAIL_PROP],
-    promise: (client) => client.post('/category/updateProp', {
-      data: {prop, idC, nameOld}
+    types: [EDIT_CATEGORY, EDIT_SUCCESS_CATEGORY, EDIT_FAIL_CATEGORY],
+    category: category,
+    promise: (client) => client.post('/category/edit', {
+      data: {category}
     })
   };
 }
-
-export function add(category) {
+export function deleteCategory(id) {
   return {
-    types: [ADD, ADD_SUCCESS, ADD_FAIL],
-    promise: (client) => client.post('/category/add', {
-      data: category
+    types: [DELETE_CATEGORY, DELETE_SUCCESS_CATEGORY, DELETE_FAIL_CATEGORY],
+    promise: (client) => client.post('/category/remove', {
+      data: {id}
     })
   };
 }
-// export function addProp(values, id) {
-export function addProp(values, id) {
+export function addProperty(property, id) {
   return {
+    types: [ADD_PROPERTY, ADD_SUCCESS_PROPERTY, ADD_FAIL_PROPERTY],
+    category: property,
     id: id,
-    types: [ADD_PROP, ADD_SUCCESS_PROP, ADD_FAIL_PROP],
-    promise: (client) => client.post('/category/addProp', {
-      data: {'prop': values, id}
+    promise: (client) => client.post('/category/addProperty', {
+      data: {'name': property.name, id}
     })
   };
 }
-
-export function deleteProp(id, name) {
+export function editProperty(property, id, oldName) {
   return {
-    id: id,
-    name: name,
-    types: [DELETE_PROP, DELETE_PROP_SUCCESS, DELETE_PROP_FAIL],
-    promise: (client) => client.post('/category/deleteProp', {
+    types: [EDIT_PROPERTY, EDIT_SUCCESS_PROPERTY, EDIT_FAIL_PROPERTY],
+    category: property,
+    promise: (client) => client.post('/category/editProperty', {
+      data: {property, id, oldName}
+    })
+  };
+}
+export function deleteProperty(id, name) {
+  return {
+    types: [DELETE_PROPERTY, DELETE_SUCCESS_PROPERTY, DELETE_FAIL_PROPERTY],
+    promise: (client) => client.post('/category/deleteProperty', {
       data: {id, name}
     })
   };
 }
 
-export function deleteCategory(id) {
-  return {
-    types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
-    promise: (client) => client.post('/category/deleteCategory', {
-      data: {id}
-    })
-  };
+export function addStartCategory(id) {
+  return {type: ADD_START_CATEGORY, id};
+}
+export function addStopCategory() {
+  return {type: ADD_STOP_CATEGORY};
+}
+export function editStartCategory(id) {
+  return {type: EDIT_START_CATEGORY, id};
+}
+export function editStopCategory() {
+  return {type: EDIT_STOP_CATEGORY};
+}
+export function deleteStartCategory(id) {
+  return {type: DELETE_START_CATEGORY, id};
+}
+export function deleteStopCategory() {
+  return {type: DELETE_STOP_CATEGORY};
 }
 
-export function addStart(id) {
-  return {type: ADD_START, id};
+export function addStartProperty(id) {
+  return {type: ADD_START_PROPERTY, name, id};
+}
+export function addStopProperty() {
+  return {type: ADD_STOP_PROPERTY};
+}
+export function editStartProperty(name, id) {
+  return {type: EDIT_START_PROPERTY, name, id};
+}
+export function editStopProperty() {
+  return {type: EDIT_STOP_PROPERTY};
+}
+export function deleteStartProperty(name, id) {
+  return {type: DELETE_START_PROPERTY, name, id};
+}
+export function deleteStopProperty() {
+  return {type: DELETE_STOP_PROPERTY};
 }
 
-export function addStop() {
-  return {type: ADD_STOP};
-}
-
-export function addStartProp(id) {
-  return {type: ADD_START_PROP, id};
-}
-
-export function addStopProp() {
-  return {type: ADD_STOP_PROP};
-}
-
-export function deleteStart(id) {
-  return {type: DELETE_START, id};
-}
-
-export function deleteStop(id) {
-  return {type: DELETE_STOP, id};
-}
-
-export function deleteStartProp(id, name) {
-  return {type: DELETE_START_PROP, id, name};
-}
-
-export function deleteStopProp(id, name) {
-  return {type: DELETE_STOP_PROP, id, name};
-}
-
-export function editStart(id) {
-  return {type: EDIT_START, id};
-}
-
-export function editStop(id) {
-  return {type: EDIT_STOP, id};
-}
-
-export function editStartProp(name) {
-  return {type: EDIT_START_PROP, name};
-}
-
-export function editStopProp(name) {
-  return {type: EDIT_STOP_PROP, name};
-}
-export function toggledChange(toggled) {
-  return {type: TOGGLED, toggled};
+export function toggledChange(id, oldState) {
+  return {type: TOGGLED, id, oldState};
 }

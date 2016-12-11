@@ -229,6 +229,7 @@ export function deleteUser(id) {
     promise: (client) => client.post('/users/deleteUser', { data: {'id': id} })
   };
 }
+
 export function startAdd() {
   return { type: START_ADD };
 }
@@ -247,6 +248,7 @@ export function startDelete(id) {
 export function stopDelete(id) {
   return { type: STOP_DELETE, id };
 }
+
 export function changeAdminAdd(admin) {
   return { type: CHANGE_ADMIN_ADD, admin };
 }
