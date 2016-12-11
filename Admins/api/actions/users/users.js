@@ -12,8 +12,7 @@ export function get() {
           'email': users[i].email,
           'phone': users[i].phoneNumber,
           'address': users[i].address,
-          // 'cards': users[i].cards,
-          "admin": users[i].isAdmin
+          'admin': users[i].isAdmin
         });
       }
       resolve(newUsers);
@@ -31,7 +30,7 @@ export function add(req) {
     let passwd = req.body.user.password;
     let isAdmin = req.body.isAdmin;
     UsersDb.addUser(fName, lName, passwd, isAdmin).then(user => {
-      resolve(user._id);
+      resolve({'id': user._id});
     }).catch(error => {
       reject('error in add: ' + error);
     });
@@ -42,9 +41,29 @@ export function deleteUser(req) {
   return new Promise((resolve, reject) => {
     UsersDb.deleteUser(req.body.id).then(() => {
       // console.log('res: ' + res);
-      resolve(req.body.id);
+      resolve({'id': req.body.id});
     }).catch(error => {
       reject('error in deleteUser: ' + error);
+    });
+  });
+}
+
+export function edit(req) {
+  return new Promise((resolve, reject) => {
+    const user = {
+      'id': req.body.user.id,
+      'firstName': req.body.user.firstName,
+      'lastName': req.body.user.lastName,
+      'email': req.body.user.email,
+      'password': req.body.user.password,
+      'phone': req.body.user.phone,
+      'address': req.body.user.address,
+      'admin': req.body.admin
+    };
+    UsersDb.editUser(user).then(user => {
+      resolve({'id': user._id});
+    }).catch(error => {
+      reject('error in edit: ' + error);
     });
   });
 }
