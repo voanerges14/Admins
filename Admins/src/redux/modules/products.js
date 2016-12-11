@@ -1,48 +1,45 @@
-/**
- * Created by pavlo on 09.11.16.
- */
-const LOAD = 'redux-example/categories/LOAD';
-const LOAD_SUCCESS = 'redux-example/categories/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux-example/categories/LOAD_FAIL';
-const EDIT_START = 'redux-example/categories/EDIT_START';
-const EDIT_STOP = 'redux-example/categories/EDIT_STOP';
-const SAVE = 'redux-example/categories/SAVE';
-const SAVE_SUCCESS = 'redux-example/categories/SAVE_SUCCESS';
-const SAVE_FAIL = 'redux-example/categories/SAVE_FAIL';
+const LOAD = 'redux-example/products/LOAD';
+const LOAD_SUCCESS = 'redux-example/products/LOAD_SUCCESS';
+const LOAD_FAIL = 'redux-example/products/LOAD_FAIL';
+const EDIT_START = 'redux-example/products/EDIT_START';
+const EDIT_STOP = 'redux-example/products/EDIT_STOP';
+const SAVE = 'redux-example/products/SAVE';
+const SAVE_SUCCESS = 'redux-example/products/SAVE_SUCCESS';
+const SAVE_FAIL = 'redux-example/products/SAVE_FAIL';
 
-const SAVE_PROP = 'redux-example/categories/SAVE_PROP';
-const SAVE_SUCCESS_PROP = 'redux-example/categories/SAVE_SUCCESS_PROP';
-const SAVE_FAIL_PROP = 'redux-example/categories/SAVE_FAIL_PROP';
+const SAVE_PROP = 'redux-example/products/SAVE_PROP';
+const SAVE_SUCCESS_PROP = 'redux-example/products/SAVE_SUCCESS_PROP';
+const SAVE_FAIL_PROP = 'redux-example/products/SAVE_FAIL_PROP';
 
-const ADD = 'redux-example/categories/ADD';
-const ADD_SUCCESS = 'redux-example/categories/ADD_SUCCESS';
-const ADD_FAIL = 'redux-example/categories/ADD_FAIL';
+const ADD = 'redux-example/products/ADD';
+const ADD_SUCCESS = 'redux-example/products/ADD_SUCCESS';
+const ADD_FAIL = 'redux-example/products/ADD_FAIL';
 
-const DELETE_PROP = 'redux-example/categories/DELETE_PROP';
-const DELETE_PROP_SUCCESS = 'redux-example/categories/DELETE_PROP_SUCCESS';
-const DELETE_PROP_FAIL = 'redux-example/categories/DELETE_PROP_FAIL';
+const DELETE_PROP = 'redux-example/products/DELETE_PROP';
+const DELETE_PROP_SUCCESS = 'redux-example/products/DELETE_PROP_SUCCESS';
+const DELETE_PROP_FAIL = 'redux-example/products/DELETE_PROP_FAIL';
 
-const DELETE = 'redux-example/categories/DELETE';
-const DELETE_SUCCESS = 'redux-example/categories/DELETE_SUCCESS';
-const DELETE_FAIL = 'redux-example/categories/DELETE_FAIL';
+const DELETE = 'redux-example/products/DELETE';
+const DELETE_SUCCESS = 'redux-example/products/DELETE_SUCCESS';
+const DELETE_FAIL = 'redux-example/products/DELETE_FAIL';
 
+const ADD_PROP = 'redux-example/products/ADD_PROP';
+const ADD_SUCCESS_PROP = 'redux-example/products/ADD_SUCCESS_PROP';
+const ADD_FAIL_PROP = 'redux-example/products/ADD_FAIL_PROP';
 
-const ADD_PROP = 'redux-example/categories/ADD_PROP';
-const ADD_SUCCESS_PROP = 'redux-example/categories/ADD_SUCCESS_PROP';
-const ADD_FAIL_PROP = 'redux-example/categories/ADD_FAIL_PROP';
+const DELETE_START = 'redux-example/products/DELETE_START';
+const DELETE_STOP = 'redux-example/products/DELETE_STOP';
+const ADD_START = 'redux-example/products/ADD_START';
+const ADD_STOP = 'redux-example/products/ADD_STOP';
 
-const DELETE_START = 'redux-example/categories/DELETE_START';
-const DELETE_STOP = 'redux-example/categories/DELETE_STOP';
-const ADD_START = 'redux-example/categories/ADD_START';
-const ADD_STOP = 'redux-example/categories/ADD_STOP';
-
-const ADD_START_PROP = 'redux-example/categories/ADD_START_PROP';
-const ADD_STOP_PROP = 'redux-example/categories/ADD_STOP_PROP';
-const DELETE_START_PROP = 'redux-example/categories/DELETE_START_PROP';
-const DELETE_STOP_PROP = 'redux-example/categories/DELETE_STOP_PROP';
-const EDIT_START_PROP = 'redux-example/categories/EDIT_START_PROP';
-const EDIT_STOP_PROP = 'redux-example/categories/EDIT_STOP_PROP';
-const TOGGLED = 'redux-example/categories/TOGGLED';
+const ADD_START_PROP = 'redux-example/products/ADD_START_PROP';
+const ADD_STOP_PROP = 'redux-example/products/ADD_STOP_PROP';
+const DELETE_START_PROP = 'redux-example/products/DELETE_START_PROP';
+const DELETE_STOP_PROP = 'redux-example/products/DELETE_STOP_PROP';
+const EDIT_START_PROP = 'redux-example/products/EDIT_START_PROP';
+const EDIT_STOP_PROP = 'redux-example/products/EDIT_STOP_PROP';
+const TOGGLED = 'redux-example/products/TOGGLED';
+const TOGGLE_IMG = 'redux-example/products/TOGGLE_IMG';
 
 const initialState = {
   loaded: false,
@@ -54,7 +51,8 @@ const initialState = {
   editingProp: {},
   saveError: {},
   deleting: {},
-  myToggled: false
+  myToggled: false,
+  onShowImagePopUp: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -147,16 +145,16 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE_PROP:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS_PROP:
-      // const dataProp = [...state.data];
-      // for (let index = 0; index < dataProp.length; index++) {
-      //   if (dataProp[index]._id === action.result.idC) {
-      //     for (let indexj = 0; indexj < dataProp[index].properties.length; indexj++) {
-      //       if (dataProp[index].properties[indexj].name === action.result.nameOld) {
-      //         dataProp[index].properties.splice(indexj, 1, action.result.props);
-      //       }
-      //     }
-      //   }
-      // }
+    // const dataProp = [...state.data];
+    // for (let index = 0; index < dataProp.length; index++) {
+    //   if (dataProp[index]._id === action.result.idC) {
+    //     for (let indexj = 0; indexj < dataProp[index].properties.length; indexj++) {
+    //       if (dataProp[index].properties[indexj].name === action.result.nameOld) {
+    //         dataProp[index].properties.splice(indexj, 1, action.result.props);
+    //       }
+    //     }
+    //   }
+    // }
     case SAVE_FAIL_PROP:
       return typeof action.error === 'string' ? {
         ...state,
@@ -317,6 +315,12 @@ export default function reducer(state = initialState, action = {}) {
         }
       } : state;
 
+    case TOGGLE_IMG:
+      return {
+        ... state,
+        onShowImagePopUp: !action.onShowImagePopUp
+      };
+
     default:
       return state;
   }
@@ -392,6 +396,12 @@ export function deleteCategory(id) {
   };
 }
 
+export function showPopUp(onShowImagePopUp) {
+  return {
+    type: TOGGLE_IMG, onShowImagePopUp
+  };
+}
+
 export function addStart(id) {
   return {type: ADD_START, id};
 }
@@ -442,3 +452,4 @@ export function editStopProp(name) {
 export function toggledChange(toggled) {
   return {type: TOGGLED, toggled};
 }
+

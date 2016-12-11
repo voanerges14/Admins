@@ -158,7 +158,7 @@ class TreeNode extends Component {
   }
 
   renderLoading(decorators) {
-    debugger;
+    // debugger;
     return (
       <ul style={this.props.style.subtree}>
         <li>
@@ -171,7 +171,7 @@ class TreeNode extends Component {
   render() {
     const decorators = this.decorators();
     const animations = this.animations();
-    debugger;
+    // debugger;
     return (
       <li style={this.props.style.base} ref="topLevel">
         {/* відповідає за сам вузол(папку/файл)*/}
