@@ -13,6 +13,7 @@ import hello from './hello';
 import categories from './categories';
 import orders from './orders';
 import users from './users';
+import products from './products';
 
 export default combineReducers({
   routing: routerReducer,
@@ -31,5 +32,6 @@ export default combineReducers({
 
   categories,
   orders,
-  users
+  users,
+  products
 });

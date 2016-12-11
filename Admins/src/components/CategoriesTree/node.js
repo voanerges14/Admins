@@ -7,7 +7,7 @@ import {VelocityTransitionGroup} from 'velocity-react';
 import NodeHeader from './header';
 import {connect} from 'react-redux';
 import * as categoryActions from 'redux/modules/categories';
-import {initializeWithKey} from 'redux-form';
+// import {initializeWithKey} from 'redux-form';
 import {asyncConnect} from 'redux-async-connect';
 import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 
@@ -158,7 +158,7 @@ class TreeNode extends Component {
   }
 
   renderLoading(decorators) {
-    debugger;
+    // debugger;
     return (
       <ul style={this.props.style.subtree}>
         <li>
@@ -171,7 +171,7 @@ class TreeNode extends Component {
   render() {
     const decorators = this.decorators();
     const animations = this.animations();
-    debugger;
+    // debugger;
     return (
       <li style={this.props.style.base} ref="topLevel">
         {/* відповідає за сам вузол(папку/файл)*/}
