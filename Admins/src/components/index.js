@@ -26,3 +26,4 @@ export NodeViewer from './NodeViewer/NodeViewer';
 export SwitchButton from './SwitchButton/Main';
 export UserAddForm from './UserForms/UserAddForm';
 export UserEditForm from './UserForms/UserEditForm';
+export ImageUpload from './ImageUpload/ImageUpload';

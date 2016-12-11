@@ -1,18 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleRoot} from 'radium';
-import {Treebeard, decorators, Hello} from '../../components';
+import {Treebeard, decorators, Hello, ImageUpload} from '../../components';
 import Helmet from 'react-helmet';
 // const Switch = require('components');
-// import data from './data';
 // import styles from './styles';
+import {connect} from 'react-redux';
+import {asyncConnect} from 'redux-async-connect';
 import * as styles from './Categories.scss';
 import * as filters from './filter';
 import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import * as categoryActions from 'redux/modules/categories';
 import * as showSome from 'redux/modules/hello';
 import * as productAction from 'redux/modules/products';
-import {connect} from 'react-redux';
-import {asyncConnect} from 'redux-async-connect';
 
 // import * as categoryActions from 'redux/modules/categories';
 // import {isLoaded, load as loadCategories} from 'redux/modules/categories';
@@ -20,8 +19,7 @@ import {initializeWithKey} from 'redux-form';
 
 import {CategoryEditProp, CategoryAddProp, CategoryAdd} from 'components';
 // import SkyLight from 'react-skylight';
-// import {SkyLightStateless} from 'react-skylight';
-
+import {SkyLightStateless} from 'react-skylight';
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -41,7 +39,9 @@ import {CategoryEditProp, CategoryAddProp, CategoryAdd} from 'components';
     addingProp: state.categories.addingProp,
     onDelete: state.categories.onDelete,
     show: state.hello.show,
-    onShowImagePopUp: state.products.onShowImagePopUp
+    onShowImagePopUp: state.products.onShowImagePopUp,
+    onShowImageUploader: state.products.onShowImageUploader
+
   }),
   {...categoryActions, initializeWithKey, ...showSome, ...productAction})
 
@@ -68,7 +68,9 @@ class Categories extends Component {
     showM: PropTypes.func,
 
     onShowImagePopUp: PropTypes.func,
-    showPopUp: PropTypes.func
+    showPopUp: PropTypes.func,
+    onShowImageUploader: PropTypes.func,
+    showImageUploader: PropTypes.func
   };
 
   //
@@ -77,13 +79,10 @@ class Categories extends Component {
     this.state = {};
     this.onToggle = this.onToggle.bind(this);
     this.onFilterMouseUp = this.onFilterMouseUp.bind(this);
-    this.onImgClick = this.onImgClick.bind(this);
+    // this.onImgClick = this.onImgClick.bind(this);
     // this.onKeyUp = this.onKeyUp.bind(this);
   }
 
-  onImgClick(show) {
-    this.props.showPopUp(show);
-  }
   onToggle(node, toggled) {
     /* позначає виділеним при кліку і забирає коли клікнуте іншу*/
     if (this.state.cursor) {
@@ -144,7 +143,7 @@ class Categories extends Component {
     };
 
     const {categories, load, loading, editingProp, addingProp, adding, onDelete, show} = this.props;
-    // const {onShowImagePopUp, showPopUp} = this.props;
+    const {onShowImagePopUp, showPopUp, showImageUploader, onShowImageUploader} = this.props;
     const deleteBtns = (id, name) => {
       if (!onDelete) {
         return false;
@@ -270,7 +269,7 @@ class Categories extends Component {
               </tbody>
             </table>}
 
- {/* the products*/}
+            {/* the products*/}
 
             {chousenNode && !show &&
             <table className="table table-striped">
@@ -294,18 +293,6 @@ class Categories extends Component {
               </thead>
               <tbody>
 
-              {/* {onShowImagePopUp && <div>*/}
-                {/* <SkyLightStateless*/}
-                  {/* isVisible={onShowImagePopUp}*/}
-                  {/* onCloseClicked={() => {*/}
-                    {/* showPopUp(onShowImagePopUp);*/}
-                  {/* }}*/}
-                  {/* title="A Stateless Modal"*/}
-                {/* >*/}
-                  {/* I'm a Stateless modal!*/}
-                {/* </SkyLightStateless>*/}
-              {/* </div>}*/}
-
               {!addingProp[0] && chousenNode.properties &&
               chousenNode.properties.map((prop) => editingProp[prop.name] ?
                 <CategoryEditProp formKey={String(chousenNode._id)} key={String(prop.name)} initialValues={prop}
@@ -317,8 +304,49 @@ class Categories extends Component {
                   <td className={styles.nameColProd}>
                     <div className={styles.logo}>
                       <p>
-                        <img src={'https://facebook.github.io/react/img/logo_og.png'}/>
+                        <img onClick={() => {
+                          showPopUp(onShowImagePopUp);
+                        }} src={'https://facebook.github.io/react/img/logo_og.png'}/>
                       </p>
+                      <div>
+                        <SkyLightStateless
+                          isVisible={onShowImagePopUp}
+                          onCloseClicked={() => {
+                            showPopUp(onShowImagePopUp);
+                          }}
+                        >
+                          <button className="btn btn-primary" onClick={() => {
+                            showImageUploader(onShowImageUploader);
+                          }}>
+                            <i className="fa fa-plus"/> ADD
+                          </button>
+                          {onShowImageUploader && <ImageUpload/>}
+                          {!onShowImageUploader &&
+                          <div className="table table-striped">
+                            { chousenNode.properties.map((propi) =>
+                            <span key={propi.name} className={styles.nameColProd}>
+                               <p className={styles.logo}><img src={'https://facebook.github.io/react/img/logo_og.png'}/></p>
+                              {!deleteBtns(chousenNode._id, prop.name) ?
+                                <button className="btn btn-primary"
+                                        onClick={handleDeletePropStart(chousenNode._id, prop.name)}>
+                                  <i className="fa fa-trash"/> Del
+                                </button> :
+                                <span>
+                      <button className="btn btn-success btn-sm"
+                              onClick={handleDeleteProp(chousenNode._id, prop.name)}>
+                        <i className={'glyphicon glyphicon-ok'}/>
+                      </button>
+                      <button className="btn btn-default btn-sm"
+                              onClick={handleDeletePropStop(chousenNode._id, prop.name)}>
+                        <i className="glyphicon glyphicon-remove"/>
+                      </button>
+                    </span>}
+                            </span>
+                          )}
+                          </div>
+                          }
+                        </SkyLightStateless>
+                      </div>
                     </div>
                   </td>
                   <td className={styles.nameColProd}>{prop.type}</td>
