@@ -39,11 +39,11 @@ class TreeNode extends Component {
   onClick() {
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
-    debugger;
-    // const temp = this.props.toggledChange;
-    // const oldState = typeof this.props.categoryTreeState[this.props.node._id] === 'undefined' ? false :
-    //   this.props.categoryTreeState[this.props.node._id];
-    // temp(this.props.node._id, oldState);
+    const temp = this.props.toggledChange;
+    const state = this.props.categoryTreeState;
+    const id = this.props.node._id;
+    const oldState = (typeof state[id] === 'undefined') ? false : state[id];
+    temp(id, oldState);
 
     if (onToggle) {
       onToggle(this.props.node, toggled);
@@ -190,7 +190,11 @@ class TreeNode extends Component {
 
 TreeNode.propTypes = {
   toggledChange: PropTypes.func.isRequired,
+<<<<<<< HEAD
   categoryTreeState: PropTypes.object.isRequired,
+=======
+  categoryTreeState: PropTypes.bool.isRequired,
+>>>>>>> 09041b025c935754787b1b5cb86f06c019abcf78
   style: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   decorators: PropTypes.object.isRequired,
