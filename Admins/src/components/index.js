@@ -25,6 +25,6 @@ export UserAddForm from './UserForms/UserAddForm';
 export UserEditForm from './UserForms/UserEditForm';
 export CategoryAddProp from './CategoriesForm/Property/CategoryAddProp';
 export CategoryEditProp from './CategoriesForm/Property/CategoryEditProp';
-export CategoryEdit from './CategoriesForm/Category/CategoryAdd';
-export CategoryAdd from './CategoriesForm/Category/CategoryEdit';
+export CategoryAdd from './CategoriesForm/Category/CategoryAdd';
+export CategoryEdit from './CategoriesForm/Category/CategoryEdit';
 export ImageUpload from './ImageUpload/ImageUpload';

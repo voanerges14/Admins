@@ -11,7 +11,7 @@ import * as categoryActions from 'redux/modules/categories';
 import * as showSome from 'redux/modules/hello';
 import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {CategoryEditProp, CategoryAddProp, CategoryAdd} from 'components';
+import {CategoryEditProp, CategoryAddProp, CategoryAdd} from '../../components';
 import {SkyLightStateless} from 'react-skylight';
 @asyncConnect([{
   deferred: true,
