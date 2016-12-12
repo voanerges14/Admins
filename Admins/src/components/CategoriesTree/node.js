@@ -190,11 +190,8 @@ class TreeNode extends Component {
 
 TreeNode.propTypes = {
   toggledChange: PropTypes.func.isRequired,
-<<<<<<< HEAD
-  categoryTreeState: PropTypes.object.isRequired,
-=======
+
   categoryTreeState: PropTypes.bool.isRequired,
->>>>>>> 09041b025c935754787b1b5cb86f06c019abcf78
   style: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   decorators: PropTypes.object.isRequired,
