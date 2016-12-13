@@ -107,7 +107,7 @@ class TreeNode extends Component {
 
   renderHeader(decorators, animations) {
     const styles = require('../../containers/Categories/Categories.scss');
-    debugger;
+    // debugger;
     return (
       <div className={styles.mybutton}>
         <NodeHeader
@@ -190,6 +190,7 @@ class TreeNode extends Component {
 
 TreeNode.propTypes = {
   toggledChange: PropTypes.func.isRequired,
+
   categoryTreeState: PropTypes.bool.isRequired,
   style: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
@@ -199,26 +200,9 @@ TreeNode.propTypes = {
     PropTypes.bool
   ]).isRequired,
   onToggle: PropTypes.func,
-  // categories: React.PropTypes.array,
-  // editStartProp: React.PropTypes.func.isRequired,
-  // deleteCategory: React.PropTypes.func.isRequired,
-  //
-  // adding: React.PropTypes.object.isRequired,
-  // editing: React.PropTypes.object.isRequired,
-  // deleting: React.PropTypes.func.isRequired,
-  // onDelete: React.PropTypes.object.isRequired
-
-  // handleAdd: React.PropTypes.func.isRequired,
-  // handleRemove: React.PropTypes.func.isRequired,
-  addCategoryBtn: PropTypes.object.isRequired,
-  editCategoryBtn: PropTypes.object.isRequired,
-  deleteCategoryBtn: PropTypes.object.isRequired,
+  categories: PropTypes.array,
   addStartCategory: PropTypes.func.isRequired,
-  editStartCategory: PropTypes.func.isRequired,
-  deleteStartCategory: PropTypes.func.isRequired,
-  deleteStopCategory: PropTypes.func.isRequired,
-  deleteCategory: PropTypes.func.isRequired
-
+  deleteCategory: PropTypes.func.isRequired,
 };
 
 export default TreeNode;
