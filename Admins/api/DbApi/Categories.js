@@ -2,7 +2,7 @@ import {db} from "./index";
 
 function connectToDbCategoriesModel() {
   let Categories = new db.Schema({
-    _id: { type: db.Schema.Types.ObjectId, required: true },
+    // _id: { type: db.Schema.Types.ObjectId, required: true },
     parentId: { type: String, required: true },
     name: { type: db.Schema.Types.String, required: true },
     properties: {type: Array, required: true}
