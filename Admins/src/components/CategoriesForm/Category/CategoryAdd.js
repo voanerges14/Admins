@@ -6,7 +6,7 @@ import * as categoryActions from 'redux/modules/categories';
 
 @connect(
   state => ({
-    saveError: state.categories.saveError
+    addCategoryBtn: state.categories.addCategory
   }),
   dispatch => bindActionCreators(categoryActions, dispatch)
 )
@@ -17,46 +17,27 @@ import * as categoryActions from 'redux/modules/categories';
 export default class CategoryAdd extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    addStop: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    // formKey: PropTypes.string.isRequired,
-    // name: PropTypes.object.isRequired
+    addStopCategory: PropTypes.func.isRequired,
+    addCategoryBtn: PropTypes.func.isRequired,
+    addCategory: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired
-
   };
 
   render() {
-    const { addStop, fields: {name}, handleSubmit, save, submitting, values} = this.props;
+    const { addStopCategory, fields: {name}, addCategoryBtn, addCategory, values} = this.props;
     const styles = require('./CategoryAdd.scss');
-    // console.log('msfnmgsdf: ' + formKey);
     return (
       <div className={styles.Form}>
-      {/* <tr className={submitting ? styles.saving : ''}>*/}
-        {/* <td className={styles.idCol}>{_id.value}</td>*/}
-         <td className={styles.formImput}>
-         <input type="text" {...name}/>
-           </td>
-
-        {/* <td className={styles.buttonColl}>*/}
-          <button className="btn btn-default"
-                  onClick={() => addStop()}
-                   disabled={submitting}>
-            <i className="fa fa-ban"/> Cancel
+        <input type="text" {...name}/>
+        <span>
+          <button className="btn btn-success btn-sm"
+                  onClick={() => addCategory({ parentId: addCategoryBtn.parentId, name: values.name }) }>
+            <i className={'glyphicon glyphicon-ok'}/>
           </button>
-          <button className="btn btn-success"
-                   onClick={handleSubmit(() => save(values)
-                     .then(result => {
-                       if (result && typeof result.error === 'object') {
-                         return Promise.reject(result.error);
-                       }
-                     })
-                   )}>
-            <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
+          <button className="btn btn-default btn-sm" onClick={() => addStopCategory() }>
+            <i className="glyphicon glyphicon-remove"/>
           </button>
-         {/* </td>*/}
-       {/* </tr>*/}
+        </span>
       </div>
     );
   }

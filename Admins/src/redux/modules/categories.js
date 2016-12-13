@@ -84,11 +84,9 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_CATEGORY:
       return state;
     case ADD_SUCCESS_CATEGORY:
-      const dataAddCategory = [...state.data];
-      dataAddCategory.push(action.result.data);
       return {
         ...state,
-        data: dataAddCategory,
+        data: action.result.data,
         addCategory: { 'isActive': false }
       };
     case ADD_FAIL_CATEGORY:
@@ -101,11 +99,9 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_CATEGORY:
       return state;
     case EDIT_SUCCESS_CATEGORY:
-      const dataEditCategory = [...state.data];
-      dataEditCategory.push(action.result.data);
       return {
         ...state,
-        data: dataEditCategory,
+        data: action.result.data,
         editCategory: { 'isActive': false }
       };
     case EDIT_FAIL_CATEGORY:
@@ -118,11 +114,9 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_CATEGORY:
       return state;
     case DELETE_SUCCESS_CATEGORY:
-      const dataDeleteCategory = [...state.data];
-      dataDeleteCategory.push(action.result.data);
       return {
         ...state,
-        data: dataDeleteCategory,
+        data: action.result.data,
         deleteCategory: { 'isActive': false }
       };
     case DELETE_FAIL_CATEGORY:
@@ -182,7 +176,7 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_START_CATEGORY:
       return {
         ...state,
-        addCategory: { 'isActive': true, 'id': action.id }
+        addCategory: { 'isActive': true, 'parentId': action.parentId }
       };
     case ADD_STOP_CATEGORY:
       return {
@@ -257,7 +251,6 @@ export function load() {
 export function addCategory(category) {
   return {
     types: [ADD_CATEGORY, ADD_SUCCESS_CATEGORY, ADD_FAIL_CATEGORY],
-    category: category,
     promise: (client) => client.post('/category/add', {
       data: {category}
     })
@@ -309,8 +302,8 @@ export function deleteProperty(id, name) {
   };
 }
 
-export function addStartCategory(id) {
-  return {type: ADD_START_CATEGORY, id};
+export function addStartCategory(parentId) {
+  return {type: ADD_START_CATEGORY, parentId};
 }
 export function addStopCategory() {
   return {type: ADD_STOP_CATEGORY};

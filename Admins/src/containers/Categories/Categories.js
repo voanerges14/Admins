@@ -142,7 +142,7 @@ class Categories extends Component {
               </button>}
             </div>
             <div className={styles.component2}><Hello/></div>
-            {addCategoryBtn.isActive && <CategoryAdd formKey={addCategoryBtn.id}/>}
+            {addCategoryBtn.isActive && <CategoryAdd />}
             <Treebeard
               data={categories}
               onToggle={this.onToggle}
