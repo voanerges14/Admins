@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleRoot} from 'radium';
-import {Treebeard, decorators, Hello, ImageUpload} from '../../components';
+import {Treebeard, decorators, Hello, ProductEdit} from '../../components';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import {asyncConnect} from 'redux-async-connect';
@@ -32,7 +32,10 @@ import {SkyLightStateless} from 'react-skylight';
     loading: state.categories.loading,
     show: state.hello.show,
     onShowImagePopUp: state.products.onShowImagePopUp,
-    onShowImageUploader: state.products.onShowImageUploader
+    onShowImageUploader: state.products.onShowImageUploader,
+
+    onEditProduct: state.products.onEditProduct,
+
 
   }),
   {...categoryActions, initializeWithKey, ...showSome, ...productAction})
@@ -61,7 +64,11 @@ class Categories extends Component {
     onShowImagePopUp: PropTypes.func,
     showPopUp: PropTypes.func,
     onShowImageUploader: PropTypes.func,
-    showImageUploader: PropTypes.func
+    showImageUploader: PropTypes.func,
+
+    onEditProduct: PropTypes.object.isRequired,
+    editStartProduct: PropTypes.func.isRequired
+
   };
 
   constructor(props) {
@@ -95,10 +102,14 @@ class Categories extends Component {
 
   render() {
     const chosenNode = this.state.cursor;
-    const { addCategoryBtn, addPropertyBtn, editPropertyBtn, deletePropertyBtn, addStartCategory,
+    const {
+      addCategoryBtn, addPropertyBtn, editPropertyBtn, deletePropertyBtn, addStartCategory,
       addStartProperty, editStartProperty, deleteStartProperty, deleteStopProperty, deleteProperty,
       categories, load, loading, show,
-      onShowImagePopUp, showPopUp, showImageUploader, onShowImageUploader} = this.props;
+      onShowImagePopUp, showPopUp, showImageUploader, onShowImageUploader
+    } = this.props;
+
+    const {onEditProduct, editStartProduct} = this.props;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
@@ -137,7 +148,9 @@ class Categories extends Component {
           <div className={styles.component}>
             <div className={styles.component}>
               {!addCategoryBtn.isActive && <button className="btn btn-link btn-xs"
-                                               onClick={() => {addStartCategory(0);}}>
+                                                   onClick={() => {
+                                                     addStartCategory(0);
+                                                   }}>
                 <span className="glyphicon glyphicon-plus"/>
               </button>}
             </div>
@@ -159,7 +172,9 @@ class Categories extends Component {
                 <th className={styles.typeCol}>Type</th>
                 {!addPropertyBtn.isActive &&
                 <th className={styles.buttonCol}>
-                  <button className="btn btn-primary" onClick={() => { addStartProperty(chosenNode._id); }}>
+                  <button className="btn btn-primary" onClick={() => {
+                    addStartProperty(chosenNode._id);
+                  }}>
                     <i className="glyphicon glyphicon-plus"/>ADD
                   </button>
                 </th>}
@@ -175,22 +190,30 @@ class Categories extends Component {
                   <td className={styles.typeCol}>{property.type}</td>
                   <td className={styles.buttonCol}>
                     <button className="btn btn-primary"
-                            onClick={() => { editStartProperty(property.name, chosenNode._id); }}>
+                            onClick={() => {
+                              editStartProperty(property.name, chosenNode._id);
+                            }}>
                       <i className="fa fa-pencil"/> Edit
                     </button>
                     {deletePropertyBtn.isActive &&
-                      (deletePropertyBtn.id === chosenNode._id) && (deletePropertyBtn.name === property.name) ?
+                    (deletePropertyBtn.id === chosenNode._id) && (deletePropertyBtn.name === property.name) ?
                       <span>
                         <button className="btn btn-success btn-sm"
-                                onClick={() => { deleteProperty(chosenNode._id, property.name); }}>
+                                onClick={() => {
+                                  deleteProperty(chosenNode._id, property.name);
+                                }}>
                           <i className={'glyphicon glyphicon-ok'}/>
                         </button>
-                        <button className="btn btn-default btn-sm" onClick={() => { deleteStopProperty(); }}>
+                        <button className="btn btn-default btn-sm" onClick={() => {
+                          deleteStopProperty();
+                        }}>
                           <i className="glyphicon glyphicon-remove"/>
                         </button>
                       </span> :
                       <button className="btn btn-primary"
-                              onClick={() => { deleteStartProperty(property.name, chosenNode._id); }}>
+                              onClick={() => {
+                                deleteStartProperty(property.name, chosenNode._id);
+                              }}>
                         <i className="fa fa-trash"/> Del
                       </button>}
                   </td>
@@ -198,14 +221,13 @@ class Categories extends Component {
               </tbody>
             </table>}
 
-            {/* the products*/}
-
+            {/* //the products             the products*/}
             {chosenNode && !show &&
             <table className="table table-striped">
               <thead>
               <tr>
-                <th className={styles.nameColProd}>Number</th>
                 <th className={styles.nameColProd}>Name</th>
+                <th className={styles.nameColProd}>Number</th>
                 <th className={styles.nameColProd}>Price</th>
                 <th className={styles.nameColProd}>Image</th>
                 <th className={styles.nameColProd}>Data</th>
@@ -213,7 +235,9 @@ class Categories extends Component {
 
                 {!addPropertyBtn.isActive &&
                 <th className={styles.nameColProd}>
-                  <button className="btn btn-primary" onClick={() => { deleteStopProperty();}}>
+                  <button className="btn btn-primary" onClick={() => {
+                    deleteStopProperty();
+                  }}>
                     <i className="glyphicon glyphicon-plus"/>ADD
                   </button>
                 </th>}
@@ -223,21 +247,20 @@ class Categories extends Component {
               <tbody>
 
               {/* {onShowImagePopUp && <div>*/}
-                {/* <SkyLightStateless*/}
-                  {/* isVisible={onShowImagePopUp}*/}
-                  {/* onCloseClicked={() => {*/}
-                    {/* showPopUp(onShowImagePopUp);*/}
-                  {/* }}*/}
-                  {/* title="A Stateless Modal"*/}
-                {/* >*/}
-                  {/* I'm a Stateless modal!*/}
-                {/* </SkyLightStateless>*/}
+              {/* <SkyLightStateless*/}
+              {/* isVisible={onShowImagePopUp}*/}
+              {/* onCloseClicked={() => {*/}
+              {/* showPopUp(onShowImagePopUp);*/}
+              {/* }}*/}
+              {/* title="A Stateless Modal"*/}
+              {/* >*/}
+              {/* I'm a Stateless modal!*/}
+              {/* </SkyLightStateless>*/}
               {/* </div>}*/}
 
-              {!addPropertyBtn.isActive && chosenNode.properties &&
-              chosenNode.properties.map((prop) => editPropertyBtn.isActive ?
-                <CategoryEditProp formKey={String(chosenNode._id)} key={String(prop.name)} initialValues={prop}
-                                  nameOld={prop.name}/> :
+              {!onEditProduct.isActive && chosenNode.properties &&
+              chosenNode.properties.map((prop) => !onEditProduct.isActive ?
+                <ProductEdit key={prop.name} initialValues={prop}/> :
                 <tr key={prop.name}>
                   <td className={styles.nameColProd}>{prop.name}</td>
                   <td className={styles.nameColProd}>{prop.type}</td>
@@ -261,18 +284,20 @@ class Categories extends Component {
                           }}>
                             <i className="fa fa-plus"/> ADD
                           </button>
-                          {onShowImageUploader && <ImageUpload/>}
+                          {/* {onShowImageUploader && <ImageUpload/>}*/}
+                          {/* {onShowImageUploader && <ProductImageAdd/>}*/}
                           {!onShowImageUploader &&
                           <div className="table table-striped">
                             { chosenNode.properties.map((propi) =>
-                            <span key={propi.name} className={styles.nameColProd}>
-                               <p className={styles.logo}><img src={'https://facebook.github.io/react/img/logo_og.png'}/></p>
-                              {!deleteProperty.isActive ?
-                                <button className="btn btn-primary"
-                                        onClick={() => deleteStopProperty() }>
-                                  <i className="fa fa-trash"/> Del
-                                </button> :
-                                <span>
+                                <span key={propi.name} className={styles.nameColProd}>
+                               <p className={styles.logo}><img
+                                 src={'https://facebook.github.io/react/img/logo_og.png'}/></p>
+                                  {!deleteProperty.isActive ?
+                                    <button className="btn btn-primary"
+                                            onClick={() => deleteStopProperty() }>
+                                      <i className="fa fa-trash"/> Del
+                                    </button> :
+                                    <span>
                       <button className="btn btn-success btn-sm"
                               onClick={() => deleteStopProperty()}>
                         <i className={'glyphicon glyphicon-ok'}/>
@@ -283,7 +308,7 @@ class Categories extends Component {
                       </button>
                     </span>}
                             </span>
-                          )}
+                            )}
                           </div>
                           }
                         </SkyLightStateless>
@@ -293,19 +318,27 @@ class Categories extends Component {
                   <td className={styles.nameColProd}>{prop.type}</td>
                   <td className={styles.descriptionCol}>{prop.type}</td>
                   <td className={styles.buttonCol}>
-                    <button className="btn btn-primary" onClick={() => { deleteStopProperty(); }}>
+                    <button className="btn btn-primary" onClick={() => {
+                      editStartProduct(prop._id);
+                    }}>
                       <i className="fa fa-pencil"/> Edit
                     </button>
 
                     {!deleteProperty.isActive ?
-                      <button className="btn btn-primary" onClick={() => { deleteStopProperty(); }}>
+                      <button className="btn btn-primary" onClick={() => {
+                        deleteStopProperty();
+                      }}>
                         <i className="fa fa-trash"/> Del
                       </button> :
                       <span>
-                      <button className="btn btn-success btn-sm" onClick={() => { deleteStopProperty();}}>
+                      <button className="btn btn-success btn-sm" onClick={() => {
+                        deleteStopProperty();
+                      }}>
                         <i className={'glyphicon glyphicon-ok'}/>
                       </button>
-                      <button className="btn btn-default btn-sm" onClick={() => { deleteStopProperty(); }}>
+                      <button className="btn btn-default btn-sm" onClick={() => {
+                        deleteStopProperty();
+                      }}>
                         <i className="glyphicon glyphicon-remove"/>
                       </button>
                     </span>}

@@ -11,10 +11,6 @@ const SAVE_PROP = 'redux-example/products/SAVE_PROP';
 const SAVE_SUCCESS_PROP = 'redux-example/products/SAVE_SUCCESS_PROP';
 const SAVE_FAIL_PROP = 'redux-example/products/SAVE_FAIL_PROP';
 
-// const ADD = 'redux-example/products/ADD';
-// const ADD_SUCCESS = 'redux-example/products/ADD_SUCCESS';
-// const ADD_FAIL = 'redux-example/products/ADD_FAIL';
-
 const DELETE_PROP = 'redux-example/products/DELETE_PROP';
 const DELETE_PROP_SUCCESS = 'redux-example/products/DELETE_PROP_SUCCESS';
 const DELETE_PROP_FAIL = 'redux-example/products/DELETE_PROP_FAIL';
@@ -23,9 +19,6 @@ const DELETE = 'redux-example/products/DELETE';
 const DELETE_SUCCESS = 'redux-example/products/DELETE_SUCCESS';
 const DELETE_FAIL = 'redux-example/products/DELETE_FAIL';
 
-// const DELETE_IMG = 'redux-example/products/DELETE_IMG';
-// const DELETE_SUCCESS_IMG = 'redux-example/products/DELETE_SUCCESS_IMG';
-// const DELETE_FAIL_IMG = 'redux-example/products/DELETE_FAIL_IMG';
 
 const ADD_PROP = 'redux-example/products/ADD_PROP';
 const ADD_SUCCESS_PROP = 'redux-example/products/ADD_SUCCESS_PROP';
@@ -47,6 +40,16 @@ const TOGGLE_IMG = 'redux-example/products/TOGGLE_IMG';
 const TOGGLE_IMG_UPLOADER = 'redux-example/products/TOGGLE_IMG_UPLOADER';
 const TOGGLE_IMG_DELETE = 'redux-example/products/TOGGLE_IMG_DELETE';
 
+const EDIT_STOP_PRODUCT = 'redux-example/products/EDIT_STOP_PRODUCT';
+const EDIT_START_PRODUCT = 'redux-example/products/EDIT_START_PRODUCT';
+
+const IMAGE_START_ADD = 'redux-example/products/IMAGE_START_ADD';
+const IMAGE_STOP_ADD = 'redux-example/products/IMAGE_STOP_ADD';
+
+const ADD_IMAGE = 'redux-example/products/ADD_IMAGE';
+const ADD_SUCCESS_IMAGE = 'redux-example/products/ADD_SUCCESS_IMAGE';
+const ADD_FAIL_IMAGE = 'redux-example/products/ADD_FAIL_IMAGE';
+
 const initialState = {
   loaded: false,
   adding: [false],
@@ -59,8 +62,12 @@ const initialState = {
   deleting: {},
 
   onShowImagePopUp: false,
-  onShowImageUploader: false,
-  onDeleteImage: false
+  onDeleteImage: false,
+
+  onEditProduct: {'isActive': false},
+
+  onAddProductImage: {'isActive': false},
+
 };
 
 export default function products(state = initialState, action = {}) {
@@ -335,80 +342,32 @@ export default function products(state = initialState, action = {}) {
         onDeleteImage: !action.onShowImageUploader
       };
 
+    case IMAGE_START_ADD:
+      return {
+        ...state,
+        onAddProductImage: {'isActive': true, 'id': action.id}
+      };
+    case IMAGE_STOP_ADD:
+      return {
+        ...state,
+        onAddProductImage: {'isActive': false}
+      };
+
+    case EDIT_START_PRODUCT:
+      return {
+        ...state,
+        onEditProduct: {'isActive': true, 'id': action._id}
+      };
+    case EDIT_STOP_PRODUCT:
+      return {
+        ...state,
+        onEditProduct: {'isActive': false}
+      };
+
     default:
       return state;
   }
 }
-
-// export function isLoaded(globalState) {
-//   return globalState.categories && globalState.categories.loaded;
-// }
-//
-// export function load() {
-//   return {
-//     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-//     promise: (client) => client.get('/category/load') // params not used, just shown as demonstration
-//   };
-// }
-//
-// export function save(category) {
-//   return {
-//     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-//     id: category.id,
-//     promise: (client) => client.post('/category/add', {
-//       data: category
-//     })
-//   };
-// }
-//
-// export function saveProp(idC, prop, nameOld) {
-//   return {
-//     id: prop.name,
-//     types: [SAVE_PROP, SAVE_SUCCESS_PROP, SAVE_FAIL_PROP],
-//     promise: (client) => client.post('/category/updateProp', {
-//       data: {prop, idC, nameOld}
-//     })
-//   };
-// }
-//
-// export function add(category) {
-//   return {
-//     types: [ADD, ADD_SUCCESS, ADD_FAIL],
-//     promise: (client) => client.post('/category/add', {
-//       data: category
-//     })
-//   };
-// }
-// // export function addProp(values, id) {
-// export function addProp(values, id) {
-//   return {
-//     id: id,
-//     types: [ADD_PROP, ADD_SUCCESS_PROP, ADD_FAIL_PROP],
-//     promise: (client) => client.post('/category/addProp', {
-//       data: {'prop': values, id}
-//     })
-//   };
-// }
-//
-// export function deleteProp(id, name) {
-//   return {
-//     id: id,
-//     name: name,
-//     types: [DELETE_PROP, DELETE_PROP_SUCCESS, DELETE_PROP_FAIL],
-//     promise: (client) => client.post('/category/deleteProp', {
-//       data: {id, name}
-//     })
-//   };
-// }
-//
-// export function deleteCategory(id) {
-//   return {
-//     types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
-//     promise: (client) => client.post('/category/deleteCategory', {
-//       data: {id}
-//     })
-//   };
-// }
 
 export function showPopUp(onShowImagePopUp) {
   return {
@@ -421,55 +380,21 @@ export function showImageUploader(onShowImageUploader) {
     type: TOGGLE_IMG_UPLOADER, onShowImageUploader
   };
 }
-//
-// export function addStart(id) {
-//   return {type: ADD_START, id};
-// }
-//
-// export function addStop() {
-//   return {type: ADD_STOP};
-// }
-//
-// export function addStartProp(id) {
-//   return {type: ADD_START_PROP, id};
-// }
-//
-// export function addStopProp() {
-//   return {type: ADD_STOP_PROP};
-// }
-//
-// export function deleteStart(id) {
-//   return {type: DELETE_START, id};
-// }
-//
-// export function deleteStop(id) {
-//   return {type: DELETE_STOP, id};
-// }
-//
-// export function deleteStartProp(id, name) {
-//   return {type: DELETE_START_PROP, id, name};
-// }
-//
-// export function deleteStopProp(id, name) {
-//   return {type: DELETE_STOP_PROP, id, name};
-// }
-//
-// export function editStart(id) {
-//   return {type: EDIT_START, id};
-// }
-//
-// export function editStop(id) {
-//   return {type: EDIT_STOP, id};
-// }
-//
-// export function editStartProp(name) {
-//   return {type: EDIT_START_PROP, name};
-// }
-//
-// export function editStopProp(name) {
-//   return {type: EDIT_STOP_PROP, name};
-// }
-// export function toggledChange(toggled) {
-//   return {type: TOGGLED, toggled};
-// }
-//
+
+export function editStartProduct(id) {
+  return {type: EDIT_START_PRODUCT, id};
+}
+export function editStopProduct() {
+  return {type: EDIT_STOP_PRODUCT};
+}
+
+export function addProperty(img, id) {
+  return {
+    types: [ADD_IMAGE, ADD_SUCCESS_IMAGE, ADD_FAIL_IMAGE],
+    img: img,
+    id: id,
+    promise: (client) => client.post('/category/addImg', {
+      data: {img, id}
+    })
+  };
+}

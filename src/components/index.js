@@ -28,3 +28,5 @@ export CategoryEditProp from './CategoriesForm/Property/CategoryEditProp';
 export CategoryAdd from './CategoriesForm/Category/CategoryAdd';
 export CategoryEdit from './CategoriesForm/Category/CategoryEdit';
 export ImageUpload from './ImageUpload/ImageUpload';
+
+export ProductEdit from './ProductForm/ProductEdit/ProductEdit';
