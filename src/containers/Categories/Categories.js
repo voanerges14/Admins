@@ -30,12 +30,11 @@ import {CategoryEditProp, CategoryAddProp, CategoryAdd} from '../../components';
     deletePropertyBtn: state.categories.deleteProperty,
     loading: state.categories.loading,
     show: state.hello.show,
+
     onShowImagePopUp: state.products.onShowImagePopUp,
-    onShowImageUploader: state.products.onShowImageUploader,
-
     onEditProduct: state.products.onEditProduct,
-
-
+    onAddProduct: state.products.onAddProduct,
+    onDeleteProduct: state.products.onDeleteProduct
   }),
   {...categoryActions, initializeWithKey, ...showSome, ...productAction})
 
@@ -61,13 +60,12 @@ class Categories extends Component {
     showM: PropTypes.func,
 
     onShowImagePopUp: PropTypes.bool,
-    showPopUp: PropTypes.func,
-    onShowImageUploader: PropTypes.func,
-    showImageUploader: PropTypes.func,
-
+    onAddProduct: PropTypes.object.isRequired,
+    onDeleteProduct: PropTypes.object.isRequired,
     onEditProduct: PropTypes.object.isRequired,
-    editStartProduct: PropTypes.func.isRequired
-
+    onDeleteImage: PropTypes.object.isRequired,
+    onAddProductImage: PropTypes.bool,
+    showPopUp: PropTypes.func,
   };
 
   constructor(props) {
@@ -107,7 +105,7 @@ class Categories extends Component {
       categories, load, loading, show
     } = this.props;
 
-    const {onEditProduct, editStartProduct} = this.props;
+    const {onEditProduct} = this.props;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
