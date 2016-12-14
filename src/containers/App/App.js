@@ -88,12 +88,12 @@ export default class App extends Component {
                 <NavItem eventKey={2}>Orders</NavItem>
               </LinkContainer>
 
-              <LinkContainer to="/widgets">
-                <NavItem eventKey={3}>Widgets</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/survey">
-                <NavItem eventKey={4}>Survey</NavItem>
-              </LinkContainer>
+              {/* <LinkContainer to="/widgets">*/}
+                {/* <NavItem eventKey={3}>Widgets</NavItem>*/}
+              {/* </LinkContainer>*/}
+              {/* <LinkContainer to="/survey">*/}
+                {/* <NavItem eventKey={4}>Survey</NavItem>*/}
+              {/* </LinkContainer>*/}
               {/* <LinkContainer to="/about">*/}
                 {/* <NavItem eventKey={5}>About Us</NavItem>*/}
               {/* </LinkContainer>*/}
@@ -102,9 +102,9 @@ export default class App extends Component {
                 <NavItem eventKey={5}>Categories</NavItem>
               </LinkContainer>
 
-              <LinkContainer to="/products">
-                <NavItem eventKey={6}>Products</NavItem>
-              </LinkContainer>
+              {/* <LinkContainer to="/products">*/}
+                {/* <NavItem eventKey={6}>Products</NavItem>*/}
+              {/* </LinkContainer>*/}
 
 
               {!user &&
