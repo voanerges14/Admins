@@ -43,8 +43,8 @@ const TOGGLE_IMG_DELETE = 'redux-example/products/TOGGLE_IMG_DELETE';
 const EDIT_STOP_PRODUCT = 'redux-example/products/EDIT_STOP_PRODUCT';
 const EDIT_START_PRODUCT = 'redux-example/products/EDIT_START_PRODUCT';
 
-const IMAGE_START_ADD = 'redux-example/products/IMAGE_START_ADD';
-const IMAGE_STOP_ADD = 'redux-example/products/IMAGE_STOP_ADD';
+const ADD_START_IMAGE = 'redux-example/products/ADD_START_IMAGE';
+const ADD_STOP_IMAGE = 'redux-example/products/ADD_STOP_IMAGE';
 
 const ADD_IMAGE = 'redux-example/products/ADD_IMAGE';
 const ADD_SUCCESS_IMAGE = 'redux-example/products/ADD_SUCCESS_IMAGE';
@@ -342,12 +342,12 @@ export default function products(state = initialState, action = {}) {
         onDeleteImage: !action.onShowImageUploader
       };
 
-    case IMAGE_START_ADD:
+    case ADD_START_IMAGE:
       return {
         ...state,
-        onAddProductImage: {'isActive': true, 'id': action.id}
+        onAddProductImage: {'isActive': true, '_id': action._id}
       };
-    case IMAGE_STOP_ADD:
+    case ADD_STOP_IMAGE:
       return {
         ...state,
         onAddProductImage: {'isActive': false}
@@ -356,7 +356,7 @@ export default function products(state = initialState, action = {}) {
     case EDIT_START_PRODUCT:
       return {
         ...state,
-        onEditProduct: {'isActive': true, 'id': action._id}
+        onEditProduct: {'isActive': true, '_id': action._id}
       };
     case EDIT_STOP_PRODUCT:
       return {
@@ -381,14 +381,14 @@ export function showImageUploader(onShowImageUploader) {
   };
 }
 
-export function editStartProduct(id) {
-  return {type: EDIT_START_PRODUCT, id};
+export function editStartProduct(_id) {
+  return {type: EDIT_START_PRODUCT, _id};
 }
 export function editStopProduct() {
   return {type: EDIT_STOP_PRODUCT};
 }
 
-export function addProperty(img, id) {
+export function addProductImage(id, img) {
   return {
     types: [ADD_IMAGE, ADD_SUCCESS_IMAGE, ADD_FAIL_IMAGE],
     img: img,
@@ -397,4 +397,11 @@ export function addProperty(img, id) {
       data: {img, id}
     })
   };
+}
+
+export function addStartImage(_id) {
+  return {type: ADD_START_IMAGE, _id};
+}
+export function addStopImage() {
+  return {type: ADD_STOP_IMAGE};
 }

@@ -4,11 +4,13 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {SkyLightStateless} from 'react-skylight';
+// import {ProductImageAdd} from '../../ProductForm/ProductImageAdd/ProductImageAdd';
 
 @connect(
   state => ({
     onEditProduct: state.products.onEditProduct,
-    onShowImagePopUp: state.products.onShowImagePopUp
+    onShowImagePopUp: state.products.onShowImagePopUp,
+    onAddProductImage: state.products.onAddProductImage
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
@@ -24,12 +26,14 @@ export default class ProductEdit extends Component {
     values: PropTypes.object.isRequired,
     onEditProduct: PropTypes.object.isRequired,
     showPopUp: PropTypes.func.isRequired,
-    onShowImagePopUp: PropTypes.object.isRequired
+    onShowImagePopUp: PropTypes.object.isRequired,
+    addStartImage: PropTypes.func.isRequired,
+    onAddProductImage: PropTypes.object.isRequired
   };
 
   render() {
     const {editStop, fields: {name, numbers, image}, editProduct, values, onEditProduct
-      , showPopUp, onShowImagePopUp} = this.props;
+      , showPopUp, onShowImagePopUp, addStartImage, onAddProductImage} = this.props;
     const styles = require('./ProductEdit.scss');
     return (
       <tr>
@@ -56,8 +60,9 @@ export default class ProductEdit extends Component {
               }}
             >
               <button className="btn btn-primary" >
-                <i className="fa fa-plus"/> ADD
+                <i className="fa fa-plus" onClick={addStartImage(onEditProduct._id)}/> ADD
               </button>
+               {/* {onAddProductImage.isActive && <ProductImageAdd/>}*/}
             </SkyLightStateless>
           </div>
           {/* <input type="text" className="form-control" {...image}/>*/}
