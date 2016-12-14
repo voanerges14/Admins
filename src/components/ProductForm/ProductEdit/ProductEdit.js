@@ -33,7 +33,7 @@ export default class ProductEdit extends Component {
 
   render() {
     const {editStop, fields: {name, numbers, image}, editProduct, values, onEditProduct
-      , showPopUp, onShowImagePopUp, addStartImage, onAddProductImage} = this.props;
+      , showPopUp, onShowImagePopUp, addStartImage} = this.props;
     const styles = require('./ProductEdit.scss');
     return (
       <tr>

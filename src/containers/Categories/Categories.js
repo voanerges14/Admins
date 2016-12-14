@@ -12,7 +12,6 @@ import * as showSome from 'redux/modules/hello';
 import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
 import {CategoryEditProp, CategoryAddProp, CategoryAdd} from '../../components';
-import {SkyLightStateless} from 'react-skylight';
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -105,8 +104,7 @@ class Categories extends Component {
     const {
       addCategoryBtn, addPropertyBtn, editPropertyBtn, deletePropertyBtn, addStartCategory,
       addStartProperty, editStartProperty, deleteStartProperty, deleteStopProperty, deleteProperty,
-      categories, load, loading, show,
-      onShowImagePopUp, showPopUp, showImageUploader, onShowImageUploader
+      categories, load, loading, show
     } = this.props;
 
     const {onEditProduct, editStartProduct} = this.props;
@@ -259,7 +257,7 @@ class Categories extends Component {
               {/* </div>}*/}
 
               {!onEditProduct.isActive && chosenNode.properties &&
-              chosenNode.properties.map((prop) => !onEditProduct.isActive ?
+              chosenNode.properties.map((prop) => onEditProduct.isActive ?
                 <ProductEdit key={prop.name} initialValues={prop}/> :
                 <tr key={prop.name}>
                   <td className={styles.nameColProd}>{prop.name}</td>
@@ -268,51 +266,8 @@ class Categories extends Component {
                   <td className={styles.nameColProd}>
                     <div className={styles.logo}>
                       <p>
-                        <img onClick={() => {
-                          showPopUp(onShowImagePopUp);
-                        }} src={'https://facebook.github.io/react/img/logo_og.png'}/>
+                        <img src={'https://facebook.github.io/react/img/logo_og.png'}/>
                       </p>
-                      <div>
-                        <SkyLightStateless
-                          isVisible={onShowImagePopUp}
-                          onCloseClicked={() => {
-                            showPopUp(onShowImagePopUp);
-                          }}
-                        >
-                          <button className="btn btn-primary" onClick={() => {
-                            showImageUploader(onShowImageUploader);
-                          }}>
-                            <i className="fa fa-plus"/> ADD
-                          </button>
-                          {/* {onShowImageUploader && <ImageUpload/>}*/}
-                          {/* {onShowImageUploader && <ProductImageAdd/>}*/}
-                          {!onShowImageUploader &&
-                          <div className="table table-striped">
-                            { chosenNode.properties.map((propi) =>
-                                <span key={propi.name} className={styles.nameColProd}>
-                               <p className={styles.logo}><img
-                                 src={'https://facebook.github.io/react/img/logo_og.png'}/></p>
-                                  {!deleteProperty.isActive ?
-                                    <button className="btn btn-primary"
-                                            onClick={() => deleteStopProperty() }>
-                                      <i className="fa fa-trash"/> Del
-                                    </button> :
-                                    <span>
-                      <button className="btn btn-success btn-sm"
-                              onClick={() => deleteStopProperty()}>
-                        <i className={'glyphicon glyphicon-ok'}/>
-                      </button>
-                      <button className="btn btn-default btn-sm"
-                              onClick={() => deleteStopProperty()}>
-                        <i className="glyphicon glyphicon-remove"/>
-                      </button>
-                    </span>}
-                            </span>
-                            )}
-                          </div>
-                          }
-                        </SkyLightStateless>
-                      </div>
                     </div>
                   </td>
                   <td className={styles.nameColProd}>{prop.type}</td>
