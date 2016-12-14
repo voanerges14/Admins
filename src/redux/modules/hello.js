@@ -1,6 +1,6 @@
 const TOGGLE = 'hello/TOGGLE';
 const initialState = {
-  show: false
+  show: true
   // message: 'Hello world!!!'
 };
 

@@ -34,6 +34,7 @@ const LOAD = 'redux-example/categories/LOAD';
 const LOAD_SUCCESS = 'redux-example/categories/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/categories/LOAD_FAIL';
 const TOGGLED = 'redux-example/categories/TOGGLED';
+const CHANGE_SHOW = 'redux-example/categories/CHANGE_SHOW';
 
 const initialState = {
   loaded: false,
@@ -44,7 +45,8 @@ const initialState = {
   editProperty: {'isActive': false},
   deleteProperty: {'isActive': false},
   error: [],
-  categoryTreeState: {}
+  categoryTreeState: {},
+  show: true
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -57,7 +59,11 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: !action.oldState
         }
       };
-
+    case CHANGE_SHOW:
+      return {
+        ... state,
+        show: !action.show
+      };
 
     case LOAD:
       return {
@@ -342,4 +348,7 @@ export function deleteStopProperty() {
 
 export function toggledChange(id, oldState) {
   return {type: TOGGLED, id, oldState};
+}
+export function changeShow(show) {
+  return {type: CHANGE_SHOW, show};
 }

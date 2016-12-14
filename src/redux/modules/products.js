@@ -28,10 +28,11 @@ const ADD_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const ADD_IMG = 'redux-example/products/ADD_IMG';
 const ADD_SUCCESS_IMG = 'redux-example/products/ADD_SUCCESS_IMG';
 const ADD_FAIL_IMG = 'redux-example/products/ADD_FAIL_IMG';
-
+const SET_CATEGORY_ID = 'redux-example/products/SET_CATEGORY_ID';
 
 const initialState = {
   loaded: false,
+  categoryId: '',
   onAddProduct: {'isActive': false},
   onDeleteProduct: {'isActive': false},
   onEditProduct: {'isActive': false},
@@ -43,7 +44,11 @@ const initialState = {
 
 export default function products(state = initialState, action = {}) {
   switch (action.type) {
-
+    case SET_CATEGORY_ID:
+      return {
+        ...state,
+        categoryId: action._id
+      };
     case SHOW_IMAGE:
       const oldState = [...state.onShowImagePopUp];
       return {
@@ -53,12 +58,12 @@ export default function products(state = initialState, action = {}) {
     case DELETE_IMAGE_START:
       return {
         ...state,
-        onDeleteImage: { 'isActive': true, '_id': action._id }
+        onDeleteImage: {'isActive': true, '_id': action._id}
       };
     case DELETE_IMAGE_STOP:
       return {
         ...state,
-        onDeleteImage: { 'isActive': false }
+        onDeleteImage: {'isActive': false}
       };
     case DELETE_IMG:
       return state;
@@ -73,14 +78,14 @@ export default function products(state = initialState, action = {}) {
       return {
         ...state,
         data: dataDelImg,
-        onDeleteImage: { 'isActive': false }
+        onDeleteImage: {'isActive': false}
       };
     case DELETE_FAIL_IMG:
       const imgDeleteError = [...state.error];
       imgDeleteError.push('error deleteImg: ' + action.error);
       return {
-          ...state,
-          error: imgDeleteError
+        ...state,
+        error: imgDeleteError
       };
     case ADD_IMAGE_START:
       return {
@@ -93,7 +98,7 @@ export default function products(state = initialState, action = {}) {
         onAddProductImage: false
       };
     case ADD_IMG:
-        return state;
+      return state;
     case ADD_SUCCESS_IMG:
       const dataAddImg = [...state.data];
       for (let index = 0; index < dataAddImg.length; ++index) {
@@ -107,14 +112,14 @@ export default function products(state = initialState, action = {}) {
         data: dataAddImg,
       };
     case ADD_FAIL_IMG:
-      let deleteImgError = [...state.error];
+      const deleteImgError = [...state.error];
       deleteImgError.push('error addImg: ' + action.error);
       return {
         ...state,
         error: deleteImgError
       };
 
-      case LOAD:
+    case LOAD:
       return {
         ...state,
         loading: true
@@ -166,7 +171,7 @@ export default function products(state = initialState, action = {}) {
       return {
         ...state,
         data: dataEDIT,
-        onEditProduct: { 'isActive': false }
+        onEditProduct: {'isActive': false}
       };
     case EDIT_FAIL_PRODUCT:
       const editProductError = [...state.error];
@@ -181,18 +186,18 @@ export default function products(state = initialState, action = {}) {
       const dataDelProduct = [...state.data];
       for (let index = 0; index < dataDelProduct.length; ++index) {
         if (dataDelProduct[index].id === action.result.id) {
-          dataDelProduct.splice(index, 1)
+          dataDelProduct.splice(index, 1);
           break;
         }
       }
       return {
         ...state,
         data: dataDelProduct,
-        onDeleteProduct: { 'isActive': false }
+        onDeleteProduct: {'isActive': false}
       };
     case DELETE_FAIL_PRODUCT:
       const deleteProductError = [...state.error];
-        deleteProductError.push('error deleteProduct: ' + action.error);
+      deleteProductError.push('error deleteProduct: ' + action.error);
       return {
         ...state,
         error: deleteProductError
@@ -201,36 +206,52 @@ export default function products(state = initialState, action = {}) {
     case ADD_START_PRODUCT:
       return {
         ...state,
-        onAddProduct: { 'isActive': true, 'categoryId': action.categoryId }
+        onAddProduct: {'isActive': true, 'categoryId': action.categoryId}
       };
     case ADD_STOP_PRODUCT:
       return {
         ...state,
-        onAddProduct: { 'isActive': false }
+        onAddProduct: {'isActive': false}
       };
     case EDIT_START_PRODUCT:
       return {
         ...state,
-        onEditProduct: { 'isActive': true, '_id': action._id }
+        onEditProduct: {'isActive': true, '_id': action._id}
       };
     case EDIT_STOP_PRODUCT:
       return {
         ...state,
-        onEditProduct: { 'isActive': false }
+        onEditProduct: {'isActive': false}
       };
     case DELETE_START_PRODUCT:
       return {
         ...state,
-        onDeleteProduct: { 'isActive': true, '_id': action._id }
+        onDeleteProduct: {'isActive': true, '_id': action._id}
       };
     case DELETE_STOP_PRODUCT:
       return {
         ...state,
-        onDeleteProduct: { 'isActive': false }
+        onDeleteProduct: {'isActive': false}
       };
     default:
       return state;
   }
+}
+
+export function isLoaded(globalState) {
+  return globalState.categories && globalState.categories.loaded;
+}
+export function load(_id) {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => client.post('/products/get', {
+      data: {_id}
+    })
+  };
+}
+
+export function setCategoryId(_id) {
+  return {type: SET_CATEGORY_ID, _id};
 }
 
 export function addStartProduct(categoryId) {

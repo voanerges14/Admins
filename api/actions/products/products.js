@@ -3,8 +3,9 @@ import * as CategoryDB from './../../DbApi/Categories';
 
 export function get(req) {
   return new Promise((resolve, reject) => {
+    console.log('getProduct: ' + JSON.stringify(req.body));
     CategoryDB.getCategories().then(data => {
-      let ids = findNode(req.body.id, data);
+      let ids = findNode(req.body._id, data);
       let actions = [];
 
       for (let i = 0; i < ids.length; ++i) {
