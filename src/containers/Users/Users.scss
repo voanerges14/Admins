@@ -1,0 +1,68 @@
+.users {
+
+  .EditFormIn {
+    width: 14%;
+    margin-right: 2px;
+  }
+  .EditFormAddress {
+    width: 16%;
+    margin-right: 3px;
+  }
+  .EditFormAdmin {
+    margin-right: 4px;
+  }
+
+  .AddForm {
+    margin-right: 10px;
+  }
+  .Add {
+    vertical-align: middle;
+    float: right;
+    width: 10%;
+  }
+  .Table {
+    border:1px solid black;
+  }
+  .RefreshBtn {
+    margin-left: 20px;
+  }
+  .IdUser {
+    vertical-align: middle;
+    width: 3%;
+  }
+  .Name {
+    width: 15%;
+    text-align: left;
+  }
+  .Mail {
+    width: 18%;
+    text-align: left;
+  }
+  .Number {
+    width: 12%;
+    text-align: left;
+  }
+  .AddressMain {
+    width: 25%;
+    text-align: center;
+  }
+  .Address {
+    width: 25%;
+    text-align: left;
+    padding-left: 2%;
+  }
+  .Admin {
+    text-align: center;
+    width: 10%;
+  }
+  .Edit {
+    text-align: center;
+    vertical-align: middle;
+    width: 10%;
+  }
+  .Delete {
+    text-align: center;
+    vertical-align: middle;
+    width: 10%;
+  }
+}

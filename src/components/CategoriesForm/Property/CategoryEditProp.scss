@@ -1,0 +1,37 @@
+.widgets {
+  .refreshBtn {
+    margin-left: 20px;
+  }
+  .idCol {
+    width: 5%;
+  }
+  .colorCol {
+    width: 10%;
+  }
+  .sprocketsCol {
+    width: 10%;
+    text-align: right;
+    input {
+      text-align: right;
+    }
+  }
+  .ownerCol {
+    width: 20px;
+  }
+  .buttonCol {
+    //width: 10%;
+    //height: 16px;
+    //font-size: 40px;
+    :global(.btn) {
+      margin: 0 5px;
+    }
+  }
+  tr.saving {
+    opacity: 0.8;
+    :global(.btn) {
+      &[disabled] {
+        opacity: 1;
+      }
+    }
+  }
+}
