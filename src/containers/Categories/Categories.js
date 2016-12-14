@@ -34,8 +34,6 @@ import {CategoryEditProp, CategoryAddProp, CategoryAdd} from '../../components';
     onShowImageUploader: state.products.onShowImageUploader,
 
     onEditProduct: state.products.onEditProduct,
-
-
   }),
   {...categoryActions, initializeWithKey, ...showSome, ...productAction})
 
@@ -60,7 +58,7 @@ class Categories extends Component {
     show: PropTypes.bool,
     showM: PropTypes.func,
 
-    onShowImagePopUp: PropTypes.func,
+    onShowImagePopUp: PropTypes.bool,
     showPopUp: PropTypes.func,
     onShowImageUploader: PropTypes.func,
     showImageUploader: PropTypes.func,
@@ -256,7 +254,7 @@ class Categories extends Component {
               {/* </SkyLightStateless>*/}
               {/* </div>}*/}
 
-              {!onEditProduct.isActive && chosenNode.properties &&
+              {!chosenNode.properties && !show &&
               chosenNode.properties.map((prop) => onEditProduct.isActive ?
                 <ProductEdit key={prop.name} initialValues={prop}/> :
                 <tr key={prop.name}>

@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as categoryActions from 'redux/modules/categories';
 
+
 @connect(
   state => ({
     editPropertyBtn: state.categories.editProperty
@@ -12,7 +13,7 @@ import * as categoryActions from 'redux/modules/categories';
 )
 @reduxForm({
   form: 'categoryEditProp',
-  fields: ['name', 'type']
+  fields: ['name', 'type'],
 })
 export default class CategoryEditProp extends Component {
   static propTypes = {
@@ -26,6 +27,7 @@ export default class CategoryEditProp extends Component {
   render() {
     const {editStopProperty, fields: {name, type}, editProperty, values, editPropertyBtn} = this.props;
     const styles = require('./CategoryEditProp.scss');
+    const types = ['string', 'color', 'number'];
     return (
       <tr>
         <td className={styles.colorCol}>
@@ -33,7 +35,9 @@ export default class CategoryEditProp extends Component {
         </td>
 
         <td className={styles.sprocketsCol}>
-          <input type="text" className="form-control" {...type}/>
+          <select name="type" className="form-control" {...type}>
+            {types.map(valueType => <option value={valueType} key={valueType}>{valueType}</option>)}
+          </select>
         </td>
 
         <td className={styles.buttonColl}>

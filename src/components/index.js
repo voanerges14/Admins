@@ -24,7 +24,7 @@ export SwitchButton from './SwitchButton/Main';
 export UserAddForm from './UserForms/UserAddForm';
 export UserEditForm from './UserForms/UserEditForm';
 export CategoryAddProp from './CategoriesForm/Property/CategoryAddProp';
-export CategoryEditProp from './CategoriesForm/Property/CategoryEditProp';
+export CategoryEditProp from './CategoriesForm/Property/CategoryEditProp/CategoryEditProp';
 export CategoryAdd from './CategoriesForm/Category/CategoryAdd';
 export CategoryEdit from './CategoriesForm/Category/CategoryEdit';
 export ImageUpload from './ImageUpload/ImageUpload';

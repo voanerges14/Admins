@@ -41,7 +41,7 @@ const Header = (props) => {
   const style = props.style;
   return (
     <div style={style.base}>
-      <div style={style.title}>
+      <div style={style.base}>
         {props.node.name}
       </div>
     </div>

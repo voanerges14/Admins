@@ -5,50 +5,58 @@ import {VelocityTransitionGroup} from 'velocity-react';
 // import {CategoryAdd} from 'components';
 import NodeHeader from './header';
 import {connect} from 'react-redux';
-import * as categoryActions from 'redux/modules/categories';
-import {asyncConnect} from 'redux-async-connect';
-import {isLoaded, load as loadCategories} from 'redux/modules/categories';
+// import * as categoryActions from 'redux/modules/categories';
+// import {asyncConnect} from 'redux-async-connect';
+// import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 
-@asyncConnect([{
-  deferred: true,
-  promise: ({store: {dispatch, getState}}) => {
-    if (!isLoaded(getState())) {
-      return dispatch(loadCategories());
-    }
-  }
-}])
-
+// @asyncConnect([{
+//   deferred: true,
+//   promise: ({store: {dispatch, getState}}) => {
+//     if (!isLoaded(getState())) {
+//       return dispatch(loadCategories());
+//     }
+//   }
+// }])
+debugger;
 @connect(
   state => ({
     categories: state.categories.data,
-    categoryTreeState: state.categories.categoryTreeState,
-    editing: state.categories.editing,
-    adding: state.categories.adding,
-    deleting: state.categories.deleting
-  }), {...categoryActions})
+    // categoryTreeState: state.categories.categoryTreeState,
+    // editing: state.categories.editing,
+    // adding: state.categories.adding,
+    // deleting: state.categories.deleting
+  }))
 
 class TreeNode extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.onClick = this.onClick.bind(this);
-    this.onMinusClick = this.onMinusClick.bind(this);
-    this.onPlusClick = this.onPlusClick.bind(this);
+    // this.onMinusClick = this.onMinusClick.bind(this);
+    // this.onPlusClick = this.onPlusClick.bind(this);
+    debugger;
   }
 
   onClick() {
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
-    const temp = this.props.toggledChange;
-    const state = this.props.categoryTreeState;
-    const id = this.props.node._id;
-    const oldState = (typeof state[id] === 'undefined') ? false : state[id];
-    temp(id, oldState);
-
     if (onToggle) {
       onToggle(this.props.node, toggled);
     }
   }
+
+  // onClick() {
+  //   const toggled = !this.props.node.toggled;
+  //   const onToggle = this.props.onToggle;
+  //   const temp = this.props.toggledChange;
+  //   const state = this.props.categoryTreeState;
+  //   const id = this.props.node._id;
+  //   const oldState = (typeof state[id] === 'undefined') ? false : state[id];
+  //   temp(id, oldState);
+  //
+  //   if (onToggle) {
+  //     onToggle(this.props.node, toggled);
+  //   }
+  // }
 
   onMinusClick() {
     // <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/>);

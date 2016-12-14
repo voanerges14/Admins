@@ -68,7 +68,7 @@ export default class ProductEdit extends Component {
           {/* <input type="text" className="form-control" {...image}/>*/}
         </td>
         <td className={styles.colorCol}>
-          <input type="text" className="form-control" {...name}/>
+          {name}
         </td>
         <td className={styles.sprocketsCol}>
           <input type="text" className="form-control" {...numbers}/>
