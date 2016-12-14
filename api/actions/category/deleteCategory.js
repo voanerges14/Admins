@@ -1,5 +1,4 @@
 import * as categoryDB from './../../DbApi/Categories';
-let ids = [];
 
 export default function deleteCategory(req) {
   return new Promise((resolve, reject) => {

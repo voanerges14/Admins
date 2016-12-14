@@ -60,7 +60,7 @@ class Categories extends Component {
     show: PropTypes.bool,
     showM: PropTypes.func,
 
-    onShowImagePopUp: PropTypes.func,
+    onShowImagePopUp: PropTypes.bool,
     showPopUp: PropTypes.func,
     onShowImageUploader: PropTypes.func,
     showImageUploader: PropTypes.func,
@@ -256,9 +256,8 @@ class Categories extends Component {
               {/* </SkyLightStateless>*/}
               {/* </div>}*/}
 
-              {!onEditProduct.isActive && chosenNode.properties &&
-              chosenNode.properties.map((prop) => onEditProduct.isActive ?
-                <ProductEdit key={prop.name} initialValues={prop}/> :
+              {chosenNode.properties && chosenNode.properties.map((prop) => (onEditProduct.isActive &&
+                  onEditProduct.id === prop.name) ? <ProductEdit key={prop.name} initialValues={prop}/> :
                 <tr key={prop.name}>
                   <td className={styles.nameColProd}>{prop.name}</td>
                   <td className={styles.nameColProd}>{prop.type}</td>

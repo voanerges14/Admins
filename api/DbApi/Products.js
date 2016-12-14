@@ -9,21 +9,76 @@ function connectToDbProductsModel() {
     inStock: { type: db.Schema.Types.String, required: true },
     images: {type: db.Schema.Types.String, required: true},
     description: {type: db.Schema.Types.String, required: true},
-    // date: {type: db.Schema.Types.String, required: true},
+    date: {type: db.Schema.Types.String, required: true},
     properties: {type: Array, required: true}
   });
-
   return db.mongoose.model('Products', Products);
 }
 
 const ProductsModel = connectToDbProductsModel();
 
-export function getProductById(id) {
-  return ProductsModel.find({'_id': id}, function (err, product) {
+export function getProductByCategoryId(id) {
+  return ProductsModel.find({'categoryId': id}, function (err, product) {
     if(!err) {
       return product;
     }
-    console.error('getProductById error: ' + err);
-    return 'error in getProductById: ' + err;
+    console.error('getProductByCategoryId error: ' + err);
+    return 'error in getProductByCategoryId: ' + err;
+  });
+}
+
+export function deleteProduct(id) {
+  return ProductsModel.remove({ _id: id }, function(err) {
+  if (!err) {
+    return 0;
+  }
+  else {
+    console.error('deleteProduct: ' + err);
+    return 'error in deleteProduct: ' + err;
+  }
+});
+}
+
+export function addProduct(categoryId, name, price, inStock, images, description, properties) {
+  const product = { categoryId, name, price, inStock, images, description, properties };
+  return ProductsModel.create(product, function(err) {
+    if (!err) {
+      return ProductsModel.findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, product) {
+        if(!err) {
+          return product;
+        }
+        else {
+          console.error('addProduct error1: ' + err);
+          return 'error1 in addProduct: ' + err;
+        }
+      });
+    }
+    else {
+      console.error('addProduct error2: ' + err);
+      return 'error2 in addProduct: ' + err;
+    }
+  });
+}
+
+export function editProduct(productNew) {
+  return ProductsModel.findById(productNew.id, function (err, product) {
+    if (err) {
+        console.error('editProduct error1: ' + err);
+        return 'error1 in editProduct: ' + err;
+    }
+    product.categoryId = productNew.categoryId;
+    product.name = productNew.name;
+    product.price = productNew.price;
+    product.inStock = productNew.inStock;
+    product.images = productNew.images;
+    product.description = productNew.description;
+    product.properties = productNew.properties;
+    product.save(function (err, updatedProduct) {
+        if (err) {
+            console.error('editProduct error2: ' + err);
+            return 'error2 in editProduct: ' + err;
+        }
+        return updatedProduct;
+    });
   });
 }
