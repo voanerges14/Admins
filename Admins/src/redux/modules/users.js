@@ -138,7 +138,7 @@ export default function reducer(state = initialState, action = {}) {
       for (let index = 0; index < dataEDIT.length; ++index) {
         if (dataEDIT[index].id === action.result.id) {
           dataEDIT[index] = {
-            'id': action.user.id,
+            'id': action.result.id,
             'firstName': action.user.firstName,
             'lastName': action.user.lastName,
             'email': action.user.email,

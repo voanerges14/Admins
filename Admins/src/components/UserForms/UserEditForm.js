@@ -27,6 +27,7 @@ export default class UserAddForm extends Component {
     const { editUser, stopEdit, values, changeAdminEdit, isAdminTemp,
       fields: {id, firstName, lastName, email, phone, address, password}} = this.props;
     const styles = require('containers/Users/Users.scss');
+    debugger;
     return (
       <tr>
         <td colSpan="8">

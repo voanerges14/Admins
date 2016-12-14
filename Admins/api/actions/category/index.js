@@ -3,7 +3,7 @@
  */
 export add from './add';
 export load from './load';
-export update from './update';
+export update from './edit';
 export deleteCategory from './deleteCategory';
 
 export addProperty from './property/add';

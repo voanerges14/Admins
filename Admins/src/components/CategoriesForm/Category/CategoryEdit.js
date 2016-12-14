@@ -9,58 +9,39 @@ import * as categoryActions from 'redux/modules/categories';
 
 @connect(
   state => ({
-    saveError: state.categories.saveError
+    editCategoryBtn: state.categories.editCategory
   }),
   dispatch => bindActionCreators(categoryActions, dispatch)
 )
 @reduxForm({
   form: 'categories',
-  fields: ['_id', 'name', 'type']
+  fields: ['name']
 })
 export default class CategoryEdit extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    editStop: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    formKey: PropTypes.string.isRequired,
-    // name: PropTypes.object.isRequired
+    editStopCategory: PropTypes.func.isRequired,
+    editCategoryBtn: PropTypes.object.isRequired,
+    editCategory: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired
-
   };
 
   render() {
-    const { editStop, fields: {_id, name}, formKey, handleSubmit, save, submitting, values} = this.props;
-    // debugger;
-    const styles = require('containers/CategoriesOLD/CategoriesOLD.scss');
-    console.log('msfnmgsdf: ' + formKey);
+    const { editStopCategory, fields: {name}, editCategory, editCategoryBtn, values} = this.props;
+    // const styles = require('containers/CategoriesOLD/CategoriesOLD.scss');
     return (
-      <tr className={submitting ? styles.saving : ''}>
-         <td className={styles.idCol}>{_id.value}</td>
-
-        <td className={styles.colorCol}>
-          <input type="text" className="form-control" {...name}/>
-        </td>
-
-        <td className={styles.buttonCol}>
-          <button className="btn btn-default"
-                  onClick={() => editStop(formKey)}
-                  disabled={submitting}>
-            <i className="fa fa-ban"/> Cancel
+      <div>
+        <input type="text" className="form-control" {...name}/>
+        <span>
+          <button className="btn btn-success btn-sm"
+                  onClick={() => editCategory({ id: editCategoryBtn.id, name: values.name }) }>
+            <i className={'glyphicon glyphicon-ok'}/>
           </button>
-          <button className="btn btn-success"
-                  onClick={handleSubmit(() => save(values)
-                    .then(result => {
-                      if (result && typeof result.error === 'object') {
-                        return Promise.reject(result.error);
-                      }
-                    })
-                  )}>
-            <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
+          <button className="btn btn-default btn-sm" onClick={() => editStopCategory() }>
+            <i className="glyphicon glyphicon-remove"/>
           </button>
-        </td>
-      </tr>
+        </span>
+      </div>
     );
   }
 }

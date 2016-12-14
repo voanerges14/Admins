@@ -46,6 +46,7 @@ export default class Orders extends Component {
       return (typeof deleteBtn[id] === 'undefined') ? false : deleteBtn[id];
     };
     const editBtns = (id) => {
+      debugger;
       return (typeof editBtn[id] === 'undefined') ? false : editBtn[id];
     };
     let refreshClassName = 'fa fa-refresh';
