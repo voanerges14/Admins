@@ -30,6 +30,8 @@ export CategoryEdit from './CategoriesForm/CategoryEdit';
 export Property from './CategoriesForm/Property';
 export Product from './CategoriesForm/Product';
 export ImageUpload from './ImageUpload/ImageUpload';
-
 export ProductEdit from './ProductForm/ProductEditForm';
 export ProductAdd from './ProductForm/ProductAddForm';
+export AllOrdersForm from './OrderForm/AllOrdersForm';
+export PaidOrdersForm from './OrderForm/PaidOrdersForm';
+
