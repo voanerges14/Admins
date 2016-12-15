@@ -135,9 +135,10 @@ class Categories extends Component {
             </div>
           }
           <div className={styles.component2}>
-            {chosenNode && chosenNode.properties && show && chosenNode.properties.length &&
+            {chosenNode.active && chosenNode.properties && show && chosenNode.properties.length &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
+            {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}
             {chosenNode && !show && products && products.length &&
               <Product _id={chosenNode._id}/>
             }
