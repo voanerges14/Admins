@@ -1,12 +1,6 @@
 const LOAD = 'redux/modules/orders/LOAD';
 const LOAD_OK = 'redux/modules/orders/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux/modules/orders/LOAD_FAIL';
-const LOAD_ALL = 'redux/modules/orders/LOAD_ALL';
-const LOAD_ALL_OK = 'redux/modules/orders/LOAD_ALL_SUCCESS';
-const LOAD_ALL_FAIL = 'redux/modules/orders/LOAD_ALL_FAIL';
-const LOAD_PAID = 'redux/modules/orders/LOAD_PAID';
-const LOAD_PAID_OK = 'redux/modules/orders/LOAD_PAID_SUCCESS';
-const LOAD_PAID_FAIL = 'redux/modules/orders/LOAD_PAID_FAIL';
 const DELIVERY_SEND = 'redux/modules/orders/DELIVERY_SEND';
 const DELIVERY_SEND_OK = 'redux/modules/orders/DELIVERY_SEND_OK';
 const DELIVERY_SEND_FAIL = 'redux/modules/orders/DELIVERY_SEND_FAIL';
@@ -72,76 +66,28 @@ export default function reducer(state = initialState, action = {}) {
         dataPaid: null,
         error: loadError
       };
-    case LOAD_ALL:
-      return {
-        ...state,
-        loadingAll: true
-      };
-    case LOAD_ALL_OK:
-      return {
-        ...state,
-        loadingAll: false,
-        loadedAll: true,
-        dataAll: action.result
-      };
-    case LOAD_ALL_FAIL:
-      const loadErrorAll = [...state.error];
-      loadErrorAll.push('Error LoadAll: ' + action.error);
-      return {
-        ...state,
-        loadingAll: false,
-        loadedAll: false,
-        dataAll: null,
-        error: loadErrorAll
-      };
-    case LOAD_PAID:
-      return {
-        ...state,
-        loadingPaid: true
-      };
-    case LOAD_PAID_OK:
-      return {
-        ...state,
-        loadingPaid: false,
-        loadedPaid: true,
-        dataPaid: action.result
-      };
-    case LOAD_PAID_FAIL:
-      const loadErrorPaid = [...state.error];
-      loadErrorPaid.push('Error LoadPaid: ' + action.error);
-      return {
-        ...state,
-        loadingPaid: false,
-        loadedPaid: false,
-        dataPaid: null,
-        error: loadErrorPaid
-      };
     case DELIVERY_SEND:
-      return state;
+      return {
+        ...state,
+        showOrders: true
+      };
     case DELIVERY_SEND_OK:
-      const deliveryData = [...state.dataPaid];
-      for (let indx = 0; indx < deliveryData.length; ++indx) {
-        if (deliveryData[indx].id === action.result.id) {
-          deliveryData.splice(indx, 1);
-          break;
-        }
-      }
-
-      const dataAllDelivery = [...state.dataAll];
+      const dataAllDelivery = action.result;
+      const dataPaidDelivery = [];
       for (let index = 0; index < dataAllDelivery.length; ++index) {
-        if (dataAllDelivery[index].id === action.result.id) {
-          dataAllDelivery[index].status = 'DELIVERING';
-          break;
+        if (dataAllDelivery[index].status === 'PAID') {
+          dataPaidDelivery.push(dataAllDelivery[index]);
         }
       }
       return {
         ...state,
         toDeliveryBtn: {
           ...state.toDeliveryBtn,
-          [action.result.id]: false
+          [action.id]: false
         },
-        dataPaid: deliveryData,
-        dataAll: dataAllDelivery
+        dataPaid: dataPaidDelivery,
+        dataAll: dataAllDelivery,
+        showOrders: false
       };
     case DELIVERY_SEND_FAIL:
       const deliveryError = [...state.error];
@@ -153,29 +99,21 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_ORDER:
       return state;
     case DELETE_ORDER_OK:
-      const deleteData = [...state.dataPaid];
-      for (let indx = 0; indx < deleteData.length; ++indx) {
-        if (deleteData[indx].id === action.result.id) {
-          deleteData.splice(indx, 1);
-          break;
-        }
-      }
-
-      const deleteDataAll = [...state.dataAll];
-      for (let index = 0; index < deleteDataAll.length; ++index) {
-        if (deleteDataAll[index].id === action.result.id) {
-          deleteDataAll.splice(index, 1);
-          break;
+      const dataAllDelete = action.result;
+      const dataPaidDelete = [];
+      for (let index = 0; index < dataAllDelete.length; ++index) {
+        if (dataAllDelete [index].status === 'PAID') {
+          dataPaidDelete.push(dataAllDelete [index]);
         }
       }
       return {
         ...state,
         rejectOrderBtn: {
           ...state.rejectOrderBtn,
-          [action.result.id]: false
+          [action.id]: false
         },
-        dataPaid: deleteData,
-        dataAll: deleteDataAll
+        dataPaid: dataPaidDelete,
+        dataAll: dataAllDelete
       };
     case DELETE_ORDER_FAIL:
       const deleteError = [...state.error];
@@ -234,22 +172,11 @@ export function load() {
     promise: (client) => client.get('/orders/getAll')
   };
 }
-export function loadAll() {
-  return {
-    types: [LOAD_ALL, LOAD_ALL_OK, LOAD_ALL_FAIL],
-    promise: (client) => client.get('/orders/getAll')
-  };
-}
-export function loadPaid() {
-  return {
-    types: [LOAD_PAID, LOAD_PAID_OK, LOAD_PAID_FAIL],
-    promise: (client) => client.get('/orders/getPaid')
-  };
-}
 
 export function rejectOrder(id) {
   return {
     types: [DELETE_ORDER, DELETE_ORDER_OK, DELETE_ORDER_FAIL],
+    id: id,
     promise: (client) => client.post('/orders/cancel', {
       data: {'id': id}
     })
@@ -257,6 +184,7 @@ export function rejectOrder(id) {
 }
 export function toDeliveryOrder(id) {
   return { types: [DELIVERY_SEND, DELIVERY_SEND_OK, DELIVERY_SEND_FAIL],
+    id: id,
     promise: (client) => client.post('/orders/apply', {
       data: {'id': id}
     })

@@ -30,43 +30,35 @@ export default class Orders extends Component {
   static propTypes = {
     orders: PropTypes.array,
     loading: PropTypes.bool,
-    loadAll: PropTypes.func.isRequired,
-    loadPaid: PropTypes.func.isRequired,
+    load: PropTypes.func.isRequired,
     showOrders: PropTypes.bool.isRequired,
     changeOrders: PropTypes.func.isRequired
   };
 
   render() {
-    const { orders, loading, showOrders, changeOrders, loadPaid, loadAll} = this.props;
+    const {orders, loading, showOrders, changeOrders, load} = this.props;
+    const styles = require('./Orders.scss');
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
     }
-    const styles = require('./Orders.scss');
+
     return (
       <div className={styles.orders + ' container'}>
         <h1>
           {showOrders ? <div>All orders</div> : <div>Orders with status paid</div>}
-          {showOrders ?
-            <button className={styles.refreshBtn + ' btn btn-success'} onClick={loadAll}>
-              <i className={refreshClassName}/> {' '} Reload Orders
-            </button> :
-            <button className={styles.refreshBtn + ' btn btn-success'} onClick={loadPaid}>
-              <i className={refreshClassName}/> {' '} Reload Orders
-            </button>
-          }
+          <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
+            <i className={refreshClassName}/> {' '} Reload Orders
+          </button>
           <button className={styles.changeBtn + ' btn btn-success'} onClick={() => changeOrders(showOrders)}>
             {showOrders ? <div>show paid orders</div> : <div>show all orders</div>}
           </button>
         </h1>
         <Helmet title="Orders"/>
-        {(orders && orders.length) &&
-          (showOrders ? <AllOrdersForm/> : <PaidOrdersForm/>)
-        }
-        {!(orders && orders.length) &&
-          <div>We don't have any orders (((</div>
-        }
+        {(orders && orders.length) && (showOrders ? <AllOrdersForm/> : <PaidOrdersForm/>)}
+
+        {!(orders && orders.length) && <div>We don't have any orders (((</div> }
       </div>
     );
   }
