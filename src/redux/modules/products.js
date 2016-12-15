@@ -28,10 +28,11 @@ const ADD_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const ADD_IMG = 'redux-example/products/ADD_IMG';
 const ADD_SUCCESS_IMG = 'redux-example/products/ADD_SUCCESS_IMG';
 const ADD_FAIL_IMG = 'redux-example/products/ADD_FAIL_IMG';
-
+const SET_CATEGORY_ID = 'redux-example/products/SET_CATEGORY_ID';
 
 const initialState = {
   loaded: false,
+  categoryId: '',
   onAddProduct: {'isActive': false},
   onDeleteProduct: {'isActive': false},
   onEditProduct: {'isActive': false},
@@ -43,7 +44,11 @@ const initialState = {
 
 export default function products(state = initialState, action = {}) {
   switch (action.type) {
-
+    case SET_CATEGORY_ID:
+      return {
+        ...state,
+        categoryId: action._id
+      };
     case SHOW_IMAGE:
       const oldState = [...state.onShowImagePopUp];
       return {
@@ -231,6 +236,22 @@ export default function products(state = initialState, action = {}) {
     default:
       return state;
   }
+}
+
+export function isLoaded(globalState) {
+  return globalState.categories && globalState.categories.loaded;
+}
+export function load(_id) {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => client.post('/products/get', {
+      data: {_id}
+    })
+  };
+}
+
+export function setCategoryId(_id) {
+  return {type: SET_CATEGORY_ID, _id};
 }
 
 export function addStartProduct(categoryId) {

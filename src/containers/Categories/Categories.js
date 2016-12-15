@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleRoot} from 'radium';
-import {Treebeard, decorators, Hello, ProductEdit} from '../../components';
+import {Treebeard, decorators} from '../../components';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import {asyncConnect} from 'redux-async-connect';
@@ -9,7 +9,6 @@ import * as filters from './filter';
 import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import * as categoryActions from 'redux/modules/categories';
 import * as showSome from 'redux/modules/hello';
-import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
 import {CategoryEditProp, CategoryAddProp, CategoryAdd, CategoryEdit} from '../../components';
 @asyncConnect([{
@@ -60,7 +59,6 @@ class Categories extends Component {
 
     categories: PropTypes.array,
     loading: PropTypes.bool,
-    initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
     show: PropTypes.bool,
     showM: PropTypes.func,
@@ -127,45 +125,36 @@ class Categories extends Component {
     if (loading) {
       refreshClassName += ' fa-spin';
     }
+
     return (
-      <div>
-        <h1>Categories
-          <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
-            <i className={refreshClassName}/> {' '} Reload
-          </button>
-        </h1>
+        <div>
+          <h1>Categories
+            <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
+              <i className={refreshClassName}/> {' '} Reload
+            </button>
+          </h1>
 
-        {/* <div>*/}
-        {/* <section>*/}
-        {/* <h1>React SkyLight</h1>*/}
-        {/* <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>*/}
-        {/* </section>*/}
-        {/* <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Hi, I'm a simple modal">*/}
-
-        {/* </SkyLight>*/}
-        {/* </div>*/}
-
-        <Helmet title="Categories"/>
-        <StyleRoot className={styles.component3}>
-          <div style={styles.searchBox}>
-            <div className="input-group">
-              <span className="input-group-addon"> <i className="fa fa-search"/> </span>
-              <input type="text"
-                     className="form-control"
-                     placeholder="Search the tree..."
-                     onKeyUp={this.onFilterMouseUp.bind(this)}/>
+          <Helmet title="Categories"/>
+          <StyleRoot className={styles.component3}>
+            <div style={styles.searchBox}>
+              <div className="input-group">
+                <span className="input-group-addon"> <i className="fa fa-search"/> </span>
+                <input type="text"
+                       className="form-control"
+                       placeholder="Search the tree..."
+                       onKeyUp={this.onFilterMouseUp.bind(this)}/>
+              </div>
             </div>
-          </div>
-          {categories &&
-          <div className={styles.component}>
+            {categories &&
             <div className={styles.component}>
+              <div className={styles.component}>
               {!addCategoryBtn.isActive && <button className="btn btn-link btn-xs"
                                                    onClick={() => {
                                                      addStartCategory(0);
                                                    }}>
                 <span className="glyphicon glyphicon-plus"/>
               </button>}
-            </div>
+             </div>
             <div className={styles.component2}><Hello/></div>
             {addCategoryBtn.isActive && <CategoryAdd />}
             {editCategoryBtn.isActive && <CategoryEdit formKey={editCategoryBtn.id}/>}
@@ -319,11 +308,12 @@ class Categories extends Component {
               }
               </tbody>
             </table>}
-
-          </div>
-        </StyleRoot>
-      </div>
-
+               {chosenNode && !show &&
+                 <Product _id={chosenNode._id}/>
+               }
+            </div>
+          </StyleRoot>
+        </div>
     );
   }
 }
