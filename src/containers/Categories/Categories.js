@@ -11,7 +11,7 @@ import * as categoryActions from 'redux/modules/categories';
 import * as showSome from 'redux/modules/hello';
 import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {CategoryEditProp, CategoryAddProp, CategoryAdd} from '../../components';
+import {CategoryEditProp, CategoryAddProp, CategoryAdd, CategoryEdit} from '../../components';
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -25,15 +25,18 @@ import {CategoryEditProp, CategoryAddProp, CategoryAdd} from '../../components';
   state => ({
     categories: state.categories.data,
     addCategoryBtn: state.categories.addCategory,
+    editCategoryBtn: state.categories.editCategory,
     addPropertyBtn: state.categories.addProperty,
     editPropertyBtn: state.categories.editProperty,
     deletePropertyBtn: state.categories.deleteProperty,
     loading: state.categories.loading,
     show: state.hello.show,
-    onShowImagePopUp: state.products.onShowImagePopUp,
-    onShowImageUploader: state.products.onShowImageUploader,
 
+    onShowImagePopUp: state.products.onShowImagePopUp,
     onEditProduct: state.products.onEditProduct,
+
+    onAddProduct: state.products.onAddProduct,
+    onDeleteProduct: state.products.onDeleteProduct
   }),
   {...categoryActions, initializeWithKey, ...showSome, ...productAction})
 
@@ -41,15 +44,19 @@ export default
 class Categories extends Component {
   static propTypes = {
     addCategoryBtn: PropTypes.object.isRequired,
+    editCategoryBtn: PropTypes.object.isRequired,
     addPropertyBtn: PropTypes.object.isRequired,
     editPropertyBtn: PropTypes.object.isRequired,
     deletePropertyBtn: PropTypes.object.isRequired,
-    addStartCategory: PropTypes.func.isRequired,
     addStartProperty: PropTypes.func.isRequired,
     editStartProperty: PropTypes.func.isRequired,
     deleteStartProperty: PropTypes.func.isRequired,
     deleteStopProperty: PropTypes.func.isRequired,
     deleteProperty: PropTypes.func.isRequired,
+
+    addStartCategory: PropTypes.func.isRequired,
+    editStartCategory: PropTypes.func.isRequired,
+    deleteStartCategory: PropTypes.func.isRequired,
 
     categories: PropTypes.array,
     loading: PropTypes.bool,
@@ -63,16 +70,20 @@ class Categories extends Component {
     onShowImageUploader: PropTypes.func,
     showImageUploader: PropTypes.func,
 
+    onAddProduct: PropTypes.object.isRequired,
+    onDeleteProduct: PropTypes.object.isRequired,
     onEditProduct: PropTypes.object.isRequired,
-    editStartProduct: PropTypes.func.isRequired
+    onDeleteImage: PropTypes.object.isRequired,
+    onAddProductImage: PropTypes.bool,
 
+    editStartProduct: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {};
     this.onToggle = this.onToggle.bind(this);
-    this.onFilterMouseUp = this.onFilterMouseUp.bind(this);
+    // this.onFilterMouseUp = this.onFilterMouseUp.bind(this);
   }
 
   onToggle(node, toggled) {
@@ -89,23 +100,28 @@ class Categories extends Component {
 
   onFilterMouseUp(ee) {
     const filter = ee.target.value.trim();
+    const categories = this.props.categories;
     if (!filter) {
-      return this.setState(this.props.categories);
+      return this.setState(categories);
     }
-    let filtered = filters.filterTree(this.props.categories, filter);
+    let filtered = filters.filterTree(categories, filter);
     filtered = filters.expandFilteredNodes(filtered, filter);
-    this.props.categories = filtered;
+    // this.props.categories = filtered;
+    this.setState({categories: filtered});
+    debugger;
   }
 
   render() {
     const chosenNode = this.state.cursor;
     const {
-      addCategoryBtn, addPropertyBtn, editPropertyBtn, deletePropertyBtn, addStartCategory,
+      addCategoryBtn, addPropertyBtn, editPropertyBtn, deletePropertyBtn,
       addStartProperty, editStartProperty, deleteStartProperty, deleteStopProperty, deleteProperty,
-      categories, load, loading, show
+      categories, load, loading, show,
+      editStartCategory, deleteStartCategory, addStartCategory,
+      editStartProduct, editCategoryBtn
     } = this.props;
 
-    const {onEditProduct, editStartProduct} = this.props;
+    const {onEditProduct} = this.props;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
@@ -152,9 +168,13 @@ class Categories extends Component {
             </div>
             <div className={styles.component2}><Hello/></div>
             {addCategoryBtn.isActive && <CategoryAdd />}
+            {editCategoryBtn.isActive && <CategoryEdit formKey={editCategoryBtn.id}/>}
             <Treebeard
               data={categories}
               onToggle={this.onToggle}
+              onAddToggle={addStartCategory}
+              onRemoveToggle={deleteStartCategory}
+              onEditToggle={editStartCategory}
               decorators={decorators}
             />
           </div>}
@@ -177,7 +197,7 @@ class Categories extends Component {
               </tr>
               </thead>
               <tbody>
-              {chosenNode.properties &&
+              {chosenNode.properties && chosenNode.properties !== null &&
               chosenNode.properties.map((property) => (editPropertyBtn.isActive &&
               (property.name === editPropertyBtn.name) && (chosenNode._id === editPropertyBtn.id)) ?
                 <CategoryEditProp key={property.name} initialValues={property}/> :
@@ -254,9 +274,8 @@ class Categories extends Component {
               {/* </SkyLightStateless>*/}
               {/* </div>}*/}
 
-              {!chosenNode.properties && !show &&
-              chosenNode.properties.map((prop) => onEditProduct.isActive ?
-                <ProductEdit key={prop.name} initialValues={prop}/> :
+              {chosenNode.properties && chosenNode.properties !== null && chosenNode.properties.map((prop) => (onEditProduct.isActive &&
+                  onEditProduct.id === prop.name) ? <ProductEdit key={prop.name} initialValues={prop}/> :
                 <tr key={prop.name}>
                   <td className={styles.nameColProd}>{prop.name}</td>
                   <td className={styles.nameColProd}>{prop.type}</td>

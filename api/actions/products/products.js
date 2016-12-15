@@ -1,0 +1,105 @@
+import * as ProductsDB from './../../DbApi/Products';
+import * as CategoryDB from './../../DbApi/Categories';
+
+export function get(req) {
+  return new Promise((resolve, reject) => {
+    CategoryDB.getCategories().then(data => {
+      let ids = findNode(req.body.id, data);
+      let actions = [];
+
+      for (let i = 0; i < ids.length; ++i) {
+        actions.push(ProductsDB.getProductByCategoryId(ids[i]));
+      }
+      Promise.all(actions).then(products => {
+        console.log('products: ' + products);
+        resolve(products);
+      })
+    }).catch(error => {
+      reject('error in get: ' + error);
+    });
+  });
+}
+
+export function add(req) {
+  return new Promise((resolve, reject) => {
+    const product = {
+      'categoryId': req.body.categoryId,
+      'name': req.body.product.name,
+      'price': req.body.product.price,
+      'inStock': req.body.product.inStock,
+      'images': req.body.product.images,
+      'description': req.body.product.description,
+      'properties': req.body.product.properties
+    };
+    ProductsDB.addProduct(product).then(product => {
+      resolve({product});
+    }).catch(error => {
+      reject('error in add: ' + error);
+    });
+  });
+}
+
+export function remove(req) {
+  return new Promise((resolve, reject) => {
+    ProductsDB.deleteProduct(req.body._id).then(() => {
+      resolve({'_id': req.body._id});
+    }).catch(error => {
+      reject('error in remove: ' + error);
+    });
+  });
+}
+
+export function edit(req) {
+  return new Promise((resolve, reject) => {
+    const product = {
+      'categoryId': req.body.product.categoryId,
+      'name': req.body.product.name,
+      'price': req.body.product.price,
+      'inStock': req.body.product.inStock,
+      'images': req.body.product.images,
+      'description': req.body.product.description,
+      'properties': req.body.product.properties
+    };
+    ProductsDB.editProduct(product).then(product => {
+      resolve({'_id': product._id});
+    }).catch(error => {
+      reject('error in edit: ' + error);
+    });
+  });
+}
+
+export function addImg(req) {
+  return new Promise((resolve, reject) => {
+    ProductsDB.addImg(req.body.parentId, req.body.img).then(product => {
+      resolve({'_id': req.body.parentId});
+    }).catch(error => {
+      reject('error in addImg: ' + error);
+    });
+  });
+}
+
+export function removeImg(req) {
+  return new Promise((resolve, reject) => {
+    ProductsDB.addImg(req.body.parentId, req.body.img).then(product => {
+      resolve({'img': product.images});
+    }).catch(error => {
+      reject('error in addImg: ' + error);
+    });
+  });
+}
+
+function findNode(id, data) {
+  let ids = [id];
+  findNode2(id);
+
+  function findNode2(id) {
+    for (let i = 0; i < data.length; ++i) {
+      if (data[i].parentId === id) {
+        ids.push(data[i]._id);
+        findNode2(data[i]._id);
+      }
+    }
+  }
+
+  return ids;
+}

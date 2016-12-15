@@ -18,7 +18,7 @@ export default class CategoryAdd extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     addStopCategory: PropTypes.func.isRequired,
-    addCategoryBtn: PropTypes.func.isRequired,
+    addCategoryBtn: PropTypes.object.isRequired,
     addCategory: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired
   };

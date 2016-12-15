@@ -4,7 +4,7 @@ import React, {Component, PropTypes} from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
 // import {CategoryAdd} from 'components';
 import NodeHeader from './header';
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
 // import * as categoryActions from 'redux/modules/categories';
 // import {asyncConnect} from 'redux-async-connect';
 // import {isLoaded, load as loadCategories} from 'redux/modules/categories';
@@ -18,14 +18,14 @@ import {connect} from 'react-redux';
 //   }
 // }])
 debugger;
-@connect(
-  state => ({
-    categories: state.categories.data,
-    // categoryTreeState: state.categories.categoryTreeState,
-    // editing: state.categories.editing,
-    // adding: state.categories.adding,
-    // deleting: state.categories.deleting
-  }))
+// @connect(
+//   state => ({
+//     categories: state.categories.data,
+//     // categoryTreeState: state.categories.categoryTreeState,
+//     // editing: state.categories.editing,
+//     // adding: state.categories.adding,
+//     // deleting: state.categories.deleting
+//   }))
 
 class TreeNode extends Component {
   constructor(props) {
@@ -93,7 +93,12 @@ class TreeNode extends Component {
   }
 
   _eventBubbles() {
-    return {onToggle: this.props.onToggle};
+    return {
+      onToggle: this.props.onToggle,
+      onAddToggle: this.props.onAddToggle,
+      onEditToggle: this.props.onEditToggle,
+      onRemoveToggle: this.props.onRemoveToggle
+    };
   }
 
 
@@ -115,6 +120,7 @@ class TreeNode extends Component {
 
   renderHeader(decorators, animations) {
     const styles = require('../../containers/Categories/Categories.scss');
+    const {onAddToggle, onRemoveToggle, onEditToggle} = this.props;
     // debugger;
     return (
       <div className={styles.mybutton}>
@@ -125,15 +131,15 @@ class TreeNode extends Component {
           node={Object.assign({}, this.props.node)}
           onClick={this.onClick}/>
         <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={this.onPlusClick}>
+          <button className="btn btn-link btn-xs" onClick={() => onAddToggle(this.props.node)}>
             <span className="glyphicon glyphicon-plus"/></button>
         </div>
         <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={this.onMinusClick}>
+          <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle()}>
             <span className="glyphicon glyphicon-minus"/></button>
         </div>
         <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs">
+          <button className="btn btn-link btn-xs" onClick={() => onEditToggle(this.props.node)}>
             <span className="glyphicon glyphicon-edit"/></button>
         </div>
         {/* <div className={styles.mycell}>*/}
@@ -208,6 +214,9 @@ TreeNode.propTypes = {
     PropTypes.bool
   ]).isRequired,
   onToggle: PropTypes.func,
+  onAddToggle: PropTypes.func,
+  onEditToggle: PropTypes.func,
+  onRemoveToggle: PropTypes.func,
   categories: PropTypes.array,
   addStartCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired,
