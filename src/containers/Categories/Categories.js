@@ -21,6 +21,7 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
 @connect(
   state => ({
     categories: state.categories.data,
+    products: state.products.data,
     addCategoryBtn: state.categories.addCategory,
     editCategoryBtn: state.categories.editCategory,
     loading: state.categories.loading,
@@ -38,6 +39,7 @@ class Categories extends Component {
     deleteStartCategory: PropTypes.func.isRequired,
 
     categories: PropTypes.array,
+    products: PropTypes.array,
     loading: PropTypes.bool,
     load: PropTypes.func.isRequired,
     show: PropTypes.bool,
@@ -78,7 +80,7 @@ class Categories extends Component {
 
   render() {
     const chosenNode = this.state.cursor;
-    const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
+    const { addCategoryBtn, categories, products, load, loading, show, editStartCategory, deleteStartCategory,
         addStartCategory, editCategoryBtn, changeShow } = this.props;
 
     let refreshClassName = 'fa fa-refresh';
@@ -133,10 +135,10 @@ class Categories extends Component {
             </div>
           }
           <div className={styles.component2}>
-            {chosenNode && show &&
+            {chosenNode && chosenNode.properties && show && chosenNode.properties.length &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
-            {chosenNode && !show &&
+            {chosenNode && !show && products && products.length &&
               <Product _id={chosenNode._id}/>
             }
           </div>

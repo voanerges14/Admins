@@ -49,7 +49,7 @@ export default class Categories extends Component {
           </thead>
           <tbody>
           {
-            properties && properties.map((property) => (editPropertyBtn.isActive &&
+            properties && properties.length && properties.map((property) => (editPropertyBtn.isActive &&
             (property.name === editPropertyBtn.name) && (_id === editPropertyBtn.id)) ?
 
             <CategoryEditProp key={property.name} initialValues={property}/> :

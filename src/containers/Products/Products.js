@@ -152,7 +152,7 @@ class Categories extends Component {
               />
             </div>
           </div>
-          {categories &&
+          {categories && categories.length &&
           <div style={styles.component}>
             <Treebeard
               data={categories}
