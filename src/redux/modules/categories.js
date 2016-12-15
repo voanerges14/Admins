@@ -46,7 +46,8 @@ const initialState = {
   deleteProperty: {'isActive': false},
   error: [],
   categoryTreeState: {},
-  show: true
+  show: true,
+  types: ['string', 'color', 'number']
 };
 
 export default function reducer(state = initialState, action = {}) {

@@ -13,6 +13,17 @@ function connectToDbOrdersModel() {
 
 const OrdersModel = connectToDbOrdersModel();
 
+
+export function getOrders() {
+  return OrdersModel.find({}, function (err, orders) {
+    if(!err) {
+      return orders;
+    }
+    console.error('getOrders error: ' + err);
+    return 'error in getOrders: ' + err;
+  });
+}
+
 export function getOrdersWithStatusPAID() {
   return OrdersModel.find({'status': 'PAID'}, function (err, orders) {
     if(!err) {

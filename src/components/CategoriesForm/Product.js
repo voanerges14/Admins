@@ -1,10 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as styles from './../../../containers/Categories/Categories.scss';
 import {isLoaded, load as loadProducts, categoryId} from 'redux/modules/products';
 import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {ProductAdd, ProductEdit} from '../../../components';
+import {ProductAdd, ProductEdit} from 'components';
 import {asyncConnect} from 'redux-async-connect';
 
 @asyncConnect([{
@@ -45,6 +44,7 @@ export default class Categories extends Component {
             addStartProduct, editStartProduct, deleteStartProduct,
             deleteStopProduct, deleteProduct, _id
     } = this.props;
+    const styles = require('containers/Categories/Categories.scss');
     return (
       <div>
         {onAddProduct.isActive && <ProductAdd/>}

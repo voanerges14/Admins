@@ -1,7 +1,7 @@
 import * as OrdersDb from './../../DbApi/Orders';
 import * as UsersDb from './../../DbApi/Users';
 
-export function get() {
+export function getPaid() {
   return new Promise((resolve, reject) => {
     OrdersDb.getOrdersWithStatusPAID().then(orders => {
       let actions = [];
@@ -12,6 +12,32 @@ export function get() {
         let returnOrders = [];
         for(let i = 0; i < orders.length; ++i) {
           returnOrders.push({id: orders[i]._id, user: users[i], products: orders[i].products});
+        }
+        resolve(returnOrders);
+      }).catch(err => {
+        reject('error in get: ' + err);
+      });
+    })
+  });
+}
+
+export function getAll() {
+  return new Promise((resolve, reject) => {
+    OrdersDb.getOrders().then(orders => {
+      let actions = [];
+      for(let i = 0; i < orders.length; ++i) {
+        actions.push(UsersDb.getUserById(orders[i].userId));
+      }
+      Promise.all(actions).then(users => {
+        let returnOrders = [];
+        for(let i = 0; i < orders.length; ++i) {
+          returnOrders.push(
+              {
+                id: orders[i]._id,
+                user: users[i],
+                products: orders[i].products,
+                status: orders[i].status
+              });
         }
         resolve(returnOrders);
       }).catch(err => {

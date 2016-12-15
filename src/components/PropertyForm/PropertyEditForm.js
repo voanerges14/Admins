@@ -7,7 +7,8 @@ import * as categoryActions from 'redux/modules/categories';
 
 @connect(
   state => ({
-    editPropertyBtn: state.categories.editProperty
+    editPropertyBtn: state.categories.editProperty,
+    types: state.categories.types
   }),
   dispatch => bindActionCreators(categoryActions, dispatch)
 )
@@ -22,12 +23,12 @@ export default class CategoryEditProp extends Component {
     editProperty: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
     editPropertyBtn: PropTypes.object.isRequired,
+    types: PropTypes.array.isRequired
   };
 
   render() {
-    const {editStopProperty, fields: {name, type}, editProperty, values, editPropertyBtn} = this.props;
-    const styles = require('./CategoryEditProp.scss');
-    const types = ['string', 'color', 'number'];
+    const {editStopProperty, fields: {name, type}, editProperty, values, editPropertyBtn, types} = this.props;
+    const styles = require('./PropertyEditForm.scss');
     return (
       <tr>
         <td className={styles.colorCol}>
