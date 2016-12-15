@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as styles from './../../../containers/Categories/Categories.scss';
 import * as categoryActions from 'redux/modules/categories';
 import {initializeWithKey} from 'redux-form';
-import {CategoryEditProp, CategoryAddProp} from '../../../components';
+import {CategoryEditProp, CategoryAddProp} from 'components';
 
 @connect(
     state => ({
@@ -29,6 +28,8 @@ export default class Categories extends Component {
   render() {
     const { addPropertyBtn, editPropertyBtn, deletePropertyBtn, addStartProperty, editStartProperty,
         deleteStartProperty, deleteStopProperty, deleteProperty, properties, _id } = this.props;
+    const styles = require('containers/Categories/Categories.scss');
+
     return (
       <div>
         {addPropertyBtn.isActive && <CategoryAddProp/>}
