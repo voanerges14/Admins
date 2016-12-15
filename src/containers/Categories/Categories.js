@@ -98,7 +98,7 @@ class Categories extends Component {
 
   onFilterMouseUp(ee) {
     const filter = ee.target.value.trim();
-    const categories = this.props.categories;
+    const categories = this.state.categories;
     if (!filter) {
       return this.setState(categories);
     }
