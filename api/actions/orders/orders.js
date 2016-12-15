@@ -51,8 +51,10 @@ export function apply(req) {
   return new Promise((resolve, reject) => {
     // send to delivery query
     ////
-    OrdersDb.sendToDeliveryOrder(req.body.id).then(order => {
-        resolve({'id': order._id});
+    OrdersDb.sendToDeliveryOrder(req.body.id).then(() => {
+      getAll().then(res => {
+        resolve(res);
+      });
     }).catch(err => {
       console.log('err: ' + err);
       reject('error in apply:' + err);
@@ -62,8 +64,12 @@ export function apply(req) {
 
 export function cancel(req) {
   return new Promise((resolve, reject) => {
+    // send to bank query
+    ////
     OrdersDb.deleteOrder(req.body.id).then(() => {
-      resolve({'id': req.body.id});
+      getAll().then(res => {
+        resolve(res);
+      });
     }).catch(err => {
       console.log('err: ' + err);
       reject('error in apply:' + err);
