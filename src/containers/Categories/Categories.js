@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {StyleRoot} from 'radium';
-import {Treebeard, decorators} from '../../components';
+import {Treebeard, decorators, Hello, ProductEdit} from '../../components';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import {asyncConnect} from 'redux-async-connect';
@@ -37,7 +37,7 @@ import {CategoryEditProp, CategoryAddProp, CategoryAdd, CategoryEdit} from '../.
     onAddProduct: state.products.onAddProduct,
     onDeleteProduct: state.products.onDeleteProduct
   }),
-  {...categoryActions, initializeWithKey, ...showSome, ...productAction})
+  {...categoryActions, initializeWithKey, ...showSome})
 
 export default
 class Categories extends Component {
@@ -308,9 +308,9 @@ class Categories extends Component {
               }
               </tbody>
             </table>}
-               {chosenNode && !show &&
-                 <Product _id={chosenNode._id}/>
-               }
+               {/* {chosenNode && !show &&*/}
+                 {/* <Product _id={chosenNode._id}/>*/}
+               {/* }*/}
             </div>
           </StyleRoot>
         </div>
