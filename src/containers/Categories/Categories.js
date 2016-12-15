@@ -24,6 +24,7 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
     addCategoryBtn: state.categories.addCategory,
     editCategoryBtn: state.categories.editCategory,
     loading: state.categories.loading,
+    loadProduct: state.products.load,
     show: state.categories.show
   }),
   {...categoryActions, initializeWithKey})
@@ -36,7 +37,7 @@ class Categories extends Component {
     addStartCategory: PropTypes.func.isRequired,
     editStartCategory: PropTypes.func.isRequired,
     deleteStartCategory: PropTypes.func.isRequired,
-
+    loadProduct: PropTypes.func.isRequired,
     categories: PropTypes.array,
     loading: PropTypes.bool,
     load: PropTypes.func.isRequired,
@@ -79,7 +80,7 @@ class Categories extends Component {
   render() {
     const chosenNode = this.state.cursor;
     const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
-        addStartCategory, editCategoryBtn, changeShow } = this.props;
+        addStartCategory, editCategoryBtn, changeShow , loadProduct} = this.props;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
@@ -136,6 +137,7 @@ class Categories extends Component {
             {chosenNode && show &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
+            {chosenNode.active && loadProduct(chosenNode._id) }
             {chosenNode && !show &&
               <Product _id={chosenNode._id}/>
             }
