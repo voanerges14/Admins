@@ -3,14 +3,14 @@ import * as CategoryDB from './../../DbApi/Categories';
 
 export function get(req) {
   return new Promise((resolve, reject) => {
-    console.log('getProduct: ' + JSON.stringify(req.body));
+    // console.log('getProduct: ' + JSON.stringify(req.body));
     CategoryDB.getCategories().then(data => {
       let ids = findNode(req.body._id, data);
-      console.log('ids: ' + JSON.stringify(ids));
+      // console.log('ids: ' + JSON.stringify(ids));
       // let actions = [];
 
       ProductsDB.getProductByCategoriesIds(ids).then(products => {
-        console.log('products: ' + products);
+        // console.log('products: ' + products);
         resolve(products);
       });
       // for (let i = 0; i < ids.length; ++i) {

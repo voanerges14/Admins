@@ -50,10 +50,9 @@ export default function reducer(state = initialState, action = {}) {
         categoryId: action._id
       };
     case SHOW_IMAGE:
-      const oldState = [...state.onShowImagePopUp];
       return {
         ...state,
-        onShowImagePopUp: !oldState
+        onShowImagePopUp: action.oldState
       };
     case DELETE_IMAGE_START:
       return {
@@ -241,7 +240,6 @@ export default function reducer(state = initialState, action = {}) {
 export function isLoaded(globalState) {
   return globalState.categories && globalState.categories.loaded;
 }
-
 export function loadProducts(_id) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
@@ -296,8 +294,8 @@ export function deleteProduct(_id) {
   };
 }
 
-export function toggleImg() {
-  return {type: SHOW_IMAGE};
+export function toggleImg(oldState) {
+  return {type: SHOW_IMAGE, oldState};
 }
 
 export function addStartImg() {
