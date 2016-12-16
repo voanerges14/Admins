@@ -5,6 +5,7 @@ import * as ordersActions from 'redux/modules/orders';
 import {isLoaded, load as initialLoad} from 'redux/modules/orders';
 import { asyncConnect } from 'redux-async-connect';
 import {AllOrdersForm, PaidOrdersForm} from 'components';
+import * as productsActions from 'redux/modules/products';
 
 @asyncConnect([{
   deferred: true,
@@ -24,10 +25,11 @@ import {AllOrdersForm, PaidOrdersForm} from 'components';
     loading: state.orders.loading,
     showOrders: state.orders.showOrders
   }),
-  {...ordersActions})
+  {...ordersActions, productsActions})
 
 export default class Orders extends Component {
   static propTypes = {
+    loadProduct: PropTypes.func.isRequired,
     orders: PropTypes.array,
     loading: PropTypes.bool,
     load: PropTypes.func.isRequired,
@@ -36,7 +38,7 @@ export default class Orders extends Component {
   };
 
   render() {
-    const {orders, loading, showOrders, changeOrders, load} = this.props;
+    const {orders, loading, showOrders, changeOrders, loadProduct} = this.props;
     const styles = require('./Orders.scss');
 
     let refreshClassName = 'fa fa-refresh';
@@ -48,7 +50,7 @@ export default class Orders extends Component {
       <div className={styles.orders + ' container'}>
         <h1>
           {showOrders ? <div>All orders</div> : <div>Orders with status paid</div>}
-          <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
+          <button className={styles.refreshBtn + ' btn btn-success'} onClick={() => loadProduct('temp')}>
             <i className={refreshClassName}/> {' '} Reload Orders
           </button>
           <button className={styles.changeBtn + ' btn btn-success'} onClick={() => changeOrders(showOrders)}>
