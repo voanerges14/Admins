@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {ProductAdd, ProductEdit} from 'components';
+import {ProductAdd, ProductEdit, CategoryAdd} from 'components';
 @connect(
     state => ({
       products: state.products.data,
@@ -70,8 +70,8 @@ export default class Product extends Component {
               </td>
               <td className={styles.nameColProd}>{product.description}</td>
               <td className={styles.nameColProd}>{product.description}
-                {/* {product.properties.map(valueType => <option value={valueType.value} key={valueType.value}><CategoryAdd/></option>)}*/}
-                <CategoryAdd/>
+                 {product.properties.map(valueType => <option value={valueType.value} key={valueType.value}><CategoryAdd/></option>)}
+                {/* <CategoryAdd/>*/}
               </td>
               <td className={styles.buttonCol}>
                 <button className="btn btn-primary" onClick={() => editStartProduct(product._id)}>
