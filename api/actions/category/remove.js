@@ -3,10 +3,11 @@ import convert from './convert';
 
 export default function deleteCategory(req) {
   return new Promise((resolve, reject) => {
-    // console.log('my res: ' + JSON.stringify(req.body));
+    console.log('id to delete: ' + JSON.stringify(req.body.id));
 
     categoryDB.getCategories().then(data => {
       let ids = findNode(req.body.id, data);
+      console.log('ids: ' + JSON.stringify(ids));
       categoryDB.deleteCategories(ids).then(() => {
         categoryDB.getCategories().then(data => {
           resolve(convert(data));

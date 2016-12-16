@@ -291,7 +291,6 @@ export function addProperty(property, id) {
   };
 }
 export function editProperty(property, id, oldName) {
-  debugger;
   return {
     types: [EDIT_PROPERTY, EDIT_SUCCESS_PROPERTY, EDIT_FAIL_PROPERTY],
     category: property,

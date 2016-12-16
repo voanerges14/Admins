@@ -6,15 +6,20 @@ export function get(req) {
     console.log('getProduct: ' + JSON.stringify(req.body));
     CategoryDB.getCategories().then(data => {
       let ids = findNode(req.body._id, data);
-      let actions = [];
+      console.log('ids: ' + JSON.stringify(ids));
+      // let actions = [];
 
-      for (let i = 0; i < ids.length; ++i) {
-        actions.push(ProductsDB.getProductByCategoryId(ids[i]));
-      }
-      Promise.all(actions).then(products => {
+      ProductsDB.getProductByCategoriesIds(ids).then(products => {
         console.log('products: ' + products);
         resolve(products);
-      })
+      });
+      // for (let i = 0; i < ids.length; ++i) {
+      //   actions.push(ProductsDB.getProductByCategoryId(ids[i]));
+      // }
+      // Promise.all(actions).then(products => {
+      //   console.log('products: ' + products);
+      //   resolve(products);
+      // })
     }).catch(error => {
       reject('error in get: ' + error);
     });
