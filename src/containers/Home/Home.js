@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-  // , PropTypes } from 'react';
 import {LoginForm} from 'components';
 import config from '../../config';
 import Helmet from 'react-helmet';
