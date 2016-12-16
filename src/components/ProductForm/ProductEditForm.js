@@ -35,6 +35,8 @@ export default class ProductEdit extends Component {
     const {editStop, fields: {name, numbers, image}, editProduct, values, onEditProduct
         , showPopUp, onShowImagePopUp, addStartImage} = this.props;
     const styles = require('./ProductEditForm.scss');
+    const stylesPopUp = require('./PopUp.scss');
+
     return (
         <tr>
           <td className={styles.colorCol}>
@@ -54,6 +56,7 @@ export default class ProductEdit extends Component {
             </p>
             <div>
               <SkyLightStateless
+                  dialogStyles={stylesPopUp}
                   isVisible={onShowImagePopUp}
                   onCloseClicked={() => {
                     showPopUp(onShowImagePopUp);

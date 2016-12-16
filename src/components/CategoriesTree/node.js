@@ -125,7 +125,7 @@ class TreeNode extends Component {
             <span className="glyphicon glyphicon-plus"/></button>
         </div>
         <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle()}>
+          <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle(this.props.node)}>
             <span className="glyphicon glyphicon-minus"/></button>
         </div>
         <div className={styles.mycell}>

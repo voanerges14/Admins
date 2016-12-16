@@ -9,7 +9,7 @@ import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import * as categoryActions from 'redux/modules/categories';
 import * as productsActions from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product, Hello} from 'components';
+import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} from 'components';
 // import {loadProducts as load} from 'redux/modules/products';
 @asyncConnect([{
   deferred: true,
@@ -144,7 +144,7 @@ class Categories extends Component {
             {chosenNode && chosenNode.active && show && chosenNode.properties.length &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
-              {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}
+              {/* {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}*/}
             {/* {chosenNode && chosenNode.active}*/}
             {chosenNode && !show &&
               <Product _id={chosenNode._id}/>

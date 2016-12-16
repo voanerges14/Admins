@@ -32,6 +32,7 @@ export default class ProductImageAdd extends Component {
   render() {
     const { addStopImage, fields: {img}, onEditProduct, addProductImage, values} = this.props;
     const styles = require('./ProductImageAdd.scss');
+
     return (
       <div className={styles.Form}>
         <input type="text" {...img}/>

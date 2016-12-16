@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {LoginForm} from 'components';
 import config from '../../config';
 import Helmet from 'react-helmet';

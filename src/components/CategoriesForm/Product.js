@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {isLoaded, load as loadProducts, categoryId} from 'redux/modules/products';
 import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {ProductAdd, ProductEdit} from 'components';
+import {ProductAdd, ProductEdit, CategoryAdd} from 'components';
 import {asyncConnect} from 'redux-async-connect';
 
 @asyncConnect([{
@@ -25,7 +25,7 @@ import {asyncConnect} from 'redux-async-connect';
     }),
     {initializeWithKey, ...productAction})
 
-export default class Categories extends Component {
+export default class Product extends Component {
   static propTypes = {
     products: PropTypes.array,
     onAddProduct: PropTypes.object.isRequired,
@@ -84,14 +84,18 @@ export default class Categories extends Component {
                 </div>
               </td>
               <td className={styles.nameColProd}>{product.description}</td>
+              <td className={styles.nameColProd}>{product.description}
+                {/* {product.properties.map(valueType => <option value={valueType.value} key={valueType.value}><CategoryAdd/></option>)}*/}
+                <CategoryAdd/>
+              </td>
               <td className={styles.buttonCol}>
                 <button className="btn btn-primary" onClick={() => editStartProduct(product._id)}>
-                  <i className="fa fa-pencil"/> Edit
+                  <i className="fa fa-pencil"/>
                 </button>
 
                 {!onDeleteProduct.isActive ?
                   <button className="btn btn-primary" onClick={() => deleteStartProduct(product._id)}>
-                    <i className="fa fa-trash"/> Del
+                    <i className="fa fa-trash"/>
                   </button> :
 
                   <span>
