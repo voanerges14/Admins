@@ -7,8 +7,10 @@ import * as styles from './Categories.scss';
 import * as filters from './filter';
 import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import * as categoryActions from 'redux/modules/categories';
+import * as prosuctsActions from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
 import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} from 'components';
+// import {loadProducts as load} from 'redux/modules/products';
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -25,9 +27,10 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
     addCategoryBtn: state.categories.addCategory,
     editCategoryBtn: state.categories.editCategory,
     loading: state.categories.loading,
+    loadProducts: state.products.loadP,
     show: state.categories.show
   }),
-  {...categoryActions, initializeWithKey})
+  {...categoryActions, initializeWithKey, ...prosuctsActions})
 
 export default
 class Categories extends Component {
@@ -37,7 +40,7 @@ class Categories extends Component {
     addStartCategory: PropTypes.func.isRequired,
     editStartCategory: PropTypes.func.isRequired,
     deleteStartCategory: PropTypes.func.isRequired,
-
+    loadProducts: PropTypes.func.isRequired,
     categories: PropTypes.array,
     products: PropTypes.array,
     loading: PropTypes.bool,
@@ -80,9 +83,9 @@ class Categories extends Component {
 
   render() {
     const chosenNode = this.state.cursor;
-    const { addCategoryBtn, categories, products, load, loading, show, editStartCategory, deleteStartCategory,
-        addStartCategory, editCategoryBtn, changeShow } = this.props;
-
+    const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
+        addStartCategory, editCategoryBtn, changeShow, loadProducts} = this.props;
+    debugger;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -130,16 +133,18 @@ class Categories extends Component {
                 onAddToggle={addStartCategory}
                 onRemoveToggle={deleteStartCategory}
                 onEditToggle={editStartCategory}
+                loadProducts={loadProducts}
                 decorators={decorators}
               />
             </div>
           }
           <div className={styles.component2}>
-            {chosenNode.active && chosenNode.properties && show && chosenNode.properties.length &&
+            {chosenNode && chosenNode.active && show && chosenNode.properties.length &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
-            {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}
-            {chosenNode && !show && products && products.length &&
+              {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}
+            {/* {chosenNode && chosenNode.active}*/}
+            {chosenNode && !show &&
               <Product _id={chosenNode._id}/>
             }
           </div>

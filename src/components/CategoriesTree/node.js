@@ -17,7 +17,7 @@ import NodeHeader from './header';
 //     }
 //   }
 // }])
-debugger;
+// debugger;
 // @connect(
 //   state => ({
 //     categories: state.categories.data,
@@ -33,14 +33,18 @@ class TreeNode extends Component {
     this.onClick = this.onClick.bind(this);
     // this.onMinusClick = this.onMinusClick.bind(this);
     // this.onPlusClick = this.onPlusClick.bind(this);
-    debugger;
+    // debugger;
   }
 
   onClick() {
+    debugger;
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
+    const loadProducts = this.props.loadProducts;
+    const id = this.props.node._id;
     if (onToggle) {
       onToggle(this.props.node, toggled);
+      loadProducts(id);
     }
   }
 
@@ -57,21 +61,6 @@ class TreeNode extends Component {
   //     onToggle(this.props.node, toggled);
   //   }
   // }
-
-  onMinusClick() {
-    // <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/>);
-    console.log('Hello World Minus===>' + this.props.node._id);
-
-    // const {deleteCategory} = this.props;
-    // return () => deleteCategory(this.props.node._id);
-  }
-
-  onPlusClick(id) {
-    // <CategoriesForm formKey={String(prop.id)} key={String(prop.id)} initialValues={prop}/>);
-    const addStartCategory = this.props.addStartCategory;
-    addStartCategory(id);
-    console.log('Hello World Plus===>');
-  }
 
   animations() {
     const props = this.props;
@@ -97,7 +86,8 @@ class TreeNode extends Component {
       onToggle: this.props.onToggle,
       onAddToggle: this.props.onAddToggle,
       onEditToggle: this.props.onEditToggle,
-      onRemoveToggle: this.props.onRemoveToggle
+      onRemoveToggle: this.props.onRemoveToggle,
+      loadProducts: this.props.loadProducts
     };
   }
 
@@ -217,6 +207,7 @@ TreeNode.propTypes = {
   onAddToggle: PropTypes.func,
   onEditToggle: PropTypes.func,
   onRemoveToggle: PropTypes.func,
+  loadProducts: PropTypes.func,
   categories: PropTypes.array,
   addStartCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired,

@@ -40,10 +40,13 @@ export default class Categories extends Component {
   };
 
   render() {
+    debugger;
     const { products, onAddProduct, onEditProduct, onDeleteProduct,
             addStartProduct, editStartProduct, deleteStartProduct,
             deleteStopProduct, deleteProduct, _id
+
     } = this.props;
+    debugger;
     const styles = require('containers/Categories/Categories.scss');
     return (
       <div>
@@ -66,7 +69,6 @@ export default class Categories extends Component {
               }
             </tr>
           </thead>
-
           <tbody>
           {products && products.map((product) => (onEditProduct.isActive &&
           onEditProduct._id === product._id) ? <ProductEdit key={product._id} initialValues={product}/> :
