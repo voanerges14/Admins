@@ -38,7 +38,7 @@ export default class Orders extends Component {
   };
 
   render() {
-    const {orders, loading, showOrders, changeOrders, loadProduct} = this.props;
+    const {orders, loading, showOrders, changeOrders, load} = this.props;
     const styles = require('./Orders.scss');
 
     let refreshClassName = 'fa fa-refresh';
@@ -50,7 +50,7 @@ export default class Orders extends Component {
       <div className={styles.orders + ' container'}>
         <h1>
           {showOrders ? <div>All orders</div> : <div>Orders with status paid</div>}
-          <button className={styles.refreshBtn + ' btn btn-success'} onClick={() => loadProduct('temp')}>
+          <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
             <i className={refreshClassName}/> {' '} Reload Orders
           </button>
           <button className={styles.changeBtn + ' btn btn-success'} onClick={() => changeOrders(showOrders)}>

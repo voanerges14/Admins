@@ -80,7 +80,7 @@ class Categories extends Component {
   render() {
     const chosenNode = this.state.cursor;
     const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
-        addStartCategory, editCategoryBtn, changeShow , loadProduct} = this.props;
+        addStartCategory, editCategoryBtn, changeShow, loadProduct} = this.props;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
