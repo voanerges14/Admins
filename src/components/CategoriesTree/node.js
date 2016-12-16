@@ -1,43 +1,17 @@
 // юзає header.js
-// import React from 'react';
+
 import React, {Component, PropTypes} from 'react';
 import {VelocityTransitionGroup} from 'velocity-react';
-// import {CategoryAdd} from 'components';
 import NodeHeader from './header';
-// import {connect} from 'react-redux';
-// import * as categoryActions from 'redux/modules/categories';
-// import {asyncConnect} from 'redux-async-connect';
-// import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 
-// @asyncConnect([{
-//   deferred: true,
-//   promise: ({store: {dispatch, getState}}) => {
-//     if (!isLoaded(getState())) {
-//       return dispatch(loadCategories());
-//     }
-//   }
-// }])
-// debugger;
-// @connect(
-//   state => ({
-//     categories: state.categories.data,
-//     // categoryTreeState: state.categories.categoryTreeState,
-//     // editing: state.categories.editing,
-//     // adding: state.categories.adding,
-//     // deleting: state.categories.deleting
-//   }))
 
 class TreeNode extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
-    // this.onMinusClick = this.onMinusClick.bind(this);
-    // this.onPlusClick = this.onPlusClick.bind(this);
-    // debugger;
   }
 
   onClick() {
-    debugger;
     const toggled = !this.props.node.toggled;
     const onToggle = this.props.onToggle;
     const loadProducts = this.props.loadProducts;
@@ -47,20 +21,6 @@ class TreeNode extends Component {
       loadProducts(id);
     }
   }
-
-  // onClick() {
-  //   const toggled = !this.props.node.toggled;
-  //   const onToggle = this.props.onToggle;
-  //   const temp = this.props.toggledChange;
-  //   const state = this.props.categoryTreeState;
-  //   const id = this.props.node._id;
-  //   const oldState = (typeof state[id] === 'undefined') ? false : state[id];
-  //   temp(id, oldState);
-  //
-  //   if (onToggle) {
-  //     onToggle(this.props.node, toggled);
-  //   }
-  // }
 
   animations() {
     const props = this.props;
@@ -93,7 +53,6 @@ class TreeNode extends Component {
 
 
   renderDrawer(decorators, animations) {
-    console.log('3) renderDrawer()');
     const toggled = this.props.node.toggled;
     if (!animations && !toggled) {
       return null;
@@ -111,7 +70,6 @@ class TreeNode extends Component {
   renderHeader(decorators, animations) {
     const styles = require('../../containers/Categories/Categories.scss');
     const {onAddToggle, onRemoveToggle, onEditToggle} = this.props;
-    // debugger;
     return (
       <div className={styles.mybutton}>
         <NodeHeader
@@ -166,7 +124,6 @@ class TreeNode extends Component {
   }
 
   renderLoading(decorators) {
-    // debugger;
     return (
       <ul style={this.props.style.subtree}>
         <li>
@@ -179,7 +136,6 @@ class TreeNode extends Component {
   render() {
     const decorators = this.decorators();
     const animations = this.animations();
-    // debugger;
     return (
       <li style={this.props.style.base} ref="topLevel">
         {/* відповідає за сам вузол(папку/файл)*/}

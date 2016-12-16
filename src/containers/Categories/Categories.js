@@ -9,8 +9,7 @@ import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import * as categoryActions from 'redux/modules/categories';
 import * as productsActions from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product, Hello} from 'components';
-// import {loadProducts as load} from 'redux/modules/products';
+import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} from 'components';
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -47,7 +46,7 @@ class Categories extends Component {
     loading: PropTypes.bool,
     load: PropTypes.func.isRequired,
     show: PropTypes.bool,
-    changeShow: PropTypes.func,
+    changeShow: PropTypes.func
   };
 
   constructor(props) {
@@ -79,14 +78,12 @@ class Categories extends Component {
     filtered = filters.expandFilteredNodes(filtered, filter);
     // this.props.categories = filtered;
     this.setState({categories: filtered});
-    debugger;
   }
 
   render() {
     const chosenNode = this.state.cursor;
     const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
         addStartCategory, editCategoryBtn, changeShow, loadProducts} = this.props;
-    debugger;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
@@ -144,7 +141,7 @@ class Categories extends Component {
             {chosenNode && chosenNode.active && show && chosenNode.properties.length &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
-              {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}
+            {/* {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}*/}
             {/* {chosenNode && chosenNode.active}*/}
             {chosenNode && !show &&
               <Product _id={chosenNode._id}/>

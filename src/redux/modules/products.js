@@ -279,7 +279,6 @@ export function addProduct(product, categoryId) {
   };
 }
 export function editProduct(product, _id) {
-  debugger;
   return {
     types: [EDIT_PRODUCT, EDIT_SUCCESS_PRODUCT, EDIT_FAIL_PRODUCT],
     product: product,

@@ -17,6 +17,16 @@ function connectToDbProductsModel() {
 
 const ProductsModel = connectToDbProductsModel();
 
+export function getProductByCategoriesIds(ids) {
+  return ProductsModel.find({'categoryId': {$in: ids}}, function (err, product) {
+    if (!err) {
+      return product;
+    }
+    console.error('getProductByCategoriesIds error: ' + err);
+    return 'error in getProductByCategoriesIds: ' + err;
+  });
+}
+
 export function getProductByCategoryId(id) {
   return ProductsModel.find({'categoryId': id}, function (err, product) {
     if (!err) {

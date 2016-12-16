@@ -1,20 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, load as loadProducts, categoryId} from 'redux/modules/products';
 import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
 import {ProductAdd, ProductEdit} from 'components';
-import {asyncConnect} from 'redux-async-connect';
-
-@asyncConnect([{
-  deferred: true,
-  promise: ({store: {dispatch, getState}}) => {
-    if (!isLoaded(getState())) {
-      debugger;
-      return dispatch(loadProducts(categoryId));
-    }
-  }
-}])
+// import {isLoaded, load as loadProducts, categoryId} from 'redux/modules/products';
+// import {asyncConnect} from 'redux-async-connect';
+// @asyncConnect([{
+//   deferred: true,
+//   promise: ({store: {dispatch, getState}}) => {
+//     if (!isLoaded(getState())) {
+//       debugger;
+//       return dispatch(loadProducts(categoryId));
+//     }
+//   }
+// }])
 
 @connect(
     state => ({
@@ -40,13 +39,11 @@ export default class Categories extends Component {
   };
 
   render() {
-    debugger;
     const { products, onAddProduct, onEditProduct, onDeleteProduct,
             addStartProduct, editStartProduct, deleteStartProduct,
             deleteStopProduct, deleteProduct, _id
 
     } = this.props;
-    debugger;
     const styles = require('containers/Categories/Categories.scss');
     return (
       <div>
