@@ -9,7 +9,7 @@ import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import * as categoryActions from 'redux/modules/categories';
 import * as productsActions from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
-import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} from 'components';
+import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product, Hello} from 'components';
 // import {loadProducts as load} from 'redux/modules/products';
 @asyncConnect([{
   deferred: true,
@@ -23,12 +23,13 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
 @connect(
   state => ({
     categories: state.categories.data,
-    products: state.products.data,
     addCategoryBtn: state.categories.addCategory,
     editCategoryBtn: state.categories.editCategory,
     loading: state.categories.loading,
-    loadProducts: state.products.loadProducts,
-    show: state.categories.show
+    show: state.categories.show,
+    products: state.products.data,
+    loadProducts: state.products.loadProducts
+
   }),
   {...categoryActions, initializeWithKey, ...productsActions})
 

@@ -5,7 +5,7 @@ import * as productAction from 'redux/modules/products';
 
 @connect(
   state => ({
-    show: state.hello.show
+    show: state.products.loadProducts
   }), {...showMe, ...productAction}
 )
 export default class Hello extends Component {
@@ -17,6 +17,7 @@ export default class Hello extends Component {
   };
 
   render() {
+    debugger;
     const styles = require('./Hello.scss');
     const {show, showM, _id, setCategoryId} = this.props; // eslint-disable-line no-shadow
 
