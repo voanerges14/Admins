@@ -7,7 +7,7 @@ import * as styles from './Categories.scss';
 import * as filters from './filter';
 import {isLoaded, load as loadCategories} from 'redux/modules/categories';
 import * as categoryActions from 'redux/modules/categories';
-import * as prosuctsActions from 'redux/modules/products';
+import * as productsActions from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
 import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} from 'components';
 // import {loadProducts as load} from 'redux/modules/products';
@@ -27,10 +27,10 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
     addCategoryBtn: state.categories.addCategory,
     editCategoryBtn: state.categories.editCategory,
     loading: state.categories.loading,
-    loadProducts: state.products.loadP,
+    loadProducts: state.products.loadProducts,
     show: state.categories.show
   }),
-  {...categoryActions, initializeWithKey, ...prosuctsActions})
+  {...categoryActions, initializeWithKey, ...productsActions})
 
 export default
 class Categories extends Component {
@@ -86,6 +86,7 @@ class Categories extends Component {
     const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
         addStartCategory, editCategoryBtn, changeShow, loadProducts} = this.props;
     debugger;
+
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';

@@ -5,6 +5,7 @@ import * as ordersActions from 'redux/modules/orders';
 import {isLoaded, load as initialLoad} from 'redux/modules/orders';
 import { asyncConnect } from 'redux-async-connect';
 import {AllOrdersForm, PaidOrdersForm} from 'components';
+import * as productsActions from 'redux/modules/products';
 
 @asyncConnect([{
   deferred: true,
@@ -24,10 +25,11 @@ import {AllOrdersForm, PaidOrdersForm} from 'components';
     loading: state.orders.loading,
     showOrders: state.orders.showOrders
   }),
-  {...ordersActions})
+  {...ordersActions, productsActions})
 
 export default class Orders extends Component {
   static propTypes = {
+    loadProduct: PropTypes.func.isRequired,
     orders: PropTypes.array,
     loading: PropTypes.bool,
     load: PropTypes.func.isRequired,

@@ -1,4 +1,5 @@
 import * as categoryDB from './../../DbApi/Categories';
+import convert from './convert';
 
 export default function deleteCategory(req) {
   return new Promise((resolve, reject) => {
@@ -6,12 +7,13 @@ export default function deleteCategory(req) {
 
     categoryDB.getCategories().then(data => {
       let ids = findNode(req.body.id, data);
-      resolve(ids);
-      // categoryDB.deleteCategories(ids).then(res => {
-      //   resolve(res);
-      // }).catch(error => {
-      //   reject('error in deleteCategory: ' + error);
-      // });
+      categoryDB.deleteCategories(ids).then(() => {
+        categoryDB.getCategories().then(data => {
+          resolve(convert(data));
+        });
+      }).catch(error => {
+        reject('error in deleteCategory: ' + error);
+      });
     }).catch(error => {
       reject('error in deleteCategory: ' + error);
     });

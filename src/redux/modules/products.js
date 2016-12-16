@@ -241,7 +241,8 @@ export default function reducer(state = initialState, action = {}) {
 export function isLoaded(globalState) {
   return globalState.categories && globalState.categories.loaded;
 }
-export function loadP(_id) {
+
+export function loadProducts(_id) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.post('/products/get', {

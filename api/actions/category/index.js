@@ -3,8 +3,8 @@
  */
 export add from './add';
 export load from './load';
-export update from './update';
-export deleteCategory from './deleteCategory';
+export edit from './edit';
+export remove from './remove';
 
 export addProperty from './property/add';
 export editProperty from './property/edit';
