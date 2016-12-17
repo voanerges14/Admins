@@ -30,9 +30,10 @@ export default class Product extends Component {
     const { products, onAddProduct, onEditProduct, onDeleteProduct,
             addStartProduct, editStartProduct, deleteStartProduct,
             deleteStopProduct, deleteProduct, _id
+          } = this.props;
 
-    } = this.props;
     const styles = require('containers/Categories/Categories.scss');
+
     return (
       <div>
         {onAddProduct.isActive && <ProductAdd/>}
@@ -63,9 +64,11 @@ export default class Product extends Component {
               <td className={styles.nameColProd}>{product.inStock}</td>
               <td className={styles.nameColProd}>
                 <div className={styles.logo}>
-                  <p>
-                    <img src={'https://facebook.github.io/react/img/logo_og.png'}/>
-                  </p>
+                  {product.images && product.images.length &&
+                    <p>
+                      <img src={decodeURIComponent(product.images[0])}/>
+                    </p>
+                  }
                 </div>
               </td>
               <td className={styles.nameColProd}>{product.description}</td>

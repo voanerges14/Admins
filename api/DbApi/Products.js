@@ -7,7 +7,7 @@ function connectToDbProductsModel() {
     name: {type: db.Schema.Types.String, required: true},
     price: {type: db.Schema.Types.String, required: true},
     inStock: {type: db.Schema.Types.String, required: true},
-    images: {type: db.Schema.Types.String, required: true},
+    images: {type: Array, required: true},
     description: {type: db.Schema.Types.String, required: true},
     date: {type: db.Schema.Types.String, required: true},
     properties: {type: Array, required: true}

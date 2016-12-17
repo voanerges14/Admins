@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
-import {SkyLightStateless} from 'react-skylight';
-// import {ProductImageAdd} from '../../ProductForm/ProductImageAdd/ProductImageAdd';
+import {ProductImageAdd} from 'components';
 
 @connect(
     state => ({
@@ -16,76 +15,83 @@ import {SkyLightStateless} from 'react-skylight';
 )
 @reduxForm({
   form: 'productEdit',
-  fields: ['name', 'numbers', 'price', 'image', 'date', 'description' ]
+  fields: ['name', 'price', 'numbers', 'images', 'date', 'description', 'properties']
 })
 export default class ProductEdit extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    editStop: PropTypes.func.isRequired,
+    editStopProduct: PropTypes.func.isRequired,
     editProduct: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
     onEditProduct: PropTypes.object.isRequired,
-    showPopUp: PropTypes.func.isRequired,
-    onShowImagePopUp: PropTypes.object.isRequired,
-    addStartImage: PropTypes.func.isRequired,
-    onAddProductImage: PropTypes.object.isRequired
+    toggleImg: PropTypes.func.isRequired,
+    onShowImagePopUp: PropTypes.bool.isRequired
   };
 
   render() {
-    const {editStop, fields: {name, numbers, image}, editProduct, values, onEditProduct
-        , showPopUp, onShowImagePopUp, addStartImage} = this.props;
+    const {fields: {name, price, numbers, images, description, properties}, editStopProduct,
+            editProduct, values, onEditProduct, toggleImg, onShowImagePopUp} = this.props;
+
     const styles = require('./ProductEditForm.scss');
-    const stylesPopUp = require('./PopUp.scss');
 
     return (
         <tr>
-          <td className={styles.colorCol}>
-            <input type="text" className="form-control" {...name}/>
-          </td>
-          <td className={styles.sprocketsCol}>
-            <input type="text" className="form-control" {...numbers}/>
-          </td>
-          <td className={styles.colorCol}>
-            <input type="text" className="form-control" {...name}/>
-          </td>
-          <td className={styles.logo}>
-            <p>
-              <img onClick={() => {
-                showPopUp(onShowImagePopUp);
-              }} src={'https://facebook.github.io/react/img/logo_og.png'} {...image}/>
-            </p>
-            <div>
-              <SkyLightStateless
-                  dialogStyles={stylesPopUp}
-                  isVisible={onShowImagePopUp}
-                  onCloseClicked={() => {
-                    showPopUp(onShowImagePopUp);
-                  }}
-              >
-                <button className="btn btn-primary" >
-                  <i className="fa fa-plus" onClick={addStartImage(onEditProduct._id)}/> ADD
-                </button>
-                {/* {onAddProductImage.isActive && <ProductImageAdd/>}*/}
-              </SkyLightStateless>
-            </div>
-            {/* <input type="text" className="form-control" {...image}/>*/}
-          </td>
-          <td className={styles.colorCol}>
-            {name}
-          </td>
-          <td className={styles.sprocketsCol}>
-            <input type="text" className="form-control" {...numbers}/>
-          </td>
-          <td className={styles.buttonColl}>
-            <button className="btn btn-success"
-                    onClick={() => editProduct(values, onEditProduct.id)}>
-              <i className="glyphicon glyphicon-ok"/>
+          <td colSpan="7">
+            <label className={styles.name}> name
+              <input type="text" className="form-control" {...name}/>
+            </label>
+
+            <label className={styles.price}> price
+              <input type="text" className="form-control" {...price}/>
+            </label>
+
+            <label className={styles.number}> number
+              <input type="text" className="form-control" {...numbers}/>
+            </label>
+
+            {images.defaultValue && images.defaultValue.length &&
+              <label className={styles.logo}> image
+                 <p onClick={() => toggleImg(onShowImagePopUp)}>
+                {onShowImagePopUp && <ProductImageAdd/>}
+                <img src={decodeURIComponent(images.defaultValue[0])}/>
+                 </p>
+              </label>
+            }
+            <label className={styles.description}> description
+              <input type="text" className="form-control" {...description}/>
+            </label>
+
+            <table className={styles.description + ' table table-striped'}>
+              <thead>
+              <tr>
+                <th className={styles.propertyName}>Name</th>
+                <th className={styles.propertyValue}>Value</th>
+              </tr>
+              </thead>
+              <tbody>
+              {
+                properties.defaultValue.map((property, index) =>
+                    <tr key={property.name}>
+                      <td className={styles.propertyName}>
+                        {property.name}
+                      </td>
+                      <td className={styles.userCol}>
+                        {properties[index].value}
+                        <input type="text" className="form-control" {...properties[index].value}/>
+                      </td>
+                    </tr>
+                )
+              }
+              </tbody>
+            </table>
+
+            <button className="btn btn-success btn-sm" onClick={() => editProduct(values, onEditProduct.id)}>
+              <i className={'glyphicon glyphicon-ok'}/>
             </button>
 
-            <button className="btn btn-default" onClick={() => editStop()}>
+            <button className="btn btn-default btn-sm" onClick={() => editStopProduct()}>
               <i className="glyphicon glyphicon-remove"/>
             </button>
-
           </td>
         </tr>
     );
