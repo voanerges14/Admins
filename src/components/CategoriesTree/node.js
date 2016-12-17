@@ -70,6 +70,7 @@ class TreeNode extends Component {
   renderHeader(decorators, animations) {
     const styles = require('../../containers/Categories/Categories.scss');
     const {onAddToggle, onRemoveToggle, onEditToggle} = this.props;
+    debugger;
     return (
       <div className={styles.mybutton}>
         <NodeHeader
@@ -78,18 +79,24 @@ class TreeNode extends Component {
           style={this.props.style}
           node={Object.assign({}, this.props.node)}
           onClick={this.onClick}/>
-        <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={() => onAddToggle(this.props.node)}>
-            <span className="glyphicon glyphicon-plus"/></button>
-        </div>
-        <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle(this.props.node)}>
-            <span className="glyphicon glyphicon-minus"/></button>
-        </div>
-        <div className={styles.mycell}>
-          <button className="btn btn-link btn-xs" onClick={() => onEditToggle(this.props.node)}>
-            <span className="glyphicon glyphicon-edit"/></button>
-        </div>
+        {onRemoveToggle[2].isActive && (onRemoveToggle[2].id === this.props.node._id) ?
+          <div className={styles.mycell}>
+            <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle[1](this.props.node._id)}>
+              <i className={'glyphicon glyphicon-ok'}/>
+            </button>
+            <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle[3]()}>
+              <i className="glyphicon glyphicon-remove"/>
+            </button>
+        </div> :
+            <div className={styles.mycell}>
+              <button className="btn btn-link btn-xs" onClick={() => onAddToggle(this.props.node._id)}>
+                <span className="glyphicon glyphicon-plus"/></button>
+              <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle[0](this.props.node._id)}>
+                <span className="glyphicon glyphicon-minus"/></button>
+              <button className="btn btn-link btn-xs" onClick={() => onEditToggle(this.props.node._id)}>
+                <span className="glyphicon glyphicon-edit"/></button>
+            </div>
+          }
         {/* <div className={styles.mycell}>*/}
         {/* <CategoryAdd formKey="1" key="1" initialValues="1"/>*/}
         {/* </div>*/}
@@ -162,7 +169,7 @@ TreeNode.propTypes = {
   onToggle: PropTypes.func,
   onAddToggle: PropTypes.func,
   onEditToggle: PropTypes.func,
-  onRemoveToggle: PropTypes.func,
+  onRemoveToggle: PropTypes.array,
   loadProducts: PropTypes.func,
   categories: PropTypes.array,
   addStartCategory: PropTypes.func.isRequired,

@@ -24,6 +24,8 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
     categories: state.categories.data,
     addCategoryBtn: state.categories.addCategory,
     editCategoryBtn: state.categories.editCategory,
+    deleteCategoryBtn: state.categories.deleteCategory,
+
     loading: state.categories.loading,
     show: state.categories.show,
     products: state.products.data,
@@ -37,18 +39,20 @@ class Categories extends Component {
   static propTypes = {
     addCategoryBtn: PropTypes.object.isRequired,
     editCategoryBtn: PropTypes.object.isRequired,
+    deleteCategoryBtn: PropTypes.object.isRequired,
     addStartCategory: PropTypes.func.isRequired,
     editStartCategory: PropTypes.func.isRequired,
     deleteStartCategory: PropTypes.func.isRequired,
     loadProducts: PropTypes.func.isRequired,
-    categories: PropTypes.array,
-    products: PropTypes.array,
-    loading: PropTypes.bool,
+    categories: PropTypes.array.isRequired,
+    products: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
     load: PropTypes.func.isRequired,
-    show: PropTypes.bool,
-    changeShow: PropTypes.func
+    show: PropTypes.bool.isRequired,
+    changeShow: PropTypes.func.isRequired,
+    deleteStopCategory: PropTypes.func.isRequired,
+    deleteCategory: PropTypes.func.isRequired
   };
-
   constructor(props) {
     super(props);
     this.state = {};
@@ -79,11 +83,11 @@ class Categories extends Component {
     // this.props.categories = filtered;
     this.setState({categories: filtered});
   }
-
+  // debugger;
   render() {
     const chosenNode = this.state.cursor;
     const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
-        addStartCategory, editCategoryBtn, changeShow, loadProducts} = this.props;
+        addStartCategory, editCategoryBtn, changeShow, loadProducts, deleteCategory, deleteStopCategory, deleteCategoryBtn} = this.props;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
@@ -130,7 +134,7 @@ class Categories extends Component {
                 data={categories}
                 onToggle={this.onToggle}
                 onAddToggle={addStartCategory}
-                onRemoveToggle={deleteStartCategory}
+                onRemoveToggle={[deleteStartCategory, deleteCategory, deleteCategoryBtn, deleteStopCategory]}
                 onEditToggle={editStartCategory}
                 loadProducts={loadProducts}
                 decorators={decorators}

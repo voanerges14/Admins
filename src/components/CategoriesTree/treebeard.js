@@ -20,7 +20,7 @@ class TreeBeard extends Component {
     onToggle: PropTypes.func,
     onAddToggle: PropTypes.func,
     onEditToggle: PropTypes.func,
-    onRemoveToggle: PropTypes.func,
+    onRemoveToggle: PropTypes.array,
     loadProducts: PropTypes.func,
     decorators: PropTypes.object
   };

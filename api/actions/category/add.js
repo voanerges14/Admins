@@ -6,10 +6,11 @@ export default function update(req) {
     const parentId = req.body.category.parentId;
     const name = req.body.category.name;
 
-    categoryDB.addCategory({parentId, name, properties: []}).then(() => {
-      categoryDB.getCategories().then( data => {
-        resolve(convert(data));
-      });
+    categoryDB.addCategory({parentId, name, properties: [{"temp": "temp"}]}).then( category => {
+      resolve(category);
+      // categoryDB.getCategories().then( data => {
+      //   resolve(convert(data));
+      // });
     }).catch(error => {
       reject(error);
     });

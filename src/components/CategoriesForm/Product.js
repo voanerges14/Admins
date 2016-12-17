@@ -70,7 +70,7 @@ export default class Product extends Component {
               </td>
               <td className={styles.nameColProd}>{product.description}</td>
               <td className={styles.nameColProd}>{product.description}
-                 {product.properties.map(valueType => <option value={valueType.value} key={valueType.value}><CategoryAdd/></option>)}
+                 {product.properties.map(valueType => <option value={valueType.name} key={valueType.name}><CategoryAdd/></option>)}
                 {/* <CategoryAdd/>*/}
               </td>
               <td className={styles.buttonCol}>

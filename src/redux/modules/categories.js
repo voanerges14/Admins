@@ -50,6 +50,28 @@ const initialState = {
   types: ['string', 'color', 'number']
 };
 
+function localAdd(category, data) {
+  // for(node in data){
+  // data.forEach((node) => {
+    // data.map((node) => {
+  for (let node = 0; node < data.length; node++) {
+    debugger;
+    if (data[node]._id === category.parentId) {
+      data[node].children.push(category);
+      return true;
+    }
+    let children = data[node].children;
+    if (!Array.isArray(children)) {
+      children = children ? [children] : [];
+    }
+    // children.forEach((child) => {
+    // children.map((child) =>
+    for (let child = 0; child < children.length; child++) {
+      localAdd(category, children[child]);
+    }
+  }
+}
+
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case TOGGLED:
@@ -91,10 +113,13 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_CATEGORY:
       return state;
     case ADD_SUCCESS_CATEGORY:
+      const data = [...state.data];
+      const category = action.result;
+      localAdd(category, data);
       return {
         ...state,
-        data: action.result.data,
-        addCategory: { 'isActive': false }
+        data: data,
+        addCategory: {'isActive': false}
       };
     case ADD_FAIL_CATEGORY:
       const addCategoryError = [...state.error];
@@ -109,7 +134,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: action.result.data,
-        editCategory: { 'isActive': false }
+        editCategory: {'isActive': false}
       };
     case EDIT_FAIL_CATEGORY:
       const editCategoryError = [...state.error];
@@ -124,7 +149,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: action.result.data,
-        deleteCategory: { 'isActive': false }
+        deleteCategory: {'isActive': false}
       };
     case DELETE_FAIL_CATEGORY:
       const deleteCategoryError = [...state.error];
@@ -139,7 +164,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: action.result.data,
-        addProperty: { 'isActive': false }
+        addProperty: {'isActive': false}
       };
     case ADD_FAIL_PROPERTY:
       const addPropertyError = [...state.error];
@@ -154,7 +179,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: action.result.data,
-        editProperty: { 'isActive': false }
+        editProperty: {'isActive': false}
       };
     case EDIT_FAIL_PROPERTY:
       const editPropertyError = [...state.error];
@@ -169,7 +194,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: action.result.data,
-        deleteProperty: { 'isActive': false }
+        deleteProperty: {'isActive': false}
       };
     case DELETE_FAIL_PROPERTY:
       const deletePropertyError = [...state.error];
@@ -183,62 +208,62 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_START_CATEGORY:
       return {
         ...state,
-        addCategory: { 'isActive': true, 'parentId': action.parentId }
+        addCategory: {'isActive': true, 'parentId': action.parentId}
       };
     case ADD_STOP_CATEGORY:
       return {
         ...state,
-        addCategory: { 'isActive': false }
+        addCategory: {'isActive': false}
       };
     case EDIT_START_CATEGORY:
       return {
         ...state,
-        editCategory: { 'isActive': true, 'id': action.id }
+        editCategory: {'isActive': true, 'id': action.id}
       };
     case EDIT_STOP_CATEGORY:
       return {
         ...state,
-        editCategory: { 'isActive': false }
+        editCategory: {'isActive': false}
       };
     case DELETE_START_CATEGORY:
       return {
         ...state,
-        deleteCategory: { 'isActive': true, 'id': action.id }
+        deleteCategory: {'isActive': true, 'id': action.id}
       };
     case DELETE_STOP_CATEGORY:
       return {
         ...state,
-        deleteCategory: { 'isActive': false }
+        deleteCategory: {'isActive': false}
       };
     case ADD_START_PROPERTY:
       return {
         ...state,
-        addProperty: { 'isActive': true, 'id': action.id }
+        addProperty: {'isActive': true, 'id': action.id}
       };
     case ADD_STOP_PROPERTY:
       return {
         ...state,
-        addProperty: { 'isActive': false }
+        addProperty: {'isActive': false}
       };
     case EDIT_START_PROPERTY:
       return {
         ...state,
-        editProperty: { 'isActive': true, 'name': action.name, 'id': action.id }
+        editProperty: {'isActive': true, 'name': action.name, 'id': action.id}
       };
     case EDIT_STOP_PROPERTY:
       return {
         ...state,
-        editProperty: { 'isActive': false }
+        editProperty: {'isActive': false}
       };
     case DELETE_START_PROPERTY:
       return {
         ...state,
-        deleteProperty: { 'isActive': true, 'name': action.name, 'id': action.id }
+        deleteProperty: {'isActive': true, 'name': action.name, 'id': action.id}
       };
     case DELETE_STOP_PROPERTY:
       return {
         ...state,
-        deleteProperty: { 'isActive': false }
+        deleteProperty: {'isActive': false}
       };
     default:
       return state;
