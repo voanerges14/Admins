@@ -70,7 +70,7 @@ class TreeNode extends Component {
   renderHeader(decorators, animations) {
     const styles = require('../../containers/Categories/Categories.scss');
     const {onAddToggle, onRemoveToggle, onEditToggle} = this.props;
-    debugger;
+    // debugger;
     return (
       <div className={styles.mybutton}>
         <NodeHeader
@@ -93,7 +93,8 @@ class TreeNode extends Component {
                 <span className="glyphicon glyphicon-plus"/></button>
               <button className="btn btn-link btn-xs" onClick={() => onRemoveToggle[0](this.props.node._id)}>
                 <span className="glyphicon glyphicon-minus"/></button>
-              <button className="btn btn-link btn-xs" onClick={() => onEditToggle(this.props.node._id)}>
+              <button className="btn btn-link btn-xs"
+                      onClick={() => onEditToggle(this.props.node._id, this.props.node.name)}>
                 <span className="glyphicon glyphicon-edit"/></button>
             </div>
           }

@@ -33,57 +33,72 @@ export default class Categories extends Component {
     return (
       <div>
         {addPropertyBtn.isActive && <CategoryAddProp/>}
-        <table className="table table-striped">
-          <thead>
+        {properties && properties.length ?
+          <table className="table table-striped">
+            <thead>
             <tr>
               <th className={styles.nameCol}>Name</th>
               <th className={styles.typeCol}>Type</th>
               {!addPropertyBtn.isActive &&
-                <th className={styles.buttonCol}>
-                  <button className="btn btn-primary" onClick={() => {addStartProperty(_id);}}>
-                    <i className="glyphicon glyphicon-plus"/>ADD
-                  </button>
-                </th>
+              <th className={styles.buttonCol}>
+                <button className="btn btn-primary" onClick={() => {
+                  addStartProperty(_id);
+                }}>
+                  <i className="glyphicon glyphicon-plus"/>ADD
+                </button>
+              </th>
               }
             </tr>
-          </thead>
-          <tbody>
-          {
-            properties && properties.length && properties.map((property) => (editPropertyBtn.isActive &&
-            (property.name === editPropertyBtn.name) && (_id === editPropertyBtn.id)) ?
+            </thead>
+            <tbody>
+            {
+              properties && properties.length && properties.map((property) => (editPropertyBtn.isActive &&
+              (property.name === editPropertyBtn.name) && (_id === editPropertyBtn.id)) ?
 
-            <CategoryEditProp key={property.name} initialValues={property}/> :
+                  <CategoryEditProp key={property.name} initialValues={property}/> :
 
-            <tr key={property.name}>
-            <td className={styles.nameCol}>{property.name}</td>
-            <td className={styles.typeCol}>{property.type}</td>
-            <td className={styles.buttonCol}>
-              <button className="btn btn-primary" onClick={() => editStartProperty(property.name, _id)}>
-                <i className="fa fa-pencil"/> Edit
+                  <tr key={property.name}>
+                    <td className={styles.nameCol}>{property.name}</td>
+                    <td className={styles.typeCol}>{property.type}</td>
+                    <td className={styles.buttonCol}>
+                      <button className="btn btn-primary" onClick={() => editStartProperty(property.name, _id)}>
+                        <i className="fa fa-pencil"/> Edit
+                      </button>
+                      {
+                        deletePropertyBtn.isActive && (deletePropertyBtn.id === _id) &&
+                        (deletePropertyBtn.name === property.name) ?
+                            <span>
+                      <button className="btn btn-success btn-sm"
+                              onClick={() => deleteProperty(_id, property.name)}>
+                        <i className={'glyphicon glyphicon-ok'}/>
+                      </button>
+                      <button className="btn btn-default btn-sm" onClick={() => deleteStopProperty()}>
+                        <i className="glyphicon glyphicon-remove"/>
+                      </button>
+                    </span> :
+
+                            <button className="btn btn-primary"
+                                    onClick={() => deleteStartProperty(property.name, _id)}>
+                              <i className="fa fa-trash"/> Del
+                            </button>
+                      }
+                    </td>
+                  </tr>)
+            }
+            </tbody>
+          </table>
+        :
+          <div>
+            {!addPropertyBtn.isActive &&
+              <th className={styles.buttonCol}>
+              <button className="btn btn-primary" onClick={() => {addStartProperty(_id);}}>
+              <i className="glyphicon glyphicon-plus"/>ADD
               </button>
-              {
-                deletePropertyBtn.isActive && (deletePropertyBtn.id === _id) &&
-                (deletePropertyBtn.name === property.name) ?
-                <span>
-                  <button className="btn btn-success btn-sm"
-                          onClick={() => deleteProperty(_id, property.name)}>
-                    <i className={'glyphicon glyphicon-ok'}/>
-                  </button>
-                  <button className="btn btn-default btn-sm" onClick={() => deleteStopProperty()}>
-                    <i className="glyphicon glyphicon-remove"/>
-                  </button>
-                </span> :
-
-                <button className="btn btn-primary"
-                        onClick={() => deleteStartProperty(property.name, _id)}>
-                  <i className="fa fa-trash"/> Del
-                </button>
-              }
-            </td>
-            </tr>)
-          }
-          </tbody>
-        </table>
+              </th>
+            }
+            <div>We don't have any properties (((</div>
+          </div>
+        }
       </div>
     );
   }

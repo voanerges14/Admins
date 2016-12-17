@@ -31,7 +31,7 @@ export default class CategoryEdit extends Component {
         <input type="text" {...name}/>
         <span>
           <button className="btn btn-success btn-sm"
-                  onClick={() => editCategory({ parentId: editCategoryBtn.parentId, name: values.name }) }>
+                  onClick={() => editCategory({ 'id': editCategoryBtn.id, 'name': values.name }) }>
             <i className={'glyphicon glyphicon-ok'}/>
           </button>
           <button className="btn btn-default btn-sm" onClick={() => editStopCategory() }>

@@ -87,7 +87,8 @@ class Categories extends Component {
   render() {
     const chosenNode = this.state.cursor;
     const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
-        addStartCategory, editCategoryBtn, changeShow, loadProducts, deleteCategory, deleteStopCategory, deleteCategoryBtn} = this.props;
+        addStartCategory, editCategoryBtn, changeShow, loadProducts, deleteCategory, deleteStopCategory,
+        deleteCategoryBtn} = this.props;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
@@ -128,8 +129,7 @@ class Categories extends Component {
                 {show ? <div>Properties</div> : <div>Products</div>}
               </button>
             </div>
-            {addCategoryBtn.isActive && <CategoryAdd />}
-            {editCategoryBtn.isActive && <CategoryEdit formKey={editCategoryBtn.id}/>}
+            {editCategoryBtn.isActive && <CategoryEdit initialValues={{'name': editCategoryBtn.name}}/>}
               <Treebeard
                 data={categories}
                 onToggle={this.onToggle}
@@ -142,10 +142,14 @@ class Categories extends Component {
             </div>
           }
           <div className={styles.component2}>
-            {chosenNode && chosenNode.active && show && chosenNode.properties.length &&
+            {addCategoryBtn.isActive &&
+              <CategoryAdd/>
+            }
+
+            {chosenNode && chosenNode.active && show &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
-            {/* {console.log('chosenNode ' + JSON.stringify(chosenNode, null, 4))}*/}
+            {/* console.log('chosenNode ' + JSON.stringify(chosenNode.properties, null, 4)) &&*/}
             {/* {chosenNode && chosenNode.active}*/}
             {chosenNode && !show &&
               <Product _id={chosenNode._id}/>

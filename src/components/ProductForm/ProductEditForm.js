@@ -15,7 +15,7 @@ import {ProductImageAdd} from 'components';
 )
 @reduxForm({
   form: 'productEdit',
-  fields: ['name', 'price', 'numbers', 'images', 'date', 'description', 'properties']
+  fields: ['name', 'price', 'inStock', 'images', 'date', 'description', 'properties']
 })
 export default class ProductEdit extends Component {
   static propTypes = {
@@ -29,11 +29,11 @@ export default class ProductEdit extends Component {
   };
 
   render() {
-    const {fields: {name, price, numbers, images, description, properties}, editStopProduct,
+    const {fields: {name, price, inStock, images, description, properties}, editStopProduct,
             editProduct, values, onEditProduct, toggleImg, onShowImagePopUp} = this.props;
 
     const styles = require('./ProductEditForm.scss');
-
+    debugger;
     return (
         <tr>
           <td colSpan="7">
@@ -46,7 +46,7 @@ export default class ProductEdit extends Component {
             </label>
 
             <label className={styles.number}> number
-              <input type="text" className="form-control" {...numbers}/>
+              <input type="text" className="form-control" {...inStock}/>
             </label>
 
             {images.defaultValue && images.defaultValue.length &&
@@ -70,14 +70,16 @@ export default class ProductEdit extends Component {
               </thead>
               <tbody>
               {
-                properties.defaultValue.map((property, index) =>
+                properties.defaultValue.map((property) =>
                     <tr key={property.name}>
                       <td className={styles.propertyName}>
                         {property.name}
                       </td>
                       <td className={styles.userCol}>
-                        {properties[index].value}
-                        <input type="text" className="form-control" {...properties[index].value}/>
+                        {/* {properties[index]}*/}
+                        {property.value}
+                         <input type="text" className="form-control"
+                                defaultValue={property.value} {...property.value}/>
                       </td>
                     </tr>
                 )

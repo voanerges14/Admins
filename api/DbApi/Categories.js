@@ -5,8 +5,8 @@ function connectToDbCategoriesModel() {
     // _id: { type: db.Schema.Types.ObjectId, required: true },
     parentId: { type: String, required: true },
     name: { type: db.Schema.Types.String, required: true },
-    properties: {type: Array, required: true}
-  });
+    properties: {type: Array, required: true, default: []}
+  }, { minimize: false });
   return db.mongoose.model('Categories', Categories);
 }
 

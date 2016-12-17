@@ -47,7 +47,7 @@ const initialState = {
   error: [],
   categoryTreeState: {},
   show: true,
-  types: ['string', 'color', 'number']
+  types: [ 'choose type', 'string', 'color', 'number']
 };
 
 function localAdd(category, data) {
@@ -218,7 +218,7 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_START_CATEGORY:
       return {
         ...state,
-        editCategory: {'isActive': true, 'id': action.id}
+        editCategory: {'isActive': true, 'id': action.id, 'name': action.name}
       };
     case EDIT_STOP_CATEGORY:
       return {
@@ -339,8 +339,8 @@ export function addStartCategory(parentId) {
 export function addStopCategory() {
   return {type: ADD_STOP_CATEGORY};
 }
-export function editStartCategory(id) {
-  return {type: EDIT_START_CATEGORY, id};
+export function editStartCategory(id, name) {
+  return {type: EDIT_START_CATEGORY, id, name};
 }
 export function editStopCategory() {
   return {type: EDIT_STOP_CATEGORY};

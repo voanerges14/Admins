@@ -36,7 +36,7 @@ export default class CategoryAddProp extends Component {
         </label>
 
         <label className={styles.sprocketsCol}>
-          Value
+          Type
           <select name="type" className="form-control" {...type}>
             {types.map(valueType => <option value={valueType} key={valueType}>{valueType}</option>)}
           </select>
