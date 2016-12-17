@@ -51,7 +51,8 @@ class Categories extends Component {
     show: PropTypes.bool.isRequired,
     changeShow: PropTypes.func.isRequired,
     deleteStopCategory: PropTypes.func.isRequired,
-    deleteCategory: PropTypes.func.isRequired
+    deleteCategory: PropTypes.func.isRequired,
+    initializeWithKey: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
@@ -129,7 +130,7 @@ class Categories extends Component {
               </button>
             </div>
             {addCategoryBtn.isActive && <CategoryAdd />}
-            {editCategoryBtn.isActive && <CategoryEdit formKey={editCategoryBtn.id}/>}
+            {editCategoryBtn.isActive && <CategoryEdit defaultlValue={chosenNode}/>}
               <Treebeard
                 data={categories}
                 onToggle={this.onToggle}

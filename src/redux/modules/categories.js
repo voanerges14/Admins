@@ -72,6 +72,47 @@ function localAdd(category, data) {
   }
 }
 
+
+function localDelete(id, data) {
+  // for(node in data){
+  // data.forEach((node) => {
+  // data.map((node) => {
+  for (let node = 0; node < data.length; node++) {
+    debugger;
+    if (data[node]._id === id) {
+      // data[node].children.push(category);
+      data.splice(node, 1);
+      return true;
+    }
+    let children = data[node].children;
+    if (!Array.isArray(children)) {
+      children = children ? [children] : [];
+    }
+    // children.forEach((child) => {
+    // children.map((child) =>
+    for (let child = 0; child < children.length; child++) {
+      localAdd(id, children[child]);
+    }
+  }
+}
+
+function localEdit(category, data) {
+  for (let node = 0; node < data.length; node++) {
+    debugger;
+    if (data[node]._id === category.id) {
+      data.splice(node, 1, category);
+      return true;
+    }
+    let children = data[node].children;
+    if (!Array.isArray(children)) {
+      children = children ? [children] : [];
+    }
+    for (let child = 0; child < children.length; child++) {
+      localAdd(category, children[child]);
+    }
+  }
+}
+
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case TOGGLED:
@@ -131,9 +172,12 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_CATEGORY:
       return state;
     case EDIT_SUCCESS_CATEGORY:
+      const dataEd = [...state.data];
+      const categoryEd = {...state.editCategory.id};
+      localEdit(categoryEd, dataEd);
       return {
         ...state,
-        data: action.result.data,
+        data: dataEd,
         editCategory: {'isActive': false}
       };
     case EDIT_FAIL_CATEGORY:
@@ -146,9 +190,14 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_CATEGORY:
       return state;
     case DELETE_SUCCESS_CATEGORY:
+      const dataDel = [...state.data];
+      // const id = action.id;
+      const id = {...state.deleteCategory};
+      debugger;
+      localDelete(id, dataDel);
       return {
         ...state,
-        data: action.result.data,
+        data: dataDel,
         deleteCategory: {'isActive': false}
       };
     case DELETE_FAIL_CATEGORY:
@@ -300,6 +349,7 @@ export function editCategory(category) {
 export function deleteCategory(id) {
   return {
     types: [DELETE_CATEGORY, DELETE_SUCCESS_CATEGORY, DELETE_FAIL_CATEGORY],
+    id: id,
     promise: (client) => client.post('/category/remove', {
       data: {id}
     })

@@ -9,9 +9,7 @@ export default function deleteCategory(req) {
       let ids = findNode(req.body.id, data);
       console.log('ids: ' + JSON.stringify(ids));
       categoryDB.deleteCategories(ids).then(() => {
-        categoryDB.getCategories().then(data => {
-          resolve(convert(data));
-        });
+          resolve('ok_serv');
       }).catch(error => {
         reject('error in deleteCategory: ' + error);
       });
@@ -35,4 +33,3 @@ function findNode(id, data) {
   }
   return ids;
 }
-

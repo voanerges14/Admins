@@ -54,6 +54,7 @@ class TreeNode extends Component {
 
   renderDrawer(decorators, animations) {
     const toggled = this.props.node.toggled;
+    const rm = this.props.node.onRemoveToggle;
     if (!animations && !toggled) {
       return null;
     }
@@ -63,6 +64,7 @@ class TreeNode extends Component {
     return (
       <VelocityTransitionGroup {...animations.drawer} ref="velocity">
         {toggled ? this.renderChildren(decorators, animations) : null}
+        {rm ? this.renderChildren(decorators, animations) : null}
       </VelocityTransitionGroup>
     );
   }
@@ -119,7 +121,7 @@ class TreeNode extends Component {
         {children.map((child, index) =>
           <TreeNode
             {...this._eventBubbles()}
-            key={child.id || index}
+            key={child._id || index}
             node={child}
             decorators={this.props.decorators}
             animations={this.props.animations}
