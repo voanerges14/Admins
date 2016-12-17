@@ -51,7 +51,8 @@ class Categories extends Component {
     show: PropTypes.bool.isRequired,
     changeShow: PropTypes.func.isRequired,
     deleteStopCategory: PropTypes.func.isRequired,
-    deleteCategory: PropTypes.func.isRequired
+    deleteCategory: PropTypes.func.isRequired,
+    initializeWithKey: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
