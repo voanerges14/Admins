@@ -26,8 +26,10 @@ export default class CategoryAdd extends Component {
   };
 
   render() {
-    const { addStopCategory, addCategoryBtn, addCategory, values, types,
-          fields: {name, propertyName, propertyType} } = this.props;
+    const {
+      addStopCategory, addCategoryBtn, addCategory, values, types,
+      fields: {name, propertyName, propertyType}
+    } = this.props;
     const styles = require('./CategoryAdd.scss');
 
     return (
@@ -51,7 +53,7 @@ export default class CategoryAdd extends Component {
                   onClick={() => addCategory({
                     parentId: addCategoryBtn.parentId,
                     name: values.name,
-                    property: {'name': propertyName.value, 'type': propertyType}
+                    property: {'name': propertyName.value, 'type': propertyType.value}
                   }) }>
             <i className={'glyphicon glyphicon-ok'}/>
           </button>

@@ -2,7 +2,7 @@ export default function convert(data) {
   let nodes = [], map = {}, node, roots = [];
   for (let i = 0; i < data.length; i += 1) {
     nodes.push({'_id': data[i]._id, 'parentId':data[i].parentId,
-      'name': data[i].name, 'properties': data[i].properties, 'children':[]});
+      'name': data[i].name, 'properties': data[i].properties});
 
     node = nodes[i];
     node.children = [];

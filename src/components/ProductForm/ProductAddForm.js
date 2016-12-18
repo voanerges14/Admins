@@ -34,7 +34,7 @@ export default class ProductEdit extends Component {
     const {editStop, fields: {name, numbers, price, image, description}, editProduct, values, onEditProduct
       , showPopUp, onShowImagePopUp, addStartImage} = this.props;
     const styles = require('./ProductEditForm.scss');
-    const stylesPopUp = require('./PopUp.scss');
+    const stylesPopUp = require('./ProductImageAdd/PopUp.scss');
 
     return (
       <tr>

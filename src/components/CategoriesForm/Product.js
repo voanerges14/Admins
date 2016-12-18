@@ -4,13 +4,13 @@ import * as productAction from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
 import {ProductAdd, ProductEdit, CategoryAdd} from 'components';
 @connect(
-    state => ({
-      products: state.products.data,
-      onEditProduct: state.products.onEditProduct,
-      onAddProduct: state.products.onAddProduct,
-      onDeleteProduct: state.products.onDeleteProduct
-    }),
-    {initializeWithKey, ...productAction})
+  state => ({
+    products: state.products.data,
+    onEditProduct: state.products.onEditProduct,
+    onAddProduct: state.products.onAddProduct,
+    onDeleteProduct: state.products.onDeleteProduct
+  }),
+  {initializeWithKey, ...productAction})
 
 export default class Product extends Component {
   static propTypes = {
@@ -27,10 +27,11 @@ export default class Product extends Component {
   };
 
   render() {
-    const { products, onAddProduct, onEditProduct, onDeleteProduct,
-            addStartProduct, editStartProduct, deleteStartProduct,
-            deleteStopProduct, deleteProduct, _id
-          } = this.props;
+    const {
+      products, onAddProduct, onEditProduct, onDeleteProduct,
+      addStartProduct, editStartProduct, deleteStartProduct,
+      deleteStopProduct, deleteProduct, _id
+    } = this.props;
 
     const styles = require('containers/Categories/Categories.scss');
 
@@ -39,21 +40,21 @@ export default class Product extends Component {
         {onAddProduct.isActive && <ProductAdd/>}
         <table className="table table-striped">
           <thead>
-            <tr>
-              <th className={styles.nameColProd}>Name</th>
-              <th className={styles.nameColProd}>Price</th>
-              <th className={styles.nameColProd}>Number</th>
-              <th className={styles.nameColProd}>Image</th>
-              <th className={styles.descriptionCol}>Description</th>
-              {
-                !onAddProduct.isActive &&
-                <th className={styles.nameColProd}>
-                  <button className="btn btn-primary" onClick={() => addStartProduct(_id) }>
-                    <i className="glyphicon glyphicon-plus"/>ADD
-                  </button>
-                </th>
-              }
-            </tr>
+          <tr>
+            <th className={styles.nameColProd}>Name</th>
+            <th className={styles.nameColProd}>Price</th>
+            <th className={styles.nameColProd}>Number</th>
+            <th className={styles.nameColProd}>Image</th>
+            <th className={styles.descriptionCol}>Description</th>
+            {
+              !onAddProduct.isActive &&
+              <th className={styles.nameColProd}>
+                <button className="btn btn-primary" onClick={() => addStartProduct(_id) }>
+                  <i className="glyphicon glyphicon-plus"/>ADD
+                </button>
+              </th>
+            }
+          </tr>
           </thead>
           <tbody>
           {products && products.map((product) => (onEditProduct.isActive &&
@@ -65,15 +66,16 @@ export default class Product extends Component {
               <td className={styles.nameColProd}>
                 <div className={styles.logo}>
                   {product.images && product.images.length &&
-                    <p>
-                      <img src={decodeURIComponent(product.images[0])}/>
-                    </p>
+                  <p>
+                    <img src={decodeURIComponent(product.images[0])}/>
+                  </p>
                   }
                 </div>
               </td>
               <td className={styles.nameColProd}>{product.description}</td>
               <td className={styles.nameColProd}>{product.description}
-                 {product.properties.map(valueType => <option value={valueType.name} key={valueType.name}><CategoryAdd/></option>)}
+                {product.properties.map(valueType => <option value={valueType.name} key={valueType.name}><CategoryAdd/>
+                </option>)}
                 {/* <CategoryAdd/>*/}
               </td>
               <td className={styles.buttonCol}>
