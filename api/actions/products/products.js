@@ -98,8 +98,15 @@ export function removeImg(req) {
 
 export function getProperties(req) {
   return new Promise((resolve, reject) => {
-    ProductsDB.removeImg(req.body.productId, req.body.img).then(product => {
-      resolve({'images': product.images});
+    CategoryDB.getCategories().then(data => {
+      let ids = findParents(req.body.categoryId, data);
+      CategoryDB.getCategoriesByIds(ids).then(categories => {
+        let properties = [];
+        for(let i = 0; i < categories.length; ++i) {
+          properties = properties.concat(categories[i].properties);
+        }
+        resolve(properties);
+      });
     }).catch(error => {
       reject('error in addImg: ' + error);
     });
@@ -109,7 +116,6 @@ export function getProperties(req) {
 function findNode(id, data) {
   let ids = [id];
   findNode2(id);
-
   function findNode2(id) {
     for (let i = 0; i < data.length; ++i) {
       if (data[i].parentId === id) {
@@ -118,6 +124,20 @@ function findNode(id, data) {
       }
     }
   }
+  return ids;
+}
 
+function findParents(id, data) {
+  let ids = [];
+  findParent2(id);
+  function findParent2(id) {
+    if (id === '0') { return; }
+    for (let i = 0; i < data.length; ++i) {
+      if (id == data[i]._id) {
+        ids.push(id);
+        findParent2(data[i].parentId);
+      }
+    }
+  }
   return ids;
 }

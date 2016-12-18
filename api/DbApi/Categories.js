@@ -22,6 +22,16 @@ export function getCategories() {
   });
 }
 
+export function getCategoriesByIds(ids) {
+  return CategoriesModel.find({'_id': {$in: ids}}).sort('parentId').exec(function (err, categories) {
+    if(!err) {
+      return categories;
+    }
+    console.error('getCategories error: ' + err);
+    return 'error in getCategories: ' + err;
+  });
+}
+
 export function addCategory(category) {
   return CategoriesModel.create(category, function(err) {
     if (!err) {
