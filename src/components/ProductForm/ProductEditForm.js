@@ -1,21 +1,24 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reduxForm, Field} from 'redux-form';
+import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {ProductImageAdd} from 'components';
+// , ProductDescriptionEdit, ProductPropertyEdit} from 'components';
 
 @connect(
   state => ({
     onEditProduct: state.products.onEditProduct,
     onShowImagePopUp: state.products.onShowImagePopUp,
-    onAddProductImage: state.products.onAddProductImage
+    onAddProductImage: state.products.onAddProductImage,
+    onShowPropertyPopUp: state.products.onShowPropertyPopUp,
+    onShowDescriptionPopUp: state.products.onShowDescriptionPopUp
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
 @reduxForm({
   form: 'productEdit',
-  fields: ['name', 'price', 'inStock', 'images', 'date', 'description', 'properties']
+  fields: ['name', 'price', 'inStock', 'description']
 })
 export default class ProductEdit extends Component {
   static propTypes = {
@@ -25,13 +28,17 @@ export default class ProductEdit extends Component {
     values: PropTypes.object.isRequired,
     onEditProduct: PropTypes.object.isRequired,
     toggleImg: PropTypes.func.isRequired,
-    onShowImagePopUp: PropTypes.bool.isRequired
+    onShowPropertyPopUp: PropTypes.bool.isRequired,
+    onShowDescriptionPopUp: PropTypes.bool.isRequired,
+    onShowImagePopUp: PropTypes.bool.isRequired,
+    images: PropTypes.array.isRequired,
+    properties: PropTypes.array.isRequired
   };
 
   render() {
     const {
-      fields: {name, price, inStock, images, description, properties}, editStopProduct,
-      editProduct, values, onEditProduct, toggleImg, onShowImagePopUp
+        fields: {name, price, inStock, description}, editProduct, toggleImg, values, images, properties,
+        onShowImagePopUp, onEditProduct, editStopProduct // , onShowPropertyPopUp, onShowDescriptionPopUp
     } = this.props;
 
     const styles = require('./ProductEditForm.scss');
@@ -51,51 +58,54 @@ export default class ProductEdit extends Component {
             <input type="text" className="form-control" {...inStock}/>
           </label>
 
-          {images.defaultValue && images.defaultValue.length &&
-          <label className={styles.logo}> image
-            {onShowImagePopUp && <ProductImageAdd images={images.defaultValue}/>}
-            <p>
-              <img src={decodeURIComponent(images.defaultValue[0])} onClick={() => toggleImg(onShowImagePopUp)}/>
-            </p>
-          </label>
+          {
+            images && images.length ?
+              <label className={styles.logo}> image
+                 {onShowImagePopUp && <ProductImageAdd images={images}/>}
+                <p>
+                  <img src={decodeURIComponent(images[0])}
+                       onClick={() => toggleImg(onShowImagePopUp)}/>
+                </p>
+              </label>
+            :
+              <div onClick={() => toggleImg(onShowImagePopUp)}>no image</div>
           }
+
           <label className={styles.description}> description
-            <input type="text" className="form-control" {...description}/>
+             {/* {onShowDescriptionPopUp && <ProductDescriptionEdit initialValues={description}/>}*/}
+            <div>
+              {
+                description.initialValue.length > 100 ?
+                  (description.initialValue.substring(0, 100) + '...')
+                :
+                  description.initialValue
+              }
+            </div>
           </label>
 
-            <table className={styles.description + ' table table-striped'}>
-              <thead>
-              <tr>
-                <th className={styles.propertyName}>Name</th>
-                <th className={styles.propertyValue}>Value</th>
-              </tr>
-              </thead>
-              <tbody>
-              {
-                properties.defaultValue.map((property) =>
-                    <tr key={property.name}>
-                      <td className={styles.propertyName}>
-                        {property.name}
-                      </td>
-                      <td className={styles.userCol}>
-                        {/* {properties[index]}*/}
-                        {property.value}
-                        <Field
-                            name={property.name}
-                            component="input"
-                            type="text"
-                            placeholder="Last Name"
-                            value={property.name}
-                        />
-                         {/* <input type="text" className="form-control" defaultValue={property.value} {...property.value}/>*/}
-                      </td>
-                    </tr>
-                )
-              }
-              </tbody>
-            </table>
-
-          <button className="btn btn-success btn-sm" onClick={() => editProduct(values, onEditProduct.id)}>
+          {/* {onShowPropertyPopUp && <ProductPropertyEdit initialValues={properties}/>}*/}
+          <label>
+            {
+              properties && properties.length ?
+                <div>
+                  <p>{properties[0].name + ': ' + properties[0].value}</p>
+                  {properties.length >= 2 &&
+                  <p>{properties[1].name + ': ' + properties[1].value}</p>}
+                  {properties.length >= 3 &&
+                  <p>{properties[2].name + ': ' + properties[2].value}</p>}
+                </div>
+              :
+                <div>no properties (((</div>
+            }
+          </label>
+          <button className="btn btn-success btn-sm"
+                  onClick={() => editProduct({
+                    'name': values.name,
+                    'price': values.price,
+                    'inStock': values.inStock,
+                    description,
+                    images,
+                  }, onEditProduct.id)}>
             <i className={'glyphicon glyphicon-ok'}/>
           </button>
 

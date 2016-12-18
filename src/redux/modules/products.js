@@ -21,6 +21,8 @@ const LOAD_SUCCESS = 'redux-example/products/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/products/LOAD_FAIL';
 
 const SHOW_IMAGE = 'redux-example/products/SHOW_IMAGE';
+const SHOW_DESCRIPTION = 'redux-example/products/SHOW_DESCRIPTION';
+const SHOW_PROPERTY = 'redux-example/products/SHOW_PROPERTY';
 
 const DELETE_IMAGE_START = 'redux-example/products/DELETE_IMAGE_START';
 const DELETE_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
@@ -33,7 +35,6 @@ const ADD_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const ADD_IMG = 'redux-example/products/ADD_IMG';
 const ADD_SUCCESS_IMG = 'redux-example/products/ADD_SUCCESS_IMG';
 const ADD_FAIL_IMG = 'redux-example/products/ADD_FAIL_IMG';
-const SET_CATEGORY_ID = 'redux-example/products/SET_CATEGORY_ID';
 
 const initialState = {
   loaded: false,
@@ -44,20 +45,32 @@ const initialState = {
   error: [],
   onShowImagePopUp: false,
   onDeleteImage: {'isActive': false},
-  onAddProductImage: false
+  onAddImage: {'isActive': true},
+  onAddProductImage: false,
+  onDescription: {'isActive': false},
+  onProperty: {'isActive': false}
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case SET_CATEGORY_ID:
-      return {
-        ...state,
-        categoryId: action._id
-      };
     case SHOW_IMAGE:
       return {
         ...state,
         onShowImagePopUp: !action.oldState
+      };
+    case SHOW_DESCRIPTION:
+      return {
+        ...state,
+        onDescription: {
+          isActive: !action.oldState
+        }
+      };
+    case SHOW_PROPERTY:
+      return {
+        ...state,
+        onProperty: {
+          isActive: !action.oldState
+        }
       };
     case DELETE_IMAGE_START:
       return {
@@ -102,7 +115,10 @@ export default function reducer(state = initialState, action = {}) {
         onAddProductImage: false
       };
     case ADD_IMG:
-      return state;
+      return {
+        ...state,
+        onAddImage: true
+      };
     case ADD_SUCCESS_IMG:
       const dataAddImg = [...state.data];
       // debugger;
@@ -115,6 +131,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         data: dataAddImg,
+        onAddImage: false
       };
     case ADD_FAIL_IMG:
       const deleteImgError = [...state.error];
@@ -302,6 +319,12 @@ export function deleteProduct(_id) {
 
 export function toggleImg(oldState) {
   return {type: SHOW_IMAGE, oldState};
+}
+export function toggleProperty(oldState) {
+  return {type: SHOW_PROPERTY, oldState};
+}
+export function toggleDescription(oldState) {
+  return {type: SHOW_DESCRIPTION, oldState};
 }
 
 export function addStartImg() {
