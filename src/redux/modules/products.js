@@ -135,7 +135,8 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_SUCCESS_IMG:
       const dataDelImg = [...state.data];
       for (let index = 0; index < dataDelImg.length; ++index) {
-        if (dataDelImg[index]._id === action.result._id) {
+        if (dataDelImg[index]._id === action._id) {
+          debugger;
           dataDelImg[index].images = action.result.images;
           break;
         }
@@ -169,7 +170,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case ADD_SUCCESS_IMG:
       const dataAddImg = [...state.data];
-      // debugger;
+      debugger;
       for (let index = 0; index < dataAddImg.length; ++index) {
         if (dataAddImg[index]._id === action.result._id) {
           dataAddImg[index].images.push(action.img);
@@ -422,10 +423,13 @@ export function addImg(img, productId) {
   };
 }
 export function deleteImg(_id, img) {
+// console.log('deleteImg modules ' + img);
+  debugger;
   return {
     types: [DELETE_IMG, DELETE_SUCCESS_IMG, DELETE_FAIL_IMG],
+    _id: _id,
     promise: (client) => client.post('/products/removeImg', {
-      data: {_id, img}
+      data: {'productId': _id, img}
     })
   };
 }

@@ -36,6 +36,7 @@ export Product from './CategoriesForm/Product';
 export ProductEdit from './ProductForm/ProductEditForm';
 export ProductAdd from './ProductForm/ProductAddForm';
 export ProductImageAdd from './ProductForm/ProductImageAdd/ProductImageAdd';
+export ProductImageDelete from './ProductForm/ProductImageDelete';
 
 export AllOrdersForm from './OrderForm/AllOrdersForm';
 export PaidOrdersForm from './OrderForm/PaidOrdersForm';
