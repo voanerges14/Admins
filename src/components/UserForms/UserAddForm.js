@@ -25,7 +25,8 @@ export default class UserAddForm extends Component {
   };
 
   render() {
-    const { addUser, stopAdd, values, changeAdminAdd, admin, fields: {firstName, lastName, password}} = this.props;
+    const { addUser, stopAdd, values, changeAdminAdd, admin,
+        fields: {firstName, lastName, password}} = this.props;
     const styles = require('containers/Users/Users.scss');
     return (
       <div className={styles.AddForm}>
@@ -38,7 +39,7 @@ export default class UserAddForm extends Component {
           </label>
 
           <label className={styles.AddForm}> password
-            <input type="text" className="form-control" {...password}/>
+            <input type="password" className="form-control" {...password}/>
           </label>
 
           <button className={styles.AddForm + ' btn btn-secondary btn-md'} onClick={() => changeAdminAdd(admin)}>

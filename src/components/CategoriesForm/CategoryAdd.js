@@ -51,7 +51,7 @@ export default class CategoryAdd extends Component {
                   onClick={() => addCategory({
                     parentId: addCategoryBtn.parentId,
                     name: values.name,
-                    property: {'name': propertyName.value, 'type': propertyType}
+                    property: {'name': propertyName.value, 'type': propertyType.value}
                   }) }>
             <i className={'glyphicon glyphicon-ok'}/>
           </button>

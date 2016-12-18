@@ -51,36 +51,36 @@ const initialState = {
 };
 
 function localAdd(category, data) {
-  // for(node in data){
-  // data.forEach((node) => {
-    // data.map((node) => {
   for (let node = 0; node < data.length; node++) {
-    debugger;
+    if (category.parentId === '0') {
+      data.push(category);
+      return true;
+    }
     if (data[node]._id === category.parentId) {
-      data[node].children.push(category);
+      if (!(typeof data[node].children === 'undefined')) {
+        data[node].children.push(category);
+      } else {
+        data[node] = {
+          '_id': data[node]._id,
+          'parentId': data[node].parentId,
+          'name': data[node].name,
+          'properties': data[node].properties,
+          'children': [category]
+        };
+      }
       return true;
     }
     let children = data[node].children;
     if (!Array.isArray(children)) {
       children = children ? [children] : [];
     }
-    // children.forEach((child) => {
-    // children.map((child) =>
-    for (let child = 0; child < children.length; child++) {
-      localAdd(category, children[child]);
-    }
+    localAdd(category, children);
   }
 }
 
-
 function localDelete(id, data) {
-  // for(node in data){
-  // data.forEach((node) => {
-  // data.map((node) => {
   for (let node = 0; node < data.length; node++) {
-    debugger;
     if (data[node]._id === id) {
-      // data[node].children.push(category);
       data.splice(node, 1);
       return true;
     }
@@ -88,28 +88,23 @@ function localDelete(id, data) {
     if (!Array.isArray(children)) {
       children = children ? [children] : [];
     }
-    // children.forEach((child) => {
-    // children.map((child) =>
-    for (let child = 0; child < children.length; child++) {
-      localAdd(id, children[child]);
-    }
+    localDelete(id, children);
   }
 }
 
 function localEdit(category, data) {
+  debugger;
   for (let node = 0; node < data.length; node++) {
-    debugger;
     if (data[node]._id === category.id) {
-      data.splice(node, 1, category);
+      data[node].name = category.name;
+      // data.splice(node, 1, category);
       return true;
     }
     let children = data[node].children;
     if (!Array.isArray(children)) {
       children = children ? [children] : [];
     }
-    for (let child = 0; child < children.length; child++) {
-      localAdd(category, children[child]);
-    }
+    localEdit(category, children);
   }
 }
 
@@ -173,7 +168,7 @@ export default function reducer(state = initialState, action = {}) {
       return state;
     case EDIT_SUCCESS_CATEGORY:
       const dataEd = [...state.data];
-      const categoryEd = {...state.editCategory.id};
+      const categoryEd = action.category;
       localEdit(categoryEd, dataEd);
       return {
         ...state,
@@ -192,9 +187,9 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_SUCCESS_CATEGORY:
       const dataDel = [...state.data];
       // const id = action.id;
-      const id = {...state.deleteCategory};
+      const deleteCategoryInfo = {...state.deleteCategory};
       debugger;
-      localDelete(id, dataDel);
+      localDelete(deleteCategoryInfo.id, dataDel);
       return {
         ...state,
         data: dataDel,

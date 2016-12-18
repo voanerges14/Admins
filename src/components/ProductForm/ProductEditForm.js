@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reduxForm} from 'redux-form';
+import {reduxForm, Field} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {ProductImageAdd} from 'components';
 
@@ -78,8 +78,14 @@ export default class ProductEdit extends Component {
                       <td className={styles.userCol}>
                         {/* {properties[index]}*/}
                         {property.value}
-                         <input type="text" className="form-control"
-                                defaultValue={property.value} {...property.value}/>
+                        <Field
+                            name={property.name}
+                            component="input"
+                            type="text"
+                            placeholder="Last Name"
+                            value={property.name}
+                        />
+                         {/* <input type="text" className="form-control" defaultValue={property.value} {...property.value}/>*/}
                       </td>
                     </tr>
                 )

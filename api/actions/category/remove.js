@@ -20,16 +20,26 @@ export default function deleteCategory(req) {
 }
 
 function findNode(id, data) {
-  let ids = [id];
-  findNode2(id);
+  let ids = [];
+  findNodeRec(id, data);
 
-  function findNode2(id) {
-    for(let i = 0; i < data.length; ++i) {
-      if(data[i].parentId === id) {
-        ids.push(data[i]._id);
-        findNode2(data[i]._id);
-      }
+  function findNodeRec(id, data) {
+    ids.push(id);
+    const childrens = findChildren(id, data);
+    for (let i = 0; i < childrens.length; ++i) {
+      findNodeRec(childrens[i], data);
     }
   }
   return ids;
+}
+
+function findChildren(id, data) {
+  let children = [];
+  for (let i = 0; i < data.length; ++i) {
+    if (data[i].parentId == id) {
+      const temp = data[i]._id;
+      children.push(temp);
+    }
+  }
+  return children;
 }
