@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reduxForm, Field} from 'redux-form';
+import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {ProductImageAdd} from 'components';
 
@@ -37,31 +37,31 @@ export default class ProductEdit extends Component {
     const styles = require('./ProductEditForm.scss');
     debugger;
     return (
-      <tr>
-        <td colSpan="7">
-          <label className={styles.name}> name
-            <input type="text" className="form-control" {...name}/>
-          </label>
+        <tr>
+          <td colSpan="7">
+            <label className={styles.name}> name
+              <input type="text" className="form-control" {...name}/>
+            </label>
 
-          <label className={styles.price}> price
-            <input type="text" className="form-control" {...price}/>
-          </label>
+            <label className={styles.price}> price
+              <input type="text" className="form-control" {...price}/>
+            </label>
 
-          <label className={styles.number}> number
-            <input type="text" className="form-control" {...inStock}/>
-          </label>
+            <label className={styles.number}> number
+              <input type="text" className="form-control" {...inStock}/>
+            </label>
 
-          {images.defaultValue && images.defaultValue.length &&
-          <label className={styles.logo}> image
-            {onShowImagePopUp && <ProductImageAdd images={images.defaultValue}/>}
-            <p>
-              <img src={decodeURIComponent(images.defaultValue[0])} onClick={() => toggleImg(onShowImagePopUp)}/>
-            </p>
-          </label>
-          }
-          <label className={styles.description}> description
-            <input type="text" className="form-control" {...description}/>
-          </label>
+            {images.defaultValue && images.defaultValue.length &&
+            <label className={styles.logo}> image
+              {onShowImagePopUp && <ProductImageAdd images={images.defaultValue}/>}
+              <p>
+                <img src={decodeURIComponent(images.defaultValue[0])} onClick={() => toggleImg(onShowImagePopUp)}/>
+              </p>
+            </label>
+            }
+            <label className={styles.description}> description
+              <input type="text" className="form-control" {...description}/>
+            </label>
 
             <table className={styles.description + ' table table-striped'}>
               <thead>
@@ -73,37 +73,37 @@ export default class ProductEdit extends Component {
               <tbody>
               {
                 properties.defaultValue.map((property) =>
-                    <tr key={property.name}>
-                      <td className={styles.propertyName}>
-                        {property.name}
-                      </td>
-                      <td className={styles.userCol}>
-                        {/* {properties[index]}*/}
-                        {property.value}
-                        <Field
-                            name={property.name}
-                            component="input"
-                            type="text"
-                            placeholder="Last Name"
-                            value={property.name}
-                        />
-                         {/* <input type="text" className="form-control" defaultValue={property.value} {...property.value}/>*/}
-                      </td>
-                    </tr>
+                  <tr key={property.name}>
+                    <td className={styles.propertyName}>
+                      {property.name}
+                    </td>
+                    <td className={styles.userCol}>
+                      {/* {properties[index]}*/}
+                      {property.value}
+                      {/* <Field*/}
+                        {/* name={property.name}*/}
+                        {/* component="input"*/}
+                        {/* type="text"*/}
+                        {/* placeholder="Last Name"*/}
+                        {/* value={property.name}*/}
+                      {/* />*/}
+                      {/* <input type="text" className="form-control" defaultValue={property.value} {...property.value}/>*/}
+                    </td>
+                  </tr>
                 )
               }
               </tbody>
             </table>
 
-          <button className="btn btn-success btn-sm" onClick={() => editProduct(values, onEditProduct.id)}>
-            <i className={'glyphicon glyphicon-ok'}/>
-          </button>
+            <button className="btn btn-success btn-sm" onClick={() => editProduct(values, onEditProduct.id)}>
+              <i className={'glyphicon glyphicon-ok'}/>
+            </button>
 
-          <button className="btn btn-default btn-sm" onClick={() => editStopProduct()}>
-            <i className="glyphicon glyphicon-remove"/>
-          </button>
-        </td>
-      </tr>
+            <button className="btn btn-default btn-sm" onClick={() => editStopProduct()}>
+              <i className="glyphicon glyphicon-remove"/>
+            </button>
+          </td>
+        </tr>
     );
   }
 }

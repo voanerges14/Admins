@@ -34,7 +34,6 @@ export default class Product extends Component {
     } = this.props;
 
     const styles = require('containers/Categories/Categories.scss');
-
     return (
       <div>
         {onAddProduct.isActive && <ProductAdd/>}

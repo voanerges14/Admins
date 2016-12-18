@@ -34,44 +34,63 @@ export default class ProductImageAdd extends Component {
   };
 
   render() {
-    const {fields: {img}, values, onShowImagePopUp, toggleImg, addImg, onEditProduct, images} = this.props;
+    const {fields: {img}, values, onShowImagePopUp, addImg, toggleImg, onEditProduct, images} = this.props;
     const styles = require('./ProductImageAdd.scss');
-    // const styles2 = require('./PopUp.scss');
-    const myBigGreenDialog = {
-      backgroundColor: '#00897B',
-      color: '#ffffff',
-      width: '70%',
-      height: '100%',
-      // marginTop: '-280px',
-      marginLeft: '-35%',
+    const stylesS = {
+      dialogStyles: {
+        width: '50%',
+        height: '730px',
+        // position: 'fixed',
+        top: '33%',
+        left: '50%',
+        // marginTop: '-5%',
+        // marginLeft: '-25%',
+        backgroundColor: '#fff',
+        borderRadius: '8px',
+        zIndex: 100,
+        padding: '15px',
+        boxShadow: '0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)'
+      },
+      closeButtonStyle: {
+        cursor: 'pointer',
+        position: 'absolute',
+        fontSize: '2.2em',
+        right: '8px',
+        top: '0'
+      }
     };
 
-    debugger;
+    const handleAddImg = (image, id) => {
+      return () => {addImg(image, id);};
+    };
+
     return (
-    <div>
-      <SkyLightStateless
-        dialogStyles={myBigGreenDialog}
-        isVisible={onShowImagePopUp}
-        onCloseClicked={() => {toggleImg(onShowImagePopUp);}}
-        title=""
-      >
-        <div className={styles.Form}>
-          <input type="text" {...img}/>
-          <button className="btn btn-success btn-sm"
-                  onClick={() => addImg(values.img, onEditProduct._id)}>
-            <i className={'glyphicon glyphicon-ok'}/>
-          </button>
-        </div>
-        {images && images.length &&
-        <div>
-          {images.map((image) =>
-          <p className={styles.logo}>
-            <img src={decodeURIComponent(image)}/>
-          </p>
-          )}
-        </div>}
-      </SkyLightStateless>
-    </div>
+      <div>
+        <SkyLightStateless
+          dialogStyles={stylesS.dialogStyles}
+          closeButtonStyle={stylesS.closeButtonStyle}
+          isVisible={onShowImagePopUp}
+          onCloseClicked={() => {
+            toggleImg(onShowImagePopUp);
+          }}
+        >
+          <div>
+            <input type="text" className={styles.comInp + ' form-control'} {...img}/>
+            <button className={styles.comBtn + 'btn btn-success btn-sm'}
+                    onClick={handleAddImg(values.img, onEditProduct._id)}>
+              <i className={'glyphicon glyphicon-ok'}/>
+            </button>
+          </div>
+          {images && images.length &&
+          <div className={styles.component3}>
+            {images.map((image) =>
+              <p className={styles.component}>
+                <img src={decodeURIComponent(image)}/>
+              </p>
+            )}
+          </div>}
+        </SkyLightStateless>
+      </div>
 
     );
   }
