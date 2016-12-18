@@ -75,8 +75,7 @@ export default class Product extends Component {
                   />
                 :
                   <tr key={product._id}>
-                    <td className={styles.nameColProd}>{product.name}
-                      {product._id}</td>
+                    <td className={styles.nameColProd}>{product.name}</td>
 
                     <td className={styles.priceColProd}>{product.price}</td>
 

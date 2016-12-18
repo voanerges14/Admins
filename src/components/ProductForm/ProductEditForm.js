@@ -76,7 +76,7 @@ export default class ProductEdit extends Component {
               <div>
                 {
                   description.initialValue.length > 100 ?
-                    (description.initialValue.substring(0, 100) + '...')
+                    (description.initialValue.substring(0, 33) + '...')
                   :
                     description.initialValue
                 }
@@ -84,7 +84,7 @@ export default class ProductEdit extends Component {
             </label>
 
             {/* {onShowPropertyPopUp && <ProductPropertyEdit initialValues={properties}/>}*/}
-            <label>
+            <label className={styles.property}> property
               {
                 properties && properties.length ?
                   <div>

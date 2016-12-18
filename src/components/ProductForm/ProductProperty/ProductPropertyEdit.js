@@ -39,38 +39,38 @@ export default class ProductEdit extends Component {
     const styles = require('./ProductEditForm.scss');
     debugger;
     return (
-      <table className={styles.description + ' table table-striped'}>
-        <thead>
-        <tr>
-          <th className={styles.propertyName}>Name</th>
-          <th className={styles.propertyValue}>Value</th>
-        </tr>
-        </thead>
-        <tbody>
-        {
-          properties.defaultValue.map((property) =>
-              <tr key={property.name}>
-                <td className={styles.propertyName}>
-                  {property.name}
-                </td>
-                <td className={styles.userCol}>
-                  {/* {properties[index]}*/}
-                  {property.value}
-                  <Field name={property.name}
-                         component="input"
-                         type="text"
-                         placeholder="Last Name"
-                         value={property.name}
-                  />
-                </td>
-              </tr>
-          )
-        }
-        </tbody>
-      </table>
+        <table className={styles.description + ' table table-striped'}>
+          <thead>
+          <tr>
+            <th className={styles.propertyName}>Name</th>
+            <th className={styles.propertyValue}>Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          {
+            properties.defaultValue.map((property) =>
+                <tr key={property.name}>
+                  <td className={styles.propertyName}>
+                    {property.name}
+                  </td>
+                  <td className={styles.userCol}>
+                    {/* {properties[index]}*/}
+                    {property.value}
+                    <Field name={property.name}
+                           component="input"
+                           type="text"
+                           placeholder="Last Name"
+                           value={property.name}
+                    />
+                  </td>
+                </tr>
+            )
+          }
+          </tbody>
+        </table>
     );
   }
-
+}
 /**
  * Created by hi on 18.12.16.
  */
