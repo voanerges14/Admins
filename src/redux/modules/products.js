@@ -1,21 +1,20 @@
 const ADD_START_PRODUCT = 'redux-example/products/ADD_START_PRODUCT';
+const ADD_START_PRODUCT_SUCCESS = 'redux-example/products/ADD_START_PRODUCT_SUCCESS';
+const ADD_START_PRODUCT_FAIL = 'redux-example/products/ADD_START_PRODUCT_FAIL';
 const ADD_STOP_PRODUCT = 'redux-example/products/ADD_STOP_PRODUCT';
 const ADD_PRODUCT = 'redux-example/products/ADD_PRODUCT';
 const ADD_SUCCESS_PRODUCT = 'redux-example/products/ADD_SUCCESS_PRODUCT';
 const ADD_FAIL_PRODUCT = 'redux-example/products/ADD_FAIL_PRODUCT';
-
 const EDIT_START_PRODUCT = 'redux-example/products/EDIT_START_PRODUCT';
 const EDIT_STOP_PRODUCT = 'redux-example/products/EDIT_STOP_PRODUCT';
 const EDIT_PRODUCT = 'redux-example/products/EDIT_PRODUCT';
 const EDIT_SUCCESS_PRODUCT = 'redux-example/products/EDIT_SUCCESS_PRODUCT';
 const EDIT_FAIL_PRODUCT = 'redux-example/products/EDIT_FAIL_PRODUCT';
-
 const DELETE_START_PRODUCT = 'redux-example/products/DELETE_START_PRODUCT';
 const DELETE_STOP_PRODUCT = 'redux-example/products/DELETE_STOP_PRODUCT';
 const DELETE_PRODUCT = 'redux-example/products/DELETE_PRODUCT';
 const DELETE_SUCCESS_PRODUCT = 'redux-example/products/DELETE_SUCCESS_PRODUCT';
 const DELETE_FAIL_PRODUCT = 'redux-example/products/DELETE_FAIL_PRODUCT';
-
 const LOAD = 'redux-example/products/LOAD';
 const LOAD_SUCCESS = 'redux-example/products/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/products/LOAD_FAIL';
@@ -29,22 +28,30 @@ const DELETE_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const DELETE_IMG = 'redux-example/products/DELETE_IMG';
 const DELETE_SUCCESS_IMG = 'redux-example/products/DELETE_SUCCESS_IMG';
 const DELETE_FAIL_IMG = 'redux-example/products/DELETE_FAIL_IMG';
-
 const ADD_IMAGE_START = 'redux-example/products/DELETE_IMAGE_START';
 const ADD_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const ADD_IMG = 'redux-example/products/ADD_IMG';
 const ADD_SUCCESS_IMG = 'redux-example/products/ADD_SUCCESS_IMG';
 const ADD_FAIL_IMG = 'redux-example/products/ADD_FAIL_IMG';
 
+const DELETE_PROPERTY_START = 'redux-example/products/DELETE_PROPERTY_START';
+const DELETE_PROPERTY_STOP = 'redux-example/products/DELETE_PROPERTY_STOP';
+const DELETE_PROPERTY = 'redux-example/products/DELETE_PROPERTY';
+const DELETE_SUCCESS_PROPERTY = 'redux-example/products/DELETE_SUCCESS_PROPERTY';
+const DELETE_FAIL_PROPERTY = 'redux-example/products/DELETE_FAIL_PROPERTY';
+const EDIT_DESCRIPTION = 'redux-example/products/EDIT_DESCRIPTION';
+const EDIT_SUCCESS_DESCRIPTION = 'redux-example/products/EDIT_SUCCESS_DESCRIPTION';
+const EDIT_FAIL_DESCRIPTION = 'redux-example/products/EDIT_FAIL_DESCRIPTION';
+
 const initialState = {
   loaded: false,
-  categoryId: '',
   onAddProduct: {'isActive': false},
   onDeleteProduct: {'isActive': false},
   onEditProduct: {'isActive': false},
   error: [],
   onShowImagePopUp: false,
   onDeleteImage: {'isActive': false},
+  onDeleteProperty: {'isActive': false},
   onAddImage: {'isActive': true},
   onAddProductImage: false,
   onDescription: {'isActive': false},
@@ -53,6 +60,47 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case DELETE_PROPERTY_START:
+      return {
+        onDeleteProperty: {
+          isActive: true,
+          name: action.name
+        }
+      };
+    case DELETE_PROPERTY_STOP:
+      return {
+        onDeleteProperty: {
+          isActive: false
+        }
+      };
+    case DELETE_PROPERTY:
+      return state;
+    case DELETE_SUCCESS_PROPERTY:
+      return {
+        ...state,
+        data: action.result
+      };
+    case DELETE_FAIL_PROPERTY:
+      const propertyDeleteError = [...state.error];
+      propertyDeleteError.push('error deleteProperty: ' + action.error);
+      return {
+        ...state,
+        error: propertyDeleteError
+      };
+    case EDIT_DESCRIPTION:
+      return state;
+    case EDIT_SUCCESS_DESCRIPTION:
+      return {
+        ...state,
+        data: action.result
+      };
+    case EDIT_FAIL_DESCRIPTION:
+      const descriptionEditError = [...state.error];
+      descriptionEditError.push('error deleteProperty: ' + action.error);
+      return {
+        ...state,
+        error: descriptionEditError
+      };
     case SHOW_IMAGE:
       return {
         ...state,
@@ -230,6 +278,18 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         onAddProduct: {'isActive': true, 'categoryId': action.categoryId}
       };
+    case ADD_START_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        onAddProduct: { ...state.onAddProduct, 'properties': action.result}
+      };
+    case ADD_START_PRODUCT_FAIL:
+      const addPropertyError = [...state.error];
+      addPropertyError.push('error deleteProduct: ' + action.error);
+      return {
+        ...state,
+        error: addPropertyError
+      };
     case ADD_STOP_PRODUCT:
       return {
         ...state,
@@ -273,7 +333,13 @@ export function loadProducts(_id) {
 }
 
 export function addStartProduct(categoryId) {
-  return {type: ADD_START_PRODUCT, categoryId};
+  return {
+    types: [ADD_START_PRODUCT, ADD_START_PRODUCT_SUCCESS, ADD_START_PRODUCT_FAIL],
+    categoryId: categoryId,
+    promise: (client) => client.post('/products/getProperties', {
+      data: {categoryId}
+    })
+  };
 }
 export function addStopProduct() {
   return {type: ADD_STOP_PRODUCT};
@@ -339,6 +405,12 @@ export function deleteStartImg(_id) {
 export function deleteStopImg() {
   return {type: DELETE_IMAGE_STOP};
 }
+export function deleteStartProperty(name) {
+  return {type: DELETE_PROPERTY_START, name};
+}
+export function deleteStopProperty() {
+  return {type: DELETE_PROPERTY_STOP};
+}
 
 export function addImg(img, productId) {
   return {
@@ -354,6 +426,22 @@ export function deleteImg(_id, img) {
     types: [DELETE_IMG, DELETE_SUCCESS_IMG, DELETE_FAIL_IMG],
     promise: (client) => client.post('/products/removeImg', {
       data: {_id, img}
+    })
+  };
+}
+export function deleteProperty(_id, name) {
+  return {
+    types: [DELETE_PROPERTY, DELETE_SUCCESS_PROPERTY, DELETE_FAIL_PROPERTY],
+    promise: (client) => client.post('/products/removeProperty', {
+      data: {_id, name}
+    })
+  };
+}
+export function editDescription(_id, description) {
+  return {
+    types: [DELETE_PROPERTY, DELETE_SUCCESS_PROPERTY, DELETE_FAIL_PROPERTY],
+    promise: (client) => client.post('/products/editDescription', {
+      data: {_id, description}
     })
   };
 }
