@@ -44,76 +44,77 @@ export default class ProductEdit extends Component {
     const styles = require('./ProductEditForm.scss');
     debugger;
     return (
-      <tr>
-        <td colSpan="7">
-          <label className={styles.name}> name
-            <input type="text" className="form-control" {...name}/>
-          </label>
+        <tr>
+          <td colSpan="7">
+            <label className={styles.name}> name
+              <input type="text" className="form-control" {...name}/>
+            </label>
 
-          <label className={styles.price}> price
-            <input type="text" className="form-control" {...price}/>
-          </label>
+            <label className={styles.price}> price
+              <input type="text" className="form-control" {...price}/>
+            </label>
 
-          <label className={styles.number}> number
-            <input type="text" className="form-control" {...inStock}/>
-          </label>
+            <label className={styles.number}> number
+              <input type="text" className="form-control" {...inStock}/>
+            </label>
 
-          {
-            images && images.length ?
-              <label className={styles.logo}> image
-                 {onShowImagePopUp && <ProductImageAdd images={images}/>}
-                <p>
-                  <img src={decodeURIComponent(images[0])}
-                       onClick={() => toggleImg(onShowImagePopUp)}/>
-                </p>
-              </label>
-            :
-              <div onClick={() => toggleImg(onShowImagePopUp)}>no image</div>
-          }
-
-          <label className={styles.description}> description
-             {/* {onShowDescriptionPopUp && <ProductDescriptionEdit initialValues={description}/>}*/}
-            <div>
-              {
-                description.initialValue.length > 100 ?
-                  (description.initialValue.substring(0, 100) + '...')
-                :
-                  description.initialValue
-              }
-            </div>
-          </label>
-
-          {/* {onShowPropertyPopUp && <ProductPropertyEdit initialValues={properties}/>}*/}
-          <label>
             {
-              properties && properties.length ?
-                <div>
-                  <p>{properties[0].name + ': ' + properties[0].value}</p>
-                  {properties.length >= 2 &&
-                  <p>{properties[1].name + ': ' + properties[1].value}</p>}
-                  {properties.length >= 3 &&
-                  <p>{properties[2].name + ': ' + properties[2].value}</p>}
-                </div>
+              images && images.length ?
+                <label className={styles.logo}> image
+                   {onShowImagePopUp && <ProductImageAdd images={images}/>}
+                  <p>
+                    <img src={decodeURIComponent(images[0])}
+                         onClick={() => toggleImg(onShowImagePopUp)}/>
+                  </p>
+                </label>
               :
-                <div>no properties (((</div>
+                <div onClick={() => toggleImg(onShowImagePopUp)}>no image</div>
             }
-          </label>
-          <button className="btn btn-success btn-sm"
-                  onClick={() => editProduct({
-                    'name': values.name,
-                    'price': values.price,
-                    'inStock': values.inStock,
-                    description,
-                    images,
-                  }, onEditProduct.id)}>
-            <i className={'glyphicon glyphicon-ok'}/>
-          </button>
 
-          <button className="btn btn-default btn-sm" onClick={() => editStopProduct()}>
-            <i className="glyphicon glyphicon-remove"/>
-          </button>
-        </td>
-      </tr>
+            <label className={styles.description}> description
+             {/* {onShowDescriptionPopUp && <ProductDescriptionEdit initialValues={description}/>}*/}
+              <div>
+                {
+                  description.initialValue.length > 100 ?
+                    (description.initialValue.substring(0, 100) + '...')
+                  :
+                    description.initialValue
+                }
+              </div>
+            </label>
+
+            {/* {onShowPropertyPopUp && <ProductPropertyEdit initialValues={properties}/>}*/}
+            <label>
+              {
+                properties && properties.length ?
+                  <div>
+                    <p>{properties[0].name + ': ' + properties[0].value}</p>
+                    {properties.length >= 2 &&
+                    <p>{properties[1].name + ': ' + properties[1].value}</p>}
+                    {properties.length >= 3 &&
+                    <p>{properties[2].name + ': ' + properties[2].value}</p>}
+                  </div>
+                :
+                  <div>no properties (((</div>
+              }
+            </label>
+
+            <button className="btn btn-success btn-sm"
+                    onClick={() => editProduct({
+                      'name': values.name,
+                      'price': values.price,
+                      'inStock': values.inStock,
+                      description,
+                      images,
+                    }, onEditProduct.id)}>
+              <i className={'glyphicon glyphicon-ok'}/>
+            </button>
+
+            <button className="btn btn-default btn-sm" onClick={() => editStopProduct()}>
+              <i className="glyphicon glyphicon-remove"/>
+            </button>
+          </td>
+        </tr>
     );
   }
 }

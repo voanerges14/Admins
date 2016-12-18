@@ -55,3 +55,65 @@ tr.saving {
     //margin: auto;
   }
 }
+.component {
+  width: 33%;
+  height: 33%;
+  display: inline-block;
+  //vertical-align: top;
+  padding: 0.3%;
+  //@media (max-width: 640px) {
+  //  width: 100%;
+  //  display: inline-block;
+  //}
+}
+
+.component2 {
+  width: 85%;
+  float: right;
+  display: inline-block;
+  // verticalAlign: 'top',
+  padding: 1.5%;
+  // '@media (max-width: 640px)': {
+  //   width: '100%',
+  //   display: 'inline-block'
+  // }
+}
+
+.component3 {
+  width: 100%;
+  // float: 'right',
+  display: inline-block;
+  // verticalAlign: 'top',
+  padding: 20px;
+  // '@media (max-width: 640px)': {
+  //   width: '100%',
+  //   display: 'inline-block'
+  // }
+}
+.comInp {
+  width: 90%;
+  display: inline-block;
+  padding: 10px;
+}
+
+.comBtn {
+  width: 30%;
+  height: auto;
+  display: inline-block;
+  //vertical-align: top;
+  padding: 0.3%;
+}
+.Form {
+  width: 80%;
+  display: inline-block;
+}
+.mycell {
+  display: table-cell;
+  listStyle: none;
+  //backgroundColor: '#fcfcfc',
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  fontFamily: lucida grande, tahoma, verdana, arial, sans-serif;
+  fontSize: 17px;
+}
