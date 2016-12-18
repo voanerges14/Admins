@@ -92,7 +92,7 @@ export function removeImg(req) {
       console.log("come from server " + JSON.stringify(product.images, null, 4));
       resolve({'images': product.images});
     }).catch(error => {
-      reject('error in addImg: ' + error);
+      reject('error in DelImg: ' + error);
     });
   });
 }
