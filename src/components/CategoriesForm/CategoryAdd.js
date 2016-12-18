@@ -26,8 +26,10 @@ export default class CategoryAdd extends Component {
   };
 
   render() {
-    const { addStopCategory, addCategoryBtn, addCategory, values, types,
-          fields: {name, propertyName, propertyType} } = this.props;
+    const {
+      addStopCategory, addCategoryBtn, addCategory, values, types,
+      fields: {name, propertyName, propertyType}
+    } = this.props;
     const styles = require('./CategoryAdd.scss');
 
     return (

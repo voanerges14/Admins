@@ -98,6 +98,8 @@ export function addImg(_id, img) {
       console.error('addImg error1: ' + err);
       return 'error1 in addImg: ' + err;
     }
+    console.log('product ' + JSON.stringify(product, null, 4));
+    console.log('_id: ' + JSON.stringify(_id, null, 4));
     product.images.push(img);
     product.save(function (err, updatedProduct) {
       if (err) {

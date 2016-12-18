@@ -3,26 +3,31 @@ const ADD_STOP_PRODUCT = 'redux-example/products/ADD_STOP_PRODUCT';
 const ADD_PRODUCT = 'redux-example/products/ADD_PRODUCT';
 const ADD_SUCCESS_PRODUCT = 'redux-example/products/ADD_SUCCESS_PRODUCT';
 const ADD_FAIL_PRODUCT = 'redux-example/products/ADD_FAIL_PRODUCT';
+
 const EDIT_START_PRODUCT = 'redux-example/products/EDIT_START_PRODUCT';
 const EDIT_STOP_PRODUCT = 'redux-example/products/EDIT_STOP_PRODUCT';
 const EDIT_PRODUCT = 'redux-example/products/EDIT_PRODUCT';
 const EDIT_SUCCESS_PRODUCT = 'redux-example/products/EDIT_SUCCESS_PRODUCT';
 const EDIT_FAIL_PRODUCT = 'redux-example/products/EDIT_FAIL_PRODUCT';
+
 const DELETE_START_PRODUCT = 'redux-example/products/DELETE_START_PRODUCT';
 const DELETE_STOP_PRODUCT = 'redux-example/products/DELETE_STOP_PRODUCT';
 const DELETE_PRODUCT = 'redux-example/products/DELETE_PRODUCT';
 const DELETE_SUCCESS_PRODUCT = 'redux-example/products/DELETE_SUCCESS_PRODUCT';
 const DELETE_FAIL_PRODUCT = 'redux-example/products/DELETE_FAIL_PRODUCT';
+
 const LOAD = 'redux-example/products/LOAD';
 const LOAD_SUCCESS = 'redux-example/products/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/products/LOAD_FAIL';
 
 const SHOW_IMAGE = 'redux-example/products/SHOW_IMAGE';
+
 const DELETE_IMAGE_START = 'redux-example/products/DELETE_IMAGE_START';
 const DELETE_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const DELETE_IMG = 'redux-example/products/DELETE_IMG';
 const DELETE_SUCCESS_IMG = 'redux-example/products/DELETE_SUCCESS_IMG';
 const DELETE_FAIL_IMG = 'redux-example/products/DELETE_FAIL_IMG';
+
 const ADD_IMAGE_START = 'redux-example/products/DELETE_IMAGE_START';
 const ADD_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const ADD_IMG = 'redux-example/products/ADD_IMG';
@@ -52,7 +57,7 @@ export default function reducer(state = initialState, action = {}) {
     case SHOW_IMAGE:
       return {
         ...state,
-        onShowImagePopUp: action.oldState
+        onShowImagePopUp: !action.oldState
       };
     case DELETE_IMAGE_START:
       return {
@@ -100,6 +105,7 @@ export default function reducer(state = initialState, action = {}) {
       return state;
     case ADD_SUCCESS_IMG:
       const dataAddImg = [...state.data];
+      // debugger;
       for (let index = 0; index < dataAddImg.length; ++index) {
         if (dataAddImg[index]._id === action.result._id) {
           dataAddImg[index].images.push(action.img);

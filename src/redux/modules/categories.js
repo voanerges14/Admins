@@ -97,7 +97,6 @@ function localEdit(category, data) {
   for (let node = 0; node < data.length; node++) {
     if (data[node]._id === category.id) {
       data[node].name = category.name;
-      // data.splice(node, 1, category);
       return true;
     }
     let children = data[node].children;

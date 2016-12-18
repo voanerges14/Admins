@@ -3,12 +3,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
+import {SkyLightStateless} from 'react-skylight';
 
 @connect(
   state => ({
-    onShowImageUploader: state.products.onShowImageUploader,
-    onAddProductImage: state.products.onAddProductImage
-    // onEditProduct: state.products.onEditProduct
+    onShowImagePopUp: state.products.onShowImagePopUp,
+    onAddProductImage: state.products.onAddProductImage,
+    onEditProduct: state.products.onEditProduct
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
@@ -19,33 +20,59 @@ import * as productActions from 'redux/modules/products';
 export default class ProductImageAdd extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    // addStopImage: PropTypes.func.isRequired,
-    // ProductBtn: PropTypes.func.isRequired,
-    addProductImage: PropTypes.func.isRequired,
+    // // addStopImage: PropTypes.func.isRequired,
+    // // ProductBtn: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
-
-    onAddProductImage: PropTypes.object.isRequired,
+    //
+    // addStopImage: PropTypes.func.isRequired,
     onEditProduct: PropTypes.object.isRequired,
-    addStopImage: PropTypes.func.isRequired
+    onAddProductImage: PropTypes.bool.isRequired,
+    onShowImagePopUp: PropTypes.bool.isRequired,
+    toggleImg: PropTypes.func.isRequired,
+    addImg: PropTypes.func.isRequired,
+    images: PropTypes.array.isRequired
   };
 
   render() {
-    const { addStopImage, fields: {img}, onEditProduct, addProductImage, values} = this.props;
+    const {fields: {img}, values, onShowImagePopUp, toggleImg, addImg, onEditProduct, images} = this.props;
     const styles = require('./ProductImageAdd.scss');
+    // const styles2 = require('./PopUp.scss');
+    const myBigGreenDialog = {
+      backgroundColor: '#00897B',
+      color: '#ffffff',
+      width: '70%',
+      height: '100%',
+      // marginTop: '-280px',
+      marginLeft: '-35%',
+    };
 
+    debugger;
     return (
-      <div className={styles.Form}>
-        <input type="text" {...img}/>
-        <span>
+    <div>
+      <SkyLightStateless
+        dialogStyles={myBigGreenDialog}
+        isVisible={onShowImagePopUp}
+        onCloseClicked={() => {toggleImg(onShowImagePopUp);}}
+        title=""
+      >
+        <div className={styles.Form}>
+          <input type="text" {...img}/>
           <button className="btn btn-success btn-sm"
-                  onClick={() => addProductImage({ _id: onEditProduct._id, img: values.url}) }>
+                  onClick={() => addImg(values.img, onEditProduct._id)}>
             <i className={'glyphicon glyphicon-ok'}/>
           </button>
-          <button className="btn btn-default btn-sm" onClick={() => addStopImage() }>
-            <i className="glyphicon glyphicon-remove"/>
-          </button>
-        </span>
-      </div>
+        </div>
+        {images && images.length &&
+        <div>
+          {images.map((image) =>
+          <p className={styles.logo}>
+            <img src={decodeURIComponent(image)}/>
+          </p>
+          )}
+        </div>}
+      </SkyLightStateless>
+    </div>
+
     );
   }
 }

@@ -26,7 +26,6 @@ export default class CategoryEdit extends Component {
   render() {
     const { editStopCategory, fields: {name}, editCategoryBtn, editCategory, values} = this.props;
     const styles = require('./CategoryAdd.scss');
-    debugger;
     return (
       <div className={styles.Form}>
         <input type="text" {...name}/>

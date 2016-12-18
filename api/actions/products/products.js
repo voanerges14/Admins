@@ -76,8 +76,9 @@ export function edit(req) {
 
 export function addImg(req) {
   return new Promise((resolve, reject) => {
-    ProductsDB.addImg(req.body.parentId, req.body.img).then(product => {
-      resolve({'_id': req.body.parentId});
+    // console.log("req " +  JSON.stringify(req.body));
+    ProductsDB.addImg(req.body.productId, encodeURIComponent(req.body.img)).then(product => {
+      resolve({'_id': req.body.productId});
     }).catch(error => {
       reject('error in addImg: ' + error);
     });
@@ -86,7 +87,7 @@ export function addImg(req) {
 
 export function removeImg(req) {
   return new Promise((resolve, reject) => {
-    ProductsDB.addImg(req.body.parentId, req.body.img).then(product => {
+    ProductsDB.addImg(req.body.productId, req.body.img).then(product => {
       resolve({'img': product.images});
     }).catch(error => {
       reject('error in addImg: ' + error);
