@@ -86,9 +86,11 @@ export function addImg(req) {
 }
 
 export function removeImg(req) {
+  console.log("come to server" + JSON.stringify(req.body, null, 4));
   return new Promise((resolve, reject) => {
-    ProductsDB.addImg(req.body.productId, req.body.img).then(product => {
-      resolve({'img': product.images});
+    ProductsDB.removeImg(req.body.productId, req.body.img).then(product => {
+      console.log("come from server " + JSON.stringify(product.images, null, 4));
+      resolve({'images': product.images});
     }).catch(error => {
       reject('error in addImg: ' + error);
     });

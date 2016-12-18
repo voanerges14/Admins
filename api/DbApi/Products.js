@@ -123,11 +123,13 @@ export function removeImg(_id, img) {
         break;
       }
     }
+    // console.log('before save DB ' + JSON.stringify(product.images, null, 4));
     product.save(function (err, updatedProduct) {
       if (err) {
         console.error('removeImg error2: ' + err);
         return 'error2 in removeImg: ' + err;
       }
+      // console.log('after save DB. RETURN ' + JSON.stringify(product.images, null, 4));
       return updatedProduct;
     });
   });

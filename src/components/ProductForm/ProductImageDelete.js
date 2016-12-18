@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {SkyLightStateless} from 'react-skylight';
-// import {ProductImageDelete} from 'components';
 
 @connect(
   state => ({
@@ -15,35 +14,28 @@ import {SkyLightStateless} from 'react-skylight';
   dispatch => bindActionCreators(productActions, dispatch)
 )
 @reduxForm({
-  form: 'ImageAdd',
-  fields: ['img']
+  form: 'ImageDelete',
 })
-export default class ProductImageAdd extends Component {
+export default class ProductImageDelete extends Component {
   static propTypes = {
-    fields: PropTypes.object.isRequired,
-    // // addStopImage: PropTypes.func.isRequired,
-    // // ProductBtn: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
-    //
-    // addStopImage: PropTypes.func.isRequired,
     onEditProduct: PropTypes.object.isRequired,
-    onAddProductImage: PropTypes.bool.isRequired,
     onShowImagePopUp: PropTypes.bool.isRequired,
     toggleImg: PropTypes.func.isRequired,
     addImg: PropTypes.func.isRequired,
     images: PropTypes.array.isRequired,
-    deleteImg: PropTypes.func.isRequired
+    deleteImg: PropTypes.func.isRequired,
+    image: PropTypes.string.isRequired
   };
 
   render() {
-    const {fields: {img}, values, onShowImagePopUp, addImg, toggleImg, onEditProduct, images, deleteImg} = this.props;
-    const styles = require('./ProductImageAdd.scss');
+    const {onShowImagePopUp, toggleImg, onEditProduct, deleteImg, image} = this.props;
+    const styles = require('./ProductImageAdd/ProductImageAdd.scss');
     const stylesS = {
       dialogStyles: {
         width: '50%',
         height: '730px',
         // position: 'fixed',
-        top: '40%',
+        top: '33%',
         left: '50%',
         // marginTop: '-5%',
         // marginLeft: '-25%',
@@ -62,15 +54,6 @@ export default class ProductImageAdd extends Component {
       }
     };
 
-    // const handleAddImg = (image, id) => {
-    //   debugger;
-    //   return () => {addImg(image, id);};
-    // };
-
-    // const handleDeleteImg = (imgA) => {
-    //   return (<ProductImageDelete image={imgA}/>);
-    // };
-
     return (
       <div>
         <SkyLightStateless
@@ -81,24 +64,15 @@ export default class ProductImageAdd extends Component {
             toggleImg(onShowImagePopUp);
           }}
         >
-          <div>
-            <input type="text" className={styles.comInp + ' form-control'} {...img}/>
             <button className={styles.comBtn + 'btn btn-success btn-sm'}
-                    onClick={() => addImg(values.img, onEditProduct._id)}>
+                    onClick={() => deleteImg(onEditProduct._id, image)}>
               <i className={'glyphicon glyphicon-ok'}/>
             </button>
-          </div>
-          {images && images.length &&
-          <div className={styles.component3}>
-            {images.map((image) =>
-              <button key={image} className={styles.component} onClick={() => deleteImg(onEditProduct._id, image)}>
-                <img src={decodeURIComponent(image)}/>
-              </button>
-            )}
-          </div>}
+            <button className={styles.comBtn + 'btn btn-success btn-sm'}>
+              <i className={'glyphicon glyphicon-ok'}/>
+            </button>
         </SkyLightStateless>
       </div>
-
     );
   }
 }
