@@ -28,8 +28,9 @@ const DELETE_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
 const DELETE_IMG = 'redux-example/products/DELETE_IMG';
 const DELETE_SUCCESS_IMG = 'redux-example/products/DELETE_SUCCESS_IMG';
 const DELETE_FAIL_IMG = 'redux-example/products/DELETE_FAIL_IMG';
-const ADD_IMAGE_START = 'redux-example/products/DELETE_IMAGE_START';
-const ADD_IMAGE_STOP = 'redux-example/products/DELETE_IMAGE_STOP';
+
+const ADD_IMAGE_START = 'redux-example/products/ADD_IMAGE_START';
+const ADD_IMAGE_STOP = 'redux-example/products/ADD_IMAGE_STOP';
 const ADD_IMG = 'redux-example/products/ADD_IMG';
 const ADD_SUCCESS_IMG = 'redux-example/products/ADD_SUCCESS_IMG';
 const ADD_FAIL_IMG = 'redux-example/products/ADD_FAIL_IMG';
@@ -123,7 +124,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_IMAGE_START:
       return {
         ...state,
-        onDeleteImage: {'isActive': true, '_id': action._id}
+        onDeleteImage: {'isActive': true, 'image': action._id}
       };
     case DELETE_IMAGE_STOP:
       return {
@@ -309,7 +310,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_START_PRODUCT:
       return {
         ...state,
-        onDeleteProduct: {'isActive': true, '_id': action._id}
+        onDeleteProduct: {'isActive': true, 'image': action.image}
       };
     case DELETE_STOP_PRODUCT:
       return {
@@ -351,8 +352,8 @@ export function editStartProduct(_id) {
 export function editStopProduct() {
   return {type: EDIT_STOP_PRODUCT};
 }
-export function deleteStartProduct(_id) {
-  return {type: DELETE_START_PRODUCT, _id};
+export function deleteStartProduct(image) {
+  return {type: DELETE_START_PRODUCT, image};
 }
 export function deleteStopProduct() {
   return {type: DELETE_STOP_PRODUCT};
@@ -403,7 +404,7 @@ export function addStopImg() {
 export function deleteStartImg(_id) {
   return {type: DELETE_IMAGE_START, _id};
 }
-export function deleteStopImg() {
+export function deleteImgStop() {
   return {type: DELETE_IMAGE_STOP};
 }
 export function deleteStartProperty(name) {

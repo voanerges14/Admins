@@ -108,7 +108,7 @@ export function getProperties(req) {
         resolve(properties);
       });
     }).catch(error => {
-      reject('error in addImg: ' + error);
+      reject('error in DelImg: ' + error);
     });
   });
 }

@@ -5,12 +5,12 @@ import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {SkyLightStateless} from 'react-skylight';
 // import {ProductImageDelete} from 'components';
-
 @connect(
   state => ({
     onShowImagePopUp: state.products.onShowImagePopUp,
     onAddProductImage: state.products.onAddProductImage,
-    onEditProduct: state.products.onEditProduct
+    onEditProduct: state.products.onEditProduct,
+    onDeleteImage: state.products.onDeleteImage
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
@@ -32,11 +32,16 @@ export default class ProductImageAdd extends Component {
     toggleImg: PropTypes.func.isRequired,
     addImg: PropTypes.func.isRequired,
     images: PropTypes.array.isRequired,
-    deleteImg: PropTypes.func.isRequired
+    deleteImg: PropTypes.func.isRequired,
+    onDeleteImage: PropTypes.object.isRequired,
+    deleteStartImg: PropTypes.func.isRequired,
+    deleteImgStop: PropTypes.func.isRequired
+
   };
 
   render() {
-    const {fields: {img}, values, onShowImagePopUp, addImg, toggleImg, onEditProduct, images, deleteImg} = this.props;
+    const {fields: {img}, values, onShowImagePopUp, addImg, toggleImg, onEditProduct,
+      images, onDeleteImage, deleteStartImg, deleteImg, deleteImgStop} = this.props;
     const styles = require('./ProductImageAdd.scss');
     const stylesS = {
       dialogStyles: {
@@ -70,35 +75,50 @@ export default class ProductImageAdd extends Component {
     // const handleDeleteImg = (imgA) => {
     //   return (<ProductImageDelete image={imgA}/>);
     // };
-
+    debugger;
     return (
       <div>
         <SkyLightStateless
-          dialogStyles={stylesS.dialogStyles}
-          closeButtonStyle={stylesS.closeButtonStyle}
-          isVisible={onShowImagePopUp}
-          onCloseClicked={() => {
-            toggleImg(onShowImagePopUp);
-          }}
-        >
-          <div>
-            <input type="text" className={styles.comInp + ' form-control'} {...img}/>
-            <button className={styles.comBtn + 'btn btn-success btn-sm'}
-                    onClick={() => addImg(values.img, onEditProduct._id)}>
-              <i className={'glyphicon glyphicon-ok'}/>
-            </button>
-          </div>
-          {images && images.length &&
-          <div className={styles.component3}>
-            {images.map((image) =>
-              <button key={image} className={styles.component} onClick={() => deleteImg(onEditProduct._id, image)}>
-                <img src={decodeURIComponent(image)}/>
+            dialogStyles={stylesS.dialogStyles}
+            closeButtonStyle={stylesS.closeButtonStyle}
+            isVisible={onShowImagePopUp}
+            onCloseClicked={() => {
+              toggleImg(onShowImagePopUp);
+            }}
+          >
+          {onDeleteImage.isActive ?
+            <div>
+              <p><img src={decodeURIComponent(onDeleteImage.image)}/></p>
+              <span>DELETE THIS PICTURE?
+              <button className={styles.comBtn + 'btn btn-success btn-sm'}
+                      onClick={() => deleteImg(onEditProduct._id, onDeleteImage.image)}>DELETE
+                <i className={'glyphicon glyphicon-ok'}/>
               </button>
-            )}
-          </div>}
-        </SkyLightStateless>
+              <button className={styles.comBtn + 'btn btn-success btn-sm'}
+                onClick={() => deleteImgStop()}>CANCEL
+                <i className={'glyphicon glyphicon-remove'}/>
+              </button>
+              </span>
+            </div> :
+          <div>
+            <div>
+              <input type="text" className={styles.comInp + ' form-control'} {...img}/>
+              <button className={styles.comBtn + 'btn btn-success btn-sm'}
+                      onClick={() => addImg(values.img, onEditProduct._id)}>
+                <i className={'glyphicon glyphicon-ok'}/>
+              </button>
+            </div>
+            {images && images.length &&
+            <div className={styles.component3}>
+              {images.map((image) =>
+                <button key={image} className={styles.component} onDoubleClick={() => deleteStartImg(image)}>
+                  <img src={decodeURIComponent(image)}/>
+                </button>
+              )}
+            </div>
+            }</div>}
+          </SkyLightStateless>
       </div>
-
     );
   }
 }

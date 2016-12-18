@@ -8,8 +8,8 @@ import {SkyLightStateless} from 'react-skylight';
 @connect(
   state => ({
     onShowImagePopUp: state.products.onShowImagePopUp,
-    onAddProductImage: state.products.onAddProductImage,
-    onEditProduct: state.products.onEditProduct
+    onEditProduct: state.products.onEditProduct,
+    onDeleteImage: state.products.onDeleteImage
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
@@ -20,15 +20,14 @@ export default class ProductImageDelete extends Component {
   static propTypes = {
     onEditProduct: PropTypes.object.isRequired,
     onShowImagePopUp: PropTypes.bool.isRequired,
-    toggleImg: PropTypes.func.isRequired,
-    addImg: PropTypes.func.isRequired,
-    images: PropTypes.array.isRequired,
     deleteImg: PropTypes.func.isRequired,
-    image: PropTypes.string.isRequired
+    onDeleteImage: PropTypes.object.isRequired,
+    deleteImgStop: PropTypes.func.isRequired
   };
 
   render() {
-    const {onShowImagePopUp, toggleImg, onEditProduct, deleteImg, image} = this.props;
+    debugger;
+    const {onEditProduct, deleteImg, onDeleteImage, deleteImgStop} = this.props;
     const styles = require('./ProductImageAdd/ProductImageAdd.scss');
     const stylesS = {
       dialogStyles: {
@@ -53,26 +52,26 @@ export default class ProductImageDelete extends Component {
         top: '0'
       }
     };
-
     return (
-      <div>
         <SkyLightStateless
           dialogStyles={stylesS.dialogStyles}
           closeButtonStyle={stylesS.closeButtonStyle}
-          isVisible={onShowImagePopUp}
+          isVisible={onDeleteImage.isActive}
           onCloseClicked={() => {
-            toggleImg(onShowImagePopUp);
+            deleteImgStop();
           }}
         >
+          <div>
             <button className={styles.comBtn + 'btn btn-success btn-sm'}
-                    onClick={() => deleteImg(onEditProduct._id, image)}>
+                    onClick={() => deleteImg(onEditProduct._id, onDeleteImage.image)}>
               <i className={'glyphicon glyphicon-ok'}/>
             </button>
             <button className={styles.comBtn + 'btn btn-success btn-sm'}>
+              onClick={() => deleteImgStop()}>
               <i className={'glyphicon glyphicon-ok'}/>
             </button>
+          </div>
         </SkyLightStateless>
-      </div>
     );
   }
 }
