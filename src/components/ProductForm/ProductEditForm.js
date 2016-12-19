@@ -4,19 +4,6 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {ProductImageAdd, ProductDescription} from 'components';
-// , ProductDescriptionEdit, ProductPropertyEdit} from 'components';
-
-export class MyCustomInput extends Component {
-  render() {
-    return (
-        <div>
-          <span>The current value is.</span>
-          <button type="button" onClick={() => {}}>Inc</button>
-          <button type="button" onClick={() => {}}>Dec</button>
-        </div>
-    );
-  }
-}
 
 @connect(
   state => ({

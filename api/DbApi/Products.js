@@ -2,14 +2,14 @@ import {db} from "./index";
 
 function connectToDbProductsModel() {
   let Products = new db.Schema({
-    _id: {type: db.Schema.Types.ObjectId, required: true},
+    // _id: {type: db.Schema.Types.ObjectId, required: true},
     categoryId: {type: db.Schema.Types.String, required: true},
     name: {type: db.Schema.Types.String, required: true},
     price: {type: db.Schema.Types.String, required: true},
     inStock: {type: db.Schema.Types.String, required: true},
     images: {type: Array, required: true},
     description: {type: db.Schema.Types.String, required: true},
-    date: {type: db.Schema.Types.String, required: true},
+    date: { type: Date, default: Date.now() },
     properties: {type: Array, required: true}
   });
   return db.mongoose.model('Products', Products);
@@ -89,7 +89,6 @@ export function editProduct(productNew) {
     product.name = productNew.name;
     product.price = productNew.price;
     product.inStock = productNew.inStock;
-    product.images = productNew.images;
     product.description = productNew.description;
     product.properties = productNew.properties;
     product.save(function (err, updatedProduct) {

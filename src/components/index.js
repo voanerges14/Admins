@@ -35,7 +35,6 @@ export Product from './CategoriesForm/Product';
 
 export ProductEdit from './ProductForm/ProductEditForm';
 export ProductAdd from './ProductForm/ProductAddForm';
-// export ProductAdd from './ProductForm/temp';
 export ProductImageAdd from './ProductForm/ProductImageAdd/ProductImageAdd';
 export ProductImageDelete from './ProductForm/ProductImageDelete';
 
