@@ -99,7 +99,7 @@ class Categories extends Component {
     return (
       <div>
         <h1>Categories
-          <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
+          <button className={styles.refreshBtn + ' btn btn-success'} onClick={() => {load(); loadProducts();}}>
             <i className={refreshClassName}/> {' '} Reload
           </button>
         </h1>

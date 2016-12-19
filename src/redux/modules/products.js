@@ -124,7 +124,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_IMAGE_START:
       return {
         ...state,
-        onDeleteImage: {'isActive': true, 'image': action._id}
+        onDeleteImage: {'isActive': true, 'image': action.image}
       };
     case DELETE_IMAGE_STOP:
       return {
@@ -138,7 +138,15 @@ export default function reducer(state = initialState, action = {}) {
       for (let index = 0; index < dataDelImg.length; ++index) {
         if (dataDelImg[index]._id === action._id) {
           debugger;
-          dataDelImg[index].images = action.result.images;
+          // dataDelImg[index].images = action.result.images;
+          for (let indexj = 0; indexj < dataDelImg[index].length; ++indexj) {
+            const imagesM = encodeURIComponent(dataDelImg[index].images[indexj]);
+            const imageM = encodeURIComponent(action.imgDel);
+            if (imagesM === imageM) {
+              dataDelImg[index].images.splice(imageM, 1);
+              break;
+            }
+          }
           break;
         }
       }
@@ -147,6 +155,7 @@ export default function reducer(state = initialState, action = {}) {
         data: dataDelImg,
         onDeleteImage: {'isActive': false}
       };
+
     case DELETE_FAIL_IMG:
       const imgDeleteError = [...state.error];
       imgDeleteError.push('error deleteImg: ' + action.error);
@@ -401,8 +410,8 @@ export function addStartImg() {
 export function addStopImg() {
   return {type: ADD_IMAGE_STOP};
 }
-export function deleteStartImg(_id) {
-  return {type: DELETE_IMAGE_START, _id};
+export function deleteStartImg(image) {
+  return {type: DELETE_IMAGE_START, image};
 }
 export function deleteImgStop() {
   return {type: DELETE_IMAGE_STOP};
@@ -428,6 +437,7 @@ export function deleteImg(_id, img) {
   debugger;
   return {
     types: [DELETE_IMG, DELETE_SUCCESS_IMG, DELETE_FAIL_IMG],
+    imgDel: img,
     _id: _id,
     promise: (client) => client.post('/products/removeImg', {
       data: {'productId': _id, img}

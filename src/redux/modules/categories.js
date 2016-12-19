@@ -46,7 +46,7 @@ const initialState = {
   deleteProperty: {'isActive': false},
   error: [],
   categoryTreeState: {},
-  show: true,
+  show: false,
   types: [ 'choose type', 'string', 'color', 'number']
 };
 
