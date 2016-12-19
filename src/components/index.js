@@ -42,4 +42,4 @@ export AllOrdersForm from './OrderForm/AllOrdersForm';
 export PaidOrdersForm from './OrderForm/PaidOrdersForm';
 
 export ImageUpload from './ImageUpload/ImageUpload';
-
+export ProductDescription from './ProductForm/ProductDescriprion';

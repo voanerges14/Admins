@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
-import {ProductImageAdd} from 'components';
+import {ProductImageAdd, ProductDescription} from 'components';
 // , ProductDescriptionEdit, ProductPropertyEdit} from 'components';
 
 @connect(
@@ -12,7 +12,9 @@ import {ProductImageAdd} from 'components';
     onShowImagePopUp: state.products.onShowImagePopUp,
     onAddProductImage: state.products.onAddProductImage,
     onShowPropertyPopUp: state.products.onShowPropertyPopUp,
-    onShowDescriptionPopUp: state.products.onShowDescriptionPopUp
+    onShowDescriptionPopUp: state.products.onShowDescriptionPopUp,
+    onDescription: state.products.onDescription
+
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
@@ -32,13 +34,17 @@ export default class ProductEdit extends Component {
     onShowDescriptionPopUp: PropTypes.bool.isRequired,
     onShowImagePopUp: PropTypes.bool.isRequired,
     images: PropTypes.array.isRequired,
-    properties: PropTypes.array.isRequired
+    properties: PropTypes.array.isRequired,
+    toggleDescription: PropTypes.func.isRequired,
+    onDescription: PropTypes.object.onDescription
+
   };
 
   render() {
     const {
         fields: {name, price, inStock, description}, editProduct, toggleImg, values, images, properties,
-        onShowImagePopUp, onEditProduct, editStopProduct // , onShowPropertyPopUp, onShowDescriptionPopUp
+        onShowImagePopUp, onEditProduct, editStopProduct, // , onShowPropertyPopUp, onShowDescriptionPopUp
+        toggleDescription, onDescription
     } = this.props;
 
     const styles = require('./ProductEditForm.scss');
@@ -73,7 +79,8 @@ export default class ProductEdit extends Component {
 
             <label className={styles.description}> description
              {/* {onShowDescriptionPopUp && <ProductDescriptionEdit initialValues={description}/>}*/}
-              <div>
+              <div onClick={() => toggleDescription(onDescription)}>
+                {onDescription.isActive && <ProductDescription description={description.initialValue}/>}
                 {
                   description.initialValue.length > 100 ?
                     (description.initialValue.substring(0, 33) + '...')
