@@ -27,6 +27,16 @@ export function getProductByCategoriesIds(ids) {
   });
 }
 
+export function getProductById(id) {
+  return ProductsModel.find({'_id': id}, function (err, product) {
+    if (!err) {
+      return product;
+    }
+    console.error('getProductById error: ' + err);
+    return 'error in getProductById: ' + err;
+  });
+}
+
 export function getProductByCategoryId(id) {
   return ProductsModel.find({'categoryId': id}, function (err, product) {
     if (!err) {
@@ -112,45 +122,23 @@ export function addImg(_id, img) {
 }
 
 export function removeImg(_id, img) {
-  // return ProductsModel.findById(_id, function (err, product) {
-  //   if (err) {
-  //     console.error('removeImg error1: ' + err);
-  //     return 'error1 in removeImg: ' + err;
-  //   }
-  //   for (let index = 0; index < product.images.length; ++index) {
-  //     if (product.images[index] === img) {
-  //       product.images.splice(index, 1);
-  //       break;
-  //     }
-  //   }
-  //   // console.log('before save DB ' + JSON.stringify(product.images, null, 4));
-  //   product.save(function (err, updatedProduct) {
-  //     if (err) {
-  //       console.error('removeImg error2: ' + err);
-  //       return 'error2 in removeImg: ' + err;
-  //     }
-  //     // console.log('after save DB. RETURN ' + JSON.stringify(product.images, null, 4));
-  //     return updatedProduct;
-  //   });
-  // });
-
-  let promise = ProductsModel.findById(_id).exec();
-
-  promise.then(function(product) {
+  return ProductsModel.findById(_id, function(err, product) {
+    if (err) {
+      console.error('removeImg error1: ' + err);
+      return 'error1 in removeImg: ' + err;
+    }
     for (let index = 0; index < product.images.length; ++index) {
       if (product.images[index] === img) {
         product.images.splice(index, 1);
         break;
       }
     }
-    // return product.save();
-    product.save();
-  }).then(function(product) {
-      return product;
-  }).catch(function(err){
-      console.error('removeImg error: ' + err);
-      return 'error in removeImg: ' + err;
+    product.save(function(err, updatedProduct) {
+      if (err) {
+        console.error('removeImg error2: ' + err);
+        return 'error2 in removeImg: ' + err;
+      }
+      return updatedProduct;
+    });
   });
-
-
 }
