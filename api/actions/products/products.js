@@ -130,6 +130,18 @@ export function editDescription(req) {
   });
 }
 
+export function editProperty(req) {
+  return new Promise((resolve, reject) => {
+    ProductsDB.editProperty(req.body._id, req.body.properties).then(() => {
+      ProductsDB.getProductById(req.body._id).then(product => {
+        resolve({product});
+      });
+    }).catch(error => {
+      reject('error in editProperty: ' + error);
+    });
+  });
+}
+
 function findNode(id, data) {
   let ids = [id];
   findNode2(id);
