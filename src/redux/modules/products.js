@@ -329,7 +329,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_START_PRODUCT:
       return {
         ...state,
-        onDeleteProduct: {'isActive': true, 'image': action.image}
+        onDeleteProduct: {'isActive': true, '_id': action._id}
       };
     case DELETE_STOP_PRODUCT:
       return {
@@ -371,8 +371,8 @@ export function editStartProduct(_id) {
 export function editStopProduct() {
   return {type: EDIT_STOP_PRODUCT};
 }
-export function deleteStartProduct(image) {
-  return {type: DELETE_START_PRODUCT, image};
+export function deleteStartProduct(_id) {
+  return {type: DELETE_START_PRODUCT, _id};
 }
 export function deleteStopProduct() {
   return {type: DELETE_STOP_PRODUCT};

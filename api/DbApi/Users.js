@@ -1,10 +1,10 @@
 import {db} from "./index";
-
+import bcrypt from 'bcrypt-as-promised';
 function connectToDbUsersModel() {
   let Users = new db.Schema({
     // _id: { type: db.Schema.Types.ObjectId, required: true },
     email: { type: db.Schema.Types.String, required: true },
-    // password: { type: db.Schema.Types.String, required: true },
+    password: { type: db.Schema.Types.String, required: true },
     phoneNumber: { type: db.Schema.Types.String, required: true },
     address: { type: db.Schema.Types.String, required: true },
     firstName: { type: db.Schema.Types.String, required: true },
@@ -13,6 +13,15 @@ function connectToDbUsersModel() {
     isAdmin: { type: db.Schema.Types.Bool, required: true }
   });
 
+  Users.pre('save', async function (next) {
+    if(!this.isModified('password')) {
+      return next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(this.password, salt);
+    this.password = hash;
+    next();
+  });
   return db.mongoose.model('Users', Users);
 }
 

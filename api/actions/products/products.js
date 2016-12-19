@@ -33,7 +33,7 @@ export function add(req) {
       'name': req.body.product.name,
       'price': req.body.product.price,
       'inStock': req.body.product.inStock,
-      'images': req.body.product.images,
+      'images': encodeURIComponent(req.body.product.images),
       'description': req.body.product.description,
       'properties': req.body.product.properties
     };
@@ -62,7 +62,7 @@ export function edit(req) {
       'name': req.body.product.name,
       'price': req.body.product.price,
       'inStock': req.body.product.inStock,
-      'images': req.body.product.images,
+      // 'images': req.body.product.images,
       'description': req.body.product.description,
       'properties': req.body.product.properties
     };
@@ -122,7 +122,7 @@ export function editDescription(req) {
   return new Promise((resolve, reject) => {
     ProductsDB.editDescription(req.body._id, req.body.description).then(() => {
       ProductsDB.getProductById(req.body._id).then(product => {
-        resolve({product});
+        resolve({product: product[0]});
       });
     }).catch(error => {
       reject('error in editDescription: ' + error);
