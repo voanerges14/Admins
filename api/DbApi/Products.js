@@ -102,6 +102,23 @@ export function editProduct(productNew) {
   });
 }
 
+export function editDescription(id, description) {
+  return ProductsModel.findById(id, function (err, product) {
+    if (err) {
+      console.error('editDescription error1: ' + err);
+      return 'error1 in editDescription: ' + err;
+    }
+    product.description = description;
+    product.save(function (err, updatedProduct) {
+      if (err) {
+        console.error('editDescription error2: ' + err);
+        return 'error2 in editDescription: ' + err;
+      }
+      return updatedProduct;
+    });
+  });
+}
+
 export function addImg(_id, img) {
   return ProductsModel.findById(_id, function (err, product) {
     if (err) {

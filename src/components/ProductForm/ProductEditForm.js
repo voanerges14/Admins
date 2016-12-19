@@ -6,6 +6,18 @@ import * as productActions from 'redux/modules/products';
 import {ProductImageAdd} from 'components';
 // , ProductDescriptionEdit, ProductPropertyEdit} from 'components';
 
+export class MyCustomInput extends Component {
+  render() {
+    return (
+        <div>
+          <span>The current value is.</span>
+          <button type="button" onClick={() => {}}>Inc</button>
+          <button type="button" onClick={() => {}}>Dec</button>
+        </div>
+    );
+  }
+}
+
 @connect(
   state => ({
     onEditProduct: state.products.onEditProduct,

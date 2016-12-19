@@ -55,7 +55,7 @@ const initialState = {
   onDeleteProperty: {'isActive': false},
   onAddImage: {'isActive': true},
   onAddProductImage: false,
-  onDescription: {'isActive': false},
+  onDescription: false,
   onProperty: {'isActive': false}
 };
 
@@ -91,9 +91,16 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_DESCRIPTION:
       return state;
     case EDIT_SUCCESS_DESCRIPTION:
+      const dataEditDescription = [...state.data];
+      for (let index = 0; index < dataEditDescription.length; ++index) {
+        if (dataEditDescription[index]._id === action.id) {
+          dataEditDescription[index] = action.result.product;
+          break;
+        }
+      }
       return {
         ...state,
-        data: action.result
+        data: dataEditDescription
       };
     case EDIT_FAIL_DESCRIPTION:
       const descriptionEditError = [...state.error];
@@ -110,9 +117,7 @@ export default function reducer(state = initialState, action = {}) {
     case SHOW_DESCRIPTION:
       return {
         ...state,
-        onDescription: {
-          isActive: !action.oldState
-        }
+        onDescription: !action.oldState
       };
     case SHOW_PROPERTY:
       return {
@@ -454,7 +459,8 @@ export function deleteProperty(_id, name) {
 }
 export function editDescription(_id, description) {
   return {
-    types: [DELETE_PROPERTY, DELETE_SUCCESS_PROPERTY, DELETE_FAIL_PROPERTY],
+    types: [EDIT_DESCRIPTION, EDIT_SUCCESS_DESCRIPTION, EDIT_FAIL_DESCRIPTION],
+    id: _id,
     promise: (client) => client.post('/products/editDescription', {
       data: {_id, description}
     })

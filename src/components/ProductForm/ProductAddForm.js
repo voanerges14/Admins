@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reduxForm} from 'redux-form';
+import {reduxForm, Field} from 'redux-form';
 import * as productActions from 'redux/modules/products';
-
+import MyCustomInput from './ProductEditForm';
 @connect(
   state => ({
     onAddProduct: state.products.onAddProduct,
@@ -33,6 +33,7 @@ export default class ProductEdit extends Component {
 
     return (
       <div>
+        <Field component={MyCustomInput}/>
         <label className={styles.name}> name
           <input type="text" className="form-control" {...name}/>
         </label>
@@ -55,12 +56,17 @@ export default class ProductEdit extends Component {
 
         {
           onAddProduct.properties.map((property) =>
-            <label className={styles.property}> {property.name}
-              <input type="text" className="form-control"/>
+            <label key={property.name} className={styles.property}> {property.name}
+              {/* <Field name={property.name}*/}
+                     {/* component="input"*/}
+                     {/* type="text"*/}
+                     {/* placeholder="Last Name"*/}
+                     {/* value={property.name}*/}
+              {/* />*/}
+              {/* <input type="text" className="form-control"/>*/}
             </label>
           )
         }
-
         <button className="btn btn-success btn-sm"
                 onClick={() => addProduct({
                   'name': values.name,

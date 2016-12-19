@@ -118,6 +118,18 @@ export function getProperties(req) {
   });
 }
 
+export function editDescription(req) {
+  return new Promise((resolve, reject) => {
+    ProductsDB.editDescription(req.body._id, req.body.description).then(() => {
+      ProductsDB.getProductById(req.body._id).then(product => {
+        resolve({product});
+      });
+    }).catch(error => {
+      reject('error in editDescription: ' + error);
+    });
+  });
+}
+
 function findNode(id, data) {
   let ids = [id];
   findNode2(id);
