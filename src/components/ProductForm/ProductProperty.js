@@ -25,14 +25,13 @@ export default class ProductProperty extends Component {
 
     onProperty: PropTypes.object.isRequired,
     editDescription: PropTypes.func.isRequired,
-    toggleDescription: PropTypes.func.isRequired,
-    description: PropTypes.string.isRequired,
     toggleProperty: PropTypes.func.isRequired,
-    properties: PropTypes.object.isRequired
+    description: PropTypes.string.isRequired,
+    properties: PropTypes.array.isRequired
   };
 
   render() {
-    const {fields: {property}, values, onProperty, onEditProduct, toggleProperty, properties} = this.props;
+    const {onProperty, toggleProperty, properties} = this.props;
     // const styles = require('./ProductImageAdd.scss');
     const stylesS = {
       dialogStyles: {
@@ -64,34 +63,17 @@ export default class ProductProperty extends Component {
         <SkyLightStateless
             dialogStyles={stylesS.dialogStyles}
             closeButtonStyle={stylesS.closeButtonStyle}
-            isVisible={onProperty.isActive}
+            isVisible={onProperty}
             onCloseClicked={() => {
-              toggleProperty(onProperty.isActive);
+              toggleProperty(onProperty);
             }}
           >
-          {description &&
+          {properties &&
           <div>
             <div>
-              {fields.map((member, index) =>
-                <li key={index}>
-                  <button
-                    type="button"
-                    title="Remove Member"
-                    onClick={() => fields.remove(index)}/>
-                  <h4>Member #{index + 1}</h4>
-                  <Field
-                    name={`${member}.firstName`}
-                    type="text"
-                    component={renderField}
-                    placeholder="First Name"/>
-                  <Field
-                    name={`${member}.lastName`}
-                    type="text"
-                    component={renderField}
-                    placeholder="Last Name"/>
-                  <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
-                </li>
-              )}
+              {/* properties.map((property) => {*/}
+              {/* <CategoryEditProp key={property.name} initialValues={property}/>*/}
+            {/* });*/}
             </div>
             </div>}
         </SkyLightStateless>

@@ -157,9 +157,6 @@ class TreeNode extends Component {
 }
 
 TreeNode.propTypes = {
-  toggledChange: PropTypes.func.isRequired,
-
-  categoryTreeState: PropTypes.bool.isRequired,
   style: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   decorators: PropTypes.object.isRequired,
@@ -173,8 +170,8 @@ TreeNode.propTypes = {
   onRemoveToggle: PropTypes.array,
   loadProducts: PropTypes.func,
   categories: PropTypes.array,
-  addStartCategory: PropTypes.func.isRequired,
-  deleteCategory: PropTypes.func.isRequired,
+  // addStartCategory: PropTypes.func.isRequired,
+  // deleteCategory: PropTypes.func.isRequired,
 };
 
 export default TreeNode;

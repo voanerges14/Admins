@@ -96,6 +96,7 @@ export default function reducer(state = initialState, action = {}) {
         data: dataEditDescription
       };
     case EDIT_FAIL_DESCRIPTION:
+      debugger;
       const descriptionEditError = [...state.error];
       descriptionEditError.push('error deleteProperty: ' + action.error);
       return {
@@ -108,9 +109,12 @@ export default function reducer(state = initialState, action = {}) {
         onShowImagePopUp: !action.oldState
       };
     case SHOW_DESCRIPTION:
+      const tempS = !action.oldState;
+      // debugger;
       return {
         ...state,
-        onDescription: !action.oldState
+        // onDescription: !action.oldState
+        onDescription: tempS
       };
     case SHOW_PROPERTY:
       return {
@@ -133,7 +137,7 @@ export default function reducer(state = initialState, action = {}) {
       const dataDelImg = [...state.data];
       for (let index = 0; index < dataDelImg.length; ++index) {
         if (dataDelImg[index]._id === action._id) {
-          debugger;
+          // debugger;
           // dataDelImg[index].images = action.result.images;
           for (let indexj = 0; indexj < dataDelImg[index].length; ++indexj) {
             const imagesM = encodeURIComponent(dataDelImg[index].images[indexj]);
@@ -176,7 +180,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case ADD_SUCCESS_IMG:
       const dataAddImg = [...state.data];
-      debugger;
+      // debugger;
       for (let index = 0; index < dataAddImg.length; ++index) {
         if (dataAddImg[index]._id === action.result._id) {
           dataAddImg[index].images.push(action.img);
@@ -204,9 +208,19 @@ export default function reducer(state = initialState, action = {}) {
     case LOAD_SUCCESS:
       return {
         ...state,
+        onAddProduct: {'isActive': false},
+        onDeleteProduct: {'isActive': false},
+        onEditProduct: {'isActive': false},
         loading: false,
         loaded: true,
         data: action.result,
+        onShowImagePopUp: false,
+        onDeleteImage: {'isActive': false},
+        onDeleteProperty: {'isActive': false},
+        onAddImage: {'isActive': true},
+        onAddProductImage: false,
+        onDescription: false,
+        onProperty: false
       };
     case LOAD_FAIL:
       const loadError = [...state.error];
@@ -397,6 +411,7 @@ export function toggleProperty(oldState) {
   return {type: SHOW_PROPERTY, oldState};
 }
 export function toggleDescription(oldState) {
+  debugger;
   return {type: SHOW_DESCRIPTION, oldState};
 }
 
@@ -424,7 +439,7 @@ export function addImg(img, productId) {
 }
 export function deleteImg(_id, img) {
 // console.log('deleteImg modules ' + img);
-  debugger;
+//   debugger;
   return {
     types: [DELETE_IMG, DELETE_SUCCESS_IMG, DELETE_FAIL_IMG],
     imgDel: img,
@@ -443,6 +458,7 @@ export function editProperty(_id, properties) {
   };
 }
 export function editDescription(_id, description) {
+  // debugger;
   return {
     types: [EDIT_DESCRIPTION, EDIT_SUCCESS_DESCRIPTION, EDIT_FAIL_DESCRIPTION],
     id: _id,

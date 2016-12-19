@@ -26,8 +26,8 @@ export default class ProductDescription extends Component {
     onEditProduct: PropTypes.object.isRequired,
     onDescription: PropTypes.bool.isRequired,
     editDescription: PropTypes.func.isRequired,
-    toggleDescription: PropTypes.func.isRequired,
-    description: PropTypes.string.isRequired
+    toggleDescription: PropTypes.func.isRequired
+    // description: PropTypes.string.isRequired
   };
 
   render() {
@@ -56,21 +56,18 @@ export default class ProductDescription extends Component {
         top: '0'
       }
     };
-    debugger;
     return (
       <div>
         <SkyLightStateless
             dialogStyles={stylesS.dialogStyles}
             closeButtonStyle={stylesS.closeButtonStyle}
             isVisible={onDescription}
-            onCloseClicked={() => {
-              toggleDescription(onDescription);
-            }}
+            onCloseClicked={() => toggleDescription(onDescription)}
           >
           {description &&
           <div>
             <div>
-              <input type="text" className={'form-control'} {...description}/>
+              <textarea cols="40" rows="6" type="text" className={'form-control'} {...description}/>
               <button className={'btn btn-success btn-sm'}
                       onClick={() => editDescription(onEditProduct._id, values.description)}>
                 <i className={'glyphicon glyphicon-ok'}/>
