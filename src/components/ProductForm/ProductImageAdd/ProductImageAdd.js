@@ -10,7 +10,9 @@ import {SkyLightStateless} from 'react-skylight';
     onShowImagePopUp: state.products.onShowImagePopUp,
     onAddProductImage: state.products.onAddProductImage,
     onEditProduct: state.products.onEditProduct,
-    onDeleteImage: state.products.onDeleteImage
+    onDeleteImage: state.products.onDeleteImage,
+    loadProducts: state.products.loadProducts
+
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
@@ -35,7 +37,9 @@ export default class ProductImageAdd extends Component {
     deleteImg: PropTypes.func.isRequired,
     onDeleteImage: PropTypes.object.isRequired,
     deleteStartImg: PropTypes.func.isRequired,
-    deleteImgStop: PropTypes.func.isRequired
+    deleteImgStop: PropTypes.func.isRequired,
+    loadProducts: PropTypes.func.isRequired,
+
 
   };
 
@@ -46,9 +50,9 @@ export default class ProductImageAdd extends Component {
     const stylesS = {
       dialogStyles: {
         width: '50%',
-        height: '730px',
+        height: '89%',
         // position: 'fixed',
-        top: '40%',
+        top: '37%',
         left: '50%',
         // marginTop: '-5%',
         // marginLeft: '-25%',
@@ -86,9 +90,10 @@ export default class ProductImageAdd extends Component {
               toggleImg(onShowImagePopUp);
             }}
           >
-          {onDeleteImage.isActive ?
+          {images && images.length &&
+          onDeleteImage.isActive ?
             <div>
-              <p><img src={decodeURIComponent(onDeleteImage.image)}/></p>
+              <p className={styles.delImage}><img src={decodeURIComponent(onDeleteImage.image)}/></p>
               <span>DELETE THIS PICTURE?
               <button className={styles.comBtn + 'btn btn-success btn-sm'}
                       onClick={() => deleteImg(onEditProduct._id, onDeleteImage.image)}>DELETE
@@ -108,7 +113,6 @@ export default class ProductImageAdd extends Component {
                 <i className={'glyphicon glyphicon-ok'}/>
               </button>
             </div>
-            {images && images.length &&
             <div className={styles.component3}>
               {images.map((image) =>
                 <button key={image} className={styles.component} onDoubleClick={() => deleteStartImg(image)}>
@@ -116,7 +120,7 @@ export default class ProductImageAdd extends Component {
                 </button>
               )}
             </div>
-            }</div>}
+            </div>}
           </SkyLightStateless>
       </div>
     );
