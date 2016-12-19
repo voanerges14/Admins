@@ -1,0 +1,101 @@
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {reduxForm} from 'redux-form';
+import * as productActions from 'redux/modules/products';
+import {SkyLightStateless} from 'react-skylight';
+// import {ProductImageDelete} from 'components';
+@connect(
+  state => ({
+    onDescription: state.products.onDescription,
+    onAddProductImage: state.products.onAddProductImage,
+    onEditProduct: state.products.onEditProduct,
+    onDeleteImage: state.products.onDeleteImage,
+    loadProducts: state.products.loadProducts
+
+  }),
+  dispatch => bindActionCreators(productActions, dispatch)
+)
+@reduxForm({
+  form: 'Description',
+  fields: ['description']
+})
+export default class ProductDescription extends Component {
+  static propTypes = {
+    fields: PropTypes.object.isRequired,
+    // // addStopImage: PropTypes.func.isRequired,
+    // // ProductBtn: PropTypes.func.isRequired,
+    values: PropTypes.object.isRequired,
+    // addStopImage: PropTypes.func.isRequired,
+    onEditProduct: PropTypes.object.isRequired,
+    // onAddProductImage: PropTypes.bool.isRequired,
+
+    onDescription: PropTypes.object.onDescription,
+    editDescription: PropTypes.func.isRequired,
+    toggleDescription: PropTypes.func.isRequired,
+    description: PropTypes.string.isRequired
+    // toggleImg: PropTypes.func.isRequired,
+    // addImg: PropTypes.func.isRequired,
+    // images: PropTypes.array.isRequired,
+    // deleteImg: PropTypes.func.isRequired,
+    // onDeleteImage: PropTypes.object.isRequired,
+    // deleteStartImg: PropTypes.func.isRequired,
+    // deleteImgStop: PropTypes.func.isRequired,
+    // loadProducts: PropTypes.func.isRequired,
+
+
+  };
+
+  render() {
+    const {fields: {description}, values, onDescription, onEditProduct, toggleDescription, editDescription} = this.props;
+    // const styles = require('./ProductImageAdd.scss');
+    const stylesS = {
+      dialogStyles: {
+        width: '50%',
+        height: '89%',
+        // position: 'fixed',
+        top: '37%',
+        left: '50%',
+        // marginTop: '-5%',
+        // marginLeft: '-25%',
+        backgroundColor: '#fff',
+        borderRadius: '8px',
+        zIndex: 100,
+        padding: '15px',
+        boxShadow: '0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)'
+      },
+      closeButtonStyle: {
+        cursor: 'pointer',
+        position: 'absolute',
+        fontSize: '2.2em',
+        right: '8px',
+        top: '0'
+      }
+    };
+
+    debugger;
+    return (
+      <div>
+        <SkyLightStateless
+            dialogStyles={stylesS.dialogStyles}
+            closeButtonStyle={stylesS.closeButtonStyle}
+            isVisible={onDescription.isActive}
+            onCloseClicked={() => {
+              toggleDescription(onDescription.isActive);
+            }}
+          >
+          {description &&
+          <div>
+            <div>
+              <input type="text" className={'form-control'} {...description}/>
+              <button className={'btn btn-success btn-sm'}
+                      onClick={() => editDescription(onEditProduct._id, values.description)}>
+                <i className={'glyphicon glyphicon-ok'}/>
+              </button>
+            </div>
+            </div>}
+        </SkyLightStateless>
+      </div>
+    );
+  }
+}
