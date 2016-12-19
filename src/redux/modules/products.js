@@ -35,11 +35,9 @@ const ADD_IMG = 'redux-example/products/ADD_IMG';
 const ADD_SUCCESS_IMG = 'redux-example/products/ADD_SUCCESS_IMG';
 const ADD_FAIL_IMG = 'redux-example/products/ADD_FAIL_IMG';
 
-const DELETE_PROPERTY_START = 'redux-example/products/DELETE_PROPERTY_START';
-const DELETE_PROPERTY_STOP = 'redux-example/products/DELETE_PROPERTY_STOP';
-const DELETE_PROPERTY = 'redux-example/products/DELETE_PROPERTY';
-const DELETE_SUCCESS_PROPERTY = 'redux-example/products/DELETE_SUCCESS_PROPERTY';
-const DELETE_FAIL_PROPERTY = 'redux-example/products/DELETE_FAIL_PROPERTY';
+const EDIT_PROPERTY = 'redux-example/products/EDIT_PROPERTY';
+const EDIT_SUCCESS_PROPERTY = 'redux-example/products/EDIT_SUCCESS_PROPERTY';
+const EDIT_FAIL_PROPERTY = 'redux-example/products/EDIT_FAIL_PROPERTY';
 const EDIT_DESCRIPTION = 'redux-example/products/EDIT_DESCRIPTION';
 const EDIT_SUCCESS_DESCRIPTION = 'redux-example/products/EDIT_SUCCESS_DESCRIPTION';
 const EDIT_FAIL_DESCRIPTION = 'redux-example/products/EDIT_FAIL_DESCRIPTION';
@@ -56,32 +54,26 @@ const initialState = {
   onAddImage: {'isActive': true},
   onAddProductImage: false,
   onDescription: false,
-  onProperty: {'isActive': false}
+  onProperty: false
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case DELETE_PROPERTY_START:
-      return {
-        onDeleteProperty: {
-          isActive: true,
-          name: action.name
-        }
-      };
-    case DELETE_PROPERTY_STOP:
-      return {
-        onDeleteProperty: {
-          isActive: false
-        }
-      };
-    case DELETE_PROPERTY:
+    case EDIT_PROPERTY:
       return state;
-    case DELETE_SUCCESS_PROPERTY:
+    case EDIT_SUCCESS_PROPERTY:
+      const dataDeleteProperty = [...state.data];
+      for (let index = 0; index < dataDeleteProperty.length; ++index) {
+        if (dataDeleteProperty[index]._id === action.id) {
+          dataDeleteProperty[index] = action.result.product;
+          break;
+        }
+      }
       return {
         ...state,
-        data: action.result
+        data: dataDeleteProperty
       };
-    case DELETE_FAIL_PROPERTY:
+    case EDIT_FAIL_PROPERTY:
       const propertyDeleteError = [...state.error];
       propertyDeleteError.push('error deleteProperty: ' + action.error);
       return {
@@ -122,9 +114,7 @@ export default function reducer(state = initialState, action = {}) {
     case SHOW_PROPERTY:
       return {
         ...state,
-        onProperty: {
-          isActive: !action.oldState
-        }
+        onProperty: !action.oldState
       };
     case DELETE_IMAGE_START:
       return {
@@ -421,12 +411,6 @@ export function deleteStartImg(image) {
 export function deleteImgStop() {
   return {type: DELETE_IMAGE_STOP};
 }
-export function deleteStartProperty(name) {
-  return {type: DELETE_PROPERTY_START, name};
-}
-export function deleteStopProperty() {
-  return {type: DELETE_PROPERTY_STOP};
-}
 
 export function addImg(img, productId) {
   return {
@@ -449,11 +433,11 @@ export function deleteImg(_id, img) {
     })
   };
 }
-export function deleteProperty(_id, name) {
+export function editProperty(_id, properties) {
   return {
-    types: [DELETE_PROPERTY, DELETE_SUCCESS_PROPERTY, DELETE_FAIL_PROPERTY],
-    promise: (client) => client.post('/products/removeProperty', {
-      data: {_id, name}
+    types: [EDIT_PROPERTY, EDIT_SUCCESS_PROPERTY, EDIT_FAIL_PROPERTY],
+    promise: (client) => client.post('/products/editProperty', {
+      data: {_id, properties}
     })
   };
 }

@@ -1,82 +1,49 @@
-import React from 'react';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+<div>
+  <label className={styles.name}> name
+    <input type="text" className="form-control" {...name}/>
+  </label>
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-    <div>
-      <label>{label}</label>
-      <div>
-        <input {...input} type={type} placeholder={label}/>
-        {touched && error && <span>{error}</span>}
-      </div>
-    </div>
-);
+  <label className={styles.price}> price
+    <input type="text" className="form-control" {...price}/>
+  </label>
 
-const renderHobbies = ({ fields, meta: { error } }) => (
-    <ul>
-      <li>
-        <button type="button" onClick={() => fields.push()}>Add Hobby</button>
-      </li>
-      {fields.map((hobby, index) =>
-          <li key={index}>
-            <button
-                type="button"
-                title="Remove Hobby"
-                onClick={() => fields.remove(index)}/>
-            <Field
-                name={hobby}
-                type="text"
-                component={renderField}
-                label={`Hobby #${index + 1}`}/>
-          </li>
-      )}
-      {error && <li className="error">{error}</li>}
-    </ul>
-);
+  <label className={styles.number}> number
+    <input type="text" className="form-control" {...inStock}/>
+  </label>
 
-const renderMembers = ({ fields, meta: { touched, error } }) => (
-    <ul>
-      <li>
-        <button type="button" onClick={() => fields.push({})}>Add Member</button>
-        {touched && error && <span>{error}</span>}
-      </li>
-      {fields.map((member, index) =>
-          <li key={index}>
-            <button
-                type="button"
-                title="Remove Member"
-                onClick={() => fields.remove(index)}/>
-            <h4>Member #{index + 1}</h4>
-            <Field
-                name={`${member}.firstName`}
-                type="text"
-                component={renderField}
-                label="First Name"/>
-            <Field
-                name={`${member}.lastName`}
-                type="text"
-                component={renderField}
-                label="Last Name"/>
-            <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
-          </li>
-      )}
-    </ul>
-);
+  <label className={styles.image}> image
+    <input type="text" className="form-control" {...images}/>
+  </label>
 
-const FieldArraysForm = (props) => {
-  const { handleSubmit  , pristine, reset, submitting } = props;
-  return (
-      <form onSubmit={handleSubmit}>
-        <Field name="clubName" type="text" component={renderField} label="Club Name"/>
-        <FieldArray name="members" component={renderMembers}/>
-        <div>
-          <button type="submit" disabled={submitting}>Submit</button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
-        </div>
-      </form>
-  );
-};
+  <label className={styles.description}> description
+    <input type="text" className="form-control" {...description}/>
+  </label>
 
-export default reduxForm({
-  form: 'fieldArrays',     // a unique identifier for this form
+  {
+    onAddProduct.properties.map((property) =>
+        <label key={property.name} className={styles.property}> {property.name}
+          {/* <Field name={property.name}*/}
+          {/* component="input"*/}
+          {/* type="text"*/}
+          {/* placeholder="Last Name"*/}
+          {/* value={property.name}*/}
+          {/* />*/}
+          {/* <input type="text" className="form-control"/>*/}
+        </label>
+    )
+  }
+  <button className="btn btn-success btn-sm"
+          onClick={() => addProduct({
+            'name': values.name,
+            'price': values.price,
+            'inStock': values.inStock,
+            description,
+            images,
+          }, onAddProduct.id)}>
+    <i className={'glyphicon glyphicon-ok'}/>
+  </button>
 
-})(FieldArraysForm);
+  <button className="btn btn-default btn-sm" onClick={() => addStopProduct()}>
+    <i className="glyphicon glyphicon-remove"/>
+  </button>
+</div>
