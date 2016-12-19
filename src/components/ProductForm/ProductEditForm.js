@@ -109,9 +109,8 @@ export default class ProductEdit extends Component {
                       'name': values.name,
                       'price': values.price,
                       'inStock': values.inStock,
-                      description,
-                      images,
-                    }, onEditProduct.id)}>
+                      'description': description.value
+                    }, onEditProduct._id)}>
               <i className={'glyphicon glyphicon-ok'}/>
             </button>
 

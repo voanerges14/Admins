@@ -80,17 +80,15 @@ export function addProduct(product) {
 }
 
 export function editProduct(productNew) {
-  return ProductsModel.findById(productNew.id, function (err, product) {
+  return ProductsModel.findById(productNew._id, function (err, product) {
     if (err) {
       console.error('editProduct error1: ' + err);
       return 'error1 in editProduct: ' + err;
     }
-    product.categoryId = productNew.categoryId;
     product.name = productNew.name;
     product.price = productNew.price;
     product.inStock = productNew.inStock;
     product.description = productNew.description;
-    product.properties = productNew.properties;
     product.save(function (err, updatedProduct) {
       if (err) {
         console.error('editProduct error2: ' + err);

@@ -29,17 +29,17 @@ export default class ProductEdit extends Component {
     const property = this.props.onAddProduct.properties;
     for (let index = 0; index < property.length; ++index) {
       if (property[index].name === name) {
-        property.value = value;
+        this.props.onAddProduct.properties[index].value = value;
       }
     }
   }
 
   render() {
-    debugger;
     const {fields: {name, inStock, price, images, description}, values, onAddProduct,
       addStopProduct, addProduct} = this.props;
 
     const styles = require('./ProductEditForm.scss');
+
     return (
     <div>
       <label className={styles.name}> name
@@ -78,7 +78,7 @@ export default class ProductEdit extends Component {
                 'name': values.name,
                 'price': values.price,
                 'inStock': values.inStock,
-                images,
+                'images': images.value,
                 'description': description.value,
                 'properties': onAddProduct.properties
               }, onAddProduct.categoryId)}>

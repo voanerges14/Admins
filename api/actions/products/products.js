@@ -58,13 +58,11 @@ export function remove(req) {
 export function edit(req) {
   return new Promise((resolve, reject) => {
     const product = {
-      'categoryId': req.body.product.categoryId,
+      '_id': req.body._id,
       'name': req.body.product.name,
       'price': req.body.product.price,
       'inStock': req.body.product.inStock,
-      // 'images': req.body.product.images,
       'description': req.body.product.description,
-      'properties': req.body.product.properties
     };
     ProductsDB.editProduct(product).then(product => {
       resolve({'_id': product._id});
@@ -76,7 +74,6 @@ export function edit(req) {
 
 export function addImg(req) {
   return new Promise((resolve, reject) => {
-    // console.log("req " +  JSON.stringify(req.body));
     ProductsDB.addImg(req.body.productId, encodeURIComponent(req.body.img)).then(product => {
       resolve({'_id': req.body.productId});
     }).catch(error => {
@@ -109,6 +106,9 @@ export function getProperties(req) {
         let properties = [];
         for(let i = 0; i < categories.length; ++i) {
           properties = properties.concat(categories[i].properties);
+        }
+        for(let i = 0; i < properties.length; ++i) {
+          properties[i] = {'name': properties[i].name, 'value': ""};
         }
         resolve(properties);
       });
