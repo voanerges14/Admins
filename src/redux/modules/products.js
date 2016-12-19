@@ -287,12 +287,12 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_START_PRODUCT:
       return {
         ...state,
-        onAddProduct: {'isActive': true, 'categoryId': action.categoryId}
+        onAddProduct: {'isActive': false, 'categoryId': action.categoryId}
       };
     case ADD_START_PRODUCT_SUCCESS:
       return {
         ...state,
-        onAddProduct: { ...state.onAddProduct, 'properties': action.result}
+        onAddProduct: { ...state.onAddProduct, 'isActive': true, 'properties': action.result}
       };
     case ADD_START_PRODUCT_FAIL:
       const addPropertyError = [...state.error];

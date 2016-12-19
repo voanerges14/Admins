@@ -45,9 +45,21 @@ export default class ProductEdit extends Component {
           <input type="text" className="form-control" {...inStock}/>
         </label>
 
-        <label className={styles.number}> image
+        <label className={styles.image}> image
           <input type="text" className="form-control" {...images}/>
         </label>
+
+        <label className={styles.description}> description
+          <input type="text" className="form-control" {...description}/>
+        </label>
+
+        {
+          onAddProduct.properties.map((property) =>
+            <label className={styles.property}> {property.name}
+              <input type="text" className="form-control"/>
+            </label>
+          )
+        }
 
         <button className="btn btn-success btn-sm"
                 onClick={() => addProduct({
