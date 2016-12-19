@@ -3,29 +3,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
-import {ProductImageAdd, ProductDescription} from 'components';
+import {ProductImageAdd, ProductDescription, ProductProperty} from 'components';
 // , ProductDescriptionEdit, ProductPropertyEdit} from 'components';
-
-export class MyCustomInput extends Component {
-  render() {
-    return (
-        <div>
-          <span>The current value is.</span>
-          <button type="button" onClick={() => {}}>Inc</button>
-          <button type="button" onClick={() => {}}>Dec</button>
-        </div>
-    );
-  }
-}
-
 @connect(
   state => ({
     onEditProduct: state.products.onEditProduct,
     onShowImagePopUp: state.products.onShowImagePopUp,
     onAddProductImage: state.products.onAddProductImage,
-    onShowPropertyPopUp: state.products.onShowPropertyPopUp,
-    onShowDescriptionPopUp: state.products.onShowDescriptionPopUp,
-    onDescription: state.products.onDescription
+    onDescription: state.products.onDescription,
+    onProperty: state.products.onProperty
+
 
   }),
   dispatch => bindActionCreators(productActions, dispatch)
@@ -42,24 +29,24 @@ export default class ProductEdit extends Component {
     values: PropTypes.object.isRequired,
     onEditProduct: PropTypes.object.isRequired,
     toggleImg: PropTypes.func.isRequired,
-    onShowPropertyPopUp: PropTypes.bool.isRequired,
-    onShowDescriptionPopUp: PropTypes.bool.isRequired,
     onShowImagePopUp: PropTypes.bool.isRequired,
     images: PropTypes.array.isRequired,
     properties: PropTypes.array.isRequired,
     toggleDescription: PropTypes.func.isRequired,
-    onDescription: PropTypes.bool.isRequired
+    onDescription: PropTypes.bool.isRequired,
+    toggleProperty: PropTypes.func.isRequired,
+    onProperty: PropTypes.bool.isRequired
 
   };
 
   render() {
     const {
         fields: {name, price, inStock, description}, editProduct, toggleImg, values, images, properties,
-        onShowImagePopUp, onEditProduct, editStopProduct, toggleDescription, onDescription
+        onShowImagePopUp, onEditProduct, editStopProduct, toggleDescription, onDescription, onProperty, toggleProperty
     } = this.props;
 
     const styles = require('./ProductEditForm.scss');
-    debugger;
+    // debugger;
     return (
         <tr>
           <td colSpan="7">
@@ -78,7 +65,7 @@ export default class ProductEdit extends Component {
             {
               images && images.length ?
                 <label className={styles.logo}> image
-                   {onShowImagePopUp && <ProductImageAdd images={images}/>}
+                   <ProductImageAdd images={images}/>
                   <p>
                     <img src={decodeURIComponent(images[0])}
                          onClick={() => toggleImg(onShowImagePopUp)}/>
@@ -102,8 +89,10 @@ export default class ProductEdit extends Component {
             </label>
 
             {/* {onShowPropertyPopUp && <ProductPropertyEdit initialValues={properties}/>}*/}
+            <ProductProperty properties={properties}/>
             <label className={styles.property}> property
-              {
+              <div onClick={() => toggleProperty(onProperty)}>
+            {
                 properties && properties.length ?
                   <div>
                     <p>{properties[0].name + ': ' + properties[0].value}</p>
@@ -115,6 +104,7 @@ export default class ProductEdit extends Component {
                 :
                   <div>no properties (((</div>
               }
+              </div>
             </label>
 
             <button className="btn btn-success btn-sm"
