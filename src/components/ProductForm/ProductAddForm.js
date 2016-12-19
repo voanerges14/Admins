@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reduxForm, Field} from 'redux-form';
+import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
-import MyCustomInput from './ProductEditForm';
 @connect(
   state => ({
     onAddProduct: state.products.onAddProduct,
@@ -33,7 +32,7 @@ export default class ProductEdit extends Component {
 
     return (
       <div>
-        <Field component={MyCustomInput}/>
+        {/* <Field component={MyCustomInput}/>*/}
         <label className={styles.name}> name
           <input type="text" className="form-control" {...name}/>
         </label>

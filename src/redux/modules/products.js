@@ -148,7 +148,7 @@ export default function reducer(state = initialState, action = {}) {
             const imagesM = encodeURIComponent(dataDelImg[index].images[indexj]);
             const imageM = encodeURIComponent(action.imgDel);
             if (imagesM === imageM) {
-              dataDelImg[index].images.splice(imageM, 1);
+              dataDelImg[index].images.remove(indexj);
               break;
             }
           }

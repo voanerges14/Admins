@@ -4,34 +4,35 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {SkyLightStateless} from 'react-skylight';
-// import {ProductImageDelete} from 'components';
 @connect(
   state => ({
-    onDescription: state.products.onDescription,
     onEditProduct: state.products.onEditProduct,
-    onDeleteImage: state.products.onDeleteImage,
-    loadProducts: state.products.loadProducts
+    loadProducts: state.products.loadProducts,
+    onProperty: state.products.onProperty
 
   }),
   dispatch => bindActionCreators(productActions, dispatch)
 )
 @reduxForm({
-  form: 'Description',
-  fields: ['description']
+  form: 'Property',
+  fields: ['property']
 })
-export default class ProductDescription extends Component {
+export default class ProductProperty extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     values: PropTypes.object.isRequired,
     onEditProduct: PropTypes.object.isRequired,
-    onDescription: PropTypes.bool.isRequired,
+
+    onProperty: PropTypes.object.isRequired,
     editDescription: PropTypes.func.isRequired,
     toggleDescription: PropTypes.func.isRequired,
-    description: PropTypes.string.isRequired
+    description: PropTypes.string.isRequired,
+    toggleProperty: PropTypes.func.isRequired,
+    properties: PropTypes.object.isRequired
   };
 
   render() {
-    const {fields: {description}, values, onDescription, onEditProduct, toggleDescription, editDescription} = this.props;
+    const {fields: {property}, values, onProperty, onEditProduct, toggleProperty, properties} = this.props;
     // const styles = require('./ProductImageAdd.scss');
     const stylesS = {
       dialogStyles: {
@@ -56,25 +57,41 @@ export default class ProductDescription extends Component {
         top: '0'
       }
     };
+
     debugger;
     return (
       <div>
         <SkyLightStateless
             dialogStyles={stylesS.dialogStyles}
             closeButtonStyle={stylesS.closeButtonStyle}
-            isVisible={onDescription}
+            isVisible={onProperty.isActive}
             onCloseClicked={() => {
-              toggleDescription(onDescription);
+              toggleProperty(onProperty.isActive);
             }}
           >
           {description &&
           <div>
             <div>
-              <input type="text" className={'form-control'} {...description}/>
-              <button className={'btn btn-success btn-sm'}
-                      onClick={() => editDescription(onEditProduct._id, values.description)}>
-                <i className={'glyphicon glyphicon-ok'}/>
-              </button>
+              {fields.map((member, index) =>
+                <li key={index}>
+                  <button
+                    type="button"
+                    title="Remove Member"
+                    onClick={() => fields.remove(index)}/>
+                  <h4>Member #{index + 1}</h4>
+                  <Field
+                    name={`${member}.firstName`}
+                    type="text"
+                    component={renderField}
+                    placeholder="First Name"/>
+                  <Field
+                    name={`${member}.lastName`}
+                    type="text"
+                    component={renderField}
+                    placeholder="Last Name"/>
+                  <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
+                </li>
+              )}
             </div>
             </div>}
         </SkyLightStateless>

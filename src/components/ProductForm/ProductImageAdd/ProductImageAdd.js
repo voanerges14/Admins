@@ -115,7 +115,7 @@ export default class ProductImageAdd extends Component {
             </div>
             <div className={styles.component3}>
               {images.map((image) =>
-                <button key={image} className={styles.component} onDoubleClick={() => deleteStartImg(image)}>
+                <button key={image} className={styles.component} onDoubleClick={() => {deleteStartImg(image); images.remove(image);}}>
                   <img src={decodeURIComponent(image)}/>
                 </button>
               )}

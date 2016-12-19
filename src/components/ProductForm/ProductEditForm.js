@@ -48,15 +48,14 @@ export default class ProductEdit extends Component {
     images: PropTypes.array.isRequired,
     properties: PropTypes.array.isRequired,
     toggleDescription: PropTypes.func.isRequired,
-    onDescription: PropTypes.object.onDescription
+    onDescription: PropTypes.bool.isRequired
 
   };
 
   render() {
     const {
         fields: {name, price, inStock, description}, editProduct, toggleImg, values, images, properties,
-        onShowImagePopUp, onEditProduct, editStopProduct, // , onShowPropertyPopUp, onShowDescriptionPopUp
-        toggleDescription, onDescription
+        onShowImagePopUp, onEditProduct, editStopProduct, toggleDescription, onDescription
     } = this.props;
 
     const styles = require('./ProductEditForm.scss');
@@ -91,8 +90,8 @@ export default class ProductEdit extends Component {
 
             <label className={styles.description}> description
              {/* {onShowDescriptionPopUp && <ProductDescriptionEdit initialValues={description}/>}*/}
+              <ProductDescription initialValues={{'description': description.initialValue}}/>
               <div onClick={() => toggleDescription(onDescription)}>
-                {onDescription.isActive && <ProductDescription description={description.initialValue}/>}
                 {
                   description.initialValue.length > 100 ?
                     (description.initialValue.substring(0, 33) + '...')
