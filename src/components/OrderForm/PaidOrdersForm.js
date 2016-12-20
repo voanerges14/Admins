@@ -48,6 +48,7 @@ export default class Orders extends Component {
               <th className={styles.idOrdersCol}>№</th>
               <th className={styles.userColMain}>Users</th>
               <th className={styles.productsColMain}>Products</th>
+              <th className={styles.totalCol}>Total</th>
               <th className={styles.sendCol}>Send to delivery</th>
               <th className={styles.rejectCol}>Reject order</th>
             </tr>
@@ -74,6 +75,10 @@ export default class Orders extends Component {
                           </div>
                         )
                       }
+                    </td>
+
+                    <td className={styles.totalCol}>
+                      { order.total }
                     </td>
 
                     <td className={styles.sendCol}>

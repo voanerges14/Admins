@@ -39,7 +39,7 @@ export default class UserAddForm extends Component {
         </label>
 
         <label className={styles.EditFormIn}> password
-          <input type="text" className="form-control" {...password}/>
+          <input type="password" className="form-control" {...password}/>
         </label>
 
         <label className={styles.EditFormIn}> email

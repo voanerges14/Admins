@@ -4,13 +4,15 @@ function connectToDbUsersModel() {
   let Users = new db.Schema({
     // _id: { type: db.Schema.Types.ObjectId, required: true },
     email: { type: db.Schema.Types.String, required: true },
-    password: { type: db.Schema.Types.String, required: true },
+    password: { type: db.Schema.Types.String },
     phoneNumber: { type: db.Schema.Types.String, required: true },
     address: { type: db.Schema.Types.String, required: true },
     firstName: { type: db.Schema.Types.String, required: true },
     lastName: { type: db.Schema.Types.String, required: true },
-    // cards: { type: Array, required: true },
-    isAdmin: { type: db.Schema.Types.Bool, required: true }
+    isAdmin: { type: db.Schema.Types.Bool, required: true },
+    isEmailVerified: { type: Boolean, default: false },
+    bankId: { type: String, default: '' },
+    createdDate: { type: Date, default: Date.now() }
   });
 
   Users.pre('save', async function (next) {
