@@ -58,7 +58,7 @@ class Categories extends Component {
     super(props);
     this.state = {};
     this.onToggle = this.onToggle.bind(this);
-    // this.onFilterMouseUp = this.onFilterMouseUp.bind(this);
+    this.onFilterMouseUp = this.onFilterMouseUp.bind(this);
   }
 
   onToggle(node, toggled) {
@@ -77,11 +77,11 @@ class Categories extends Component {
     const filter = ee.target.value.trim();
     const categories = this.state.categories;
     if (!filter) {
-      return this.setState(categories);
+      return this.setState({categories});
     }
     let filtered = filters.filterTree(categories, filter);
     filtered = filters.expandFilteredNodes(filtered, filter);
-    // this.props.categories = filtered;
+    this.props.categories = filtered;
     this.setState({categories: filtered});
   }
   // debugger;
@@ -118,7 +118,7 @@ class Categories extends Component {
           {categories &&
             <div className={styles.component}>
               <div className={styles.component}>
-              {!addCategoryBtn.isActive && <button className="btn btn-link btn-xs"
+              {!addCategoryBtn.isActive && <button className="btn btn-link btn-xl"
                                                    onClick={() => {
                                                      addStartCategory(0);
                                                    }}>
@@ -126,8 +126,9 @@ class Categories extends Component {
               </button>}
              </div>
             <div className={styles.component2}>
-              <button className={styles.helloButton} onClick={() => changeShow(show)}>
-                {show ? <div>Properties</div> : <div>Products</div>}
+              <button className="btn btn-success" onClick={() => changeShow(show)}>
+                <i className="glyphicon glyphicon-sort"/>
+                {show ? ' Properties ' : ' Products   '}
               </button>
             </div>
             {editCategoryBtn.isActive && <CategoryEdit initialValues={{'name': editCategoryBtn.name}}/>}
