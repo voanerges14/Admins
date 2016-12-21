@@ -7,6 +7,11 @@ import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
+import bcrypt from 'bcrypt-as-promised';
+import UsersModel from './DbApi/Users';
+
+const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
 
 const pretty = new PrettyError();
 const app = express();
@@ -23,6 +28,30 @@ app.use(session({
   cookie: { maxAge: 60000 }
 }));
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// local auth
+var isValidPassword = function(user, password){
+  return bcrypt.compareSync(password, user.password);
+};
+
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, function(username, password, done){
+  UsersModel.findOne({ email : username}, function(err, user){
+    return err
+        ? done(err)
+        : user
+            ? isValidPassword(user, password)
+                ? done(null, user)
+                : done(null, false, { message: 'Incorrect password.' })
+            : done(null, false, { message: 'Incorrect username.' });
+  });
+}));
+
 
 
 app.use((req, res) => {

@@ -12,7 +12,7 @@ import * as userActions from 'redux/modules/users';
 )
 @reduxForm({
   form: 'user',
-  fields: ['id', 'firstName', 'lastName', 'password', 'admin']
+  fields: ['id', 'firstName', 'lastName', 'email', 'password', 'admin']
 })
 export default class UserAddForm extends Component {
   static propTypes = {
@@ -26,7 +26,7 @@ export default class UserAddForm extends Component {
 
   render() {
     const { addUser, stopAdd, values, changeAdminAdd, admin,
-        fields: {firstName, lastName, password}} = this.props;
+        fields: {firstName, lastName, email, password}} = this.props;
     const styles = require('containers/Users/Users.scss');
     return (
       <div className={styles.AddForm}>
@@ -36,6 +36,10 @@ export default class UserAddForm extends Component {
 
           <label className={styles.AddForm}> last name
             <input type="text" className="form-control" {...lastName}/>
+          </label>
+
+          <label className={styles.AddForm}> email
+            <input type="text" className="form-control" {...email}/>
           </label>
 
           <label className={styles.AddForm}> password
