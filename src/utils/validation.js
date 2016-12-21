@@ -8,6 +8,12 @@ export function email(value) {
   }
 }
 
+export function mobile(value) {
+  if (!isEmpty(value) && !/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(value)) {
+    return 'Invalid mobile number';
+  }
+}
+
 export function required(value) {
   if (isEmpty(value)) {
     return 'Required';

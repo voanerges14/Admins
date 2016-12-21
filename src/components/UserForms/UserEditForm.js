@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as userActions from 'redux/modules/users';
+import userValidation from './userValidation';
 
 @connect(
   state => ({
@@ -11,7 +12,8 @@ import * as userActions from 'redux/modules/users';
 )
 @reduxForm({
   form: 'user',
-  fields: ['id', 'firstName', 'lastName', 'email', 'phone', 'address', 'password', 'admin']
+  fields: ['id', 'firstName', 'lastName', 'email', 'phone', 'address', 'password', 'admin'],
+  validate: userValidation
 })
 export default class UserAddForm extends Component {
   static propTypes = {
@@ -32,10 +34,12 @@ export default class UserAddForm extends Component {
         <td colSpan="8">
         <label className={styles.EditFormIn}> first name
           <input type="text" className="form-control" {...firstName}/>
+          {firstName.error && firstName.touched && <div className="text-danger">{firstName.error}</div>}
         </label>
 
         <label className={styles.EditFormIn}> last name
           <input type="text" className="form-control" {...lastName}/>
+          {lastName.error && lastName.touched && <div className="text-danger">{lastName.error}</div>}
         </label>
 
         <label className={styles.EditFormIn}> password
@@ -44,10 +48,12 @@ export default class UserAddForm extends Component {
 
         <label className={styles.EditFormIn}> email
           <input type="text" className="form-control" {...email}/>
+          {email.error && email.touched && <div className="text-danger">{email.error}</div>}
         </label>
 
         <label className={styles.EditFormIn}> phone
           <input type="text" className="form-control" {...phone}/>
+          {phone.error && phone.touched && <div className="text-danger">{phone.error}</div>}
         </label>
 
         <label className={styles.EditFormAddress}> address
