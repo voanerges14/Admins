@@ -42,23 +42,20 @@ export default class Login extends Component {
         <div>
           <form className="login-form form-inline" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <div>
+             <tr>
               <input type="text" placeholder="Enter a username" className="form-control" {...email}/>
-
               <input type="password" placeholder="Enter a password" className="form-control" {...password}/>
-
-
-            </div>
-              <button className="btn btn-success" onClick={this.handleSubmit}
-                      disabled={pristine || invalid || submitting}>
-                <i className="fa fa-sign-in"/>{' '}Log In
-              </button>
-            <div>
+               <button className="btn btn-success" onClick={this.handleSubmit}
+                       disabled={pristine || invalid || submitting}>
+                 <i className="fa fa-sign-in"/>{' '}Log In
+               </button>
+             </tr>
+            <tr>
               {email.error && email.touched &&
                 <div className={styles.leftError + ' text-danger'}>{email.error}</div>}
               {password.error && password.touched &&
                 <div className={styles.RightError + ' text-danger'}>{password.error}</div>}
-            </div>
+            </tr>
             </div>
           </form>
         </div>

@@ -24,11 +24,7 @@ import urlValidation from './../productValidation';
 export default class ProductImageAdd extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    // // addStopImage: PropTypes.func.isRequired,
-    // // ProductBtn: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
-    //
-    // addStopImage: PropTypes.func.isRequired,
     onEditProduct: PropTypes.object.isRequired,
     onAddProductImage: PropTypes.bool.isRequired,
     onShowImagePopUp: PropTypes.bool.isRequired,
