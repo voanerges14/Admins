@@ -44,10 +44,8 @@ export default class Login extends Component {
                 <i className="fa fa-sign-in"/>{' '}Log In
               </button>
             <div>
-              {email.error && email.touched &&
-                <div className={styles.leftError + ' text-danger'}>{email.error}</div>}
-              {password.error && password.touched &&
-                <div className={styles.RightError + ' text-danger'}>{password.error}</div>}
+              {(email.error && email.touched || password.error && password.touched) &&
+                <div className={styles.leftError + ' text-danger'}>{email.error + password.error}</div>}
             </div>
           </form>
         </div>
