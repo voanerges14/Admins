@@ -25,22 +25,15 @@ export default class Login extends Component {
     logout: PropTypes.func
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const email = this.props.values.email.value;
-    const password = this.props.values.email.value;
-    this.props.login(email, password);
-    // email.value = password.value = '';
-  };
-
   render() {
-    const {user, logout, invalid, pristine, submitting, fields: {email, password}} = this.props;
+    const {user, logout, invalid, pristine, submitting, login, values,
+        fields: {email, password}} = this.props;
     const styles = require('./LoginForm.scss');
     return (
       <div className={styles.loginPage + ' container'}>
         {!user &&
         <div>
-          <form className="login-form form-inline" onSubmit={this.handleSubmit}>
+          <form className="login-form form-inline">
             <div className="form-group">
               <div>
               <input type="text" placeholder="Enter a username" className="form-control" {...email}/>
@@ -49,7 +42,8 @@ export default class Login extends Component {
 
 
             </div>
-              <button className="btn btn-success" onClick={this.handleSubmit}
+              <button className="btn btn-success"
+                      onClick={() => login(values.email, values.password)}
                       disabled={pristine || invalid || submitting}>
                 <i className="fa fa-sign-in"/>{' '}Log In
               </button>
