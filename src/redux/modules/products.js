@@ -135,21 +135,27 @@ export default function reducer(state = initialState, action = {}) {
       return state;
     case DELETE_SUCCESS_IMG:
       const dataDelImg = [...state.data];
-      for (let index = 0; index < dataDelImg.length; ++index) {
-        if (dataDelImg[index]._id === action._id) {
-          // debugger;
-          // dataDelImg[index].images = action.result.images;
-          for (let indexj = 0; indexj < dataDelImg[index].length; ++indexj) {
-            const imagesM = encodeURIComponent(dataDelImg[index].images[indexj]);
-            const imageM = encodeURIComponent(action.imgDel);
-            if (imagesM === imageM) {
-              dataDelImg[index].images.remove(indexj);
-              break;
-            }
-          }
-          break;
+      dataDelImg.map(product => {
+        if (product._id === action._id) {
+          const imagesS = product.images;
+          imagesS.splice(imagesS.indexOf(encodeURIComponent(action.imgDel)), 1);
         }
-      }
+      });
+      // for (let index = 0; index < dataDelImg.length; ++index) {
+      //   if (dataDelImg[index]._id === action._id) {
+      //     // debugger;
+      //     // dataDelImg[index].images = action.result.images;
+      //     for (let indexj = 0; indexj < dataDelImg[index].length; ++indexj) {
+      //       const imagesM = encodeURIComponent(dataDelImg[index].images[indexj]);
+      //       const imageM = encodeURIComponent(action.imgDel);
+      //       if (imagesM === imageM) {
+      //         dataDelImg[index].images.remove(indexj);
+      //         break;
+      //       }
+      //     }
+      //     break;
+      //   }
+      // }
       return {
         ...state,
         data: dataDelImg,
@@ -180,13 +186,14 @@ export default function reducer(state = initialState, action = {}) {
       };
     case ADD_SUCCESS_IMG:
       const dataAddImg = [...state.data];
-      // debugger;
-      for (let index = 0; index < dataAddImg.length; ++index) {
-        if (dataAddImg[index]._id === action.result._id) {
-          dataAddImg[index].images.push(action.img);
-          break;
+      const idProd = action._id;
+      const imgProd = action.img;
+      dataAddImg.map(product => {
+        if (product._id === idProd) {
+          const imagesProd = product.images;
+          imagesProd.push(imgProd);
         }
-      }
+      });
       return {
         ...state,
         data: dataAddImg,
@@ -432,6 +439,7 @@ export function addImg(img, productId) {
   return {
     types: [ADD_IMG, ADD_SUCCESS_IMG, ADD_FAIL_IMG],
     img: img,
+    _id: productId,
     promise: (client) => client.post('/products/addImg', {
       data: {img, productId}
     })

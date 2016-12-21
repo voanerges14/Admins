@@ -28,7 +28,7 @@ export default class Categories extends Component {
   render() {
     const { addPropertyBtn, editPropertyBtn, deletePropertyBtn, addStartProperty, editStartProperty,
         deleteStartProperty, deleteStopProperty, deleteProperty, properties, _id } = this.props;
-    const styles = require('containers/Categories/Categories.scss');
+    const styles = require('./Product.scss');
 
     return (
       <div>
@@ -40,7 +40,7 @@ export default class Categories extends Component {
               <th className={styles.nameCol}>Name</th>
               <th className={styles.typeCol}>Type</th>
               {!addPropertyBtn.isActive &&
-              <th className={styles.buttonCol}>
+              <th className={styles.btnCol}>
                 <button className="btn btn-primary" onClick={() => {
                   addStartProperty(_id);
                 }}>
@@ -60,9 +60,9 @@ export default class Categories extends Component {
                   <tr key={property.name}>
                     <td className={styles.nameCol}>{property.name}</td>
                     <td className={styles.typeCol}>{property.type}</td>
-                    <td className={styles.buttonCol}>
+                    <td className={styles.btnCol}>
                       <button className="btn btn-primary" onClick={() => editStartProperty(property.name, _id)}>
-                        <i className="fa fa-pencil"/> Edit
+                        <i className="fa fa-pencil"/>
                       </button>
                       {
                         deletePropertyBtn.isActive && (deletePropertyBtn.id === _id) &&
@@ -79,7 +79,7 @@ export default class Categories extends Component {
 
                             <button className="btn btn-primary"
                                     onClick={() => deleteStartProperty(property.name, _id)}>
-                              <i className="fa fa-trash"/> Del
+                              <i className="fa fa-trash"/>
                             </button>
                       }
                     </td>

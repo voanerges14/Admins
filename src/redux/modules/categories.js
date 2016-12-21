@@ -50,6 +50,64 @@ const initialState = {
   types: [ 'choose type', 'string', 'color', 'number']
 };
 
+// function findProperty(propery, data) {
+//   for (let index =0; index < data.length; index++)
+//
+// }
+
+function localEditProperty(property, data, oldProp) {
+  debugger;
+  data.map(category => {
+    category.properties.map(prop => {
+      if (prop.name === oldProp) {
+        const propertyE = category.properties;
+        propertyE.splice(propertyE.indexOf(prop), 1, property);
+        return true;
+      }
+    });
+
+    let children = category.children;
+    if (!Array.isArray(children)) {
+      children = children ? [children] : [];
+    }
+    localEditProperty(property, children, oldProp);
+  });
+}
+
+function localAddProperty(propertyA, id, data) {
+  debugger;
+  data.map(category => {
+    if (category._id === id) {
+      category.properties.push(propertyA);
+      return true;
+    }
+    let children = category.children;
+    if (!Array.isArray(children)) {
+      children = children ? [children] : [];
+    }
+    localAddProperty(propertyA, id, children);
+  });
+}
+
+function localDeleteProperty(name, data) {
+  debugger;
+  data.map(category => {
+    category.properties.map(prop => {
+      if (prop.name === name) {
+        const propertyE = category.properties;
+        propertyE.splice(propertyE.indexOf(prop), 1);
+        return true;
+      }
+    });
+
+    let children = category.children;
+    if (!Array.isArray(children)) {
+      children = children ? [children] : [];
+    }
+    localDeleteProperty(name, children);
+  });
+}
+
 function localAdd(category, data) {
   for (let node = 0; node < data.length; node++) {
     if (category.parentId === '0') {
@@ -204,9 +262,13 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_PROPERTY:
       return state;
     case ADD_SUCCESS_PROPERTY:
+      const dataAddProp = [...state.data];
+      const propA = action.property;
+      const id = action.id;
+      localAddProperty(propA, id, dataAddProp);
       return {
         ...state,
-        data: action.result.data,
+        // data: action.result.data,
         addProperty: {'isActive': false}
       };
     case ADD_FAIL_PROPERTY:
@@ -219,9 +281,15 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_PROPERTY:
       return state;
     case EDIT_SUCCESS_PROPERTY:
+      debugger;
+      const dataEditProp = [...state.data];
+      const propertyE = action.property;
+      const oldProp = action.oldProp;
+      localEditProperty(propertyE, dataEditProp, oldProp);
       return {
         ...state,
-        data: action.result.data,
+        // data: action.result.data,
+        data: dataEditProp,
         editProperty: {'isActive': false}
       };
     case EDIT_FAIL_PROPERTY:
@@ -234,9 +302,13 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_PROPERTY:
       return state;
     case DELETE_SUCCESS_PROPERTY:
+      const dataDelProp = [...state.data];
+      const nameDel = action.name;
+      localDeleteProperty(nameDel, dataDelProp);
       return {
         ...state,
-        data: action.result.data,
+        // data: action.result.data,
+        data: dataDelProp,
         deleteProperty: {'isActive': false}
       };
     case DELETE_FAIL_PROPERTY:
@@ -352,25 +424,30 @@ export function deleteCategory(id) {
 export function addProperty(property, id) {
   return {
     types: [ADD_PROPERTY, ADD_SUCCESS_PROPERTY, ADD_FAIL_PROPERTY],
-    category: property,
+    property: property,
     id: id,
     promise: (client) => client.post('/category/addProperty', {
       data: {property, id}
     })
   };
 }
-export function editProperty(property, id, oldName) {
+export function editProperty(property, id, oldProp) {
+  debugger;
   return {
     types: [EDIT_PROPERTY, EDIT_SUCCESS_PROPERTY, EDIT_FAIL_PROPERTY],
-    category: property,
+    oldProp: oldProp,
+    id: id,
+    property: property,
     promise: (client) => client.post('/category/editProperty', {
-      data: {property, id, oldName}
+      data: {property, id, oldName: oldProp}
     })
   };
 }
 export function deleteProperty(id, name) {
   return {
     types: [DELETE_PROPERTY, DELETE_SUCCESS_PROPERTY, DELETE_FAIL_PROPERTY],
+    name: name,
+    id: id,
     promise: (client) => client.post('/category/deleteProperty', {
       data: {id, name}
     })

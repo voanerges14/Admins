@@ -74,6 +74,14 @@ export default class ProductProperty extends Component {
               {/* properties.map((property) => {*/}
               {/* <CategoryEditProp key={property.name} initialValues={property}/>*/}
             {/* });*/}
+            {/* properties.map((property) =>{*/}
+              {/* <div>*/}
+                {/* <input*/}
+                  {/* type="text"*/}
+                  {/* onChange={event => this.updateProperty(event.target.value, property.name)}*/}
+                  {/* placeholder={property.name} />*/}
+              {/* </div>*/}
+            {/* });*/}
             </div>
             </div>}
         </SkyLightStateless>

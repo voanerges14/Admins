@@ -126,7 +126,7 @@ class Categories extends Component {
               </button>}
              </div>
             <div className={styles.component2}>
-              <button className="btn btn-success" onClick={() => changeShow(show)}>
+              <button className="btn btn-primary" onClick={() => changeShow(show)}>
                 <i className="glyphicon glyphicon-sort"/>
                 {show ? ' Properties ' : ' Products   '}
               </button>

@@ -93,7 +93,8 @@ export default class ProductImageAdd extends Component {
           {images && images.length &&
           onDeleteImage.isActive ?
             <div>
-              <p className={styles.delImage}><img src={decodeURIComponent(onDeleteImage.image)}/></p>
+              <p className={styles.delImage}>
+                <img src={decodeURIComponent(onDeleteImage.image)}/></p>
               <span>DELETE THIS PICTURE?
               <button className={styles.comBtn + 'btn btn-success btn-sm'}
                       onClick={() => deleteImg(onEditProduct._id, onDeleteImage.image)}>DELETE
