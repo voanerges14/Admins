@@ -1,5 +1,6 @@
 import * as OrdersDb from './../../DbApi/Orders';
 import * as UsersDb from './../../DbApi/Users';
+import request from 'request';
 
 export function getPaid() {
   return new Promise((resolve, reject) => {
@@ -11,7 +12,12 @@ export function getPaid() {
       Promise.all(actions).then(users => {
         let returnOrders = [];
         for(let i = 0; i < orders.length; ++i) {
-          returnOrders.push({id: orders[i]._id, user: users[i], products: orders[i].products});
+          returnOrders.push({
+            'id': orders[i]._id,
+            'user': users[i],
+            'total': orders[i].total,
+            'products': orders[i].products
+          });
         }
         resolve(returnOrders);
       }).catch(err => {
@@ -33,10 +39,11 @@ export function getAll() {
         for(let i = 0; i < orders.length; ++i) {
           returnOrders.push(
               {
-                id: orders[i]._id,
-                user: users[i],
-                products: orders[i].products,
-                status: orders[i].status
+                'id': orders[i]._id,
+                'user': users[i],
+                'products': orders[i].products,
+                'total': orders[i].total,
+                'status': orders[i].status
               });
         }
         resolve(returnOrders);
@@ -64,15 +71,38 @@ export function apply(req) {
 
 export function cancel(req) {
   return new Promise((resolve, reject) => {
-    // send to bank query
-    ////
-    OrdersDb.deleteOrder(req.body.id).then(() => {
-      getAll().then(res => {
-        resolve(res);
+    OrdersDb.getOrderById(req.body.id).then(order => {
+      cashBack(order.cardId, order.total).then(() => {
+        OrdersDb.deleteOrder(req.body.id).then(() => {
+          getAll().then(res => {
+            resolve(res);
+          });
+        }).catch(err => {
+          console.log('err: ' + err);
+          reject('error in cancel:' + err);
+        });
+      }).catch(error => {
+        reject('error in cancel: bank denied: ' + error);
       });
-    }).catch(err => {
-      console.log('err: ' + err);
-      reject('error in apply:' + err);
+    });
+  });
+}
+
+function cashBack(cardId, amount) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: 'https://bankapi1997.herokuapp.com/returnPayment',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 374d4b32-7d0a-42af-88cb-046368e1b6df'
+      }, json: {cardId, amount}
+    }, (err, response, body) => {
+      if(response.statusCode == 200) {
+        resolve();
+      } else {
+        reject(body);
+      }
     });
   });
 }

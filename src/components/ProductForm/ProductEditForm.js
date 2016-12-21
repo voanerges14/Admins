@@ -50,76 +50,77 @@ export default class ProductEdit extends Component {
     return (
         <tr>
           <td colSpan="7">
-            <label className={styles.name}> name
-              <input type="text" className="form-control" {...name}/>
-            </label>
+            <div className={styles.lineOne}>
+              <label className={styles.name}> name
+                <input type="text" className="form-control" {...name}/>
+              </label>
 
-            <label className={styles.price}> price
-              <input type="text" className="form-control" {...price}/>
-            </label>
+              <label className={styles.price}> price
+                <input type="text" className="form-control" {...price}/>
+              </label>
 
-            <label className={styles.number}> number
-              <input type="text" className="form-control" {...inStock}/>
-            </label>
+              <label className={styles.number}> number
+                <input type="text" className="form-control" {...inStock}/>
+              </label>
 
-            {
-              images && images.length ?
-                <label className={styles.logo}> image
-                   <ProductImageAdd images={images}/>
-                  <p>
-                    <img src={decodeURIComponent(images[0])}
-                         onClick={() => toggleImg(onShowImagePopUp)}/>
-                  </p>
-                </label>
-              :
-                <div onClick={() => toggleImg(onShowImagePopUp)}>no image</div>
-            }
-
-            <label className={styles.description}> description
-             {/* {onShowDescriptionPopUp && <ProductDescriptionEdit initialValues={description}/>}*/}
-              <ProductDescription initialValues={{'description': description.initialValue}}/>
-              <div onClick={() => toggleDescription(onDescription)}>
-                {
-                  description.initialValue.length > 100 ?
-                    (description.initialValue.substring(0, 33) + '...')
-                  :
-                    description.initialValue
-                }
-              </div>
-            </label>
-
-            {/* {onShowPropertyPopUp && <ProductPropertyEdit initialValues={properties}/>}*/}
-            <ProductProperty properties={properties}/>
-            <label className={styles.property}> property
-              <div onClick={() => toggleProperty(onProperty)}>
-            {
-                properties && properties.length ?
-                  <div>
-                    <p>{properties[0].name + ': ' + properties[0].value}</p>
-                    {properties.length >= 2 &&
-                    <p>{properties[1].name + ': ' + properties[1].value}</p>}
-                    {properties.length >= 3 &&
-                    <p>{properties[2].name + ': ' + properties[2].value}</p>}
-                  </div>
+              {
+                images && images.length ?
+                  <label className={styles.logo}> image
+                     <ProductImageAdd images={images}/>
+                    <p>
+                      <img src={decodeURIComponent(images[0])}
+                           onClick={() => toggleImg(onShowImagePopUp)}/>
+                    </p>
+                  </label>
                 :
-                  <div>no properties (((</div>
+                  <div onClick={() => toggleImg(onShowImagePopUp)}>no image</div>
               }
-              </div>
-            </label>
+            </div>
+            <div className={styles.lineTwo}>
+              <span className={styles.description}>
+                <label> description </label>
+                <ProductDescription initialValues={{'description': description.initialValue}}/>
+                <div onClick={() => toggleDescription(onDescription)}>
+                  {
+                    description.initialValue.length > 100 ?
+                      (description.initialValue.substring(0, 100) + '...')
+                    :
+                      description.initialValue
+                  }
+                </div>
+              </span>
+              <span className={styles.property}>
+                <ProductProperty properties={properties}/>
+                <label> property </label>
+                <div onClick={() => toggleProperty(onProperty)}>
+                  {
+                    properties && properties.length ?
+                      <div>
+                        <p>{properties[0].name + ': ' + properties[0].value}</p>
+                        {properties.length >= 2 &&
+                        <p>{properties[1].name + ': ' + properties[1].value}</p>}
+                      </div>
+                    :
+                      <div>no properties (((</div>
+                  }
+                </div>
+              </span>
+              <span className={styles.button}>
+                <button className="btn btn-success btn-lg"
+                        onClick={() => editProduct({
+                          'name': values.name,
+                          'price': values.price,
+                          'inStock': values.inStock,
+                          'description': description.value
+                        }, onEditProduct._id)}>
+                  <i className={'glyphicon glyphicon-ok'}/>
+                </button>
 
-            <button className="btn btn-success btn-sm"
-                    onClick={() => editProduct({
-                      'name': values.name,
-                      'price': values.price,
-                      'inStock': values.inStock,
-                      'description': description.value
-                    }, onEditProduct._id)}>
-              <i className={'glyphicon glyphicon-ok'}/>
-            </button>
-
-            <button className="btn btn-default btn-sm" onClick={() => editStopProduct()}>
-              <i className="glyphicon glyphicon-remove"/>
-            </button>
+                <button className="btn btn-default btn-lg" onClick={() => editStopProduct()}>
+                  <i className="glyphicon glyphicon-remove"/>
+                </button>
+              </span>
+            </div>
           </td>
         </tr>
     );

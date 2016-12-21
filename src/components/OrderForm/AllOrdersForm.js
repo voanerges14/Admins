@@ -1,16 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as ordersActions from 'redux/modules/orders';
-// import {isLoaded, loadAll as loadOrders} from 'redux/modules/orders';
-// import { asyncConnect } from 'redux-async-connect';
-// @asyncConnect([{
-//   deferred: true,
-//   promise: ({store: {dispatch, getState}}) => {
-//     if (!isLoaded(getState())) {
-//       return dispatch(loadOrders());
-//     }
-//   }
-// }])
 
 @connect(
     state => ({
@@ -35,6 +25,7 @@ export default class Orders extends Component {
             <th className={styles.idOrdersCol}>№</th>
             <th className={styles.userColMain}>Users</th>
             <th className={styles.productsColMain}>Products</th>
+            <th className={styles.totalCol}>Total</th>
             <th className={styles.sendCol}>Order status</th>
           </tr>
           </thead>
@@ -60,6 +51,10 @@ export default class Orders extends Component {
                       </div>
                     )
                   }
+                </td>
+
+                <td className={styles.totalCol}>
+                  { order.total }
                 </td>
 
                 <td className={styles.statusCol}>

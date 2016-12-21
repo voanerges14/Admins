@@ -93,7 +93,8 @@ export default function reducer(state = initialState, action = {}) {
       }
       return {
         ...state,
-        data: dataEditDescription
+        data: dataEditDescription,
+        onDescription: false
       };
     case EDIT_FAIL_DESCRIPTION:
       debugger;
@@ -261,8 +262,8 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_SUCCESS_PRODUCT:
       const dataEDIT = [...state.data];
       for (let index = 0; index < dataEDIT.length; ++index) {
-        if (dataEDIT[index]._id === action.result._id) {
-          dataEDIT[index] = action.product;
+        if (dataEDIT[index]._id === action._id) {
+          dataEDIT[index] = action.result.product;
           break;
         }
       }
@@ -396,7 +397,7 @@ export function addProduct(product, categoryId) {
 export function editProduct(product, _id) {
   return {
     types: [EDIT_PRODUCT, EDIT_SUCCESS_PRODUCT, EDIT_FAIL_PRODUCT],
-    product: product,
+    _id: _id,
     promise: (client) => client.post('/products/edit', {
       data: {product, _id}
     })

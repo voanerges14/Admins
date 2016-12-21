@@ -93,8 +93,8 @@ export default class Product extends Component {
 
                     <td className={styles.descriptionColProd}>
                       {
-                        product.description.length > 100 ?
-                          product.description.substring(0, 100) + '...'
+                        product.description.length > 64 ?
+                          product.description.substring(0, 64) + '...'
                         :
                           product.description
                       }
@@ -107,8 +107,6 @@ export default class Product extends Component {
                             <p>{product.properties[0].name + ': ' + product.properties[0].value}</p>
                             {product.properties.length >= 2 &&
                               <p>{product.properties[1].name + ': ' + product.properties[1].value}</p>}
-                            {product.properties.length >= 3 &&
-                              <p>{product.properties[2].name + ': ' + product.properties[2].value}</p>}
                           </div>
                         :
                           <div>no properties (((</div>

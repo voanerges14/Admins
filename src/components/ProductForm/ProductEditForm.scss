@@ -1,20 +1,20 @@
 .name {
-  width: 30%;
+  width: 55%;
   margin-right: 7px;
 }
 .price {
-  width: 6%;
+  width: 10%;
   margin-right: 7px;
 
 }
 .number {
-  width: 6%;
+  width: 10%;
   margin-right: 10px;
 }
 
 .logo {
-  height: 90px;
-  width: 90px;
+  max-height: 73px;
+  width: 120px;
   margin-right: 10px;
   img {
     width: 100%;
@@ -22,10 +22,27 @@
 }
 
 .description {
-  width: 12%;
+  width: 40%;
   margin-right: 7px;
+  vertical-align: top;
+  display:inline-block;
+  float: left;
 }
 
 .property {
-  width: 20%;
+  width: 30%;
+  vertical-align: top;
+  display:inline-block;
+  float: left;
+}
+
+.lineOne {
+  width: 100%;
+  height: 100px;
+}
+
+.button {
+  float: right;
+  padding-top: 2%;
+  padding-right: 5%;
 }

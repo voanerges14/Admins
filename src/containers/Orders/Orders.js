@@ -29,7 +29,6 @@ import * as productsActions from 'redux/modules/products';
 
 export default class Orders extends Component {
   static propTypes = {
-    loadProduct: PropTypes.func.isRequired,
     orders: PropTypes.array,
     loading: PropTypes.bool,
     load: PropTypes.func.isRequired,

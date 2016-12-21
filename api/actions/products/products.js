@@ -3,23 +3,11 @@ import * as CategoryDB from './../../DbApi/Categories';
 
 export function get(req) {
   return new Promise((resolve, reject) => {
-    // console.log('getProduct: ' + JSON.stringify(req.body));
     CategoryDB.getCategories().then(data => {
       let ids = findNode(req.body._id, data);
-      // console.log('ids: ' + JSON.stringify(ids));
-      // let actions = [];
-
       ProductsDB.getProductByCategoriesIds(ids).then(products => {
-        // console.log('products: ' + products);
         resolve(products);
       });
-      // for (let i = 0; i < ids.length; ++i) {
-      //   actions.push(ProductsDB.getProductByCategoryId(ids[i]));
-      // }
-      // Promise.all(actions).then(products => {
-      //   console.log('products: ' + products);
-      //   resolve(products);
-      // })
     }).catch(error => {
       reject('error in get: ' + error);
     });
@@ -65,7 +53,9 @@ export function edit(req) {
       'description': req.body.product.description,
     };
     ProductsDB.editProduct(product).then(product => {
-      resolve({'_id': product._id});
+      ProductsDB.getProductById(req.body._id).then(product => {
+        resolve({product});
+      });
     }).catch(error => {
       reject('error in edit: ' + error);
     });
@@ -83,12 +73,10 @@ export function addImg(req) {
 }
 
 export function removeImg(req) {
-  console.log("come to server" + JSON.stringify(req.body, null, 4));
   return new Promise((resolve, reject) => {
     ProductsDB.removeImg(req.body.productId, req.body.img).then(() => {
       ProductsDB.getProductById(req.body.productId).then(product => {
-        console.log("come to server " + JSON.stringify(product[0].images, null, 4));
-        resolve({'images': product[0].images});
+        resolve({'images': product.images});
       }).catch(error => {
         reject('error in removeImg: ' + error);
       });
@@ -122,7 +110,7 @@ export function editDescription(req) {
   return new Promise((resolve, reject) => {
     ProductsDB.editDescription(req.body._id, req.body.description).then(() => {
       ProductsDB.getProductById(req.body._id).then(product => {
-        resolve({product: product[0]});
+        resolve({product: product});
       });
     }).catch(error => {
       reject('error in editDescription: ' + error);

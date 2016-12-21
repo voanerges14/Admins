@@ -28,7 +28,7 @@ export function getProductByCategoriesIds(ids) {
 }
 
 export function getProductById(id) {
-  return ProductsModel.find({'_id': id}, function (err, product) {
+  return ProductsModel.findById(id, function (err, product) {
     if (!err) {
       return product;
     }
@@ -139,8 +139,6 @@ export function addImg(_id, img) {
       console.error('addImg error1: ' + err);
       return 'error1 in addImg: ' + err;
     }
-    console.log('product ' + JSON.stringify(product, null, 4));
-    console.log('_id: ' + JSON.stringify(_id, null, 4));
     product.images.push(img);
     product.save(function (err, updatedProduct) {
       if (err) {
