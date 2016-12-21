@@ -25,37 +25,29 @@ export default class Login extends Component {
     logout: PropTypes.func
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const email = this.props.values.email.value;
-    const password = this.props.values.email.value;
-    this.props.login(email, password);
-    // email.value = password.value = '';
-  };
-
   render() {
-    const {user, logout, invalid, pristine, submitting, fields: {email, password}} = this.props;
+    const {user, logout, invalid, pristine, submitting, login, values,
+        fields: {email, password}} = this.props;
     const styles = require('./LoginForm.scss');
     return (
       <div className={styles.loginPage + ' container'}>
         {!user &&
         <div>
-          <form className="login-form form-inline" onSubmit={this.handleSubmit}>
+          <form className="login-form form-inline">
             <div className="form-group">
-             <tr>
               <input type="text" placeholder="Enter a username" className="form-control" {...email}/>
               <input type="password" placeholder="Enter a password" className="form-control" {...password}/>
-               <button className="btn btn-success" onClick={this.handleSubmit}
-                       disabled={pristine || invalid || submitting}>
-                 <i className="fa fa-sign-in"/>{' '}Log In
-               </button>
-             </tr>
-            <tr>
+            </div>
+              <button className="btn btn-success"
+                      onClick={() => login(values.email, values.password)}
+                      disabled={pristine || invalid || submitting}>
+                <i className="fa fa-sign-in"/>{' '}Log In
+              </button>
+            <div>
               {email.error && email.touched &&
                 <div className={styles.leftError + ' text-danger'}>{email.error}</div>}
               {password.error && password.touched &&
                 <div className={styles.RightError + ' text-danger'}>{password.error}</div>}
-            </tr>
             </div>
           </form>
         </div>
