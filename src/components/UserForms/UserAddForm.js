@@ -54,7 +54,7 @@ export default class UserAddForm extends Component {
 
         <label className={styles.AddForm}> password
           <input type="password" className="form-control" {...password}/>
-          {password.error && password.touched && <div className="text-danger">{password.error}</div>}
+           {password.error && password.touched && <div className="text-danger">{password.error}</div>}
         </label>
 
         <button className={styles.AddFormButton + ' btn btn-secondary btn-md'}

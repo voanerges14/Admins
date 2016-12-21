@@ -117,7 +117,7 @@ function cashBack(cardId, amount) {
       if(response.statusCode == 200) {
         resolve();
       } else {
-        reject(body);
+        reject(JSON.stringify(body));
       }
     });
   });

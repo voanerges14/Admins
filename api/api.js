@@ -5,10 +5,11 @@ import config from '../src/config';
 import * as actions from './actions/index';
 import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
+import cookieParser from 'cookie-parser';
 import http from 'http';
 import SocketIo from 'socket.io';
 import bcrypt from 'bcrypt-as-promised';
-import UsersModel from './DbApi/Users';
+import {UsersModel} from './DbApi/Users';
 
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
@@ -29,12 +30,28 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
+app.use(cookieParser());
+
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+
+passport.deserializeUser(function(id, done) {
+  UsersModel.findById(id, function(err,user){
+    err
+        ? done(err)
+        : done(null,user);
+  });
+});
+
 // local auth
 var isValidPassword = function(user, password){
-  return bcrypt.compareSync(password, user.password);
+  return bcrypt.compare(password, user.password);
 };
 
 passport.use(new LocalStrategy({
@@ -45,10 +62,12 @@ passport.use(new LocalStrategy({
     return err
         ? done(err)
         : user
-            ? isValidPassword(user, password)
-                ? done(null, user)
-                : done(null, false, { message: 'Incorrect password.' })
-            : done(null, false, { message: 'Incorrect username.' });
+            ? user.isAdmin
+                ? isValidPassword(user, password)
+                    ? done(null, user)
+                    : done(null, false, { message: 'Incorrect password.' })
+                : done(null, false, { message: 'Incorrect username.' })
+            : done(null, false, { message: 'You are not admin' });
   });
 }));
 

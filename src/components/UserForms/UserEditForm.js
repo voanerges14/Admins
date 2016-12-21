@@ -23,11 +23,12 @@ export default class UserAddForm extends Component {
     stopEdit: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
+    _id: PropTypes.string.isRequired
   };
 
   render() {
-    const { editUser, stopEdit, values, changeAdminEdit, isAdminTemp,
-      fields: {id, firstName, lastName, email, phone, address, password}} = this.props;
+    const { editUser, stopEdit, values, changeAdminEdit, isAdminTemp, _id,
+      fields: {firstName, lastName, email, phone, address, password}} = this.props;
     const styles = require('containers/Users/Users.scss');
     return (
       <tr>
@@ -61,15 +62,15 @@ export default class UserAddForm extends Component {
         </label>
 
         <button className={styles.EditFormAdmin + ' btn btn-secondary btn-md'}
-                onClick={() => changeAdminEdit(id.value, isAdminTemp[id.value])}>
-          {isAdminTemp[id.value] ? <div>Admin</div> : <div>User</div>}
+                onClick={() => changeAdminEdit(_id, isAdminTemp[_id])}>
+          {isAdminTemp[_id] ? <div>Admin</div> : <div>User</div>}
         </button>
 
-        <button className="btn btn-success btn-sm" onClick={() => editUser(values, isAdminTemp[id.value])}>
+        <button className="btn btn-success btn-sm" onClick={() => editUser(values, isAdminTemp[_id])}>
           <i className={'glyphicon glyphicon-ok'}/>
         </button>
 
-        <button className="btn btn-default btn-sm" onClick={() => stopEdit(id.value)}>
+        <button className="btn btn-default btn-sm" onClick={() => stopEdit(_id)}>
           <i className="glyphicon glyphicon-remove"/>
         </button>
         </td>
