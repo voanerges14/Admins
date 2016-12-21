@@ -24,11 +24,14 @@ export function get() {
 
 export function add(req) {
   return new Promise((resolve, reject) => {
-    let fName = req.body.user.firstName;
-    let lName = req.body.user.lastName;
-    let passwd = req.body.user.password;
-    let isAdmin = req.body.isAdmin;
-    UsersDb.addUser(fName, lName, passwd, isAdmin).then(user => {
+    const user = {
+      email: req.body.user.email,
+      firstName: req.body.user.firstName,
+      lastName: req.body.user.lastName,
+      password: req.body.user.password,
+      isAdmin: req.body.isAdmin
+    };
+    UsersDb.addUser(user).then(user => {
       resolve({'id': user._id});
     }).catch(error => {
       reject('error in add: ' + error);
@@ -48,6 +51,7 @@ export function deleteUser(req) {
 
 export function edit(req) {
   return new Promise((resolve, reject) => {
+    console.log('temp: ' + JSON.stringify(req.body.admin));
     const user = {
       'id': req.body.user.id,
       'firstName': req.body.user.firstName,
@@ -56,7 +60,7 @@ export function edit(req) {
       'password': req.body.user.password,
       'phone': req.body.user.phone,
       'address': req.body.user.address,
-      'admin': req.body.admin
+      'isAdmin': req.body.admin
     };
     UsersDb.editUser(user).then(user => {
       resolve({'id': user._id});

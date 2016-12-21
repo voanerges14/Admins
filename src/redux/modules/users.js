@@ -116,6 +116,7 @@ export default function reducer(state = initialState, action = {}) {
         id: action.result.id,
         firstName: action.firstName,
         lastName: action.lastName,
+        email: action.email,
         admin: action.isAdmin
       };
       dataADD.push(user);
@@ -215,6 +216,7 @@ export function addUser(user, admin) {
   return { types: [ADD, ADD_OK, ADD_FAIL],
     firstName: user.firstName,
     lastName: user.lastName,
+    email: user.email,
     isAdmin: admin,
     promise: (client) => client.post('/users/add', { data: {'user': user, 'isAdmin': admin} })
   };

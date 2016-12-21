@@ -12,6 +12,14 @@ export function getPaid() {
       Promise.all(actions).then(users => {
         let returnOrders = [];
         for(let i = 0; i < orders.length; ++i) {
+          if(users[i] == null) {
+            users[i] = {
+              firstName: 'User',
+              lastName: 'not found',
+              email: ' ',
+              phoneNumber: ' '
+            };
+          }
           returnOrders.push({
             'id': orders[i]._id,
             'user': users[i],
@@ -37,6 +45,14 @@ export function getAll() {
       Promise.all(actions).then(users => {
         let returnOrders = [];
         for(let i = 0; i < orders.length; ++i) {
+          if(users[i] == null) {
+            users[i] = {
+              firstName: 'User',
+              lastName: 'not found',
+              email: ' ',
+              phoneNumber: ' '
+            };
+          }
           returnOrders.push(
               {
                 'id': orders[i]._id,
