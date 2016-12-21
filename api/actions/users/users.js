@@ -51,7 +51,6 @@ export function deleteUser(req) {
 
 export function edit(req) {
   return new Promise((resolve, reject) => {
-    console.log('temp: ' + JSON.stringify(req.body.admin));
     const user = {
       'id': req.body.user.id,
       'firstName': req.body.user.firstName,

@@ -89,7 +89,7 @@ export default class Orders extends Component {
             <tbody>
             {
               users.map((user, index) => editBtns(user.id) ?
-                  <UserEditForm key={user.id} initialValues={user}/> :
+                  <UserEditForm key={user.id} initialValues={user} _id={user.id}/> :
 
                   <tr key={user.id}>
                     <td className={styles.IdUser} id={user.id}>
