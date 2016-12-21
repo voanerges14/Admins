@@ -27,11 +27,20 @@ export default class ProductProperty extends Component {
     editDescription: PropTypes.func.isRequired,
     toggleProperty: PropTypes.func.isRequired,
     description: PropTypes.string.isRequired,
-    properties: PropTypes.array.isRequired
+    properties: PropTypes.array.isRequired,
+    editProperty: PropTypes.func.isRequired
   };
+  updateProperty(value, name) {
+    const property = this.props.properties;
+    for (let index = 0; index < property.length; ++index) {
+      if (property[index].name === name) {
+        this.props.properties[index].value = value;
+      }
+    }
+  }
 
   render() {
-    const {onProperty, toggleProperty, properties} = this.props;
+    const {onProperty, toggleProperty, properties, editProperty, onEditProduct} = this.props;
     // const styles = require('./ProductImageAdd.scss');
     const stylesS = {
       dialogStyles: {
@@ -56,7 +65,7 @@ export default class ProductProperty extends Component {
         top: '0'
       }
     };
-
+    // const styles = require('./ProductProperty.scss');
     debugger;
     return (
       <div>
@@ -68,22 +77,33 @@ export default class ProductProperty extends Component {
               toggleProperty(onProperty);
             }}
           >
-          {properties &&
-          <div>
-            <div>
-              {/* properties.map((property) => {*/}
-              {/* <CategoryEditProp key={property.name} initialValues={property}/>*/}
-            {/* });*/}
-            {/* properties.map((property) =>{*/}
-              {/* <div>*/}
-                {/* <input*/}
-                  {/* type="text"*/}
-                  {/* onChange={event => this.updateProperty(event.target.value, property.name)}*/}
-                  {/* placeholder={property.name} />*/}
-              {/* </div>*/}
-            {/* });*/}
-            </div>
-            </div>}
+          <table className="table table-striped">
+            <thead>
+
+            </thead>
+          <tbody>
+          {properties && properties.map((property) =>
+            <tr key={property.name}>
+              <td>{property.name}</td>
+              <td>
+              <input
+                className="form-control"
+                type="text"
+                defaultValue={property.value}
+                onChange={event => this.updateProperty(event.target.value, property.name).bind(this)}
+                 />
+            </td>
+            </tr>
+          )}
+          <button className="btn btn-success" onClick={() => {
+            editProperty(onEditProduct._id, properties);
+            toggleProperty(onProperty);
+          }}>
+            <i className="glyphicon glyphicon-ok"/>
+            SAVE
+          </button>
+            </tbody>
+          </table>
         </SkyLightStateless>
       </div>
     );

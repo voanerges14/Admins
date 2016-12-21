@@ -1,5 +1,6 @@
 const isEmpty = value => value === undefined || value === null || value === '';
 const join = (rules) => (value, data) => rules.map(rule => rule(value, data)).filter(error => !!error)[0 /* first error */ ];
+const validUrl = require('valid-url');
 
 export function email(value) {
   // Let's not start a debate on email regex. This is just for an example app!
@@ -66,4 +67,10 @@ export function createValidator(rules) {
     });
     return errors;
   };
+}
+
+export function isURL(url) {
+  if (!validUrl.isUri(url)) {
+    return 'Isn`t URL';
+  }
 }

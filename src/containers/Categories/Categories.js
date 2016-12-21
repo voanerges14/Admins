@@ -106,15 +106,15 @@ class Categories extends Component {
 
         <Helmet title="Categories"/>
         <StyleRoot className={styles.component3}>
-          <div style={styles.searchBox}>
-            <div className="input-group">
-              <span className="input-group-addon"> <i className="fa fa-search"/> </span>
-              <input type="text"
-                     className="form-control"
-                     placeholder="Search the tree..."
-                     onKeyUp={this.onFilterMouseUp.bind(this)}/>
-            </div>
-          </div>
+          {/* <div style={styles.searchBox}>*/}
+            {/* <div className="input-group">*/}
+              {/* <span className="input-group-addon"> <i className="fa fa-search"/> </span>*/}
+              {/* <input type="text"*/}
+                     {/* className="form-control"*/}
+                     {/* placeholder="Search the tree..."*/}
+                     {/* onKeyUp={this.onFilterMouseUp.bind(this)}/>*/}
+            {/* </div>*/}
+          {/* </div>*/}
           {categories &&
             <div className={styles.component}>
               <div className={styles.component}>

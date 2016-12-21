@@ -71,6 +71,7 @@ export default class ProductDescription extends Component {
               <button className={'btn btn-success btn-sm'}
                       onClick={() => editDescription(onEditProduct._id, values.description)}>
                 <i className={'glyphicon glyphicon-ok'}/>
+                SAVE
               </button>
             </div>
             </div>}

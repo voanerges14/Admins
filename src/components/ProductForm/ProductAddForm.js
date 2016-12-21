@@ -67,10 +67,9 @@ export default class ProductEdit extends Component {
         <div>
           <input
               type="text"
-              onChange={event => this.updateProperty(event.target.value, property.name)}
+              onChange={event => this.updateProperty(event.target.value, property.name).bind(this)}
               placeholder={property.name} />
         </div>
-
         )
       }
       <button className="btn btn-success btn-sm"
