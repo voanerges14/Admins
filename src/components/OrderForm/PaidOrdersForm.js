@@ -102,7 +102,7 @@ export default class Orders extends Component {
                     <td className={styles.rejectCol}>
                       {!rejectBtn(order.id) &&
                         <button className="btn btn-danger btn-sm" onClick={() => startReject(order.id)}>
-                          <i className="fa fa-pencil"/> Cancel
+                          <i className="glyphicon glyphicon-remove"/> Cancel
                         </button>
                       }
 

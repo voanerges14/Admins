@@ -56,7 +56,6 @@ const initialState = {
 // }
 
 function localEditProperty(property, data, oldProp) {
-  debugger;
   data.map(category => {
     category.properties.map(prop => {
       if (prop.name === oldProp) {
@@ -75,7 +74,6 @@ function localEditProperty(property, data, oldProp) {
 }
 
 function localAddProperty(propertyA, id, data) {
-  debugger;
   data.map(category => {
     if (category._id === id) {
       category.properties.push(propertyA);
@@ -90,7 +88,6 @@ function localAddProperty(propertyA, id, data) {
 }
 
 function localDeleteProperty(name, data) {
-  debugger;
   data.map(category => {
     category.properties.map(prop => {
       if (prop.name === name) {
@@ -151,7 +148,6 @@ function localDelete(id, data) {
 }
 
 function localEdit(category, data) {
-  debugger;
   for (let node = 0; node < data.length; node++) {
     if (data[node]._id === category.id) {
       data[node].name = category.name;
@@ -243,9 +239,7 @@ export default function reducer(state = initialState, action = {}) {
       return state;
     case DELETE_SUCCESS_CATEGORY:
       const dataDel = [...state.data];
-      // const id = action.id;
       const deleteCategoryInfo = {...state.deleteCategory};
-      debugger;
       localDelete(deleteCategoryInfo.id, dataDel);
       return {
         ...state,
@@ -281,7 +275,6 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_PROPERTY:
       return state;
     case EDIT_SUCCESS_PROPERTY:
-      debugger;
       const dataEditProp = [...state.data];
       const propertyE = action.property;
       const oldProp = action.oldProp;
@@ -432,7 +425,6 @@ export function addProperty(property, id) {
   };
 }
 export function editProperty(property, id, oldProp) {
-  debugger;
   return {
     types: [EDIT_PROPERTY, EDIT_SUCCESS_PROPERTY, EDIT_FAIL_PROPERTY],
     oldProp: oldProp,

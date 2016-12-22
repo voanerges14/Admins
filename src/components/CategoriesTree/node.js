@@ -70,7 +70,6 @@ class TreeNode extends Component {
   renderHeader(decorators, animations) {
     const styles = require('../../containers/Categories/Categories.scss');
     const {onAddToggle, onRemoveToggle, onEditToggle} = this.props;
-    // debugger;
     return (
       <div className={styles.mybutton}>
         <NodeHeader

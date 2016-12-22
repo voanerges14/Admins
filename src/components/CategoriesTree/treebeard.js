@@ -40,7 +40,6 @@ class TreeBeard extends Component {
     // Support Multiple Root Nodes. Its not formally a tree, but its a use-case.
     if (!Array.isArray(data)) { data = [data]; }
     // data.map((node, index)=> console.log('node.id: ' + data.node.id + ' index: ' + index));
-    // debugger;
     return (
     <ul style={this.props.style.tree.base} ref="treeBase">
         {data.map((node, index) =>

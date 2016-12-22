@@ -83,7 +83,6 @@ export default function reducer(state = initialState, action = {}) {
     case EDIT_DESCRIPTION:
       return state;
     case EDIT_SUCCESS_DESCRIPTION:
-      debugger;
       const dataEditDescription = [...state.data];
       for (let index = 0; index < dataEditDescription.length; ++index) {
         if (dataEditDescription[index]._id === action.id) {
@@ -97,7 +96,6 @@ export default function reducer(state = initialState, action = {}) {
         onDescription: false
       };
     case EDIT_FAIL_DESCRIPTION:
-      debugger;
       const descriptionEditError = [...state.error];
       descriptionEditError.push('error deleteProperty: ' + action.error);
       return {
@@ -111,7 +109,6 @@ export default function reducer(state = initialState, action = {}) {
       };
     case SHOW_DESCRIPTION:
       const tempS = !action.oldState;
-      // debugger;
       return {
         ...state,
         // onDescription: !action.oldState
@@ -144,7 +141,6 @@ export default function reducer(state = initialState, action = {}) {
       });
       // for (let index = 0; index < dataDelImg.length; ++index) {
       //   if (dataDelImg[index]._id === action._id) {
-      //     // debugger;
       //     // dataDelImg[index].images = action.result.images;
       //     for (let indexj = 0; indexj < dataDelImg[index].length; ++indexj) {
       //       const imagesM = encodeURIComponent(dataDelImg[index].images[indexj]);
@@ -419,7 +415,6 @@ export function toggleProperty(oldState) {
   return {type: SHOW_PROPERTY, oldState};
 }
 export function toggleDescription(oldState) {
-  debugger;
   return {type: SHOW_DESCRIPTION, oldState};
 }
 
@@ -448,7 +443,6 @@ export function addImg(img, productId) {
 }
 export function deleteImg(_id, img) {
 // console.log('deleteImg modules ' + img);
-//   debugger;
   return {
     types: [DELETE_IMG, DELETE_SUCCESS_IMG, DELETE_FAIL_IMG],
     imgDel: img,
@@ -467,7 +461,6 @@ export function editProperty(_id, properties) {
   };
 }
 export function editDescription(_id, description) {
-  // debugger;
   return {
     types: [EDIT_DESCRIPTION, EDIT_SUCCESS_DESCRIPTION, EDIT_FAIL_DESCRIPTION],
     id: _id,

@@ -88,6 +88,7 @@ export function editUser(userNew) {
     }
     let passwd = (typeof userNew.password !== 'undefined') ? userNew.password : user.password;
     Object.assign(user, userNew);
+    console.log('editUser2: ' + JSON.stringify(user));
     user.password = passwd;
     user.save(function (err, updatedUser) {
       if (err) {

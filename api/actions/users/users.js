@@ -57,10 +57,11 @@ export function edit(req) {
       'lastName': req.body.user.lastName,
       'email': req.body.user.email,
       'password': req.body.user.password,
-      'phone': req.body.user.phone,
+      'phoneNumber': req.body.user.phone,
       'address': req.body.user.address,
       'isAdmin': req.body.admin
     };
+    console.log('edit User: ' + JSON.stringify(req.body));
     UsersDb.editUser(user).then(user => {
       resolve({'id': user._id});
     }).catch(error => {

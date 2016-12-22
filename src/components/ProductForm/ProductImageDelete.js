@@ -26,7 +26,6 @@ export default class ProductImageDelete extends Component {
   };
 
   render() {
-    debugger;
     const {onEditProduct, deleteImg, onDeleteImage, deleteImgStop} = this.props;
     const styles = require('./ProductImageAdd/ProductImageAdd.scss');
     const stylesS = {
