@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as categoryActions from 'redux/modules/categories';
+import categoriesValidation from './categoriesValidation';
 
 @connect(
   state => ({
@@ -12,7 +13,8 @@ import * as categoryActions from 'redux/modules/categories';
 )
 @reduxForm({
   form: 'categoriesEdit',
-  fields: ['name']
+  fields: ['name'],
+  validate: categoriesValidation
 })
 export default class CategoryEdit extends Component {
   static propTypes = {
@@ -20,24 +22,33 @@ export default class CategoryEdit extends Component {
     editStopCategory: PropTypes.func.isRequired,
     editCategoryBtn: PropTypes.func.isRequired,
     editCategory: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired
+    values: PropTypes.object.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired
   };
 
   render() {
-    const { editStopCategory, fields: {name}, editCategoryBtn, editCategory, values} = this.props;
+    const { editStopCategory, fields: {name}, editCategoryBtn, editCategory, values, submitting, invalid, pristine} = this.props;
     const styles = require('./CategoryAdd.scss');
     return (
       <div className={styles.Form}>
         <input type="text" {...name}/>
-        <span>
+        {name.error && name.touched ? <div className="text-danger">{name.error}</div> :
+            <div>{'\xa0'}</div>}
+        <div>
+          <span>
           <button className="btn btn-success btn-sm"
-                  onClick={() => editCategory({ 'id': editCategoryBtn.id, 'name': values.name }) }>
+                  onClick={() => editCategory({ 'id': editCategoryBtn.id, 'name': values.name }) }
+                  disabled={pristine || invalid || submitting}>
             <i className={'glyphicon glyphicon-ok'}/>
           </button>
           <button className="btn btn-default btn-sm" onClick={() => editStopCategory() }>
             <i className="glyphicon glyphicon-remove"/>
           </button>
         </span>
+        </div>
+          <div>{'\xa0'}</div>
       </div>
     );
   }

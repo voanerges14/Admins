@@ -4,6 +4,11 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {SkyLightStateless} from 'react-skylight';
+// import Scrollbar from 'react-smooth-scrollbar';
+// const ScrollArea = require('react-scrollbar');
+// const ScrollbarWrapper = require('react-scrollbars').ScrollbarWrapper;
+import { Scrollbars } from 'react-custom-scrollbars';
+
 @connect(
   state => ({
     onEditProduct: state.products.onEditProduct,
@@ -77,6 +82,8 @@ export default class ProductProperty extends Component {
               toggleProperty(onProperty);
             }}
           >
+          <Scrollbars style={{ width: '100%', height: '97%' }}>
+            <div>
           <table className="table table-striped">
             <thead>
 
@@ -104,6 +111,8 @@ export default class ProductProperty extends Component {
           </button>
             </tbody>
           </table>
+            </div>
+          </Scrollbars>
         </SkyLightStateless>
       </div>
     );

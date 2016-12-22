@@ -4,7 +4,9 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {SkyLightStateless} from 'react-skylight';
-import urlValidation from './../productValidation';
+import urlValidation from './../productsValidation';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 @connect(
   state => ({
     onShowImagePopUp: state.products.onShowImagePopUp,
@@ -79,6 +81,7 @@ export default class ProductImageAdd extends Component {
             toggleImg(onShowImagePopUp);
           }}
         >
+          <Scrollbars style={{ width: '100%', height: '97%' }}>
           {images && images.length &&
           onDeleteImage.isActive ?
             <div>
@@ -115,6 +118,7 @@ export default class ProductImageAdd extends Component {
                 )}
               </div>
             </div>}
+          </Scrollbars>
         </SkyLightStateless>
       </div>
     );
