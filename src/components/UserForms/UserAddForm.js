@@ -38,38 +38,49 @@ export default class UserAddForm extends Component {
         <div className={styles.AddForm}>
           <label> first name </label>
           <input type="text" className="form-control" {...firstName}/>
-          {firstName.error && firstName.touched && <div className="text-danger">{firstName.error}</div>}
+          {firstName.error && firstName.touched ?
+              <div className="text-danger">{firstName.error}</div> : <p>{'\xa0'}</p>}
         </div>
 
          <div className={styles.AddForm}>
           <label> last name </label>
           <input type="text" className={styles.AddFormButton + ' form-control'} {...lastName}/>
-          {lastName.error && lastName.touched && <div className="text-danger">{lastName.error}</div>}
+          {lastName.error && lastName.touched ?
+              <div className="text-danger">{lastName.error}</div> : <p>{'\xa0'}</p>}
         </div>
 
         <label className={styles.AddForm}> email
           <input type="text" className="form-control" {...email}/>
-          {email.error && email.touched && <div className="text-danger">{email.error}</div>}
+          {email.error && email.touched ?
+              <div className="text-danger">{email.error}</div> : <p>{'\xa0'}</p>}
+
         </label>
 
         <label className={styles.AddForm}> password
           <input type="password" className="form-control" {...password}/>
-           {password.error && password.touched && <div className="text-danger">{password.error}</div>}
+           {password.error && password.touched ?
+               <div className="text-danger">{password.error}</div> : <p>{'\xa0'}</p>}
         </label>
-
-        <button className={styles.AddFormButton + ' btn btn-secondary btn-md'}
-                onClick={() => changeAdminAdd(admin)}>
-          {admin ? <div>Admin</div> : <div>User</div>}
-        </button>
-
-        <button className="btn btn-success btn-sm" onClick={() => addUser(values, admin)}
-                disabled={pristine || invalid || submitting}>
-          <i className={'glyphicon glyphicon-ok'}/>
-        </button>
-
-        <button className="btn btn-default btn-sm" onClick={() => stopAdd()}>
-          <i className="glyphicon glyphicon-remove"/>
-        </button>
+        <label>
+          <button className={styles.AddFormButton + ' btn btn-secondary btn-md'}
+                  onClick={() => changeAdminAdd(admin)}>
+            {admin ? <div>Admin</div> : <div>User</div>}
+          </button>
+           <p>{'\xa0'}</p>
+        </label>
+        <label>
+          <button className="btn btn-success btn-sm" onClick={() => addUser(values, admin)}
+                  disabled={pristine || invalid || submitting}>
+            <i className={'glyphicon glyphicon-ok'}/>
+          </button>
+          <p>{'\xa0'}</p>
+        </label>
+        <label>
+          <button className="btn btn-default btn-sm" onClick={() => stopAdd()}>
+            <i className="glyphicon glyphicon-remove"/>
+          </button>
+          <p>{'\xa0'}</p>
+        </label>
       </div>
     );
   }

@@ -35,44 +35,59 @@ export default class UserAddForm extends Component {
         <td colSpan="8">
         <label className={styles.EditFormIn}> first name
           <input type="text" className="form-control" {...firstName}/>
-          {firstName.error && firstName.touched && <div className="text-danger">{firstName.error}</div>}
+          {firstName.error && firstName.touched ? <div className="text-danger">{firstName.error}</div>
+              : <p>{'\xa0'}</p>}
         </label>
 
         <label className={styles.EditFormIn}> last name
           <input type="text" className="form-control" {...lastName}/>
-          {lastName.error && lastName.touched && <div className="text-danger">{lastName.error}</div>}
+          {lastName.error && lastName.touched ? <div className="text-danger">{lastName.error}</div>
+              : <p>{'\xa0'}</p>}
         </label>
 
         <label className={styles.EditFormIn}> password
           <input type="password" className="form-control" {...password}/>
+          <p>{'\xa0'}</p>
         </label>
 
         <label className={styles.EditFormIn}> email
           <input type="text" className="form-control" {...email}/>
-          {email.error && email.touched && <div className="text-danger">{email.error}</div>}
+          {email.error && email.touched ? <div className="text-danger">{email.error}</div>
+              : <p>{'\xa0'}</p>}
         </label>
 
         <label className={styles.EditFormIn}> phone
           <input type="text" className="form-control" {...phone}/>
-          {phone.error && phone.touched && <div className="text-danger">{phone.error}</div>}
+          {phone.error && phone.touched ? <div className="text-danger">{phone.error}</div>
+              : <p>{'\xa0'}</p>}
         </label>
 
         <label className={styles.EditFormAddress}> address
           <input type="text" className="form-control" {...address}/>
+          <p>{'\xa0'}</p>
         </label>
 
-        <button className={styles.EditFormAdmin + ' btn btn-secondary btn-md'}
-                onClick={() => changeAdminEdit(_id, isAdminTemp[_id])}>
-          {isAdminTemp[_id] ? <div>Admin</div> : <div>User</div>}
-        </button>
+        <label>
+          <button className={styles.EditFormAdmin + ' btn btn-secondary btn-md'}
+                  onClick={() => changeAdminEdit(_id, isAdminTemp[_id])}>
+            {isAdminTemp[_id] ? <div>Admin</div> : <div>User</div>}
+          </button>
+          <p>{'\xa0'}</p>
+        </label>
 
-        <button className="btn btn-success btn-sm" onClick={() => editUser(values, isAdminTemp[_id])}>
-          <i className={'glyphicon glyphicon-ok'}/>
-        </button>
+        <label>
+          <button className="btn btn-success btn-sm" onClick={() => editUser(values, isAdminTemp[_id])}>
+            <i className={'glyphicon glyphicon-ok'}/>
+          </button>
+          <p>{'\xa0'}</p>
+        </label>
 
-        <button className="btn btn-default btn-sm" onClick={() => stopEdit(_id)}>
-          <i className="glyphicon glyphicon-remove"/>
-        </button>
+        <label>
+          <button className="btn btn-default btn-sm" onClick={() => stopEdit(_id)}>
+            <i className="glyphicon glyphicon-remove"/>
+          </button>
+          <p>{'\xa0'}</p>
+        </label>
         </td>
       </tr>
     );
