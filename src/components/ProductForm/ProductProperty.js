@@ -66,7 +66,6 @@ export default class ProductProperty extends Component {
       }
     };
     // const styles = require('./ProductProperty.scss');
-    debugger;
     return (
       <div>
         <SkyLightStateless

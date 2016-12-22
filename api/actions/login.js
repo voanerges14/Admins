@@ -19,7 +19,7 @@ export default function login(req) {
             if (!user) {
                 console.log('err:' + JSON.stringify(err));
                 console.log('user:' + JSON.stringify(user));
-                return reject({ message: info.message, status: 406 });
+                return reject(info.message);
             }
             req.login(user, loginErr => {
                 if (loginErr) {

@@ -46,7 +46,6 @@ export default class ProductEdit extends Component {
     } = this.props;
 
     const styles = require('./ProductEditForm.scss');
-    // debugger;
     return (
         <tr>
           <td colSpan="7">

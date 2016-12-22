@@ -44,10 +44,11 @@ export default (store) => {
           <Route path="categories" component={Categories}/>
           <Route path="orders" component={Orders}/>
           <Route path="users" component={Users}/>
+          <Route path="login" component={Login}/>
+
         </Route>
 
         { /* Routes */ }
-        <Route path="login" component={Login}/>
 
         { /* Catch all route */ }
         <Route path="*" component={NotFound} status={404}/>

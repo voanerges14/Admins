@@ -8,7 +8,7 @@ import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
-import bcrypt from 'bcrypt-as-promised';
+import bcrypt from 'bcrypt-nodejs';
 import {UsersModel} from './DbApi/Users';
 
 const LocalStrategy = require('passport-local').Strategy;
@@ -53,7 +53,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 var isValidPassword = function(user, password){
-    return bcrypt.compare(password, user.password);
+    return bcrypt.compareSync(password, user.password);
 };
 
 
@@ -70,7 +70,7 @@ passport.use(new LocalStrategy({
                         ? done(null, user)
                         : done(null, false, { message: 'Incorrect password.' })
                     : done(null, false, { message: 'Incorrect username.' })
-                : done(null, false, { message: 'You are not admin' });
+                : done(null, false, { message: 'Incorrect username.' });
     });
 }));
 

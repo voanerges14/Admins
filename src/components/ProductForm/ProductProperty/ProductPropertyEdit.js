@@ -37,7 +37,6 @@ export default class ProductEdit extends Component {
     const {fields: {properties}} = this.props;
 
     const styles = require('./ProductEditForm.scss');
-    debugger;
     return (
         <table className={styles.description + ' table table-striped'}>
           <thead>

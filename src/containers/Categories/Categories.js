@@ -14,7 +14,6 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
     if (!isLoaded(getState())) {
-      debugger;
       return dispatch(loadCategories());
     }
   }
@@ -86,8 +85,6 @@ class Categories extends Component {
     this.setState({categories: filtered});
   }
   render() {
-    debugger;
-
     const chosenNode = this.state.cursor;
     const { addCategoryBtn, categories, load, loading, show, editStartCategory, deleteStartCategory,
         addStartCategory, editCategoryBtn, changeShow, loadProducts, deleteCategory, deleteStopCategory,

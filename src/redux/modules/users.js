@@ -205,7 +205,6 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  debugger;
   return globalState.users && globalState.users.loaded;
 }
 export function load() {
