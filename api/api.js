@@ -22,34 +22,36 @@ const server = new http.Server(app);
 const io = new SocketIo(server);
 io.path('/ws');
 
-app.use(session({
-  secret: 'react and redux rule!!!!',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 60000 }
-}));
-app.use(bodyParser.json());
-
+// app.use(session({
+//   secret: 'react and redux rule!!!!',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { maxAge: 60000 * 60 }
+// }));
+// app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({ secret: 'SECRET' }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  console.log('serializeUser: ' + user._id);
+  done(null, user._id);
 });
 
 
 passport.deserializeUser(function(id, done) {
   UsersModel.findById(id, function(err,user){
+    console.log('deserializeUser: ' + user._id);
     err
         ? done(err)
         : done(null,user);
   });
 });
 
-// local auth
 var isValidPassword = function(user, password){
   return bcrypt.compare(password, user.password);
 };

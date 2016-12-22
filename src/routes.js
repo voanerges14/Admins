@@ -1,5 +1,5 @@
 import React from 'react';
-import {IndexRoute, Route} from 'react-router';
+import {IndexRoute, Route, BrowserHistory} from 'react-router';
 import { isLoaded as isAuthLoaded } from 'redux/modules/auth';
 import {
     App,
@@ -20,7 +20,7 @@ export default (store) => {
   const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
-      console.log('user ' + user);
+      console.log('user1111: ' + JSON.stringify(user));
       if (!user) {
         // oops, not logged in, so can't be here!
         replace('/');
@@ -38,7 +38,7 @@ export default (store) => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/" component={App}>
+    <Route history={BrowserHistory} path="/" component={App}>
       { /* Home (main) route */ }
 
       <IndexRoute component={Home}/>
