@@ -2,11 +2,17 @@ import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import config from '../src/config';
+import cookieParser from 'cookie-parser';
 import * as actions from './actions/index';
 import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
+import bcrypt from 'bcrypt-as-promised';
+import {UsersModel} from './DbApi/Users';
+
+const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
 
 const pretty = new PrettyError();
 const app = express();
@@ -16,13 +22,57 @@ const server = new http.Server(app);
 const io = new SocketIo(server);
 io.path('/ws');
 
+app.use(cookieParser());
+
+
 app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 60000 * 60}
 }));
 app.use(bodyParser.json());
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+    console.log('serializeUser: ' + user._id);
+    done(null, user._id);
+});
+
+
+passport.deserializeUser(function(id, done) {
+  console.log('deserializeUser: ' + id);
+  UsersModel.findById(id, function(err,user){
+        err
+            ? done(err, null)
+            : done(null,user);
+    });
+});
+
+var isValidPassword = function(user, password){
+    return bcrypt.compare(password, user.password);
+};
+
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+}, function(username, password, done){
+    UsersModel.findOne({ email : username}, function(err, user){
+        return err
+            ? done(err)
+            : user
+                ? user.isAdmin
+                    ? isValidPassword(user, password)
+                        ? done(null, user)
+                        : done(null, false, { message: 'Incorrect password.' })
+                    : done(null, false, { message: 'Incorrect username.' })
+                : done(null, false, { message: 'You are not admin' });
+    });
+}));
 
 
 app.use((req, res) => {

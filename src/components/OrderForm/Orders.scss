@@ -1,0 +1,45 @@
+.orders {
+  .idOrdersCol {
+    vertical-align: middle;
+    width: 5%;
+  }
+  .userColMain {
+    width: 25%;
+    text-align: center;
+    .userCol {
+      text-align: left;
+    }
+  }
+  .productsColMain {
+    width: 50%;
+    text-align: center;
+
+    .productsCol {
+      text-align: left;
+
+      .productNumber {
+        float: left;
+      }
+      .productName {
+        display: inline-block;
+      }
+    }
+  }
+  .sendCol {
+    vertical-align: middle;
+    width: 10%;
+  }
+  .rejectCol {
+    vertical-align: middle;
+    width: 10%;
+  }
+  .totalCol {
+    vertical-align: middle;
+    width: 10%;
+  }
+
+  .statusCol {
+    vertical-align: middle;
+    width: 20%;
+  }
+}

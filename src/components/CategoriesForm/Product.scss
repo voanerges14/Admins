@@ -1,0 +1,48 @@
+
+.nameColProd {
+  width: 20%;
+  text-align: center;
+  //vertical-align: middle;
+}
+.priceColProd .numberColProd .imageColProd {
+  width: 10%;
+  margin: auto;
+  vertical-align: middle;
+  text-align: center;
+}
+.descriptionColProd {
+  width: 20%;
+}
+.propertyColProd {
+  width: 20%;
+}
+  .nameCol {
+    width: 40%;
+    text-align: center;
+    //vertical-align: middle;
+  }
+
+  .typeCol {
+    width: 40%;
+  }
+
+  .btnCol {
+    margin-right: 5px;
+  }
+
+//.btnColProd {
+//  margin-right: 5px;
+//}
+
+.logo {
+  //margin: auto;
+  height: 90px;
+  max-height: 90px;
+  width: 73px;
+  max-width: 73px;
+  vertical-align: middle;
+  img {
+    width: 100%;
+    //margin: auto;
+  }
+}

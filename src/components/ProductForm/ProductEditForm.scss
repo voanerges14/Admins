@@ -1,0 +1,49 @@
+.name {
+  width: 55%;
+  margin-right: 7px;
+}
+.price {
+  width: 10%;
+  margin-right: 7px;
+
+}
+.number {
+  width: 10%;
+  margin-right: 10px;
+}
+
+.logo {
+  max-height: 73px;
+  width: 120px;
+  margin-right: 10px;
+  img {
+    width: 100%;
+    max-height: 90px;
+  }
+}
+
+.description {
+  width: 40%;
+  margin-right: 7px;
+  vertical-align: top;
+  display:inline-block;
+  float: left;
+}
+
+.property {
+  width: 30%;
+  vertical-align: top;
+  display:inline-block;
+  float: left;
+}
+
+.lineOne {
+  width: 100%;
+  height: 100px;
+}
+
+.button {
+  float: right;
+  padding-top: 2%;
+  padding-right: 5%;
+}
