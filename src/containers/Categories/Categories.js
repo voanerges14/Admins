@@ -10,6 +10,7 @@ import * as categoryActions from 'redux/modules/categories';
 import * as productsActions from 'redux/modules/products';
 import {initializeWithKey} from 'redux-form';
 import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} from 'components';
+
 @asyncConnect([{
   deferred: true,
   promise: ({store: {dispatch, getState}}) => {
@@ -33,6 +34,7 @@ import {Treebeard, decorators, CategoryAdd, CategoryEdit, Property, Product} fro
 
   }),
   {...categoryActions, initializeWithKey, ...productsActions})
+
 
 export default
 class Categories extends Component {
