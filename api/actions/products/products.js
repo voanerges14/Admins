@@ -130,7 +130,7 @@ export function editProperty(req) {
   });
 }
 
-function findNode(id, data) {
+export function findNode(id, data) {
   let ids = [id];
   findNode2(id);
   function findNode2(id) {
@@ -144,7 +144,7 @@ function findNode(id, data) {
   return ids;
 }
 
-function findParents(id, data) {
+export function findParents(id, data) {
   let ids = [];
   findParent2(id);
   function findParent2(id) {
