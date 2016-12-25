@@ -152,8 +152,6 @@ class Categories extends Component {
             {chosenNode && chosenNode.active && show &&
               <Property _id={chosenNode._id} properties={chosenNode.properties}/>
             }
-            {/* console.log('chosenNode ' + JSON.stringify(chosenNode.properties, null, 4)) &&*/}
-            {/* {chosenNode && chosenNode.active}*/}
             {chosenNode && !show &&
               <Product _id={chosenNode._id}/>
             }

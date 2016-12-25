@@ -139,20 +139,6 @@ export default function reducer(state = initialState, action = {}) {
           imagesS.splice(imagesS.indexOf(encodeURIComponent(action.imgDel)), 1);
         }
       });
-      // for (let index = 0; index < dataDelImg.length; ++index) {
-      //   if (dataDelImg[index]._id === action._id) {
-      //     // dataDelImg[index].images = action.result.images;
-      //     for (let indexj = 0; indexj < dataDelImg[index].length; ++indexj) {
-      //       const imagesM = encodeURIComponent(dataDelImg[index].images[indexj]);
-      //       const imageM = encodeURIComponent(action.imgDel);
-      //       if (imagesM === imageM) {
-      //         dataDelImg[index].images.remove(indexj);
-      //         break;
-      //       }
-      //     }
-      //     break;
-      //   }
-      // }
       return {
         ...state,
         data: dataDelImg,
@@ -442,7 +428,6 @@ export function addImg(img, productId) {
   };
 }
 export function deleteImg(_id, img) {
-// console.log('deleteImg modules ' + img);
   return {
     types: [DELETE_IMG, DELETE_SUCCESS_IMG, DELETE_FAIL_IMG],
     imgDel: img,

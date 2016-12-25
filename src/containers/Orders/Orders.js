@@ -48,7 +48,8 @@ export default class Orders extends Component {
     return (
       <div className={styles.orders + ' container'}>
         <h1>
-          {showOrders ? <div>All orders</div> : <div>Orders with status paid</div>}
+          {showOrders ? <div>All orders</div>
+              : <div>Orders with status paid</div>}
           <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
             <i className={refreshClassName}/> {' '} Reload Orders
           </button>

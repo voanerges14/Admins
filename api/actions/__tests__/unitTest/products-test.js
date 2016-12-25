@@ -8,7 +8,7 @@ describe('findNode', () => {
         {'_id': 2, 'parentId': 1},
         {'_id': 3, 'parentId': 1},
         {'_id': 4, 'parentId': 0}
-      ];
+    ];
     expect(findNode(1, mockData)).to.deep.equal([1, 2, 3]);
   });
 });

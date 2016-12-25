@@ -1,7 +1,7 @@
-import {db} from "./index";
+import {db} from './index';
 
 function connectToDbOrdersModel() {
-  let Orders = new db.Schema({
+  const Orders = new db.Schema({
     _id: { type: db.Schema.Types.ObjectId, required: true },
     userId: { type: db.Schema.Types.ObjectId, required: true },
     products: { type: Array, required: true },
@@ -19,64 +19,70 @@ function connectToDbOrdersModel() {
 
 const OrdersModel = connectToDbOrdersModel();
 
-
 export function getOrderById(id) {
-  return OrdersModel.findById(id, function (err, order) {
-    if(!err) {
-      return order;
-    }
-    console.error('getOrderById error: ' + err);
-    return 'error in getOrderById: ' + err;
-  });
-}
-
-export function getOrders() {
-  return OrdersModel.find({}, function (err, orders) {
-    if(!err) {
-      return orders;
-    }
-    console.error('getOrders error: ' + err);
-    return 'error in getOrders: ' + err;
-  });
-}
-
-export function getOrdersWithStatusPAID() {
-  return OrdersModel.find({'status': 'PAID'}, function (err, orders) {
-    if(!err) {
-      return orders;
-    }
-    console.error('getOrdersWithStatusPAID error: ' + err);
-    return 'error in getOrdersWithStatusPAID: ' + err;
-  });
-}
-
-export function sendToDeliveryOrder(id) {
-  return OrdersModel.findById(id, function (err, order) {
-    if (err) {
-      console.error('sendToDeliveryOrder error1: ' + err);
-      return 'error1 in sendToDeliveryOrder: ' + err;
-    }
-    order.status = 'DELIVERING';
-    order.date.delivering = Date.now();
-    order.save(function (err, updatedOrder) {
-      if (err) {
-        console.error('sendToDeliveryOrder error2: ' + err);
-        return 'error2 in sendToDeliveryOrder: ' + err;
-      }
-      return updatedOrder;
+  return new Promise((resolve, reject) => {
+    OrdersModel.findById(id).then(order => {
+      resolve(order);
+    }).catch(err => {
+      console.error('getOrderById error: ' + err);
+      reject('error in getOrderById: ' + err);
     });
   });
 }
 
+export function getOrdersByIds(ids) {
+  return new Promise((resolve, reject) => {
+    OrdersModel.find({'_id': {$in: ids}}).then(order => {
+      resolve(order);
+    }).catch(err => {
+      console.error('getOrderById error: ' + err);
+      reject('error in getOrderById: ' + err);
+    });
+  });
+}
+
+export function getOrders() {
+  return new Promise((resolve, reject) => {
+    OrdersModel.find({}).then(orders => {
+      resolve(orders);
+    }).catch(err => {
+      console.error('getOrders error: ' + err);
+      reject('error in getOrders: ' + err);
+    });
+  });
+}
+
+export function getOrdersWithStatusPAID() {
+  return new Promise((resolve, reject) => {
+    OrdersModel.find({'status': 'PAID'}).then(orders => {
+      resolve(orders);
+    }).catch(err => {
+      console.error('getOrdersWithStatusPAID error: ' + err);
+      reject('error in getOrdersWithStatusPAID: ' + err);
+    });
+  });
+}
+
+export function sendToDeliveryOrder(id) {
+  return new Promise((resolve, reject) => {
+    OrdersModel.findOneAndUpdate({'_id': id},
+      {$set: {'status': 'DELIVERING', 'date': {delivering: Date.now()}}}, {new: true}).then(order => {
+        resolve(order);
+      }).catch(err => {
+        console.error('sendToDeliveryOrder error: ' + err);
+        reject('error in sendToDeliveryOrder: ' + err);
+      });
+  });
+}
+
 export function deleteOrder(id) {
-  return OrdersModel.remove({ _id: id }, function(err) {
-    if (!err) {
-      return 0;
-    }
-    else {
+  return new Promise((resolve, reject) => {
+    OrdersModel.remove({ _id: id }).then(order => {
+      resolve(order);
+    }).catch(err => {
       console.error('deleteOrder error: ' + err);
-      return 'error in deleteOrder: ' + err;
-    }
+      reject('error in deleteOrder: ' + err);
+    });
   });
 }
 

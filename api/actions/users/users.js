@@ -3,21 +3,20 @@ import * as UsersDb from './../../DbApi/Users';
 export function get() {
   return new Promise((resolve, reject) => {
     UsersDb.getUsers().then(users => {
-      let newUsers = [];
-      for(let i = 0; i < users.length; ++i) {
-        newUsers.push({
-          'id': users[i]._id,
-          'firstName': users[i].firstName,
-          'lastName': users[i].lastName,
-          'email': users[i].email,
-          'phone': users[i].phoneNumber,
-          'address': users[i].address,
-          'admin': users[i].isAdmin
-        });
-      }
-      resolve(newUsers);
+      const modifyUsers = users.map(function(user) {
+        return {
+          'id': user._id,
+          'firstName': user.firstName,
+          'lastName': user.lastName,
+          'email': user.email,
+          'phone': user.phoneNumber,
+          'address': user.address,
+          'admin': user.isAdmin
+        };
+      });
+      resolve(modifyUsers);
     }).catch(err => {
-        reject('error in get: ' + err);
+      reject('error in get: ' + err);
     });
   });
 }
@@ -31,8 +30,8 @@ export function add(req) {
       password: req.body.user.password,
       isAdmin: req.body.isAdmin
     };
-    UsersDb.addUser(user).then(user => {
-      resolve({'id': user._id});
+    UsersDb.addUser(user).then(id => {
+      resolve({id});
     }).catch(error => {
       reject('error in add: ' + error);
     });
@@ -52,18 +51,18 @@ export function deleteUser(req) {
 export function edit(req) {
   return new Promise((resolve, reject) => {
     const user = {
-      'id': req.body.user.id,
       'firstName': req.body.user.firstName,
       'lastName': req.body.user.lastName,
       'email': req.body.user.email,
-      'password': req.body.user.password,
       'phoneNumber': req.body.user.phone,
       'address': req.body.user.address,
       'isAdmin': req.body.admin
     };
-    console.log('edit User: ' + JSON.stringify(req.body));
-    UsersDb.editUser(user).then(user => {
-      resolve({'id': user._id});
+    if (typeof req.body.user.password !== 'undefined') {
+      user.password = req.body.user.password;
+    }
+    UsersDb.editUser(req.body.user.id, user).then(newUser => {
+      resolve({'id': newUser._id});
     }).catch(error => {
       reject('error in edit: ' + error);
     });
