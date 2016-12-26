@@ -1,22 +1,30 @@
 function localDeleteEmptyArray(data) {
-  for (let i = 0; i < data.length; ++i) {
-    const children = data[i].children;
+  for (let index = 0; index < data.length; ++index) {
+    const children = data[index].children;
     localDeleteEmptyArray(children);
     if (children.length <= 0) {
-      data[i] = {'_id': data[i]._id, 'parentId': data[i].parentId, 'name': data[i].name, 'properties': data[i].properties};
+      data[index] = {
+        '_id': data[index]._id,
+        'parentId': data[index].parentId,
+        'name': data[index].name,
+        'properties': data[index].properties
+      };
     }
   }
 }
 
 export default function convert(data) {
-  let nodes = [], map = {}, node, roots = [];
-  for (let i = 0; i < data.length; i += 1) {
-    nodes.push({'_id': data[i]._id, 'parentId':data[i].parentId,
-      'name': data[i].name, 'properties': data[i].properties});
+  const nodes = [];
+  const map = {};
+  let node;
+  const roots = [];
+  for (let index = 0; index < data.length; index += 1) {
+    nodes.push({'_id': data[index]._id, 'parentId': data[index].parentId,
+      'name': data[index].name, 'properties': data[index].properties});
 
-    node = nodes[i];
+    node = nodes[index];
     node.children = [];
-    map[node._id] = i; // use map to look-up the parents
+    map[node._id] = index; // use map to look-up the parents
     if (node.parentId !== '0') {
       nodes[map[node.parentId]].children.push(node);
     } else {
@@ -25,4 +33,4 @@ export default function convert(data) {
   }
   localDeleteEmptyArray(roots);
   return roots;
-};
+}

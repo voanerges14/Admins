@@ -1,16 +1,15 @@
-import {db} from "./index";
+import {db} from './index';
 
 function connectToDbProductsModel() {
-  let Products = new db.Schema({
-    // _id: {type: db.Schema.Types.ObjectId, required: true},
+  const Products = new db.Schema({
     categoryId: {type: db.Schema.Types.String, required: true},
     name: {type: db.Schema.Types.String, required: true},
     price: {type: db.Schema.Types.String, required: true},
     inStock: {type: db.Schema.Types.String, required: true},
-    images: {type: Array, required: true},
+    images: {type: Array},
     description: {type: db.Schema.Types.String, required: true},
     date: { type: Date, default: Date.now() },
-    properties: {type: Array, required: true}
+    properties: {type: Array}
   });
   return db.mongoose.model('Products', Products);
 }
@@ -18,156 +17,124 @@ function connectToDbProductsModel() {
 const ProductsModel = connectToDbProductsModel();
 
 export function getProductByCategoriesIds(ids) {
-  return ProductsModel.find({'categoryId': {$in: ids}}, function (err, product) {
-    if (!err) {
-      return product;
-    }
-    console.error('getProductByCategoriesIds error: ' + err);
-    return 'error in getProductByCategoriesIds: ' + err;
+  return new Promise((resolve, reject) => {
+    ProductsModel.find({'categoryId': {$in: ids}}).then(products => {
+      resolve(products);
+    }).catch(err => {
+      console.error('getProductByCategoriesIds error: ' + err);
+      reject('error in getProductByCategoriesIds: ' + err);
+    });
   });
 }
 
 export function getProductById(id) {
-  return ProductsModel.findById(id, function (err, product) {
-    if (!err) {
-      return product;
-    }
-    console.error('getProductById error: ' + err);
-    return 'error in getProductById: ' + err;
+  return new Promise((resolve, reject) => {
+    ProductsModel.findById(id).then(product => {
+      resolve(product);
+    }).catch(err => {
+      console.error('getProductById error: ' + err);
+      reject('error in getProductById: ' + err);
+    });
   });
 }
 
 export function getProductByCategoryId(id) {
-  return ProductsModel.find({'categoryId': id}, function (err, product) {
-    if (!err) {
-      return product;
-    }
-    console.error('getProductByCategoryId error: ' + err);
-    return 'error in getProductByCategoryId: ' + err;
+  return new Promise((resolve, reject) => {
+    ProductsModel.find({'categoryId': id}).then(product => {
+      resolve(product);
+    }).catch(err => {
+      console.error('getProductByCategoryId error: ' + err);
+      reject('error in getProductByCategoryId: ' + err);
+    });
   });
 }
 
 export function deleteProduct(id) {
-  return ProductsModel.remove({_id: id}, function (err) {
-    if (!err) {
-      return 0;
-    }
-    else {
+  return new Promise((resolve, reject) => {
+    ProductsModel.remove({ _id: id }).then(() => {
+      resolve();
+    }).catch(err => {
       console.error('deleteProduct: ' + err);
-      return 'error in deleteProduct: ' + err;
-    }
+      reject('error in deleteProduct: ' + err);
+    });
   });
 }
 
 export function addProduct(product) {
-  return ProductsModel.create(product, function (err) {
-    if (!err) {
-      return ProductsModel.findOne({}, {}, {sort: {'created_at': -1}}, function (err, product) {
-        if (!err) {
-          return product;
-        }
-        else {
-          console.error('addProduct error1: ' + err);
-          return 'error1 in addProduct: ' + err;
-        }
-      });
-    }
-    else {
-      console.error('addProduct error2: ' + err);
-      return 'error2 in addProduct: ' + err;
-    }
+  return new Promise((resolve, reject) => {
+    const newProduct = new ProductsModel(product);
+    newProduct.save().then(addedProduct => {
+      resolve(addedProduct);
+    }).catch(err => {
+      console.error('addProduct error: ' + err);
+      reject('error in addProduct: ' + err);
+    });
   });
 }
 
-export function editProduct(productNew) {
-  return ProductsModel.findById(productNew._id, function (err, product) {
-    if (err) {
-      console.error('editProduct error1: ' + err);
-      return 'error1 in editProduct: ' + err;
-    }
-    product.name = productNew.name;
-    product.price = productNew.price;
-    product.inStock = productNew.inStock;
-    product.description = productNew.description;
-    product.save(function (err, updatedProduct) {
-      if (err) {
-        console.error('editProduct error2: ' + err);
-        return 'error2 in editProduct: ' + err;
-      }
-      return updatedProduct;
+export function editProduct(id, productNew) {
+  return new Promise((resolve, reject) => {
+    ProductsModel.findById(id).then(product => {
+      Object.assign(product, productNew);
+      product.save().then(updatedProduct => {
+        resolve(updatedProduct);
+      });
+    }).catch(err => {
+      console.error('editProduct error: ' + err);
+      reject('error in editProduct: ' + err);
     });
   });
 }
 
 export function editDescription(id, description) {
-  return ProductsModel.findById(id, function (err, product) {
-    if (err) {
-      console.error('editDescription error1: ' + err);
-      return 'error1 in editDescription: ' + err;
-    }
-    product.description = description;
-    product.save(function (err, updatedProduct) {
-      if (err) {
-        console.error('editDescription error2: ' + err);
-        return 'error2 in editDescription: ' + err;
-      }
-      return updatedProduct;
-    });
+  return new Promise((resolve, reject) => {
+    ProductsModel.findOneAndUpdate({'_id': id}, {$set: {'description': description}}, {new: true})
+      .then(updatedProduct => {
+        resolve(updatedProduct);
+      }).catch(err => {
+        console.error('editDescription error: ' + err);
+        reject('error in editDescription: ' + err);
+      });
   });
 }
 
 export function editProperty(id, properties) {
-  return ProductsModel.findById(id, function (err, product) {
-    if (err) {
-      console.error('editProperty error1: ' + err);
-      return 'error1 in editProperty: ' + err;
-    }
-    product.properties = properties;
-    product.save(function (err, updatedProduct) {
-      if (err) {
-        console.error('editProperty error2: ' + err);
-        return 'error2 in editProperty: ' + err;
-      }
-      return updatedProduct;
-    });
+  return new Promise((resolve, reject) => {
+    ProductsModel.findOneAndUpdate({'_id': id}, {$set: {'properties': properties}}, {new: true})
+        .then(updatedProduct => {
+          resolve(updatedProduct);
+        }).catch(err => {
+          console.error('editDescription error: ' + err);
+          reject('error in editDescription: ' + err);
+        });
   });
 }
 
 export function addImg(_id, img) {
-  return ProductsModel.findById(_id, function (err, product) {
-    if (err) {
-      console.error('addImg error1: ' + err);
-      return 'error1 in addImg: ' + err;
-    }
-    product.images.push(img);
-    product.save(function (err, updatedProduct) {
-      if (err) {
-        console.error('addImg error2: ' + err);
-        return 'error2 in addImg: ' + err;
-      }
-      return updatedProduct;
+  return new Promise((resolve, reject) => {
+    ProductsModel.findById(_id).then(product => {
+      product.images.push(img);
+      product.save().then(updatedProduct => {
+        resolve(updatedProduct);
+      });
+    }).catch(err => {
+      console.error('addImg error: ' + err);
+      reject('error in addImg: ' + err);
     });
   });
 }
 
 export function removeImg(_id, img) {
-  return ProductsModel.findById(_id, function(err, product) {
-    if (err) {
-      console.error('removeImg error1: ' + err);
-      return 'error1 in removeImg: ' + err;
-    }
-    for (let index = 0; index < product.images.length; ++index) {
-      if (product.images[index] === img) {
-        product.images.splice(index, 1);
-        break;
-      }
-    }
-    product.save(function(err, updatedProduct) {
-      if (err) {
-        console.error('removeImg error2: ' + err);
-        return 'error2 in removeImg: ' + err;
-      }
-      return updatedProduct;
+  return new Promise((resolve, reject) => {
+    ProductsModel.findById(_id).then(product => {
+      const index = product.images.findIndex(function(elem) {return elem.toString() === img;});
+      product.images.splice(index, 1);
+      product.save().then(updatedProduct => {
+        resolve(updatedProduct);
+      });
+    }).catch(err => {
+      console.error('removeImg error: ' + err);
+      reject('error in removeImg: ' + err);
     });
   });
 }

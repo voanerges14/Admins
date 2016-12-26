@@ -3,7 +3,7 @@ import convert from '../convert';
 
 export default function deleteProperty(req) {
   return new Promise((resolve, reject) => {
-    categoryDB.deletePropertyFromCategory(req.body.id, req.body.name).then(() => {
+    categoryDB.deletePropertyFromCategory(req.body.id, req.body.name.toString()).then(() => {
       categoryDB.getCategories().then( data => {
         resolve(convert(data));
       });

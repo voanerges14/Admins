@@ -4,7 +4,6 @@ import {isLoaded as isAuthLoaded, load as loadAuth} from 'redux/modules/auth';
 import {
   App,
   Home,
-  Login,
   LoginSuccess,
   NotFound,
   Orders,
@@ -44,8 +43,6 @@ export default (store) => {
           <Route path="categories" component={Categories}/>
           <Route path="orders" component={Orders}/>
           <Route path="users" component={Users}/>
-          <Route path="login" component={Login}/>
-
         </Route>
 
         { /* Routes */ }

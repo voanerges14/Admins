@@ -29,7 +29,7 @@ app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 * 60}
+  cookie: {maxAge: 60000 * 60}
 }));
 app.use(bodyParser.json());
 
@@ -38,40 +38,42 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
-    console.log('serializeUser: ' + user._id);
-    done(null, user._id);
+  done(null, user._id);
 });
 
 
 passport.deserializeUser(function(id, done) {
-  console.log('deserializeUser: ' + id);
-  UsersModel.findById(id, function(err,user){
-        err
-            ? done(err, null)
-            : done(null,user);
-    });
+  UsersModel.findById(id, function(err, user) {
+    if (err) {
+      done(err, null);
+    } else {
+      done(null, user);
+    }
+  });
 });
 
-var isValidPassword = function(user, password){
-    return bcrypt.compareSync(password, user.password);
+const isValidPassword = function(user, password) {
+  return bcrypt.compareSync(password, user.password);
 };
 
-
 passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-}, function(username, password, done){
-    UsersModel.findOne({ email : username}, function(err, user){
-        return err
-            ? done(err)
-            : user
-                ? user.isAdmin
-                    ? isValidPassword(user, password)
-                        ? done(null, user)
-                        : done(null, false, { message: 'Incorrect password.' })
-                    : done(null, false, { message: 'Incorrect username.' })
-                : done(null, false, { message: 'Incorrect username.' });
-    });
+  usernameField: 'email',
+  passwordField: 'password'
+}, function(username, password, done) {
+  UsersModel.findOne({email: username}, function(err, user) {
+    if (!err && user && user.isAdmin && isValidPassword(user, password)) {
+      return done(null, user);
+    }
+    return done(err, false, {message: 'Incorrect username or password'});
+
+    // return err
+    //   ? done(err)
+    //   : user && user.isAdmin
+    //     ? isValidPassword(user, password)
+    //       ? done(null, user)
+    //       : done(null, false, {message: 'Incorrect password.'})
+    //     : done(null, false, {message: 'Incorrect username.'});
+  });
 }));
 
 
@@ -82,20 +84,20 @@ app.use((req, res) => {
 
   if (action) {
     action(req, params)
-      .then((result) => {
-        if (result instanceof Function) {
-          result(res);
-        } else {
-          res.json(result);
-        }
-      }, (reason) => {
-        if (reason && reason.redirect) {
-          res.redirect(reason.redirect);
-        } else {
-          console.error('API ERROR:', pretty.render(reason));
-          res.status(reason.status || 500).json(reason);
-        }
-      });
+        .then((result) => {
+          if (result instanceof Function) {
+            result(res);
+          } else {
+            res.json(result);
+          }
+        }, (reason) => {
+          if (reason && reason.redirect) {
+            res.redirect(reason.redirect);
+          } else {
+            console.error('API ERROR:', pretty.render(reason));
+            res.status(reason.status || 500).json(reason);
+          }
+        });
   } else {
     res.status(404).end('NOT FOUND');
   }
