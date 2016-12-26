@@ -8,7 +8,6 @@ import categoriesValidation, {types} from './categoriesValidation';
 @connect(
   state => ({
     addCategoryBtn: state.categories.addCategory,
-    // types: state.categories.types
   }),
   dispatch => bindActionCreators(categoryActions, dispatch)
 )

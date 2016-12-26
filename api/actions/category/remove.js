@@ -3,11 +3,9 @@ import convert from './convert';
 
 export default function deleteCategory(req) {
   return new Promise((resolve, reject) => {
-    console.log('id to delete: ' + JSON.stringify(req.body.id));
 
     categoryDB.getCategories().then(data => {
       let ids = findNode(req.body.id, data);
-      console.log('ids: ' + JSON.stringify(ids));
       categoryDB.deleteCategories(ids).then(() => {
           resolve('ok_serv');
       }).catch(error => {
@@ -25,9 +23,9 @@ function findNode(id, data) {
 
   function findNodeRec(id, data) {
     ids.push(id);
-    const childrens = findChildren(id, data);
-    for (let i = 0; i < childrens.length; ++i) {
-      findNodeRec(childrens[i], data);
+    const children = findChildren(id, data);
+    for (let i = 0; i < children.length; ++i) {
+      findNodeRec(children[i], data);
     }
   }
   return ids;

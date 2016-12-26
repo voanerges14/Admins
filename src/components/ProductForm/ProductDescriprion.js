@@ -27,12 +27,10 @@ export default class ProductDescription extends Component {
     onDescription: PropTypes.bool.isRequired,
     editDescription: PropTypes.func.isRequired,
     toggleDescription: PropTypes.func.isRequired
-    // description: PropTypes.string.isRequired
   };
 
   render() {
     const {fields: {description}, values, onDescription, onEditProduct, toggleDescription, editDescription} = this.props;
-    // const styles = require('./ProductImageAdd.scss');
     const stylesS = {
       dialogStyles: {
         width: '50%',

@@ -47,13 +47,7 @@ const initialState = {
   error: [],
   categoryTreeState: {},
   show: false,
-  types: [ 'choose type', 'string', 'color', 'number']
 };
-
-// function findProperty(propery, data) {
-//   for (let index =0; index < data.length; index++)
-//
-// }
 
 function localEditProperty(property, data, oldProp) {
   data.map(category => {
@@ -262,7 +256,6 @@ export default function reducer(state = initialState, action = {}) {
       localAddProperty(propA, id, dataAddProp);
       return {
         ...state,
-        // data: action.result.data,
         addProperty: {'isActive': false}
       };
     case ADD_FAIL_PROPERTY:
@@ -281,7 +274,6 @@ export default function reducer(state = initialState, action = {}) {
       localEditProperty(propertyE, dataEditProp, oldProp);
       return {
         ...state,
-        // data: action.result.data,
         data: dataEditProp,
         editProperty: {'isActive': false}
       };
@@ -300,7 +292,6 @@ export default function reducer(state = initialState, action = {}) {
       localDeleteProperty(nameDel, dataDelProp);
       return {
         ...state,
-        // data: action.result.data,
         data: dataDelProp,
         deleteProperty: {'isActive': false}
       };
@@ -384,7 +375,7 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/category/load') // params not used, just shown as demonstration
+    promise: (client) => client.get('/category/load')
   };
 }
 

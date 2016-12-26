@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import * as productActions from 'redux/modules/products';
 import {ProductImageAdd, ProductDescription, ProductProperty} from 'components';
-// , ProductDescriptionEdit, ProductPropertyEdit} from 'components';
 @connect(
   state => ({
     onEditProduct: state.products.onEditProduct,
